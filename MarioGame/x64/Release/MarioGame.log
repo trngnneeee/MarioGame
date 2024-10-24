@@ -1,0 +1,38 @@
+﻿  Camera.cpp
+  Game.cpp
+  Map.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(26,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(26,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+  Mario.cpp
+  Physics.cpp
+  Renderer.cpp
+  Resources.cpp
+box2d.lib(b2_polygon_shape.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_polygon_shape.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_body.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_body.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_world.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_world.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_joint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_joint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_chain_circle_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_chain_circle_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_chain_polygon_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_chain_polygon_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_circle_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_circle_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_edge_circle_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_edge_circle_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_edge_polygon_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_edge_polygon_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_polygon_circle_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_polygon_circle_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_polygon_contact.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_polygon_contact.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_chain_shape.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_chain_shape.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+box2d.lib(b2_edge_shape.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in Camera.obj
+box2d.lib(b2_edge_shape.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in Camera.obj
+LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+D:\HCMUS\MarioGame\MarioGame\x64\Release\MarioGame.exe : fatal error LNK1319: 26 mismatches detected
