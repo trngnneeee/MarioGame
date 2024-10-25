@@ -7,63 +7,34 @@ const float movementSpeed = 10.0f; // Camera's movement speed
 // Functions
 void Mario::Begin()
 {	
+	// Init texture
+	if (!texture.loadFromFile("./resources/textures/mario.png")) return;
+
+	// Init collision box
+	collisionBox = sf::FloatRect(
+		position.x - sprite.getGlobalBounds().width / 2.0f, // Left
+		position.y - sprite.getGlobalBounds().height,        // Top
+		sprite.getGlobalBounds().width,                      // Width
+		sprite.getGlobalBounds().height                      // Height
+	);
 }
 
-void Mario::Update(float deltaTime, Map& map)
+void Mario::Update(float deltaTime)
 {
-	// Horizontal Running
-	float move = movementSpeed;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		move *= 2;
+	// Update texture and sprite
+	sprite.setTexture(texture);
 
-	// Horizontal Move
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		std::cout << "D\n";
-		sf::Vector2f newPosition = position;
-		newPosition.x += move * deltaTime;
-		if (!map.checkCollision(newPosition.x, newPosition.y))
-			position.x = newPosition.x;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		std::cout << "A\n";
-		sf::Vector2f newPosition = position;
-		newPosition.x -= move * deltaTime;
-		if (!map.checkCollision(newPosition.x, newPosition.y))
-			position.x = newPosition.x;
-	}
-
-	// Jumping
-	if (isGrounded && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		verticalVelocity = -jumVelocity;
-		isGrounded = false;
-	}
-
-	// Apply gravity
-	verticalVelocity += gravity * deltaTime;
-	sf::Vector2f newPosition = position;
-	newPosition.y += verticalVelocity * deltaTime;
-
-	if (map.checkCollision(newPosition.x, newPosition.y))
-	{	
-		// Problem
-		position.y = static_cast<int>(newPosition.y);
-		isGrounded = true;
-		verticalVelocity = 0;
-	}
-	else
-	{
-		position.y = newPosition.y;
-	}
+	// Update collision box
+	
 }
 
 // Load Mario from file
-void Mario::Render(Renderer& renderer) const
+void Mario::Draw(sf::RenderWindow &window)
 {
-	sf::Texture marioTexture;
-	if (!marioTexture.loadFromFile("./resources/textures/mario.png")) return;
-	renderer.Draw(marioTexture, position, sf::Vector2f(1.0f, 2.0f));
+	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.0f);
+	sprite.setPosition(position);
+	sprite.setScale(sf::Vector2f(1.0f / texture.getSize().x, 2.0f / texture.getSize().y));
+	window.draw(sprite);
 }
+
 

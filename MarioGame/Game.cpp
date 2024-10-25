@@ -8,24 +8,26 @@ Camera camera(20.0f);
 Mario mario;
 
 void Begin(const sf::Window& window)
-{
+{	
 	// Add the map
 	sf::Image image;
-	image.loadFromFile("map.png"); // Load the map from image
+	image.loadFromFile("map.png");
 	
 	// Take Mario position from the return value
 	mario.position =  map.CreateFromImage(image); 
+	mario.Begin();
+	map.Begin();
 }
 
 void Update(float deltaTime)
 {
 	// Set the starting position of camera is the spawning point of Mario
 	camera.position = mario.position;
-	mario.Update(deltaTime, map);
+	mario.Update(deltaTime);
 }
 
-void Render(Renderer& renderer)
+void Render(sf::RenderWindow& window)
 {
-	map.Draw(renderer); // draw Map that load from file
-	mario.Render(renderer); // draw Mario that load from file
+	map.Draw(window);
+	mario.Draw(window);
 }

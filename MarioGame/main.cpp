@@ -1,12 +1,10 @@
 #include "Game.h"
 #include "Camera.h"
-#include "Renderer.h"
 
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
 	sf::Clock deltaClock;
-	Renderer renderer(window);
 
 	window.setFramerateLimit(60);
 	Begin(window);
@@ -34,7 +32,7 @@ int main() {
 
 		window.clear(sf::Color::Black);
 
-		Render(renderer);
+		Render(window);
 
 		window.display();
 	}

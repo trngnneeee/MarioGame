@@ -7,4 +7,4 @@ extern Camera camera;
 
 void Begin(const sf::Window& window);
 void Update(float deltaTime);
-void Render(Renderer& renderer);
+void Render(sf::RenderWindow& window);

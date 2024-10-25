@@ -6,6 +6,9 @@
 class Map
 {
 private:
+	// Sprite, Texture
+	sf::Sprite sprite;
+	sf::Texture texture;
 	
 public:
 	// Attribute
@@ -14,8 +17,8 @@ public:
 	std::vector<std::vector<int>> grid;
 
 	// Functions
-	bool checkCollision(double x, double y);
+	void Begin();
 	sf::Vector2f CreateFromImage(const sf::Image& image); // return the spawn position of Mario
-	void Draw(Renderer& renderer);
+	void Draw(sf::RenderWindow& window);
 };
 
