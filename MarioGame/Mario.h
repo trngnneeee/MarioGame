@@ -1,13 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Resources.h"
-#include "Renderer.h"
 #include "Map.h"
 
 class Mario
 {
 private:
-	
+	float gravity = 15.0f;
+	float verticalVelocity = 0.0f;
+	bool isOnGround = true;
+	float jumpStrength = 8.0f;
+	bool facingRight = true;
 public:
 	// Position
 	sf::Vector2f position{};
@@ -21,7 +23,8 @@ public:
 
 	// Functions
 	void Begin();
-	void Update(float deltaTime);
+	void Update(float deltaTime, const Map& map);
 	void Draw(sf::RenderWindow& window);
+	bool mapCollision(const Map& map);
 };
 

@@ -9,8 +9,12 @@ private:
 	// Sprite, Texture
 	sf::Sprite sprite;
 	sf::Texture texture;
+
 	
 public:
+	// Collision box
+	std::vector<std::vector<sf::FloatRect>> collisionBoxList;
+
 	// Attribute
 	float cellSize;
 	Map(float cellSize = 32.0f);
@@ -19,6 +23,7 @@ public:
 	// Functions
 	void Begin();
 	sf::Vector2f CreateFromImage(const sf::Image& image); // return the spawn position of Mario
+	void Update();
 	void Draw(sf::RenderWindow& window);
 };
 

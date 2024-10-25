@@ -9,21 +9,23 @@ Mario mario;
 
 void Begin(const sf::Window& window)
 {	
-	// Add the map
+	// Init map
 	sf::Image image;
 	image.loadFromFile("map.png");
-	
-	// Take Mario position from the return value
-	mario.position =  map.CreateFromImage(image); 
-	mario.Begin();
 	map.Begin();
+	mario.position =  map.CreateFromImage(image); 
+	map.Update(); // Update the collision box of Map
+	
+	// Init mario
+	mario.Begin();
 }
 
 void Update(float deltaTime)
 {
 	// Set the starting position of camera is the spawning point of Mario
 	camera.position = mario.position;
-	mario.Update(deltaTime);
+
+	mario.Update(deltaTime, map);
 }
 
 void Render(sf::RenderWindow& window)

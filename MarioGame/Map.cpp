@@ -41,6 +41,24 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 	return marioPosition;
 }
 
+void Map::Update()
+{	 
+	for (int row = 0; row < grid.size(); row++)
+	{
+		std::vector<sf::FloatRect> tmpArr;
+		for (int colum = 0; colum < grid[row].size(); colum++)
+		{
+			if (grid[row][colum] == 1)
+			{
+				sf::FloatRect tmp(cellSize * row, cellSize * colum, cellSize, cellSize);
+				tmpArr.push_back(tmp);
+			}
+			else tmpArr.push_back(sf::FloatRect(0, 0, 0, 0));
+		}
+		collisionBoxList.push_back(tmpArr);
+	}
+}
+
 void Map::Draw(sf::RenderWindow& window){
 	for (int x = 0; x < grid.size(); x++)
 	{
@@ -48,8 +66,9 @@ void Map::Draw(sf::RenderWindow& window){
 		{
 			if (grid[x][y])
 			{
-				sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.0f);
-				sprite.setPosition(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
+				sprite.setOrigin(texture.getSize().x / 2.0f, texture.getSize().y);
+				/*sprite.setPosition(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);*/
+				sprite.setPosition(cellSize * x, cellSize * y);
 				sprite.setScale(cellSize / texture.getSize().x, cellSize / texture.getSize().x);
 				window.draw(sprite);
 			}
