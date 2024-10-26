@@ -4,7 +4,7 @@
 #include "Background.h"
 
 Map map(1.0f); 
-Camera camera(20.0f);
+Camera camera(25.0f);
 sf::Music music;
 
 Mario mario;
@@ -33,7 +33,6 @@ void Begin(const sf::Window& window)
 
 void Update(float deltaTime)
 {
-	// Set the starting position of camera is the spawning point of Mario
 	camera.position = mario.position;
 
 	mario.Update(deltaTime, map);

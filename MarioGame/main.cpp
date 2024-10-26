@@ -27,7 +27,7 @@ int main() {
 		}
 		// Setup camera, which use to fix the scale of render window
 		window.setView(camera.GetView(window.getSize()));
-
+			
 		Update(deltaTime);
 
 		window.clear(sf::Color::Black);

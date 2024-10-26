@@ -7,7 +7,7 @@ class Map
 private:
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture texture;
+	sf::Texture brickTexture, blockTexture, hiddenBox, copperTexture;
 
 	
 public:
