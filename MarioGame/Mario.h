@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Map.h"
+#include "Animation.h"
 
 class Mario
 {
@@ -10,16 +11,25 @@ private:
 	bool isOnGround = true;
 	float jumpStrength = 8.0f;
 	bool facingRight = true;
+	double horizontalVelocity = 0.0f;
+
+	// Animation
+	Animation runAnimation;
 public:
 	// Position
 	sf::Vector2f position{};
+	sf::Vector2f previousPos;
 
 	// Texture, Sprite
-	sf::Texture texture;
+	//sf::Texture texture;
+	sf::Texture textures[5];
 	sf::Sprite sprite;
 
 	// Box collision
 	sf::FloatRect collisionBox;
+	
+	// Constructor
+	Mario();
 
 	// Functions
 	void Begin();
@@ -27,4 +37,3 @@ public:
 	void Draw(sf::RenderWindow& window);
 	bool mapCollision(const Map& map);
 };
-
