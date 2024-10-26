@@ -1,12 +1,14 @@
 #include "Game.h"
 #include "Map.h"
 #include "Mario.h"
+#include "Background.h"
 
 Map map(1.0f); 
 Camera camera(20.0f);
 sf::Music music;
 
 Mario mario;
+Background background;
 
 void Begin(const sf::Window& window)
 {	
@@ -24,6 +26,9 @@ void Begin(const sf::Window& window)
 	music.openFromFile("./resources/soundEffect/music.ogg");
 	music.setLoop(true);
 	music.play();
+
+	// Init background
+	background.Begin();
 }
 
 void Update(float deltaTime)
@@ -36,6 +41,7 @@ void Update(float deltaTime)
 
 void Render(sf::RenderWindow& window)
 {
+	background.Draw(window, camera);
 	map.Draw(window);
 	mario.Draw(window);
 }

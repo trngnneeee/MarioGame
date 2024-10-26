@@ -2,13 +2,18 @@
 #include <SFML/Graphics.hpp>
 class Camera
 {
-public:
-	// Constructor
-	Camera(float zoomLevel = 5.0f);
-	// Function
-	sf::View GetView(sf::Vector2u windowSize);
+private:
+	sf::Vector2f viewSize{};
 
+public:
 	float zoomLevel;
 	sf::Vector2f position;
+
+	// Constructor
+	Camera(float zoomLevel = 5.0f);
+
+	// Function
+	sf::Vector2f GetViewSize();
+	sf::View GetView(sf::Vector2u windowSize);
 };
 
