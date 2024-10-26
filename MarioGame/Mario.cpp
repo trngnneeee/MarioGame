@@ -13,8 +13,6 @@ Mario::Mario()
 void Mario::Begin()
 {	
 	// Init texture
-	/*if (!texture.loadFromFile("./resources/textures/mario.png")) return;
-	sprite.setTexture(texture);*/
 	if (!textures[0].loadFromFile("./resources/textures/run1.png"))
 		return;
 	if (!textures[1].loadFromFile("./resources/textures/run2.png"))
@@ -29,6 +27,10 @@ void Mario::Begin()
 	runAnimation.addFrame(Frame(&textures[0], 0.1f));
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 	runAnimation.addFrame(Frame(&textures[2], 0.3f));
+
+	// Init jump sound
+	if (!jumpEffect.openFromFile("./resources/soundEffect/jump.wav"))
+		return;
 
 	// Init collision box
 	collisionBox = sf::FloatRect(
@@ -79,6 +81,7 @@ void Mario::Update(float deltaTime, const Map& map)
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		verticalVelocity = -jumpStrength; // Apply upward force for jump
 		isOnGround = false; // Set grounded flag to false
+		jumpEffect.play();
 	}
 
 	if (!isOnGround)

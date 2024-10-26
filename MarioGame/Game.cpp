@@ -4,6 +4,7 @@
 
 Map map(1.0f); 
 Camera camera(20.0f);
+sf::Music music;
 
 Mario mario;
 
@@ -15,9 +16,14 @@ void Begin(const sf::Window& window)
 	map.Begin();
 	mario.position =  map.CreateFromImage(image); 
 	map.Update(); // Update the collision box of Map
-	
+
 	// Init mario
 	mario.Begin();
+
+	// Init music
+	music.openFromFile("./resources/soundEffect/music.ogg");
+	music.setLoop(true);
+	music.play();
 }
 
 void Update(float deltaTime)

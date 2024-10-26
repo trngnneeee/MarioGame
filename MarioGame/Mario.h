@@ -9,7 +9,7 @@ private:
 	float gravity = 15.0f;
 	float verticalVelocity = 0.0f;
 	bool isOnGround = true;
-	float jumpStrength = 8.0f;
+	float jumpStrength = 10.0f;
 	bool facingRight = true;
 	double horizontalVelocity = 0.0f;
 
@@ -21,9 +21,11 @@ public:
 	sf::Vector2f previousPos;
 
 	// Texture, Sprite
-	//sf::Texture texture;
 	sf::Texture textures[5];
 	sf::Sprite sprite;
+
+	// Jump sound
+	sf::Music jumpEffect;
 
 	// Box collision
 	sf::FloatRect collisionBox;
