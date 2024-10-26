@@ -14,7 +14,7 @@ void Begin(const sf::Window& window)
 {	
 	// Init map
 	sf::Image image;
-	image.loadFromFile("map.png");
+	image.loadFromFile("map1.png");
 	map.Begin();
 	mario.position =  map.CreateFromImage(image); 
 	map.Update(); // Update the collision box of Map

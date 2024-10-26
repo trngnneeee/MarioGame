@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Renderer.h"
 #include "Camera.h"
 
 extern Camera camera;
