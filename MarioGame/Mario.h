@@ -9,7 +9,7 @@ private:
 	float gravity = 15.0f;
 	float verticalVelocity = 0.0f;
 	bool isOnGround = true;
-	float jumpStrength = 10.0f;
+	float jumpStrength = 15.0f;
 	bool facingRight = true;
 	double horizontalVelocity = 0.0f;
 
@@ -23,6 +23,9 @@ public:
 	// Texture, Sprite
 	sf::Texture textures[5];
 	sf::Sprite sprite;
+
+	// Overlay
+	sf::RectangleShape overlayRect;
 
 	// Jump sound
 	sf::Music jumpEffect;

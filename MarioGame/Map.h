@@ -9,6 +9,9 @@ private:
 	sf::Sprite sprite;
 	sf::Texture brickTexture, blockTexture, hiddenBox, copperTexture;
 
+	// Overlay
+	sf::RectangleShape overlayRect;
+
 	
 public:
 	// Collision box

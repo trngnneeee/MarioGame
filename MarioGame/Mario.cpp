@@ -34,14 +34,17 @@ void Mario::Begin()
 
 	// Init collision box
 	collisionBox = sf::FloatRect(
-		position.x - sprite.getGlobalBounds().width, // Left
-		position.y - sprite.getGlobalBounds().height,        // Top
-		sprite.getGlobalBounds().width,                      // Width
-		sprite.getGlobalBounds().height                      // Height
+		position.x,
+		position.y,       
+		1.0f / textures[3].getSize().x,
+		1.9f / textures[3].getSize().y
 	);
 
 	// Init previous position
 	previousPos = position;
+
+	// Init overlay
+	overlayRect.setFillColor(sf::Color(255, 0, 0, 100)); // Translucent red color
 }
 
 void Mario::Update(float deltaTime, const Map& map)
@@ -103,32 +106,53 @@ void Mario::Update(float deltaTime, const Map& map)
 	{
 		position.y = newPosition.y;
 	}
-	else
-	{
-		position.y = newPosition.y - verticalVelocity * deltaTime;
-		verticalVelocity = 0;
-		isOnGround = true;
+	else {
+		// Collision detected
+		if (verticalVelocity > 0) {
+			// Collision while falling; place Mario at ground level
+			position.y = newPosition.y - verticalVelocity * deltaTime;
+			verticalVelocity = 0; // Stop downward movement
+			isOnGround = true;
+		}
+		else if (verticalVelocity < 0) {
+			// Collision while jumping; stop upward movement
+			position.y = newPosition.y - verticalVelocity * deltaTime;
+			verticalVelocity = 0; // Stop upward movement
+		}
 	}
+
+	// Update overlay position
+	overlayRect.setPosition(position.x, position.y);
+	overlayRect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
 }
 
 // Draw Mario to window
 void Mario::Draw(sf::RenderWindow &window)
 {
-	sprite.setOrigin((sf::Vector2f)textures[3].getSize() / 2.0f);
+	if (facingRight) {
+		sprite.setOrigin(0, 0);  // Left-center for right-facing
+	}
+	else {
+		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
+	}
+
 	sprite.setPosition(position);
-	sprite.setScale(sf::Vector2f(1.0f / textures[3].getSize().x * (facingRight ? 1 : -1), 2.0f / textures[3].getSize().y));
+	sprite.setScale(sf::Vector2f(1.0f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
 	window.draw(sprite);
+	window.draw(overlayRect);
 }
 
 bool Mario::mapCollision(const Map& map)
 {
-	for (const auto& row : map.collisionBoxList) {
-		for (const auto& tileBox : row) {
-			if (collisionBox.intersects(tileBox)) {
-				return true; // Collision detected
-			}
+	for (int i = 0; i < map.collisionBoxList.size(); i++)
+	{
+		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
+		{
+			if (collisionBox.intersects(map.collisionBoxList[i][j]) && map.grid[i][j] == 1)
+				return true;
 		}
 	}
+
 	return false; // No collision
 }
 
