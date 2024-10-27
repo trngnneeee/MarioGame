@@ -1,5 +1,6 @@
 #include "Mario.h"
 #include "Map.h"
+#include "Overlay.h"
 #include <iostream>
 
 const float movementSpeed = 10.0f; // Camera's movement speed
@@ -8,6 +9,8 @@ Mario::Mario()
 	: runAnimation(0.3f)
 {
 }
+
+Overlay marioOverlay;
 
 // Functions
 void Mario::Begin()
@@ -23,7 +26,6 @@ void Mario::Begin()
 		return;
 	if (!textures[4].loadFromFile("./resources/textures/jump.png"))
 		return;
-
 	runAnimation.addFrame(Frame(&textures[0], 0.1f));
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 	runAnimation.addFrame(Frame(&textures[2], 0.3f));
@@ -39,12 +41,6 @@ void Mario::Begin()
 		1.0f / textures[3].getSize().x,
 		1.9f / textures[3].getSize().y
 	);
-
-	// Init previous position
-	previousPos = position;
-
-	// Init overlay
-	overlayRect.setFillColor(sf::Color(255, 0, 0, 100)); // Translucent red color
 }
 
 void Mario::Update(float deltaTime, const Map& map)
@@ -82,77 +78,75 @@ void Mario::Update(float deltaTime, const Map& map)
 
 	// Jumping
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		verticalVelocity = -jumpStrength; // Apply upward force for jump
-		isOnGround = false; // Set grounded flag to false
+		verticalVelocity = -jumpStrength;
+		isOnGround = false; 
 		jumpEffect.play();
 	}
 
+	// Update animation
 	if (!isOnGround)
 		sprite.setTexture(textures[4]);
 	else if (horizontalVelocity != 0)
 		sprite.setTexture(*runAnimation.update(deltaTime));
 	else sprite.setTexture(textures[3]);
 	
-	
 	// Applying gravity
 	verticalVelocity += gravity * deltaTime;
 	sf::Vector2f newPosition = position;
 	newPosition.y += verticalVelocity * deltaTime;
-
 	collisionBox.left = position.x;
 	collisionBox.top = newPosition.y;
 
+	// Vertical collision check
 	if (!mapCollision(map))
 	{
 		position.y = newPosition.y;
 	}
 	else {
-		// Collision detected
 		if (verticalVelocity > 0) {
-			// Collision while falling; place Mario at ground level
 			position.y = newPosition.y - verticalVelocity * deltaTime;
-			verticalVelocity = 0; // Stop downward movement
+			verticalVelocity = 0; 
 			isOnGround = true;
 		}
 		else if (verticalVelocity < 0) {
-			// Collision while jumping; stop upward movement
 			position.y = newPosition.y - verticalVelocity * deltaTime;
-			verticalVelocity = 0; // Stop upward movement
+			verticalVelocity = 0; 
 		}
 	}
 
-	// Update overlay position
-	overlayRect.setPosition(position.x, position.y);
-	overlayRect.setSize(sf::Vector2f(collisionBox.width, collisionBox.height));
+	// Update overlay (Optional)
+	marioOverlay.Update(sf::Vector2f(collisionBox.width, collisionBox.height), position.x, position.y, sf::Color (255, 0, 0, 100));
 }
 
 // Draw Mario to window
 void Mario::Draw(sf::RenderWindow &window)
 {
+	// Flip mario if change position horizontally
 	if (facingRight) {
 		sprite.setOrigin(0, 0);  // Left-center for right-facing
 	}
 	else {
 		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
 	}
-
 	sprite.setPosition(position);
-	sprite.setScale(sf::Vector2f(1.0f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
+	sprite.setScale(sf::Vector2f(0.7f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
 	window.draw(sprite);
-	window.draw(overlayRect);
+
+	// Draw overlay
+	marioOverlay.Draw(window);
 }
 
 bool Mario::mapCollision(const Map& map)
 {
+	// Collision for brick only
 	for (int i = 0; i < map.collisionBoxList.size(); i++)
 	{
 		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && map.grid[i][j] == 1)
+			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4))
 				return true;
 		}
 	}
-
 	return false; // No collision
 }
 

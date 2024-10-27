@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Overlay.h"
 
 // Constructor
 Map::Map(float cellSize)
@@ -6,21 +7,15 @@ Map::Map(float cellSize)
 {
 }
 
+Overlay mapOverlay;
+
 // Functions
 void Map::Begin() {
 	// Update texture
-	/*if (!texture.loadFromFile("./resources/textures/brick.png"))
-		return;
-	sprite.setTexture(texture);*/
-
 	brickTexture.loadFromFile("./resources/textures/brick.png");
 	blockTexture.loadFromFile("./resources/textures/block.png");
 	hiddenBox.loadFromFile("./resources/textures/hiddenbox.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
-
-	// Init overlay
-	overlayRect.setSize(sf::Vector2f(cellSize, cellSize));
-	overlayRect.setFillColor(sf::Color(0, 255, 0, 100));
 }
 
 sf::Vector2f Map::CreateFromImage(const sf::Image& image)
@@ -28,8 +23,8 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 	// Clear the previous map (vector)
 	grid.clear();
 
-	// Declare new vector
-	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0)); // Declare new vector with size of the map, all element set to 0
+	
+	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0)); 
 	sf::Vector2f marioPosition{};
 
 	for (size_t i = 0; i < grid.size(); i++)
@@ -53,11 +48,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 			}
 		}
 	}
-	return marioPosition;
-}
 
-void Map::Update()
-{	 
 	for (int row = 0; row < grid.size(); row++)
 	{
 		std::vector<sf::FloatRect> tmpArr;
@@ -72,6 +63,12 @@ void Map::Update()
 		}
 		collisionBoxList.push_back(tmpArr);
 	}
+
+	return marioPosition;
+}
+
+void Map::Update()
+{	
 }
 
 void Map::Draw(sf::RenderWindow& window){
@@ -105,10 +102,12 @@ void Map::Draw(sf::RenderWindow& window){
 			sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
 			window.draw(sprite);
 
-			// Draw collision overlay
-			overlayRect.setSize(sf::Vector2f(cellSize, cellSize));
-			overlayRect.setPosition(cellSize * x, cellSize * y);
-			window.draw(overlayRect);
+			// Draw collision overlay (Optional)
+			if (grid[x][y] == 1)
+			{
+				mapOverlay.Update(sf::Vector2f(cellSize, cellSize), cellSize * x, cellSize * y, sf::Color(0, 255, 0, 100));
+				mapOverlay.Draw(window);
+			}
 		}
 	}
 }

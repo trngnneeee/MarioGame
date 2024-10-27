@@ -25,7 +25,7 @@ int main() {
 			}
 			
 		}
-		// Setup camera, which use to fix the scale of render window
+		// Setup camera consiquently view to mario
 		window.setView(camera.GetView(window.getSize()));
 			
 		Update(deltaTime);

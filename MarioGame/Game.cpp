@@ -15,11 +15,10 @@ void Begin(const sf::Window& window)
 	// Init map
 	sf::Image image;
 	image.loadFromFile("map1.png");
-	map.Begin();
-	mario.position =  map.CreateFromImage(image); 
-	map.Update(); // Update the collision box of Map
+	map.Begin(); // Generate and archive map + collisionBox into vector
 
 	// Init mario
+	mario.position =  map.CreateFromImage(image); 
 	mario.Begin();
 
 	// Init music
