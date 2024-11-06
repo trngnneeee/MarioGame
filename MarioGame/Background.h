@@ -6,8 +6,10 @@ class Background
 private:
 	sf::Sprite sprite;
 	sf::Texture texture;
+	float parallaxFactor = 0.05f; 
 public:
 	void Begin();
-	void Draw(sf::RenderWindow& window, Camera camera);
+	void Update(Camera camera);
+	void Draw(sf::RenderWindow& window);
 };
 

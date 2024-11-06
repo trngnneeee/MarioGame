@@ -106,7 +106,8 @@ void Map::Draw(sf::RenderWindow& window){
 			if (grid[x][y] == 1)
 			{
 				mapOverlay.Update(sf::Vector2f(cellSize, cellSize), cellSize * x, cellSize * y, sf::Color(0, 255, 0, 100));
-				mapOverlay.Draw(window);
+				// (Comment this to unactive the overlay)
+				//mapOverlay.Draw(window);
 			}
 		}
 	}

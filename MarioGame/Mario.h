@@ -7,10 +7,11 @@ class Mario
 {
 private:
 	float gravity = 15.0f;
-	float verticalVelocity = 0.0f;
 	bool isOnGround = true;
-	float jumpStrength = 15.0f;
+	float jumpStrength = 10.0f;
 	bool facingRight = true;
+
+	float verticalVelocity = 0.0f;
 	double horizontalVelocity = 0.0f;
 
 	// Animation

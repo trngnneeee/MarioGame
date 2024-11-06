@@ -132,8 +132,8 @@ void Mario::Draw(sf::RenderWindow &window)
 	sprite.setScale(sf::Vector2f(0.7f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
 	window.draw(sprite);
 
-	// Draw overlay
-	marioOverlay.Draw(window);
+	// Draw overlay (Comment this to unactive the overlay)
+	//marioOverlay.Draw(window);
 }
 
 bool Mario::mapCollision(const Map& map)
@@ -148,6 +148,9 @@ bool Mario::mapCollision(const Map& map)
 		}
 	}
 	return false; // No collision
+
+	/*return (map.collisionBoxList[position.x / map.cellSize][position.y / map.cellSize].intersects(collisionBox));*/
+
 }
 
 
