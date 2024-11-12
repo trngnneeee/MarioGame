@@ -113,4 +113,8 @@ void Map::Draw(sf::RenderWindow& window){
 	}
 }
 
-
+void Map::Reset()
+{
+	grid.clear();
+	collisionBoxList.clear();
+}

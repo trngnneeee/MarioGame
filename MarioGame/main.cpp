@@ -1,15 +1,17 @@
 #include "Game.h"
 #include "Camera.h"
 #include "GameState.h"
+#include "Menu.h"
 
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
 	sf::Clock deltaClock;
 
-	window.setFramerateLimit(60);
+	Menu menu;
+	menu.Begin(window);
 
-	//Begin(window);
+	window.setFramerateLimit(60);
 
 	GameState gameState = GameState::Menu;
 
@@ -42,7 +44,7 @@ int main() {
 		}
 		if (gameState == GameState::Menu)
 		{
-			RenderMenu(window);
+			menu.Draw(window);
 		}
 		else if (gameState == GameState::Playing)
 		{
@@ -56,8 +58,12 @@ int main() {
 			{
 				Reset();
 				window.setView(window.getDefaultView());
-				gameState = GameState::Menu;
+				gameState = GameState::GameOver;
 			}
+		}
+		else if (gameState == GameState::GameOver)
+		{
+			gameState = GameState::Menu;
 		}
 	}
 	return 0;
