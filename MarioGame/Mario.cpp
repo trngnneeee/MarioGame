@@ -148,9 +148,11 @@ bool Mario::mapCollision(const Map& map)
 		}
 	}
 	return false; // No collision
+}
 
-	/*return (map.collisionBoxList[position.x / map.cellSize][position.y / map.cellSize].intersects(collisionBox));*/
-
+bool Mario::isDead(const Enemy& enemy)
+{
+	return (position.y >= 100.0f || collisionBox.intersects(enemy.collisionBox)); // Out of map
 }
 
 

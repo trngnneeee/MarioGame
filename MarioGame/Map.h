@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Game.h"
+
 class Map
 {
 private:
@@ -24,7 +25,7 @@ public:
 
 	// Functions
 	void Begin();
-	sf::Vector2f CreateFromImage(const sf::Image& image); // return the spawn position of Mario
+	void CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, sf::Vector2f& enemyPosition); // return the spawn position of Mario
 	void Update();
 	void Draw(sf::RenderWindow& window);
 };

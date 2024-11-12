@@ -6,14 +6,12 @@ void Background::Begin()
 		return;
 	sprite.setTexture(texture);
 	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.0f); 
-	
 }
 
-void Background::Update(Camera camera)
+void Background::Update(Camera camera, sf::Vector2f position)
 {
 	sprite.setScale(camera.GetViewSize().x / texture.getSize().x, camera.GetViewSize().y / texture.getSize().y);
-	sprite.setPosition(camera.position);
-	
+	sprite.setPosition(position);	
 }
 
 void Background::Draw(sf::RenderWindow& window)

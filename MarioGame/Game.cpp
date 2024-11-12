@@ -2,24 +2,31 @@
 #include "Map.h"
 #include "Mario.h"
 #include "Background.h"
+#include "Enemy.h"
 
 Map map(1.0f); 
 Camera camera(25.0f);
 sf::Music music;
 
 Mario mario;
+Enemy enemy;
 Background background;
 
 void Begin(const sf::Window& window)
 {	
 	// Init map
 	sf::Image image;
-	image.loadFromFile("map1.png");
+	image.loadFromFile("map2.png");
 	map.Begin(); // Generate and archive map + collisionBox into vector
 
+	// Init position for mario and enemy
+	map.CreateFromImage(image, mario.position, enemy.position); 
+
 	// Init mario
-	mario.position =  map.CreateFromImage(image); 
 	mario.Begin();
+
+	// Init enemy
+	enemy.Begin();
 
 	// Init music
 	music.openFromFile("./resources/soundEffect/music.ogg");
@@ -30,11 +37,16 @@ void Begin(const sf::Window& window)
 	background.Begin();
 }
 
-void Update(float deltaTime)
+void Update(float deltaTime, bool& isDead)
 {
 	camera.position = mario.position;
-	background.Update(camera);
+	background.Update(camera, mario.position);
 	mario.Update(deltaTime, map);
+	enemy.Update(deltaTime, map);
+	if (mario.isDead(enemy))
+	{
+		isDead = true;
+	}
 }
 
 void Render(sf::RenderWindow& window)
@@ -42,6 +54,7 @@ void Render(sf::RenderWindow& window)
 	background.Draw(window);
 	map.Draw(window);
 	mario.Draw(window);
+	enemy.Draw(window);
 }
 
 void RenderMenu(sf::RenderWindow& window)
@@ -66,7 +79,7 @@ void RenderMenu(sf::RenderWindow& window)
 	title.setPosition(window.getSize().x / 2 - title.getGlobalBounds().width / 2, window.getSize().y / 2 - 300);
 
 	// Start
-	sf::Text prompt("Start", font, 30);
+	sf::Text prompt("Press Enter to start.", font, 30);
 	prompt.setFillColor(sf::Color::White);
 	prompt.setPosition(window.getSize().x / 2 - prompt.getGlobalBounds().width / 2, window.getSize().y / 2 - 100);
 
@@ -75,4 +88,9 @@ void RenderMenu(sf::RenderWindow& window)
 	window.draw(title);
 	window.draw(prompt);
 	window.display();
+}
+
+void Reset()
+{
+	music.stop();
 }

@@ -18,14 +18,12 @@ void Map::Begin() {
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 }
 
-sf::Vector2f Map::CreateFromImage(const sf::Image& image)
+void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, sf::Vector2f& enemyPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
-
 	
-	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0)); 
-	sf::Vector2f marioPosition{};
+	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0));
 
 	for (size_t i = 0; i < grid.size(); i++)
 	{
@@ -42,6 +40,10 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 				grid[i][j] = 3;
 			else if (color == sf::Color::Green)
 				grid[i][j] = 4;
+			else if (color == sf::Color::Magenta)
+			{
+				enemyPosition = sf::Vector2f(cellSize * i, cellSize * j);
+			}
 			else if (color == sf::Color::Red)
 			{
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
@@ -63,8 +65,6 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 		}
 		collisionBoxList.push_back(tmpArr);
 	}
-
-	return marioPosition;
 }
 
 void Map::Update()

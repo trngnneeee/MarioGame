@@ -35,11 +35,8 @@ int main() {
 			}
 			else if (gameState == GameState::Playing)
 			{
-				if (event.type == sf::Event::KeyPressed)
-				{
-					if (event.key.code == sf::Keyboard::Escape)
-						window.close();
-				}
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+					window.close();
 			}
 			
 		}
@@ -49,11 +46,18 @@ int main() {
 		}
 		else if (gameState == GameState::Playing)
 		{
+			bool isDead = false;
 			// Setup camera consiquently view to mario
 			window.setView(camera.GetView(window.getSize()));
-			Update(deltaTime);
+			Update(deltaTime, isDead);
 			Render(window);
 			window.display();
+			if (isDead)
+			{
+				Reset();
+				window.setView(window.getDefaultView());
+				gameState = GameState::Menu;
+			}
 		}
 	}
 	return 0;

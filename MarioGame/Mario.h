@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "Map.h"
 #include "Animation.h"
+#include "Enemy.h"
 
 class Mario
 {
 private:
-	float gravity = 15.0f;
+	float gravity = 40.0f;
 	bool isOnGround = true;
-	float jumpStrength = 10.0f;
+	float jumpStrength = 18.0f;
 	bool facingRight = true;
 
 	float verticalVelocity = 0.0f;
@@ -16,14 +17,14 @@ private:
 
 	// Animation
 	Animation runAnimation;
-public:
-	// Position
-	sf::Vector2f position{};
-	sf::Vector2f previousPos;
 
 	// Texture, Sprite
 	sf::Texture textures[5];
 	sf::Sprite sprite;
+public:
+	// Position
+	sf::Vector2f position{};
+	sf::Vector2f previousPos;
 
 	// Overlay
 	sf::RectangleShape overlayRect;
@@ -42,4 +43,5 @@ public:
 	void Update(float deltaTime, const Map& map);
 	void Draw(sf::RenderWindow& window);
 	bool mapCollision(const Map& map);
+	bool isDead(const Enemy& enemy);
 };

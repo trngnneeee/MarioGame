@@ -6,6 +6,7 @@
 extern Camera camera;
 
 void Begin(const sf::Window& window);
-void Update(float deltaTime);
+void Update(float deltaTime, bool& isDead);
 void Render(sf::RenderWindow& window);
 void RenderMenu(sf::RenderWindow& window);
+void Reset();
