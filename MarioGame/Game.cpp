@@ -14,7 +14,11 @@ sf::Music music;
 Mario mario;
 std::vector<Enemy*> enemies;
 Background background;
+// Prompt for points
+sf::Font font;
+sf::Text prompt("Points: ", font);
 
+// Menu
 Menu menu;
 
 void Begin(const sf::Window& window)
@@ -47,6 +51,14 @@ void Begin(const sf::Window& window)
 
 	// Init background
 	background.Begin();
+
+	// Init prompt
+	if (!font.loadFromFile("./resources/font/BeVietnamPro-ExtraBold.ttf"))
+		return;
+	prompt.setFillColor(sf::Color::White);
+	prompt.setOutlineColor(sf::Color::Black);
+	prompt.setOutlineThickness(1.0f);
+	prompt.setScale(0.1f, 0.1f);
 }
 
 void Update(float deltaTime, bool& isDead)
@@ -81,6 +93,13 @@ void Render(sf::RenderWindow& window)
 		enemies[i]->Draw(window);
 	}
 	mario.Draw(window);
+}
+
+void RenderUI(sf::RenderWindow& window)
+{
+	prompt.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(2.0f, 1.0f));
+	prompt.setString("Points: " + std::to_string(mario.getPoints()));
+	window.draw(prompt);
 }
 
 void Reset()

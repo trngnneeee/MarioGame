@@ -6,7 +6,7 @@
 const float movementSpeed = 10.0f; // Camera's movement speed
 
 Mario::Mario()
-	: runAnimation(0.3f)
+	: runAnimation(0.3f), points(0)
 {
 }
 
@@ -116,6 +116,7 @@ void Mario::Update(float deltaTime, const Map& map)
 
 	// Update overlay (Optional)
 	marioOverlay.Update(sf::Vector2f(collisionBox.width, collisionBox.height), position.x, position.y, sf::Color (255, 0, 0, 100));
+
 }
 
 // Draw Mario to window
@@ -150,6 +151,24 @@ bool Mario::mapCollision(const Map& map)
 	return false; // No collision
 }
 
+bool Mario::enemyCollison(Enemy& enemy)
+{
+	if (position.y >= 100.0f) return true; // Out of map
+	// Collision with player
+	if (enemy.collisionBox.intersects(collisionBox) && enemy.getDieStatus() == false)
+	{
+		if (verticalVelocity > 0 && position.y + collisionBox.height <= enemy.position.y + enemy.collisionBox.height / 2)
+		{
+			points += 3;
+			verticalVelocity = -jumpStrength / 2; // Bounce Mario up slightly
+			enemy.defeatHandling();// Mark enemy as defeated
+			return false;
+		}
+		else return true;
+	}
+	return false;
+}
+
 void Mario::Reset()
 {
 	position = sf::Vector2f(0, 0);
@@ -162,23 +181,10 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
+	points = 0;
 }
 
-bool Mario::enemyCollison(Enemy& enemy)
+int Mario::getPoints()
 {
-	if (position.y >= 100.0f) return true; // Out of map
-	// Collision with player
-	if (enemy.collisionBox.intersects(collisionBox) && enemy.getDieStatus() == false)
-	{
-		if (verticalVelocity > 0 && position.y + collisionBox.height <= enemy.position.y + enemy.collisionBox.height / 2)
-		{
-			verticalVelocity = -jumpStrength / 2; // Bounce Mario up slightly
-			enemy.defeatHandling();// Mark enemy as defeated
-			return false;
-		}
-		else return true;
-	}
-	return false;
+	return points;
 }
-
-

@@ -25,7 +25,8 @@ int main() {
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameState == GameState::Playing)
+				window.close();
 			if (gameState == GameState::Menu)
 			{
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
@@ -33,14 +34,9 @@ int main() {
 					gameState = GameState::Playing;
 					Begin(window);
 				}
-			}
-			else if (gameState == GameState::Playing)
-			{
-				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-					window.close();
-			}
-			
+			}			
 		}
+
 		if (gameState == GameState::Menu)
 		{
 			menu.Draw(window);			
@@ -48,10 +44,16 @@ int main() {
 		else if (gameState == GameState::Playing)
 		{
 			bool isDead = false;
+			
+			Update(deltaTime, isDead);
+
 			// Setup camera consiquently view to mario
 			window.setView(camera.GetView(window.getSize()));
-			Update(deltaTime, isDead);
 			Render(window);
+
+			window.setView(camera.GetUIView());
+			RenderUI(window);
+
 			window.display();
 			if (isDead)
 			{

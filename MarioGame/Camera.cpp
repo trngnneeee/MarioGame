@@ -11,6 +11,11 @@ sf::Vector2f Camera::GetViewSize()
 	return viewSize;
 }
 
+sf::Vector2f Camera::GetViewUISize()
+{
+	return viewUISize;
+}
+
 // Functions
 sf::View Camera::GetView(sf::Vector2u windowSize)
 {
@@ -21,4 +26,11 @@ sf::View Camera::GetView(sf::Vector2u windowSize)
 	else
 		viewSize = sf::Vector2f(zoomLevel * aspect, zoomLevel);
 	return sf::View(position, viewSize);
+}
+
+sf::View Camera::GetUIView()
+{
+	float aspect = viewSize.x / viewSize.y;
+	viewUISize = sf::Vector2f(100.0f, 100.0f / aspect);
+	return sf::View(sf::Vector2f(), viewUISize);
 }

@@ -21,6 +21,9 @@ private:
 	// Texture, Sprite
 	sf::Texture textures[5];
 	sf::Sprite sprite;
+
+	// Points (Coints)
+	int points;
 public:
 	// Position
 	sf::Vector2f position{};
@@ -45,4 +48,6 @@ public:
 	bool mapCollision(const Map& map);
 	bool enemyCollison(Enemy& enemy);
 	void Reset();
+
+	int getPoints();
 };
