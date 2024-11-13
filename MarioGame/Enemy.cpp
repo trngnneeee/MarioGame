@@ -3,7 +3,7 @@
 
 
 Enemy::Enemy()
-	:runAnimation(0.2f), velocity(3.0f), isDefeat(false)
+	:runAnimation(0.2f), velocity(3.0f), isDefeat(false), dieTime(3.0f)
 {	
 }
 
@@ -63,7 +63,11 @@ void Enemy::Update(float deltaTime, const Map& map, const std::vector<Enemy*>& e
 
 	if (isDefeat == false)
 		sprite.setTexture(*runAnimation.update(deltaTime));
-	else sprite.setTexture(texture[0]);
+	else
+	{
+		sprite.setTexture(texture[0]);
+		dieTime -= deltaTime * 1.0f;
+	}
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
@@ -71,7 +75,10 @@ void Enemy::Draw(sf::RenderWindow& window)
 	if (isDefeat == false)
 		sprite.setPosition(position);
 	else
-		sprite.setPosition(position.x, position.y + 0.75f);
+	{
+		if (dieTime > 0)
+			sprite.setPosition(position.x, position.y + 0.75f);
+	}
 	window.draw(sprite);
 }
 
@@ -90,7 +97,7 @@ bool Enemy::mapCollision(const Map& map)
 
 bool Enemy::teamCollision(const Enemy& other)
 {
-	return (collisionBox.intersects(other.collisionBox));
+	return (collisionBox.intersects(other.collisionBox) && other.isDefeat == false);
 }
 
 void Enemy::defeatHandling()
@@ -103,6 +110,11 @@ void Enemy::defeatHandling()
 bool Enemy::getDieStatus()
 {
 	return isDefeat;
+}
+
+float Enemy::getDieTime()
+{
+	return dieTime;
 }
 
 bool Enemy::operator!=(const Enemy& other)

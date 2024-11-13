@@ -59,6 +59,17 @@ void Update(float deltaTime, bool& isDead)
 		enemies[i]->Update(deltaTime, map, enemies);
 		if (mario.enemyCollison(*enemies[i])) isDead = true;
 	}
+
+	// Erase enemies that have died
+	for (auto it = enemies.begin(); it != enemies.end();)
+	{
+		if (((*it)->getDieStatus() == true) && ((*it)->getDieTime() <= 0))
+		{
+			it = enemies.erase(it);  // Erase the enemy and move iterator to the next element
+		}
+		else
+			++it;  // Move to the next enemy if the current one isn't dead
+	}
 }
 
 void Render(sf::RenderWindow& window)
@@ -67,9 +78,7 @@ void Render(sf::RenderWindow& window)
 	map.Draw(window);
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		//enemies[i]->Draw(window);
-		if (enemies[i]->getDieStatus() == false)
-			enemies[i]->Draw(window);
+		enemies[i]->Draw(window);
 	}
 	mario.Draw(window);
 }

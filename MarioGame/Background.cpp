@@ -2,7 +2,7 @@
 
 void Background::Begin()
 {
-	if (!texture.loadFromFile("./resources/background/background.jpg"))
+	if (!texture.loadFromFile("./resources/background/sky.png"))
 		return;
 	sprite.setTexture(texture);
 	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.0f); 

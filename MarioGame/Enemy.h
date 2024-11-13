@@ -20,6 +20,7 @@ private:
 
 	// Defeat status
 	bool isDefeat;
+	float dieTime;
 public:
 	// Box collision
 	sf::FloatRect collisionBox;
@@ -36,7 +37,9 @@ public:
 	bool mapCollision(const Map& map);
 	bool teamCollision(const Enemy& other);
 	void defeatHandling();
+
 	bool getDieStatus();
+	float getDieTime();
 
 	bool operator!=(const Enemy& other);
 };
