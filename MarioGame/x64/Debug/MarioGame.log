@@ -1,4 +1,23 @@
-﻿  Enemy.cpp
+﻿  Background.cpp
+  Enemy.cpp
+  Game.cpp
+  Mario.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(60,25): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(60,25): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(60,25): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(60,25): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(60,25): warning C4244:         ]
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(69,24): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(69,24): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(69,24): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(69,24): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(69,24): warning C4244:         ]
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(129,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(129,41): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(129,41): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(129,41): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(129,41): warning C4244:         ]
+  Generating Code...
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

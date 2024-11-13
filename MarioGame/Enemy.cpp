@@ -1,8 +1,9 @@
 #include "Enemy.h"
 #include <iostream>
 
+
 Enemy::Enemy()
-	:runAnimation(0.2f), velocity(5.0f)
+	:runAnimation(0.2f), velocity(3.0f), isDefeat(false)
 {	
 }
 
@@ -31,9 +32,10 @@ void Enemy::Begin()
 		1.0f / texture[0].getSize().y
 	);
 
+	sprite.setScale(sf::Vector2f(1.0f / texture[0].getSize().x, 1.0f / texture[0].getSize().y));
 }
 
-void Enemy::Update(float deltaTime, const Map& map, const std::vector<Enemy>& enemies)
+void Enemy::Update(float deltaTime, const Map& map, const std::vector<Enemy*>& enemies)
 {
 	// Check Collision
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
@@ -50,23 +52,26 @@ void Enemy::Update(float deltaTime, const Map& map, const std::vector<Enemy>& en
 	// Alliance collision
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		if (*this != enemies[i])
+		if (*this != *enemies[i])
 		{
 			collisionBox.left = position.x;
 			collisionBox.top = position.y;
-			if (this->teamCollision(enemies[i]))
+			if (this->teamCollision(*enemies[i]))
 				velocity = -velocity;
 		}
 	}
 
-	//sprite.setTexture(*runAnimation.update(deltaTime));
+	if (isDefeat == false)
+		sprite.setTexture(*runAnimation.update(deltaTime));
+	else sprite.setTexture(texture[0]);
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
 {
-	sprite.setTexture(texture[0]);
-	sprite.setPosition(position);
-	sprite.setScale(sf::Vector2f(1.0f / texture[0].getSize().x, 1.0f / texture[0].getSize().y));
+	if (isDefeat == false)
+		sprite.setPosition(position);
+	else
+		sprite.setPosition(position.x, position.y + 0.75f);
 	window.draw(sprite);
 }
 
@@ -86,6 +91,18 @@ bool Enemy::mapCollision(const Map& map)
 bool Enemy::teamCollision(const Enemy& other)
 {
 	return (collisionBox.intersects(other.collisionBox));
+}
+
+void Enemy::defeatHandling()
+{
+	isDefeat = true;
+	sprite.setScale(1.0f / texture[0].getSize().x, 0.25f / texture[0].getSize().y);
+	velocity = 0;
+}
+
+bool Enemy::getDieStatus()
+{
+	return isDefeat;
 }
 
 bool Enemy::operator!=(const Enemy& other)

@@ -43,5 +43,6 @@ public:
 	void Update(float deltaTime, const Map& map);
 	void Draw(sf::RenderWindow& window);
 	bool mapCollision(const Map& map);
-	bool isDead(const Enemy& enemy);
+	bool enemyCollison(Enemy& enemy);
+	void Reset();
 };

@@ -12,7 +12,7 @@ Camera camera(25.0f);
 sf::Music music;
 
 Mario mario;
-std::vector<Enemy> enemies;
+std::vector<Enemy*> enemies;
 Background background;
 
 Menu menu;
@@ -21,7 +21,7 @@ void Begin(const sf::Window& window)
 {	
 	// Init map
 	sf::Image image;
-	image.loadFromFile("map3.png");
+	image.loadFromFile("map2.png");
 	map.Begin(); // Generate and archive map + collisionBox into vector
 
 	// Init position for mario and enemy
@@ -32,12 +32,11 @@ void Begin(const sf::Window& window)
 	mario.Begin();
 
 	// Init enemy
-	enemies.clear();
 	for (int i = 0; i < enemiesPosition.size(); i++) 
 	{
-		Enemy newEnemy;
-		newEnemy.position = enemiesPosition[i];
-		newEnemy.Begin();
+		Enemy* newEnemy = new Enemy;
+		newEnemy->position = enemiesPosition[i];
+		newEnemy->Begin();
 		enemies.push_back(newEnemy);
 	}
 
@@ -57,8 +56,8 @@ void Update(float deltaTime, bool& isDead)
 	mario.Update(deltaTime, map);
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemies[i].Update(deltaTime, map, enemies);
-		if (mario.isDead(enemies[i])) isDead = true;
+		enemies[i]->Update(deltaTime, map, enemies);
+		if (mario.enemyCollison(*enemies[i])) isDead = true;
 	}
 }
 
@@ -68,7 +67,9 @@ void Render(sf::RenderWindow& window)
 	map.Draw(window);
 	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemies[i].Draw(window);
+		//enemies[i]->Draw(window);
+		if (enemies[i]->getDieStatus() == false)
+			enemies[i]->Draw(window);
 	}
 	mario.Draw(window);
 }
@@ -77,4 +78,10 @@ void Reset()
 {
 	music.stop();
 	map.Reset();
+	mario.Reset();
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		delete enemies[i];
+	}
+	enemies.clear();
 }

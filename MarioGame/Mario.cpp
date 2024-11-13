@@ -150,10 +150,34 @@ bool Mario::mapCollision(const Map& map)
 	return false; // No collision
 }
 
-bool Mario::isDead(const Enemy& enemy)
+void Mario::Reset()
+{
+	position = sf::Vector2f(0, 0);
+	verticalVelocity = 0;
+	horizontalVelocity = 0;
+	collisionBox = sf::FloatRect(
+		position.x,
+		position.y,
+		1.0f / textures[3].getSize().x,
+		1.9f / textures[3].getSize().y
+	);
+	runAnimation.Reset();
+}
+
+bool Mario::enemyCollison(Enemy& enemy)
 {
 	if (position.y >= 100.0f) return true; // Out of map
-	if (enemy.collisionBox.intersects(collisionBox)) return true; // Collision with player
+	// Collision with player
+	if (enemy.collisionBox.intersects(collisionBox) && enemy.getDieStatus() == false)
+	{
+		if (verticalVelocity > 0 && position.y + collisionBox.height <= enemy.position.y + enemy.collisionBox.height / 2)
+		{
+			verticalVelocity = -jumpStrength / 2; // Bounce Mario up slightly
+			enemy.defeatHandling();// Mark enemy as defeated
+			return false;
+		}
+		else return true;
+	}
 	return false;
 }
 

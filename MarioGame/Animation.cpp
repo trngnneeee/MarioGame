@@ -22,3 +22,8 @@ sf::Texture* Animation::update(float deltaTime)
 	}
 	return nullptr;
 }
+
+void Animation::Reset()
+{
+	frames.clear();
+}

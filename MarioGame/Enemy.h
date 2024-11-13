@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include <vector>
 #include "Animation.h"
 #include "Map.h"
@@ -17,21 +18,25 @@ private:
 	// Horizontal velocity
 	float velocity;
 
+	// Defeat status
+	bool isDefeat;
 public:
 	// Box collision
 	sf::FloatRect collisionBox;
+	
+	// Position
+	sf::Vector2f position{};
 
 	// Constructors
 	Enemy();
 
-	// Position
-	sf::Vector2f position{};
-
 	void Begin();
-	void Update(float deltaTime, const Map&, const std::vector<Enemy>& enemies);
+	void Update(float deltaTime, const Map&, const std::vector<Enemy*>& enemies);
 	void Draw(sf::RenderWindow& window);
 	bool mapCollision(const Map& map);
 	bool teamCollision(const Enemy& other);
+	void defeatHandling();
+	bool getDieStatus();
 
 	bool operator!=(const Enemy& other);
 };

@@ -22,5 +22,6 @@ public:
 	Animation(float length);
 	void addFrame(Frame frame);
 	sf::Texture* update(float deltaTime);
+	void Reset();
 };
 
