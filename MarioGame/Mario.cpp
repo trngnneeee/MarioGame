@@ -152,7 +152,9 @@ bool Mario::mapCollision(const Map& map)
 
 bool Mario::isDead(const Enemy& enemy)
 {
-	return (position.y >= 100.0f || collisionBox.intersects(enemy.collisionBox)); // Out of map
+	if (position.y >= 100.0f) return true; // Out of map
+	if (enemy.collisionBox.intersects(collisionBox)) return true; // Collision with player
+	return false;
 }
 
 

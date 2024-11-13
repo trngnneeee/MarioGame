@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "GameState.h"
 #include "Menu.h"
+#include <iostream>
 
 
 int main() {
@@ -44,7 +45,7 @@ int main() {
 		}
 		if (gameState == GameState::Menu)
 		{
-			menu.Draw(window);
+			menu.Draw(window);			
 		}
 		else if (gameState == GameState::Playing)
 		{

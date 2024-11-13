@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Animation.h"
 #include "Map.h"
 
@@ -25,9 +26,12 @@ public:
 
 	// Position
 	sf::Vector2f position{};
-	
+
 	void Begin();
-	void Update(float deltaTime, const Map&);
+	void Update(float deltaTime, const Map&, const std::vector<Enemy>& enemies);
 	void Draw(sf::RenderWindow& window);
-	bool mapCollision(const Map &map);
+	bool mapCollision(const Map& map);
+	bool teamCollision(const Enemy& other);
+
+	bool operator!=(const Enemy& other);
 };

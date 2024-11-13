@@ -25,7 +25,7 @@ public:
 
 	// Functions
 	void Begin();
-	void CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, sf::Vector2f& enemyPosition); // return the spawn position of Mario
+	void CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition); // return the spawn position of Mario
 	void Update();
 	void Draw(sf::RenderWindow& window);
 	void Reset();

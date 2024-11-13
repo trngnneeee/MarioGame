@@ -18,7 +18,7 @@ void Map::Begin() {
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 }
 
-void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, sf::Vector2f& enemyPosition)
+void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -42,7 +42,7 @@ void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, s
 				grid[i][j] = 4;
 			else if (color == sf::Color::Magenta)
 			{
-				enemyPosition = sf::Vector2f(cellSize * i, cellSize * j);
+				enemiesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 			}
 			else if (color == sf::Color::Red)
 			{
