@@ -10,7 +10,7 @@ public:
 	sf::Vector2f position;
 
 	// Constructor
-	Camera(float zoomLevel = 5.0f);
+	Camera(float zoomLevel = 1.0f);
 
 	// Function
 	sf::View GetView(sf::Vector2u windowSize);

@@ -8,7 +8,7 @@
 #include <iostream>
 
 Map map(1.0f); 
-Camera camera(25.0f);
+Camera camera(16.0f);
 sf::Music music;
 
 Mario mario;
@@ -21,11 +21,11 @@ sf::Text prompt("Points: ", font);
 // Menu
 Menu menu;
 
-void Begin(const sf::Window& window)
+void Begin(sf::RenderWindow& window)
 {	
 	// Init map
 	sf::Image image;
-	image.loadFromFile("map2.png");
+	image.loadFromFile("map3.png");
 	map.Begin(); // Generate and archive map + collisionBox into vector
 
 	// Init position for mario and enemy
@@ -50,7 +50,7 @@ void Begin(const sf::Window& window)
 	music.play();
 
 	// Init background
-	background.Begin();
+	background.Begin(window, camera.zoomLevel);
 
 	// Init prompt
 	if (!font.loadFromFile("./resources/font/BeVietnamPro-ExtraBold.ttf"))
@@ -64,7 +64,8 @@ void Begin(const sf::Window& window)
 void Update(float deltaTime, bool& isDead)
 {
 	camera.position = mario.position;
-	background.Update(camera, mario.position);
+
+	background.Update(mario.position);
 	mario.Update(deltaTime, map);
 	for (int i = 0; i < enemies.size(); i++)
 	{
@@ -86,7 +87,7 @@ void Update(float deltaTime, bool& isDead)
 
 void Render(sf::RenderWindow& window)
 {
-	background.Draw(window);
+	//background.Draw(window);
 	map.Draw(window);
 	for (int i = 0; i < enemies.size(); i++)
 	{
@@ -97,7 +98,7 @@ void Render(sf::RenderWindow& window)
 
 void RenderUI(sf::RenderWindow& window)
 {
-	prompt.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(2.0f, 1.0f));
+	prompt.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(2.0f, 6.0f));
 	prompt.setString("Points: " + std::to_string(mario.getPoints()));
 	window.draw(prompt);
 }

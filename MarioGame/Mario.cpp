@@ -1,6 +1,5 @@
 #include "Mario.h"
 #include "Map.h"
-#include "Overlay.h"
 #include <iostream>
 
 const float movementSpeed = 10.0f; // Camera's movement speed
@@ -9,8 +8,6 @@ Mario::Mario()
 	: runAnimation(0.3f), points(0)
 {
 }
-
-Overlay marioOverlay;
 
 // Functions
 void Mario::Begin()
@@ -113,10 +110,6 @@ void Mario::Update(float deltaTime, const Map& map)
 			verticalVelocity = 0; 
 		}
 	}
-
-	// Update overlay (Optional)
-	marioOverlay.Update(sf::Vector2f(collisionBox.width, collisionBox.height), position.x, position.y, sf::Color (255, 0, 0, 100));
-
 }
 
 // Draw Mario to window
@@ -132,19 +125,16 @@ void Mario::Draw(sf::RenderWindow &window)
 	sprite.setPosition(position);
 	sprite.setScale(sf::Vector2f(0.7f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
 	window.draw(sprite);
-
-	// Draw overlay (Comment this to unactive the overlay)
-	//marioOverlay.Draw(window);
 }
 
-bool Mario::mapCollision(const Map& map)
+bool Mario::mapCollision(Map map)
 {
 	// Collision for brick only
 	for (int i = 0; i < map.collisionBoxList.size(); i++)
 	{
 		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4))
+			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4 || map.grid[i][j] == 3))
 				return true;
 		}
 	}
@@ -153,13 +143,13 @@ bool Mario::mapCollision(const Map& map)
 
 bool Mario::enemyCollison(Enemy& enemy)
 {
-	if (position.y >= 100.0f) return true; // Out of map
+	if (position.y >= 17.0f) return true; // Out of map
 	// Collision with player
 	if (enemy.collisionBox.intersects(collisionBox) && enemy.getDieStatus() == false)
 	{
 		if (verticalVelocity > 0 && position.y + collisionBox.height <= enemy.position.y + enemy.collisionBox.height / 2)
 		{
-			points += 3;
+			points += 100;
 			verticalVelocity = -jumpStrength / 2; // Bounce Mario up slightly
 			enemy.defeatHandling();// Mark enemy as defeated
 			return false;

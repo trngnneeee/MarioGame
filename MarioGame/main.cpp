@@ -39,7 +39,7 @@ int main() {
 
 		if (gameState == GameState::Menu)
 		{
-			menu.Draw(window);			
+			menu.Draw(window);
 		}
 		else if (gameState == GameState::Playing)
 		{
@@ -66,6 +66,8 @@ int main() {
 		{
 			gameState = GameState::Menu;
 		}
+
+		window.clear();
 	}
 	return 0;
 }

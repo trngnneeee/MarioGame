@@ -1,13 +1,11 @@
 #include "Map.h"
-#include "Overlay.h"
+#include <iostream>
 
 // Constructor
 Map::Map(float cellSize)
 	:cellSize(cellSize), grid()
 {
 }
-
-Overlay mapOverlay;
 
 // Functions
 void Map::Begin() {
@@ -101,14 +99,6 @@ void Map::Draw(sf::RenderWindow& window){
 			sprite.setPosition(cellSize * x, cellSize * y);
 			sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
 			window.draw(sprite);
-
-			// Draw collision overlay (Optional)
-			if (grid[x][y] == 1)
-			{
-				mapOverlay.Update(sf::Vector2f(cellSize, cellSize), cellSize * x, cellSize * y, sf::Color(0, 255, 0, 100));
-				// (Comment this to unactive the overlay)
-				//mapOverlay.Draw(window);
-			}
 		}
 	}
 }

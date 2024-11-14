@@ -4,6 +4,7 @@
 #include <vector>
 #include "Animation.h"
 #include "Map.h"
+#include "FloatingScore.h"
 
 class Enemy
 {
@@ -21,6 +22,7 @@ private:
 	// Defeat status
 	bool isDefeat;
 	float dieTime;
+	FloatingScore* score = NULL;
 public:
 	// Box collision
 	sf::FloatRect collisionBox;
@@ -30,6 +32,7 @@ public:
 
 	// Constructors
 	Enemy();
+	~Enemy();
 
 	void Begin();
 	void Update(float deltaTime, const Map&, const std::vector<Enemy*>& enemies);

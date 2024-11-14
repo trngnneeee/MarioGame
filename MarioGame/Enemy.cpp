@@ -1,25 +1,23 @@
 #include "Enemy.h"
-#include <iostream>
-
 
 Enemy::Enemy()
 	:runAnimation(0.2f), velocity(3.0f), isDefeat(false), dieTime(3.0f)
 {	
 }
 
+Enemy::~Enemy()
+{
+	if (score)
+		delete score;
+}
+
 void Enemy::Begin()
 {
 	// Load texture
 	if (!texture[0].loadFromFile("./resources/textures/enemy1.png"))
-	{
-		std::cerr << "Failed to load enemy1.png" << std::endl;
 		return;
-	}
 	if (!texture[1].loadFromFile("./resources/textures/enemy2.png"))
-	{
-		std::cerr << "Failed to load enemy1.png" << std::endl;
 		return;
-	}
 
 	runAnimation.addFrame(Frame(&texture[0], 0.1f));
 	runAnimation.addFrame(Frame(&texture[1], 0.2f));
@@ -68,6 +66,16 @@ void Enemy::Update(float deltaTime, const Map& map, const std::vector<Enemy*>& e
 		sprite.setTexture(texture[0]);
 		dieTime -= deltaTime * 1.0f;
 	}
+
+	if (score)
+	{
+		score->Update(deltaTime);
+		if (score->isTimeout())
+		{
+			delete score;
+			score = NULL;
+		}
+	}
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
@@ -80,6 +88,9 @@ void Enemy::Draw(sf::RenderWindow& window)
 			sprite.setPosition(position.x, position.y + 0.75f);
 	}
 	window.draw(sprite);
+
+	if (score)
+		score->Draw(window);
 }
 
 bool Enemy::mapCollision(const Map& map)
@@ -105,6 +116,11 @@ void Enemy::defeatHandling()
 	isDefeat = true;
 	sprite.setScale(1.0f / texture[0].getSize().x, 0.25f / texture[0].getSize().y);
 	velocity = 0;
+
+	if (!score)
+	{
+		score = new FloatingScore(100, position);
+	}
 }
 
 bool Enemy::getDieStatus()

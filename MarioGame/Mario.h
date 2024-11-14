@@ -45,7 +45,7 @@ public:
 	void Begin();
 	void Update(float deltaTime, const Map& map);
 	void Draw(sf::RenderWindow& window);
-	bool mapCollision(const Map& map);
+	bool mapCollision(Map map);
 	bool enemyCollison(Enemy& enemy);
 	void Reset();
 

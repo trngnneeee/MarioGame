@@ -12,6 +12,7 @@ private:
 
 	// Overlay
 	sf::RectangleShape overlayRect;
+
 public:
 	// Collision box
 	std::vector<std::vector<sf::FloatRect>> collisionBoxList;
