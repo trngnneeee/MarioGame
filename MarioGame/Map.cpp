@@ -9,6 +9,9 @@ Map::Map(float cellSize)
 
 // Functions
 void Map::Begin() {
+	// Load map
+	image.loadFromFile("map3.png");
+
 	// Update texture
 	brickTexture.loadFromFile("./resources/textures/brick.png");
 	blockTexture.loadFromFile("./resources/textures/block.png");
@@ -16,13 +19,13 @@ void Map::Begin() {
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 }
 
-void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
+void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
-	
 	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0));
 
+	// Init map
 	for (size_t i = 0; i < grid.size(); i++)
 	{
 		for (size_t j = 0; j < grid[i].size(); j++)
@@ -49,6 +52,7 @@ void Map::CreateFromImage(const sf::Image& image, sf::Vector2f& marioPosition, s
 		}
 	}
 
+	// Init collision box
 	for (int row = 0; row < grid.size(); row++)
 	{
 		std::vector<sf::FloatRect> tmpArr;

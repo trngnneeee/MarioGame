@@ -23,26 +23,36 @@ private:
 	bool isDefeat;
 	float dieTime;
 	FloatingScore* score = NULL;
-public:
+	
 	// Box collision
 	sf::FloatRect collisionBox;
 	
 	// Position
 	sf::Vector2f position{};
-
+public:
 	// Constructors
 	Enemy();
 	~Enemy();
 
 	void Begin();
-	void Update(float deltaTime, const Map&, const std::vector<Enemy*>& enemies);
+
+	void Update(float deltaTime, const Map&);
+	void handleMove(float deltaTime, const Map& map);
+	void UpdateTextures(float deltaTime);
+	void handleDefeat();
+
 	void Draw(sf::RenderWindow& window);
+
 	bool mapCollision(const Map& map);
 	bool teamCollision(const Enemy& other);
-	void defeatHandling();
 
 	bool getDieStatus();
 	float getDieTime();
+
+	sf::Vector2f getPosition();
+	void setPosition(const sf::Vector2f& position);
+
+	sf::FloatRect& getCollisionBox();
 
 	bool operator!=(const Enemy& other);
 };

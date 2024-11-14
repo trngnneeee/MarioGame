@@ -3,17 +3,17 @@
 #include "Map.h"
 #include "Animation.h"
 #include "Enemy.h"
+#include "EnemyList.h"
 
 class Mario
 {
 private:
-	float gravity = 40.0f;
+	float gravity;
 	bool isOnGround = true;
-	float jumpStrength = 18.0f;
+	float jumpStrength;
+	sf::Vector2f velocity;
+	float movementSpeed;
 	bool facingRight = true;
-
-	float verticalVelocity = 0.0f;
-	double horizontalVelocity = 0.0f;
 
 	// Animation
 	Animation runAnimation;
@@ -24,7 +24,7 @@ private:
 
 	// Points (Coints)
 	int points;
-public:
+
 	// Position
 	sf::Vector2f position{};
 	sf::Vector2f previousPos;
@@ -37,17 +37,28 @@ public:
 
 	// Box collision
 	sf::FloatRect collisionBox;
-	
+public:
 	// Constructor
 	Mario();
 
 	// Functions
-	void Begin();
-	void Update(float deltaTime, const Map& map);
+	void Begin(const sf::Vector2f& marioPosition);
+
+	void HandleMove(float deltaTime, const Map& map);
+	void HandleHorizontalMove(float deltaTime, const Map& map);
+	void HandleVerticalMove(float deltaTime, const Map& map);
+
+	void Update(float deltaTime, const Map& map, EnemyList enemies, bool& isDead);
+
+	void updateFlip();
 	void Draw(sf::RenderWindow& window);
+
 	bool mapCollision(Map map);
 	bool enemyCollison(Enemy& enemy);
+	bool outOfMapCollision();
+
 	void Reset();
 
 	int getPoints();
+	sf::Vector2f getPosition();
 };

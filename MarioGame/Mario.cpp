@@ -2,16 +2,18 @@
 #include "Map.h"
 #include <iostream>
 
-const float movementSpeed = 10.0f; // Camera's movement speed
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0)
+	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(18.0f), gravity(40.0f)
 {
 }
 
 // Functions
-void Mario::Begin()
+void Mario::Begin(const sf::Vector2f& marioPosition)
 {	
+	// Init start position for mario
+	position = marioPosition;
+
 	// Init texture
 	if (!textures[0].loadFromFile("./resources/textures/run1.png"))
 		return;
@@ -40,10 +42,8 @@ void Mario::Begin()
 	);
 }
 
-void Mario::Update(float deltaTime, const Map& map)
+void Mario::HandleMove(float deltaTime, const Map& map)
 {
-	const double move = movementSpeed;
-
 	// Update previous position
 	previousPos = position;
 
@@ -51,10 +51,29 @@ void Mario::Update(float deltaTime, const Map& map)
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 
 	// Horizontal move
+	HandleHorizontalMove(deltaTime, map);
+
+	// Jumping
+	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		velocity.y = -jumpStrength;
+		isOnGround = false;
+		jumpEffect.play();
+	}
+
+	// Vertical move
+	HandleVerticalMove(deltaTime, map);
+}
+
+void Mario::HandleHorizontalMove(float deltaTime, const Map& map)
+{
+	// Update position of collision box
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+
+	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		sf::Vector2f newPosition = position;
-		newPosition.x += move * deltaTime;
+		newPosition.x += movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
 		if (!mapCollision(map)) position.x = newPosition.x;
@@ -63,7 +82,7 @@ void Mario::Update(float deltaTime, const Map& map)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		sf::Vector2f newPosition = position;
-		newPosition.x-= move * deltaTime;
+		newPosition.x -= movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
 		if (!mapCollision(map)) position.x = newPosition.x;
@@ -71,26 +90,15 @@ void Mario::Update(float deltaTime, const Map& map)
 	}
 
 	// Calculate horizontal velocity
-	horizontalVelocity = (position.x - previousPos.x) / deltaTime;
+	velocity.x = (position.x - previousPos.x) / deltaTime;
+}
 
-	// Jumping
-	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		verticalVelocity = -jumpStrength;
-		isOnGround = false; 
-		jumpEffect.play();
-	}
-
-	// Update animation
-	if (!isOnGround)
-		sprite.setTexture(textures[4]);
-	else if (horizontalVelocity != 0)
-		sprite.setTexture(*runAnimation.update(deltaTime));
-	else sprite.setTexture(textures[3]);
-	
+void Mario::HandleVerticalMove(float deltaTime, const Map& map)
+{
 	// Applying gravity
-	verticalVelocity += gravity * deltaTime;
+	velocity.y += gravity * deltaTime;
 	sf::Vector2f newPosition = position;
-	newPosition.y += verticalVelocity * deltaTime;
+	newPosition.y += velocity.y * deltaTime;
 	collisionBox.left = position.x;
 	collisionBox.top = newPosition.y;
 
@@ -100,36 +108,53 @@ void Mario::Update(float deltaTime, const Map& map)
 		position.y = newPosition.y;
 	}
 	else {
-		if (verticalVelocity > 0) {
-			position.y = newPosition.y - verticalVelocity * deltaTime;
-			verticalVelocity = 0; 
+		if (velocity.y > 0) {
+			position.y = newPosition.y - velocity.y * deltaTime;
+			velocity.y = 0;
 			isOnGround = true;
 		}
-		else if (verticalVelocity < 0) {
-			position.y = newPosition.y - verticalVelocity * deltaTime;
-			verticalVelocity = 0; 
+		else if (velocity.y < 0) {
+			position.y = newPosition.y - velocity.y * deltaTime;
+			velocity.y = 0;
 		}
 	}
 }
 
-// Draw Mario to window
-void Mario::Draw(sf::RenderWindow &window)
+void Mario::Update(float deltaTime, const Map& map, EnemyList enemies, bool& isDead)
 {
-	// Flip mario if change position horizontally
-	if (facingRight) {
+	HandleMove(deltaTime, map);
+
+	for (int i = 0; i < enemies.getSize(); i++)
+	{
+		if (this->enemyCollison(enemies.getEnemy(i))) isDead = true;
+	}
+
+	// Update animation
+	if (!isOnGround)
+		sprite.setTexture(textures[4]);
+	else if (velocity.x != 0)
+		sprite.setTexture(*runAnimation.update(deltaTime));
+	else sprite.setTexture(textures[3]);
+}
+
+void Mario::updateFlip()
+{
+	if (facingRight)
 		sprite.setOrigin(0, 0);  // Left-center for right-facing
-	}
-	else {
+	else
 		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
-	}
-	sprite.setPosition(position);
 	sprite.setScale(sf::Vector2f(0.7f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
+}
+
+void Mario::Draw(sf::RenderWindow& window)
+{
+	updateFlip();
+	sprite.setPosition(position);
 	window.draw(sprite);
 }
 
 bool Mario::mapCollision(Map map)
 {
-	// Collision for brick only
 	for (int i = 0; i < map.collisionBoxList.size(); i++)
 	{
 		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
@@ -138,20 +163,18 @@ bool Mario::mapCollision(Map map)
 				return true;
 		}
 	}
-	return false; // No collision
+	return false; 
 }
 
 bool Mario::enemyCollison(Enemy& enemy)
-{
-	if (position.y >= 17.0f) return true; // Out of map
-	// Collision with player
-	if (enemy.collisionBox.intersects(collisionBox) && enemy.getDieStatus() == false)
+{	 
+	if (enemy.getCollisionBox().intersects(collisionBox) && enemy.getDieStatus() == false)
 	{
-		if (verticalVelocity > 0 && position.y + collisionBox.height <= enemy.position.y + enemy.collisionBox.height / 2)
+		if (velocity.y > 0 && position.y + collisionBox.height <= enemy.getPosition().y + enemy.getCollisionBox().height / 2)
 		{
 			points += 100;
-			verticalVelocity = -jumpStrength / 2; // Bounce Mario up slightly
-			enemy.defeatHandling();// Mark enemy as defeated
+			velocity.y = -jumpStrength / 2; // Bounce Mario up slightly
+			enemy.handleDefeat();// Mark enemy as defeated
 			return false;
 		}
 		else return true;
@@ -159,11 +182,15 @@ bool Mario::enemyCollison(Enemy& enemy)
 	return false;
 }
 
+bool Mario::outOfMapCollision()
+{
+	if (position.y >= 17.0f) return true;
+}
+
 void Mario::Reset()
 {
 	position = sf::Vector2f(0, 0);
-	verticalVelocity = 0;
-	horizontalVelocity = 0;
+	velocity = sf::Vector2f(0.0f, 0.0f);
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
@@ -177,4 +204,9 @@ void Mario::Reset()
 int Mario::getPoints()
 {
 	return points;
+}
+
+sf::Vector2f Mario::getPosition()
+{
+	return position;
 }

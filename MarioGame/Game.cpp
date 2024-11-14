@@ -2,105 +2,83 @@
 #include "Map.h"
 #include "Mario.h"
 #include "Background.h"
-#include "Enemy.h"
+#include "EnemyList.h"
 #include "Menu.h"
+#include "UICounter.h"
 #include <vector>
 #include <iostream>
 
 Map map(1.0f); 
 Camera camera(16.0f);
-sf::Music music;
-
+EnemyList enemies;
 Mario mario;
-std::vector<Enemy*> enemies;
 Background background;
-// Prompt for points
-sf::Font font;
-sf::Text prompt("Points: ", font);
-
-// Menu
+UICounter UI;
 Menu menu;
+
+sf::Music music;
 
 void Begin(sf::RenderWindow& window)
 {	
-	// Init map
-	sf::Image image;
-	image.loadFromFile("map3.png");
-	map.Begin(); // Generate and archive map + collisionBox into vector
-
-	// Init position for mario and enemy
 	std::vector<sf::Vector2f> enemiesPosition;
-	map.CreateFromImage(image, mario.position, enemiesPosition); 
+	sf::Vector2f marioPosition;
+
+	// Init map
+	map.Begin();
+	map.CreateFromImage(marioPosition, enemiesPosition); 
 
 	// Init mario
-	mario.Begin();
+	mario.Begin(marioPosition);
 
 	// Init enemy
-	for (int i = 0; i < enemiesPosition.size(); i++) 
-	{
-		Enemy* newEnemy = new Enemy;
-		newEnemy->position = enemiesPosition[i];
-		newEnemy->Begin();
-		enemies.push_back(newEnemy);
-	}
+	enemies.Begin(enemiesPosition);
+	
+	// Init background
+	background.Begin(window, camera.zoomLevel);
+
+	// Init UICounter 
+	UI.Begin();
 
 	// Init music
 	music.openFromFile("./resources/soundEffect/music.ogg");
 	music.setLoop(true);
-	music.play();
-
-	// Init background
-	background.Begin(window, camera.zoomLevel);
-
-	// Init prompt
-	if (!font.loadFromFile("./resources/font/BeVietnamPro-ExtraBold.ttf"))
-		return;
-	prompt.setFillColor(sf::Color::White);
-	prompt.setOutlineColor(sf::Color::Black);
-	prompt.setOutlineThickness(1.0f);
-	prompt.setScale(0.1f, 0.1f);
+	music.play();	
 }
 
 void Update(float deltaTime, bool& isDead)
 {
-	camera.position = mario.position;
-
-	background.Update(mario.position);
-	mario.Update(deltaTime, map);
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		enemies[i]->Update(deltaTime, map, enemies);
-		if (mario.enemyCollison(*enemies[i])) isDead = true;
-	}
-
-	// Erase enemies that have died
-	for (auto it = enemies.begin(); it != enemies.end();)
-	{
-		if (((*it)->getDieStatus() == true) && ((*it)->getDieTime() <= 0))
-		{
-			it = enemies.erase(it);  // Erase the enemy and move iterator to the next element
-		}
-		else
-			++it;  // Move to the next enemy if the current one isn't dead
-	}
+	// Update camera
+	camera.position = mario.getPosition();
+	// Update Mario
+	mario.Update(deltaTime, map, enemies, isDead);
+	// Update enemies
+	enemies.Update(deltaTime, map);
+	// Update background
+	//background.Update(mario.position);
 }
 
 void Render(sf::RenderWindow& window)
 {
 	//background.Draw(window);
 	map.Draw(window);
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		enemies[i]->Draw(window);
-	}
+	enemies.Draw(window);
 	mario.Draw(window);
 }
 
 void RenderUI(sf::RenderWindow& window)
 {
-	prompt.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(2.0f, 6.0f));
-	prompt.setString("Points: " + std::to_string(mario.getPoints()));
-	window.draw(prompt);
+	UI.Update(camera, mario.getPoints());
+	UI.Draw(window);
+}
+
+void BeginMenu(sf::RenderWindow& window)
+{
+	menu.Begin(window);
+}
+
+void RenderMenu(sf::RenderWindow& window)
+{
+	menu.Draw(window);
 }
 
 void Reset()
@@ -108,9 +86,5 @@ void Reset()
 	music.stop();
 	map.Reset();
 	mario.Reset();
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		delete enemies[i];
-	}
-	enemies.clear();
+	enemies.Reset();
 }

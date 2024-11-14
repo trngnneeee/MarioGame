@@ -45,6 +45,12 @@
     <ClCompile Include="FloatingScore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UICounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -75,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FloatingScore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UICounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

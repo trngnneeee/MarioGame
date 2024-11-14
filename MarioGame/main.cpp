@@ -7,16 +7,13 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
 	sf::Clock deltaClock;
 
-	Menu menu;
-	menu.Begin(window);
-
 	window.setFramerateLimit(60);
 
 	GameState gameState = GameState::Menu;
+	BeginMenu(window);
 
 	while (window.isOpen())
 	{
-		// Use deltaTime to make movement and animations frame rate independent, not fix the velocity 
 		float deltaTime = deltaClock.restart().asSeconds();
 		if (deltaTime > 1.f / 30.0f) continue;
 
@@ -25,8 +22,11 @@ int main() {
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameState == GameState::Playing)
-				window.close();
+			if (gameState == GameState::Playing)
+			{
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+					window.close();
+			}
 			if (gameState == GameState::Menu)
 			{
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
@@ -39,7 +39,7 @@ int main() {
 
 		if (gameState == GameState::Menu)
 		{
-			menu.Draw(window);
+			RenderMenu(window);
 		}
 		else if (gameState == GameState::Playing)
 		{
