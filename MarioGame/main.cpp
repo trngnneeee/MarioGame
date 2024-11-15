@@ -43,11 +43,10 @@ int main() {
 		}
 		else if (gameState == GameState::Playing)
 		{
-			bool isDead = false;
+			bool gameOverFlag = false;
 			
-			Update(deltaTime, isDead);
+			Update(deltaTime, gameOverFlag);
 
-			// Setup camera consiquently view to mario
 			window.setView(camera.GetView(window.getSize()));
 			Render(window);
 
@@ -55,8 +54,9 @@ int main() {
 			RenderUI(window);
 
 			window.display();
-			if (isDead)
+			if (gameOverFlag)
 			{
+				HandleDead(deltaTime);
 				Reset();
 				window.setView(window.getDefaultView());
 				gameState = GameState::GameOver;

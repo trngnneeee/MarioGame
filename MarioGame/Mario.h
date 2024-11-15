@@ -29,14 +29,17 @@ private:
 	sf::Vector2f position{};
 	sf::Vector2f previousPos;
 
-	// Overlay
-	sf::RectangleShape overlayRect;
-
 	// Jump sound
 	sf::Music jumpEffect;
 
 	// Box collision
 	sf::FloatRect collisionBox;
+
+	// Dead
+	float deadTimer = 1.5f;
+	bool isDead;
+	sf::Music deadEffect;
+
 public:
 	// Constructor
 	Mario();
@@ -47,6 +50,8 @@ public:
 	void HandleMove(float deltaTime, const Map& map);
 	void HandleHorizontalMove(float deltaTime, const Map& map);
 	void HandleVerticalMove(float deltaTime, const Map& map);
+
+	void HandleDead(float deltaTime);
 
 	void Update(float deltaTime, const Map& map, EnemyList enemies, bool& isDead);
 

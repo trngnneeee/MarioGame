@@ -1,13 +1,14 @@
 #include "Background.h"
+#include <iostream>
 
-void Background::Begin(sf::RenderWindow& window, const float& zoomLevel)
+void Background::Begin(sf::RenderWindow& window, const float& zoomLevel, const Map& map)
 {
-	if (!texture.loadFromFile("./resources/background/background.jpg"))
+	if (!texture.loadFromFile("./resources/background/sky.png"))
 		return;
 	sprite.setTexture(texture);
-	sprite.setOrigin((sf::Vector2f)texture.getSize() / 2.0f);
-	float scaleX = (window.getSize().x / static_cast<float>(texture.getSize().x)) * zoomLevel;
-	float scaleY = (window.getSize().y / static_cast<float>(texture.getSize().y)) * zoomLevel;
+
+	float scaleX = (map.grid.size() / static_cast<float>(texture.getSize().x));
+	float scaleY = (map.grid[0].size() / static_cast<float>(texture.getSize().y));
 	sprite.setScale(scaleX, scaleY);
 }
 

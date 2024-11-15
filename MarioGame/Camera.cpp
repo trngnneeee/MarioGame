@@ -19,7 +19,6 @@ sf::Vector2f Camera::GetViewUISize()
 // Functions
 sf::View Camera::GetView(sf::Vector2u windowSize)
 {
-	// Resize the aspect of the window everytime user resize the window
 	float aspect = (float)windowSize.x / (float)windowSize.y;
 
 	position.x = std::max(12.5f, std::min(position.x, 100.0f - 12.5f)); // keeping view centered within 100 units horizontally

@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(18.0f), gravity(40.0f)
+	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(18.0f), gravity(40.0f), isDead(false)
 {
 }
 
@@ -40,6 +40,9 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 		1.0f / textures[3].getSize().x,
 		1.9f / textures[3].getSize().y
 	);
+
+	// Init dead sound effect
+	deadEffect.openFromFile("./resources/soundEffect/dead.mp3");
 }
 
 void Mario::HandleMove(float deltaTime, const Map& map)
@@ -120,14 +123,37 @@ void Mario::HandleVerticalMove(float deltaTime, const Map& map)
 	}
 }
 
-void Mario::Update(float deltaTime, const Map& map, EnemyList enemies, bool& isDead)
+void Mario::HandleDead(float deltaTime)
 {
+	if (deadTimer > 0)
+	{
+		position.y += 10.0f * deltaTime;
+		deadTimer -= deltaTime;
+	}
+}
+
+void Mario::Update(float deltaTime, const Map& map, EnemyList enemies, bool& gameOverFlag)
+{
+	if (isDead)
+	{
+		deadEffect.play();
+		HandleDead(deltaTime); 
+		if (this->outOfMapCollision())
+		{
+			gameOverFlag = true;
+			return;
+		}
+	}
+
 	HandleMove(deltaTime, map);
 
 	for (int i = 0; i < enemies.getSize(); i++)
 	{
-		if (this->enemyCollison(enemies.getEnemy(i))) isDead = true;
+		if (this->enemyCollison(enemies.getEnemy(i)))
+			isDead = true;
 	}
+
+	if (this->outOfMapCollision()) gameOverFlag = true;
 
 	// Update animation
 	if (!isOnGround)
@@ -174,7 +200,7 @@ bool Mario::enemyCollison(Enemy& enemy)
 		{
 			points += 100;
 			velocity.y = -jumpStrength / 2; // Bounce Mario up slightly
-			enemy.handleDefeat();// Mark enemy as defeated
+			enemy.handleDefeat();
 			return false;
 		}
 		else return true;
@@ -184,7 +210,7 @@ bool Mario::enemyCollison(Enemy& enemy)
 
 bool Mario::outOfMapCollision()
 {
-	if (position.y >= 17.0f) return true;
+	return (position.y >= 18.0f);
 }
 
 void Mario::Reset()
@@ -199,6 +225,7 @@ void Mario::Reset()
 	);
 	runAnimation.Reset();
 	points = 0;
+	isDead = false;
 }
 
 int Mario::getPoints()
