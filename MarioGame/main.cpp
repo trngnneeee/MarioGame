@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "GameState.h"
 #include "Menu.h"
+#include <SFML/Graphics.hpp>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
