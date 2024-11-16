@@ -56,6 +56,7 @@ void Update(float deltaTime, bool& gameOverFlag)
 
 void Render(sf::RenderWindow& window)
 {
+	window.setView(camera.GetView(window.getSize()));
 	background.Draw(window);
 	map.Draw(window);
 	enemies.Draw(window);
@@ -64,6 +65,7 @@ void Render(sf::RenderWindow& window)
 
 void RenderUI(sf::RenderWindow& window)
 {
+	window.setView(camera.GetUIView());
 	UI.Update(camera, mario.getPoints());
 	UI.Draw(window);
 }

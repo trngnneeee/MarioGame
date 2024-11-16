@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map1.png");
+	image.loadFromFile("map3.png");
 
 	// Update texture
 	brickTexture.loadFromFile("./resources/textures/brick.png");

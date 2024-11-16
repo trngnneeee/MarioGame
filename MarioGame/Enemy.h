@@ -49,6 +49,7 @@ public:
 
 	bool mapCollision(const Map& map);
 	bool teamCollision(const Enemy& other);
+	bool outOfMapCollision();
 
 	bool getDieStatus();
 	float getDieTime();

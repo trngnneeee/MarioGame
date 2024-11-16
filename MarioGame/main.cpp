@@ -46,11 +46,9 @@ int main() {
 			bool gameOverFlag = false;
 			
 			Update(deltaTime, gameOverFlag);
-
-			window.setView(camera.GetView(window.getSize()));
+			
 			Render(window);
-
-			window.setView(camera.GetUIView());
+			
 			RenderUI(window);
 
 			window.display();

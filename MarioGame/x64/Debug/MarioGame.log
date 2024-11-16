@@ -1,4 +1,6 @@
-﻿  Enemy.cpp
+﻿  Map.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(32,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(32,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

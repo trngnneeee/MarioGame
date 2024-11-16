@@ -55,6 +55,8 @@ void Enemy::Update(float deltaTime, const Map& map)
 			score = NULL;
 		}
 	}
+
+	if (outOfMapCollision()) isDefeat = true;
 }
 
 void Enemy::handleMove(float deltaTime, const Map& map)
@@ -168,6 +170,11 @@ bool Enemy::mapCollision(const Map& map)
 bool Enemy::teamCollision(const Enemy& other)
 {
 	return (collisionBox.intersects(other.collisionBox) && other.isDefeat == false);
+}
+
+bool Enemy::outOfMapCollision()
+{
+	return (position.y >= 18.0f);
 }
 
 bool Enemy::getDieStatus()
