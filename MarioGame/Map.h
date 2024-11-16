@@ -27,8 +27,9 @@ public:
 
 	// Functions
 	void Begin();
-	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition); // return the spawn position of Mario
-	void Update(sf::Vector2f hiddenBoxPosition);
+	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition);
+	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
+	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 };

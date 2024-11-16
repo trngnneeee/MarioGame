@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false)
+	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), deadTimer(3.0f)
 {
 }
 
@@ -122,9 +122,11 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map)
 
 void Mario::HandleDead(float deltaTime)
 {
+	if (deadTimer == 3.0f)
+		deadEffect.play();
 	if (deadTimer > 0)
 	{
-		position.y += 10.0f * deltaTime;
+		position.y += 5.0f * deltaTime;
 		deadTimer -= deltaTime;
 	}
 }
@@ -133,7 +135,6 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 {
 	if (isDead)
 	{
-		deadEffect.play();
 		HandleDead(deltaTime); 
 		if (this->outOfMapCollision())
 		{
@@ -186,10 +187,10 @@ bool Mario::mapCollision(Map& map)
 				return true;
 			else if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 3))
 			{
-				if (velocity.y < 0)
+				if (velocity.y < 0 && collisionBox.top <= map.collisionBoxList[i][j].top + map.collisionBoxList[i][j].height && collisionBox.top >= map.collisionBoxList[i][j].top)
 				{
 					points += 50;
-					map.Update(sf::Vector2f(i * map.cellSize, j * map.cellSize));
+					map.handleHiddenBoxCollision(sf::Vector2f(i * map.cellSize, j * map.cellSize));
 					return true;
 				}
 				else return true;
@@ -233,6 +234,8 @@ void Mario::Reset()
 	runAnimation.Reset();
 	points = 0;
 	isDead = false;
+	deadTimer = 3.0f;
+	isOnGround = true;
 }
 
 int Mario::getPoints()

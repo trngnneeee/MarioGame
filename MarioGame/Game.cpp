@@ -46,6 +46,8 @@ void Begin(sf::RenderWindow& window)
 
 void Update(float deltaTime, bool& gameOverFlag)
 {
+	// Update map
+	map.Update(deltaTime);
 	// Update camera
 	camera.position = mario.getPosition();
 	// Update Mario

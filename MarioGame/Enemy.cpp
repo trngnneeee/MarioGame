@@ -126,20 +126,6 @@ void Enemy::handleDefeat()
 		score = new FloatingScore(100, position);
 }
 
-//void Enemy::handleTeamCollision(EnemyList enemies)
-//{
-//	for (int i = 0; i < enemies.getSize(); i++)
-//	{
-//		if (*this != enemies.getEnemy(i))
-//		{
-//			collisionBox.left = position.x;
-//			collisionBox.top = position.y;
-//			if (this->teamCollision(enemies.getEnemy(i)))
-//				velocity = -velocity;
-//		}
-//	}
-//}
-
 void Enemy::Draw(sf::RenderWindow& window)
 {
 	if (isDefeat == false)
@@ -200,6 +186,11 @@ void Enemy::setPosition(const sf::Vector2f& position)
 sf::FloatRect& Enemy::getCollisionBox()
 {
 	return collisionBox;
+}
+
+void Enemy::setVelocity()
+{
+	velocity = -velocity;
 }
 
 bool Enemy::operator!=(const Enemy& other)

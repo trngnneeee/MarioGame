@@ -59,5 +59,7 @@ public:
 
 	sf::FloatRect& getCollisionBox();
 
+	void setVelocity();
+
 	bool operator!=(const Enemy& other);
 };

@@ -9,6 +9,7 @@ private:
 public:
 	void Begin(std::vector<sf::Vector2f> enemiesPosition);
 	void Update(const float& deltaTime, const Map& map);
+	void handleTeamCollision();
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 

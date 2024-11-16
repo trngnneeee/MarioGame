@@ -13,10 +13,13 @@ void EnemyList::Begin(std::vector<sf::Vector2f> enemiesPosition)
 
 void EnemyList::Update(const float& deltaTime, const Map& map)
 {
+
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		enemies[i]->Update(deltaTime, map);
 	}
+
+	handleTeamCollision();
 
 	// Erase enemies that have died
 	for (auto it = enemies.begin(); it != enemies.end();)
@@ -25,6 +28,21 @@ void EnemyList::Update(const float& deltaTime, const Map& map)
 			it = enemies.erase(it);  
 		else
 			++it; 
+	}	
+}
+
+void EnemyList::handleTeamCollision()
+{
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		for (int j = i + 1; j < enemies.size(); j++)
+		{
+			if (enemies[i]->teamCollision(*enemies[j]) && enemies[i]->getDieStatus() == false && enemies[j]->getDieStatus() == false)
+			{
+				enemies[i]->setVelocity();
+				enemies[j]->setVelocity();
+			}
+		}
 	}
 }
 

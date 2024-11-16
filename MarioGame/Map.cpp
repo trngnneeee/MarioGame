@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map3.png");
+	image.loadFromFile("map1.png");
 
 	// Update texture
 	brickTexture.loadFromFile("./resources/textures/brick.png");
@@ -30,10 +30,8 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 		for (size_t j = 0; j < grid[i].size(); j++)
 		{
 			sf::Color color = image.getPixel(i, j);
-			if (color == sf::Color::Black) // if the pixel of the map is Black, means there is a brick -> set it to 1
-			{
+			if (color == sf::Color::Black)
 				grid[i][j] = 1;
-			}
 			else if (color == sf::Color::Blue)
 				grid[i][j] = 2;
 			else if (color == sf::Color::Yellow)
@@ -41,13 +39,9 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			else if (color == sf::Color::Green)
 				grid[i][j] = 4;
 			else if (color == sf::Color::Magenta)
-			{
 				enemiesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
-			}
 			else if (color == sf::Color::Red)
-			{
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
-			}
 		}
 	}
 
@@ -68,13 +62,17 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 	}
 }
 
-void Map::Update(sf::Vector2f hiddenBoxPosition)
-{	
+void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
+{
 	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
 	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
-	
-	grid[x][y] = 4;
 
+	grid[x][y] = 4;
+}
+
+void Map::Update(float deltaTime)
+{	
+	
 }
 
 void Map::Draw(sf::RenderWindow& window){
@@ -109,6 +107,7 @@ void Map::Draw(sf::RenderWindow& window){
 			window.draw(sprite);
 		}
 	}
+	
 }
 
 void Map::Reset()

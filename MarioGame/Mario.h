@@ -36,7 +36,7 @@ private:
 	sf::FloatRect collisionBox;
 
 	// Dead
-	float deadTimer = 1.5f;
+	float deadTimer;
 	bool isDead;
 	sf::Music deadEffect;
 
