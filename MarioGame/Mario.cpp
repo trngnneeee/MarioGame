@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(18.0f), gravity(40.0f), isDead(false)
+	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false)
 {
 }
 

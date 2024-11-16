@@ -8,7 +8,7 @@
 #include <vector>
 
 Map map(1.0f); 
-Camera camera(50.0f);
+Camera camera(16.0f);
 EnemyList enemies;
 Mario mario;
 Background background;

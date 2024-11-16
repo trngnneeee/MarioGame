@@ -80,6 +80,8 @@ void Enemy::handleHorizontalMove(float deltaTime, const Map& map)
 
 void Enemy::handleVerticalMove(float deltaTime, const Map& map)
 {
+	if (isDefeat) return;
+	
 	velocity.y += gravity * deltaTime;
 
 	sf::Vector2f newPosition = position;
