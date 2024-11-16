@@ -17,7 +17,8 @@ private:
 	Animation runAnimation;
 
 	// Horizontal velocity
-	float velocity;
+	sf::Vector2f velocity;
+	float gravity;
 
 	// Defeat status
 	bool isDefeat;
@@ -38,6 +39,9 @@ public:
 
 	void Update(float deltaTime, const Map&);
 	void handleMove(float deltaTime, const Map& map);
+	void handleHorizontalMove(float deltaTime, const Map& map);
+	void handleVerticalMove(float deltaTime, const Map& map);
+
 	void UpdateTextures(float deltaTime);
 	void handleDefeat();
 

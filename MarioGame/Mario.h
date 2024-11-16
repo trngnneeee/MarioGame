@@ -47,18 +47,18 @@ public:
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
 
-	void HandleMove(float deltaTime, const Map& map);
-	void HandleHorizontalMove(float deltaTime, const Map& map);
-	void HandleVerticalMove(float deltaTime, const Map& map);
+	void HandleMove(float deltaTime, Map& map);
+	void HandleHorizontalMove(float deltaTime, Map& map);
+	void HandleVerticalMove(float deltaTime, Map& map);
 
 	void HandleDead(float deltaTime);
 
-	void Update(float deltaTime, const Map& map, EnemyList enemies, bool& isDead);
+	void Update(float deltaTime, Map& map, EnemyList enemies, bool& isDead);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);
 
-	bool mapCollision(Map map);
+	bool mapCollision(Map& map);
 	bool enemyCollison(Enemy& enemy);
 	bool outOfMapCollision();
 

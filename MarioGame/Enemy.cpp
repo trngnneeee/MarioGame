@@ -1,8 +1,11 @@
 #include "Enemy.h"
+#include <iostream>
 
 Enemy::Enemy()
-	:runAnimation(0.2f), velocity(3.0f), isDefeat(false), dieTime(3.0f)
+	:runAnimation(0.2f), isDefeat(false), dieTime(3.0f), gravity(5.0f)
 {	
+	velocity.x = 3.0f;
+	velocity.y = 0.0f;
 }
 
 Enemy::~Enemy()
@@ -56,14 +59,45 @@ void Enemy::Update(float deltaTime, const Map& map)
 
 void Enemy::handleMove(float deltaTime, const Map& map)
 {
+	handleHorizontalMove(deltaTime, map);
+	handleVerticalMove(deltaTime, map);
+}
+
+void Enemy::handleHorizontalMove(float deltaTime, const Map& map)
+{
 	sf::Vector2f newPosition = position;
-	newPosition.x -= velocity * deltaTime;
+	newPosition.x -= velocity.x * deltaTime;
+
 	collisionBox.left = newPosition.x;
 	collisionBox.top = position.y;
-	if (!mapCollision(map)) {
+
+	if (!mapCollision(map))
 		position.x = newPosition.x;
+	else
+		velocity.x = -velocity.x;
+	collisionBox.left = position.x;
+}
+
+void Enemy::handleVerticalMove(float deltaTime, const Map& map)
+{
+	velocity.y += gravity * deltaTime;
+
+	sf::Vector2f newPosition = position;
+	newPosition.y += velocity.y * deltaTime;
+
+	collisionBox.left = position.x;
+	collisionBox.top = newPosition.y;
+
+	if (!mapCollision(map)) position.y = newPosition.y;
+	else
+	{
+		if (velocity.y > 0) { // Collision falling down
+			position.y = std::floor(newPosition.y); // Align to the ground
+		}
+		velocity.y = 0; // Reset vertical velocity
 	}
-	else velocity = -velocity;
+	collisionBox.left = position.x;
+	collisionBox.top = position.y;
 }
 
 void Enemy::UpdateTextures(float deltaTime)
@@ -81,7 +115,8 @@ void Enemy::handleDefeat()
 {
 	isDefeat = true;
 	sprite.setScale(1.0f / texture[0].getSize().x, 0.25f / texture[0].getSize().y);
-	velocity = 0;
+	velocity.x = 0;
+	velocity.y = 0;
 
 	if (!score)
 		score = new FloatingScore(100, position);
@@ -121,7 +156,7 @@ bool Enemy::mapCollision(const Map& map)
 	{
 		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4))
+			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4 || map.grid[i][j] == 3))
 				return true;
 		}
 	}

@@ -6,11 +6,10 @@ Map::Map(float cellSize)
 	:cellSize(cellSize), grid()
 {
 }
-
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map3.png");
+	image.loadFromFile("map.png");
 
 	// Update texture
 	brickTexture.loadFromFile("./resources/textures/brick.png");
@@ -69,8 +68,13 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 	}
 }
 
-void Map::Update()
+void Map::Update(sf::Vector2f hiddenBoxPosition)
 {	
+	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
+	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
+	
+	grid[x][y] = 4;
+
 }
 
 void Map::Draw(sf::RenderWindow& window){

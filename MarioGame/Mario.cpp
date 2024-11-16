@@ -45,7 +45,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	deadEffect.openFromFile("./resources/soundEffect/dead.mp3");
 }
 
-void Mario::HandleMove(float deltaTime, const Map& map)
+void Mario::HandleMove(float deltaTime, Map& map)
 {
 	// Update previous position
 	previousPos = position;
@@ -67,11 +67,8 @@ void Mario::HandleMove(float deltaTime, const Map& map)
 	HandleVerticalMove(deltaTime, map);
 }
 
-void Mario::HandleHorizontalMove(float deltaTime, const Map& map)
+void Mario::HandleHorizontalMove(float deltaTime, Map& map)
 {
-	// Update position of collision box
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
@@ -96,7 +93,7 @@ void Mario::HandleHorizontalMove(float deltaTime, const Map& map)
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::HandleVerticalMove(float deltaTime, const Map& map)
+void Mario::HandleVerticalMove(float deltaTime, Map& map)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -132,7 +129,7 @@ void Mario::HandleDead(float deltaTime)
 	}
 }
 
-void Mario::Update(float deltaTime, const Map& map, EnemyList enemies, bool& gameOverFlag)
+void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverFlag)
 {
 	if (isDead)
 	{
@@ -179,14 +176,24 @@ void Mario::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
-bool Mario::mapCollision(Map map)
+bool Mario::mapCollision(Map& map)
 {
 	for (int i = 0; i < map.collisionBoxList.size(); i++)
 	{
 		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4 || map.grid[i][j] == 3))
+			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4))
 				return true;
+			else if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 3))
+			{
+				if (velocity.y < 0)
+				{
+					points += 50;
+					map.Update(sf::Vector2f(i * map.cellSize, j * map.cellSize));
+					return true;
+				}
+				else return true;
+			}
 		}
 	}
 	return false; 
