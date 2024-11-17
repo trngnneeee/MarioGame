@@ -12,10 +12,11 @@ void Map::Begin() {
 	image.loadFromFile("map1.png");
 
 	// Update texture
+	stoneTexture.loadFromFile("./resources/textures/stone.png");
 	brickTexture.loadFromFile("./resources/textures/brick.png");
-	blockTexture.loadFromFile("./resources/textures/block.png");
 	hiddenBox.loadFromFile("./resources/textures/hiddenbox.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
+	noneTexture.loadFromFile("./resources/textures/block.png");
 }
 
 void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
@@ -62,12 +63,12 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 	}
 }
 
-void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
+void Map::handleBrickCollision(sf::Vector2f hiddenBoxPosition)
 {
 	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
 	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
 
-	grid[x][y] = 4;
+	grid[x][y] = 0;
 
 	FloatingScore* newScore = new FloatingScore(50, hiddenBoxPosition);
 	score.push_back(newScore);
@@ -101,16 +102,16 @@ void Map::Draw(sf::RenderWindow& window){
 			// Determine the texture and render block type
 			switch (grid[x][y]) {
 			case 1:
-				texture = &brickTexture;
+				texture = &stoneTexture;
 				break;
 			case 2:
 				texture = &copperTexture;
 				break;
 			case 3:
-				texture = &hiddenBox;
+				texture = &brickTexture;
 				break;
 			case 4:
-				texture = &blockTexture;
+				texture = &noneTexture;
 				break;
 			default:
 				continue;

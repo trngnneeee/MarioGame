@@ -13,7 +13,7 @@ private:
 
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture brickTexture, blockTexture, hiddenBox, copperTexture;
+	sf::Texture stoneTexture, brickTexture, hiddenBox, copperTexture, noneTexture;
 
 	// Image
 	sf::Image image;
@@ -29,7 +29,7 @@ public:
 	// Functions
 	void Begin();
 	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition);
-	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
+	void handleBrickCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();

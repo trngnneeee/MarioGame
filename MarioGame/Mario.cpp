@@ -25,6 +25,9 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 		return;
 	if (!textures[4].loadFromFile("./resources/textures/jump.png"))
 		return;
+	if (!deadTexture.loadFromFile("./resources/textures/dead.png"))
+		return;
+
 	runAnimation.addFrame(Frame(&textures[0], 0.1f));
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 	runAnimation.addFrame(Frame(&textures[2], 0.3f));
@@ -46,7 +49,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 }
 
 void Mario::HandleMove(float deltaTime, Map& map)
-{
+{	
 	// Update previous position
 	previousPos = position;
 
@@ -126,12 +129,12 @@ void Mario::HandleDead(float deltaTime)
 		deadEffect.play();
 	if (deadTimer > 0)
 	{
-		position.y += 5.0f * deltaTime;
+		position.y += 10.0f * deltaTime;
 		deadTimer -= deltaTime;
 	}
 }
 
-void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverFlag)
+void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverFlag, sf::Music& music)
 {
 	if (isDead)
 	{
@@ -147,9 +150,15 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 
 	for (int i = 0; i < enemies.getSize(); i++)
 	{
-		if (this->enemyCollison(enemies.getEnemy(i)))
+		if (isDead == false && this->enemyCollison(enemies.getEnemy(i)))
+		{
+			music.stop();
+			position.y -= 2.0f;
 			isDead = true;
+			return;
+		}
 	}
+
 
 	if (this->outOfMapCollision()) gameOverFlag = true;
 
@@ -158,6 +167,8 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 		sprite.setTexture(textures[4]);
 	else if (velocity.x != 0)
 		sprite.setTexture(*runAnimation.update(deltaTime));
+	else if (isDead == true)
+		sprite.setTexture(deadTexture);
 	else sprite.setTexture(textures[3]);
 }
 
@@ -192,7 +203,7 @@ bool Mario::mapCollision(Map& map)
 				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
 				{
 					points += 50;
-					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+					map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 					return true;
 				}
 				else return true;

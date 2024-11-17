@@ -39,6 +39,7 @@ private:
 	float deadTimer;
 	bool isDead;
 	sf::Music deadEffect;
+	sf::Texture deadTexture;
 
 public:
 	// Constructor
@@ -53,7 +54,7 @@ public:
 
 	void HandleDead(float deltaTime);
 
-	void Update(float deltaTime, Map& map, EnemyList enemies, bool& isDead);
+	void Update(float deltaTime, Map& map, EnemyList enemies, bool& isDead, sf::Music& music);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);

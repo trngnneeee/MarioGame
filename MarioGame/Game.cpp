@@ -51,7 +51,7 @@ void Update(float deltaTime, bool& gameOverFlag)
 	// Update camera
 	camera.position = mario.getPosition();
 	// Update Mario
-	mario.Update(deltaTime, map, enemies, gameOverFlag);
+	mario.Update(deltaTime, map, enemies, gameOverFlag, music);
 	// Update enemies
 	enemies.Update(deltaTime, map);
 }
@@ -89,7 +89,7 @@ void HandleDead(float deltaTime)
 
 void Reset()
 {
-	music.stop();
+	//music.stop();
 	map.Reset();
 	mario.Reset();
 	enemies.Reset();
