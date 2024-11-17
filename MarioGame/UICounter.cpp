@@ -3,7 +3,7 @@
 
 void UICounter::Begin()
 {
-	if (!font.loadFromFile("./resources/font/BeVietnamPro-ExtraBold.ttf"))
+	if (!font.loadFromFile("./resources/font/SuperMario256.ttf"))
 		return;
 	prompt.setFillColor(sf::Color::White);
 	prompt.setOutlineColor(sf::Color::Black);
