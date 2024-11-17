@@ -10,13 +10,17 @@ class UICounter
 {
 private:
 	sf::Font font;
-	sf::Text prompt;
-	sf::Text prompt2;
-	sf::Text prompt3;
-	sf::Text prompt4;
+	sf::Text overallPoint;
 
-	sf::Texture textures;
-	sf::Sprite sprite;
+	sf::Text marioLife;
+	sf::Texture marioTexture;
+	sf::Sprite marioSprite;
+
+	sf::Text timer;
+	sf::Text worldNum;
+
+	sf::Texture coinTexture;
+	sf::Sprite coinSprite;
 	sf::Text coinCounter;
 public:
 	UICounter();

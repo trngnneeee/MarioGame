@@ -17,11 +17,11 @@ sf::Vector2f Camera::GetViewUISize()
 }
 
 // Functions
-sf::View Camera::GetView(sf::Vector2u windowSize)
+sf::View Camera::GetView(sf::Vector2u windowSize, const float& mapSize)
 {
 	float aspect = (float)windowSize.x / (float)windowSize.y;
-
-	position.x = std::max(12.5f, std::min(position.x, 800.0f - 12.5f)); // keeping view centered within 100 units horizontally
+	float viewWidth = viewSize.x;
+	position.x = std::max(viewWidth / 2.0f, std::min(position.x, mapSize - viewWidth / 2.0f));
 
 	position.y = 8.0f;
 

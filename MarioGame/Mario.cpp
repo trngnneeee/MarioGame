@@ -40,8 +40,8 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,       
-		1.0f / textures[3].getSize().x,
-		1.0f / textures[3].getSize().y
+		0.8f / textures[3].getSize().x,
+		0.8f / textures[3].getSize().y
 	);
 }
 
@@ -124,7 +124,7 @@ void Mario::HandleDead(float deltaTime)
 {
 	if (deadTimer > 0)
 	{
-		position.y += 10.0f * deltaTime;
+		position.y += 8.0f * deltaTime;
 		deadTimer -= deltaTime;
 	}
 }
@@ -173,7 +173,7 @@ void Mario::updateFlip()
 		sprite.setOrigin(0, 0);  // Left-center for right-facing
 	else
 		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
-	sprite.setScale(sf::Vector2f(1.0f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.0f / textures[3].getSize().y));
+	sprite.setScale(sf::Vector2f(0.8f / textures[3].getSize().x * (facingRight ? 1 : -1), 0.8f / textures[3].getSize().y));
 }
 
 void Mario::Draw(sf::RenderWindow& window)
@@ -226,7 +226,7 @@ bool Mario::enemyCollison(Enemy& enemy)
 
 bool Mario::outOfMapCollision()
 {
-	return (position.y >= 17.0f);
+	return (position.y > 16.0f);
 }
 
 void Mario::setPoints(const int& n)

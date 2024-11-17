@@ -86,7 +86,7 @@ void Update(float deltaTime, bool& gameOverFlag)
 
 void Render(sf::RenderWindow& window)
 {
-	window.setView(camera.GetView(window.getSize()));
+	window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 	background.Draw(window);
 	map.Draw(window);
 	enemies.Draw(window);

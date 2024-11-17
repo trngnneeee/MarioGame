@@ -13,7 +13,7 @@ public:
 	Camera(float zoomLevel = 1.0f);
 
 	// Function
-	sf::View GetView(sf::Vector2u windowSize);
+	sf::View GetView(sf::Vector2u windowSize, const float& mapSize);
 	sf::View GetUIView();
 
 	sf::Vector2f GetViewSize();
