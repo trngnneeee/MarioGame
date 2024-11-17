@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(10.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), deadTimer(3.0f)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), deadTimer(1.0f), life(3)
 {
 }
 
@@ -41,11 +41,8 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 		position.x,
 		position.y,       
 		1.0f / textures[3].getSize().x,
-		1.9f / textures[3].getSize().y
+		1.0f / textures[3].getSize().y
 	);
-
-	// Init dead sound effect
-	deadEffect.openFromFile("./resources/soundEffect/dead.mp3");
 }
 
 void Mario::HandleMove(float deltaTime, Map& map)
@@ -125,8 +122,6 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map)
 
 void Mario::HandleDead(float deltaTime)
 {
-	if (deadTimer == 3.0f)
-		deadEffect.play();
 	if (deadTimer > 0)
 	{
 		position.y += 10.0f * deltaTime;
@@ -141,6 +136,7 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 		HandleDead(deltaTime); 
 		if (this->outOfMapCollision())
 		{
+			life--;
 			gameOverFlag = true;
 			return;
 		}
@@ -158,7 +154,6 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 			return;
 		}
 	}
-
 
 	if (this->outOfMapCollision()) gameOverFlag = true;
 
@@ -178,7 +173,7 @@ void Mario::updateFlip()
 		sprite.setOrigin(0, 0);  // Left-center for right-facing
 	else
 		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
-	sprite.setScale(sf::Vector2f(0.7f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.9f / textures[3].getSize().y));
+	sprite.setScale(sf::Vector2f(1.0f / textures[3].getSize().x * (facingRight ? 1 : -1), 1.0f / textures[3].getSize().y));
 }
 
 void Mario::Draw(sf::RenderWindow& window)
@@ -231,7 +226,22 @@ bool Mario::enemyCollison(Enemy& enemy)
 
 bool Mario::outOfMapCollision()
 {
-	return (position.y >= 18.0f);
+	return (position.y >= 17.0f);
+}
+
+void Mario::setPoints(const int& n)
+{
+	points = n;
+}
+
+int Mario::getLife()
+{
+	return life;
+}
+
+void Mario::setLife(const int& n)
+{
+	life = n;
 }
 
 void Mario::Reset()
@@ -245,7 +255,6 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
-	points = 0;
 	isDead = false;
 	deadTimer = 3.0f;
 	isOnGround = true;

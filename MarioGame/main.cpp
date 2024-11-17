@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "GameState.h"
 #include "Menu.h"
+#include <iostream>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
@@ -49,19 +50,29 @@ int main() {
 			
 			Render(window);
 			
-			RenderUI(window);
+			RenderUI(window, deltaTime);
 
 			window.display();
 			if (gameOverFlag)
 			{
 				HandleDead(deltaTime);
 				Reset();
-				window.setView(window.getDefaultView());
-				gameState = GameState::GameOver;
+				if (isEnd())
+				{
+					gameState = GameState::GameOver;
+					handleEnd();
+					Reset();
+				}
+				else
+				{
+					gameState = GameState::Playing;
+					Begin(window);
+				}
 			}
 		}
 		else if (gameState == GameState::GameOver)
 		{
+			window.setView(window.getDefaultView());
 			gameState = GameState::Menu;
 		}
 

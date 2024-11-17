@@ -23,8 +23,7 @@ sf::View Camera::GetView(sf::Vector2u windowSize)
 
 	position.x = std::max(12.5f, std::min(position.x, 800.0f - 12.5f)); // keeping view centered within 100 units horizontally
 
-	// Set a fixed vertical position within the height of the map
-	position.y = std::min(8.0f, std::max(8.0f, 8.0f)); // Clamping vertically for a fixed view on a 16-unit high map
+	position.y = 8.0f;
 
 	if (aspect < 1.0f)
 		viewSize = sf::Vector2f(zoomLevel, zoomLevel / aspect);

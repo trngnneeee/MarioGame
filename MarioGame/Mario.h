@@ -38,9 +38,10 @@ private:
 	// Dead
 	float deadTimer;
 	bool isDead;
-	sf::Music deadEffect;
 	sf::Texture deadTexture;
 
+	// Life
+	int life;
 public:
 	// Constructor
 	Mario();
@@ -66,5 +67,10 @@ public:
 	void Reset();
 
 	int getPoints();
+	void setPoints(const int& n);
+
 	sf::Vector2f getPosition();
+
+	int getLife();
+	void setLife(const int& n);
 };

@@ -6,6 +6,7 @@
 #include "UICounter.h"
 #include "Game.h"
 #include <vector>
+#include <iostream>
 
 Map map(1.0f); 
 Camera camera(16.0f);
@@ -16,6 +17,10 @@ UICounter UI;
 Menu menu;
 
 sf::Music music;
+sf::Music deadMusic;
+
+float timeAccumulator;
+int gameTime;
 
 void Begin(sf::RenderWindow& window)
 {	
@@ -40,8 +45,18 @@ void Begin(sf::RenderWindow& window)
 
 	// Init music
 	music.openFromFile("./resources/soundEffect/music.ogg");
+	deadMusic.openFromFile("./resources/soundEffect/dead.mp3");
 	music.setLoop(true);
 	music.play();	
+
+	// Init time
+	gameTime = 300;
+	timeAccumulator = 0;
+}
+
+void BeginMenu(sf::RenderWindow& window)
+{
+	menu.Begin(window);
 }
 
 void Update(float deltaTime, bool& gameOverFlag)
@@ -54,6 +69,19 @@ void Update(float deltaTime, bool& gameOverFlag)
 	mario.Update(deltaTime, map, enemies, gameOverFlag, music);
 	// Update enemies
 	enemies.Update(deltaTime, map);
+	// Update time
+	timeAccumulator += deltaTime;
+	while (timeAccumulator >= 1.0f)
+	{
+		gameTime--;              
+		timeAccumulator -= 1.0f;
+		if (gameTime < 0)
+		{
+			gameTime = 0;
+			mario.setLife(mario.getLife() - 1);
+			gameOverFlag = true;
+		}
+	}
 }
 
 void Render(sf::RenderWindow& window)
@@ -65,16 +93,12 @@ void Render(sf::RenderWindow& window)
 	mario.Draw(window);
 }
 
-void RenderUI(sf::RenderWindow& window)
+void RenderUI(sf::RenderWindow& window, float deltaTime)
 {
 	window.setView(camera.GetUIView());
-	UI.Update(camera, mario.getPoints());
+	int displayedTime = static_cast<int>(std::ceil(gameTime)); // Round up for display
+	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), displayedTime);
 	UI.Draw(window);
-}
-
-void BeginMenu(sf::RenderWindow& window)
-{
-	menu.Begin(window);
 }
 
 void RenderMenu(sf::RenderWindow& window)
@@ -87,9 +111,21 @@ void HandleDead(float deltaTime)
 	mario.HandleDead(deltaTime);
 }
 
+bool isEnd()
+{
+	return mario.getLife() <= 0;
+}
+
+void handleEnd()
+{
+	music.stop();
+	deadMusic.play();
+	mario.setLife(3);
+	mario.setPoints(0);
+}
+
 void Reset()
 {
-	//music.stop();
 	map.Reset();
 	mario.Reset();
 	enemies.Reset();

@@ -3,7 +3,7 @@
 FloatingScore::FloatingScore(const int& points, sf::Vector2f startPosition)
 	: points(points), position(startPosition), timer(1.0f)
 {
-	if (!font.loadFromFile("./resources/font/BeVietnamPro-ExtraBold.ttf"))
+	if (!font.loadFromFile("./resources/font/SuperMario256.ttf"))
 		return;
 	text.setFont(font);
 	text.setString(std::to_string(points));
