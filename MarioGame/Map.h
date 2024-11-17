@@ -7,22 +7,23 @@
 class Map
 {
 private:
+	// Cellsize
+	float cellSize;
+	std::vector<std::vector<int>> grid;
+
 	// Sprite, Texture
 	sf::Sprite sprite;
 	sf::Texture brickTexture, blockTexture, hiddenBox, copperTexture;
 
-	// Overlay
-	sf::RectangleShape overlayRect;
-
 	// Image
 	sf::Image image;
-public:
+
 	// Collision box
 	std::vector<std::vector<sf::FloatRect>> collisionBoxList;
 
-	// Attribute
-	float cellSize;
-	std::vector<std::vector<int>> grid;
+	// Score
+	std::vector<FloatingScore*> score;
+public:
 	Map(float cellSize = 32.0f);
 
 	// Functions
@@ -32,5 +33,9 @@ public:
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
+
+	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;
+	float getCellSize();
+	const std::vector<std::vector<int>>& getGrid() const;
 };
 

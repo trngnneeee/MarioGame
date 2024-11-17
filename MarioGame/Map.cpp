@@ -68,11 +68,27 @@ void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
 	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
 
 	grid[x][y] = 4;
+
+	FloatingScore* newScore = new FloatingScore(50, hiddenBoxPosition);
+	score.push_back(newScore);
 }
 
 void Map::Update(float deltaTime)
 {	
-	
+	for (int i = 0; i < score.size();)
+	{
+		if (score[i])
+		{
+			score[i]->Update(deltaTime);
+			if (score[i]->isTimeout())
+			{
+				delete score[i];
+				score.erase(score.begin() + i);
+				continue;
+			}
+		}
+		i++;
+	}
 }
 
 void Map::Draw(sf::RenderWindow& window){
@@ -107,11 +123,35 @@ void Map::Draw(sf::RenderWindow& window){
 			window.draw(sprite);
 		}
 	}
-	
+	for (int i = 0; i < score.size(); i++)
+	{
+		if (score[i])
+			score[i]->Draw(window);
+	}
 }
 
 void Map::Reset()
 {
 	grid.clear();
 	collisionBoxList.clear();
+	for (int i = 0; i < score.size(); i++)
+	{
+		delete score[i];
+	}
+	score.clear();
+}
+
+const std::vector<std::vector<sf::FloatRect>>& Map::getCollisionBoxList() const
+{
+	return collisionBoxList;
+}
+
+float Map::getCellSize()
+{
+	return cellSize;
+}
+
+const std::vector<std::vector<int>>& Map::getGrid() const
+{
+	return grid;
 }

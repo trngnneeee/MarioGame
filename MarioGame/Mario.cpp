@@ -179,18 +179,20 @@ void Mario::Draw(sf::RenderWindow& window)
 
 bool Mario::mapCollision(Map& map)
 {
-	for (int i = 0; i < map.collisionBoxList.size(); i++)
+	std::vector<std::vector<int>> grid = map.getGrid();
+
+	for (int i = 0; i < map.getCollisionBoxList().size(); i++)
 	{
-		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
+		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 4))
 				return true;
-			else if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 3))
+			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 3))
 			{
-				if (velocity.y < 0 && collisionBox.top <= map.collisionBoxList[i][j].top + map.collisionBoxList[i][j].height && collisionBox.top >= map.collisionBoxList[i][j].top)
+				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
 				{
 					points += 50;
-					map.handleHiddenBoxCollision(sf::Vector2f(i * map.cellSize, j * map.cellSize));
+					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 					return true;
 				}
 				else return true;

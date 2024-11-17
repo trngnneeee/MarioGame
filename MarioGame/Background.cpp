@@ -7,8 +7,10 @@ void Background::Begin(sf::RenderWindow& window, const float& zoomLevel, const M
 		return;
 	sprite.setTexture(texture);
 
-	float scaleX = (map.grid.size() / static_cast<float>(texture.getSize().x));
-	float scaleY = (map.grid[0].size() / static_cast<float>(texture.getSize().y));
+	std::vector<std::vector<int>> grid = map.getGrid();
+
+	float scaleX = (grid.size() / static_cast<float>(texture.getSize().x));
+	float scaleY = (grid[0].size() / static_cast<float>(texture.getSize().y));
 	sprite.setScale(scaleX, scaleY);
 }
 

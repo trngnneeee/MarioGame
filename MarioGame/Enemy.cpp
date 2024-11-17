@@ -142,11 +142,12 @@ void Enemy::Draw(sf::RenderWindow& window)
 
 bool Enemy::mapCollision(const Map& map)
 {
-	for (int i = 0; i < map.collisionBoxList.size(); i++)
+	std::vector<std::vector<int>> grid = map.getGrid();
+	for (int i = 0; i < map.getCollisionBoxList().size(); i++)
 	{
-		for (int j = 0; j < map.collisionBoxList[i].size(); j++)
+		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.collisionBoxList[i][j]) && (map.grid[i][j] == 1 || map.grid[i][j] == 2 || map.grid[i][j] == 4 || map.grid[i][j] == 3))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 4 || grid[i][j] == 3))
 				return true;
 		}
 	}
