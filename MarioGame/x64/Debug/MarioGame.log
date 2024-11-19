@@ -1,9 +1,42 @@
-﻿  Mario.cpp
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(175,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(175,41): warning C4244:         with
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(175,41): warning C4244:         [
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(175,41): warning C4244:             T=unsigned int
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(175,41): warning C4244:         ]
-  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+﻿  Animation.cpp
+  Background.cpp
+  Camera.cpp
+  Enemy.cpp
+  EnemyList.cpp
+D:\21126089(2)\OOP\MarioProject\MarioGame\EnemyList.cpp(68,21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  FloatingScore.cpp
+  Game.cpp
+  Map.cpp
+D:\21126089(2)\OOP\MarioProject\MarioGame\Map.cpp(33,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Map.cpp(33,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+  Mario.cpp
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(175,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(175,41): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(175,41): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(175,41): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(175,41): warning C4244:         ]
+  Menu.cpp
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(22,103): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(22,103): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(22,103): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(22,103): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(22,103): warning C4244:         ]
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(27,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(27,105): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(27,105): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(27,105): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(27,105): warning C4244:         ]
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(32,101): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(32,101): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(32,101): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(32,101): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(32,101): warning C4244:         ]
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(43,109): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(43,109): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(43,109): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(43,109): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Menu.cpp(43,109): warning C4244:         ]
+  UICounter.cpp
+  Generating Code...
+  MarioGame.vcxproj -> D:\21126089(2)\OOP\MarioProject\x64\Debug\MarioGame.exe
