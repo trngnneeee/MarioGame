@@ -38,45 +38,28 @@ int main() {
 			}			
 		}
 
+		window.clear();
+
 		if (gameState == GameState::Menu)
 		{
 			RenderMenu(window);
 		}
 		else if (gameState == GameState::Playing)
-		{
-			bool gameOverFlag = false;
-			
-			Update(deltaTime, gameOverFlag);
+		{			
+			Update(deltaTime, gameState, window);
 			
 			Render(window);
 			
 			RenderUI(window, deltaTime);
 
 			window.display();
-			if (gameOverFlag)
-			{
-				HandleDead(deltaTime);
-				Reset();
-				if (isEnd())
-				{
-					gameState = GameState::GameOver;
-					handleEnd();
-					Reset();
-				}
-				else
-				{
-					gameState = GameState::Playing;
-					Begin(window);
-				}
-			}
 		}
 		else if (gameState == GameState::GameOver)
 		{
 			window.setView(window.getDefaultView());
+			handleGameOver();
 			gameState = GameState::Menu;
 		}
-
-		window.clear();
 	}
 	return 0;
 }

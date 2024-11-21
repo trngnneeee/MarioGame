@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "Map.h"
 #include "Animation.h"
-#include "Enemy.h"
-#include "EnemyList.h"
+#include "Goombas.h"
+#include "Koopa.h"
 
 class Mario
 {
@@ -36,9 +36,11 @@ private:
 	sf::FloatRect collisionBox;
 
 	// Dead
-	float deadTimer;
 	bool isDead;
+	float deadTimer;
 	sf::Texture deadTexture;
+	float v;
+	float tmpGravity;
 
 	// Life
 	int life;
@@ -52,22 +54,27 @@ public:
 	void HandleMove(float deltaTime, Map& map);
 	void HandleHorizontalMove(float deltaTime, Map& map);
 	void HandleVerticalMove(float deltaTime, Map& map);
-
-	void HandleDead(float deltaTime);
-
-	void Update(float deltaTime, Map& map, EnemyList enemies, bool& isDead, sf::Music& music);
+	
+	void Update(float deltaTime, Map& map);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);
 
 	bool mapCollision(Map& map);
-	bool enemyCollison(Enemy& enemy);
 	bool outOfMapCollision();
+	bool goombasCollision(Goombas& goombas);
+	bool koopaCollision(Koopa& koopa);
 
 	void Reset();
 
+	// Getter/Setter
 	int getPoints();
 	void setPoints(const int& n);
+
+	bool getDeadStatus();
+	void setDeadStatus(const bool& value);
+
+	float getDeadTimer();
 
 	sf::Vector2f getPosition();
 

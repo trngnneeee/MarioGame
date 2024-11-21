@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "EnityColor.h"
 #include <iostream>
 
 // Constructor
@@ -9,17 +10,17 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map1.png");
+	image.loadFromFile("map2.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
 	brickTexture.loadFromFile("./resources/textures/brick.png");
 	hiddenBox.loadFromFile("./resources/textures/hiddenbox.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
-	noneTexture.loadFromFile("./resources/textures/block.png");
+	useBlock.loadFromFile("./resources/textures/block.png");
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
+void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -31,18 +32,50 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 		for (size_t j = 0; j < grid[i].size(); j++)
 		{
 			sf::Color color = image.getPixel(i, j);
-			if (color == sf::Color::Black)
+			EntityType entityType = getEntityTypeFromColor(color);
+			switch (entityType)
+			{
+			case EntityType::Stone:
+			{
 				grid[i][j] = 1;
-			else if (color == sf::Color::Blue)
+				break;
+			}
+			case EntityType::Copper:
+			{
 				grid[i][j] = 2;
-			else if (color == sf::Color::Yellow)
+				break;
+			}
+			case EntityType::Brick:
+			{
 				grid[i][j] = 3;
-			else if (color == sf::Color::Green)
+				break;
+			}
+			case EntityType::HiddenBox:
+			{
 				grid[i][j] = 4;
-			else if (color == sf::Color::Magenta)
-				enemiesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
-			else if (color == sf::Color::Red)
+				break;
+			}
+			case EntityType::useBlock:
+			{
+				grid[i][j] = 5;
+				break;
+			}
+			case EntityType::Goomba:
+			{
+				goombasPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+				break;
+			}
+			case EntityType::Koopa:
+			{
+				koopaPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+				break;
+			}
+			case EntityType::Mario:
+			{
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
+				break;
+			}
+			}
 		}
 	}
 
@@ -111,7 +144,10 @@ void Map::Draw(sf::RenderWindow& window){
 				texture = &brickTexture;
 				break;
 			case 4:
-				texture = &noneTexture;
+				texture = &hiddenBox;
+				break;
+			case 5:
+				texture = &useBlock;
 				break;
 			default:
 				continue;

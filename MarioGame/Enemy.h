@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Clock.hpp>
 #include <vector>
 #include "Animation.h"
 #include "Map.h"
@@ -8,58 +7,47 @@
 
 class Enemy
 {
-private:
+protected:
 	// Texture, sprite
-	sf::Texture texture[2];
+	std::vector<sf::Texture> textures;
 	sf::Sprite sprite;
-
 	// Animation
 	Animation runAnimation;
-
-	// Horizontal velocity
-	sf::Vector2f velocity;
-	float gravity;
-
-	// Defeat status
-	bool isDefeat;
-	float dieTime;
-	FloatingScore* score = NULL;
-	
-	// Box collision
-	sf::FloatRect collisionBox;
-	
 	// Position
-	sf::Vector2f position{};
+	sf::Vector2f position;
+	// Collision box
+	sf::FloatRect collisionBox;
+	// Velocity
+	sf::Vector2f velocity;
+	// Gravity
+	float gravity;
+	// Dead status
+	bool isDead;
+	float dieTime;
+	sf::Texture deadTexture;
+	// Floating score
+	FloatingScore* score;
 public:
-	// Constructors
+	// Constructor
 	Enemy();
-	~Enemy();
 
 	void Begin();
 
-	void Update(float deltaTime, const Map&);
-	void handleMove(float deltaTime, const Map& map);
 	void handleHorizontalMove(float deltaTime, const Map& map);
 	void handleVerticalMove(float deltaTime, const Map& map);
-
-	void UpdateTextures(float deltaTime);
-	void handleDefeat();
-
+	void Update(float deltaTime, const Map& map);
 	void Draw(sf::RenderWindow& window);
-
+	
 	bool mapCollision(const Map& map);
-	bool teamCollision(const Enemy& other);
-	bool outOfMapCollision();
 
-	bool getDieStatus();
+	// Setter/Getter
+	sf::FloatRect getCollisionBox() const;
+
+	bool getDieStatus() const;
+	void setDieStatus(const bool& value);
+
+	sf::Vector2f getPosition() const;
+
 	float getDieTime();
-
-	sf::Vector2f getPosition();
-	void setPosition(const sf::Vector2f& position);
-
-	sf::FloatRect& getCollisionBox();
-
-	void setVelocity();
-
-	bool operator!=(const Enemy& other);
 };
+

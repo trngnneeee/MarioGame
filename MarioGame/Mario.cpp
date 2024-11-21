@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), deadTimer(1.0f), life(3)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f)
 {
 }
 
@@ -32,7 +32,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 	runAnimation.addFrame(Frame(&textures[2], 0.3f));
 
-	// Init jump sound
+	// Init sound effect
 	if (!jumpEffect.openFromFile("./resources/soundEffect/jump.wav"))
 		return;
 
@@ -48,7 +48,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 void Mario::HandleMove(float deltaTime, Map& map)
 {	
 	// Update previous position
-	previousPos = position;
+	previousPos = position; 
 
 	// Update position of collision box
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
@@ -120,42 +120,24 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map)
 	}
 }
 
-void Mario::HandleDead(float deltaTime)
-{
-	if (deadTimer > 0)
-	{
-		position.y += 8.0f * deltaTime;
-		deadTimer -= deltaTime;
-	}
-}
-
-void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverFlag, sf::Music& music)
+void Mario::Update(float deltaTime, Map& map)
 {
 	if (isDead)
+	{  
+		position.y -= v * deltaTime;
+		v += tmpGravity * deltaTime;
+		sprite.setTexture(deadTexture);
+		deadTimer -= deltaTime;
+		return;
+	}
+
+	if (outOfMapCollision())
 	{
-		HandleDead(deltaTime); 
-		if (this->outOfMapCollision())
-		{
-			life--;
-			gameOverFlag = true;
-			return;
-		}
+		isDead = true;
+		return;
 	}
 
 	HandleMove(deltaTime, map);
-
-	for (int i = 0; i < enemies.getSize(); i++)
-	{
-		if (isDead == false && this->enemyCollison(enemies.getEnemy(i)))
-		{
-			music.stop();
-			position.y -= 2.0f;
-			isDead = true;
-			return;
-		}
-	}
-
-	if (this->outOfMapCollision()) gameOverFlag = true;
 
 	// Update animation
 	if (!isOnGround)
@@ -208,15 +190,20 @@ bool Mario::mapCollision(Map& map)
 	return false; 
 }
 
-bool Mario::enemyCollison(Enemy& enemy)
-{	 
-	if (enemy.getCollisionBox().intersects(collisionBox) && enemy.getDieStatus() == false)
+bool Mario::outOfMapCollision()
+{
+	return (position.y > 16.0f);
+}
+
+bool Mario::goombasCollision(Goombas& goombas) {
+	/*return (collisionBox.intersects(goombas.getCollisionBox()));*/
+	if (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false)
 	{
-		if (velocity.y > 0 && position.y + collisionBox.height <= enemy.getPosition().y + enemy.getCollisionBox().height / 2)
+		if (velocity.y > 0 && position.y + collisionBox.height <= goombas.getPosition().y + goombas.getCollisionBox().height / 2)
 		{
 			points += 100;
-			velocity.y = -jumpStrength / 2; // Bounce Mario up slightly
-			enemy.handleDefeat();
+			velocity.y = -jumpStrength / 2; 
+			goombas.setDieStatus(true);
 			return false;
 		}
 		else return true;
@@ -224,14 +211,67 @@ bool Mario::enemyCollison(Enemy& enemy)
 	return false;
 }
 
-bool Mario::outOfMapCollision()
+bool Mario::koopaCollision(Koopa& koopa)
 {
-	return (position.y > 16.0f);
+	if (koopa.getCollisionBox().intersects(collisionBox) && koopa.getDieStatus() == false)
+	{
+		if (velocity.y > 0 && position.y + collisionBox.height <= koopa.getPosition().y + koopa.getCollisionBox().height / 2)
+		{
+			velocity.y = -jumpStrength / 2;
+			koopa.setInShellStatus(true);
+			return false;
+		}
+		else return true;
+	}
+	return false;
+}
+
+void Mario::Reset()
+{
+	position = sf::Vector2f(0, 0);
+	velocity = sf::Vector2f(0.0f, 3.0f);
+	collisionBox = sf::FloatRect(
+		position.x,
+		position.y,
+		1.0f / textures[3].getSize().x,
+		1.9f / textures[3].getSize().y
+	);
+	runAnimation.Reset();
+	isDead = false;
+	isOnGround = true;
+	deadTimer = 3.0f;
+	v = 10.0f;
+	tmpGravity = -30.0f;
+}
+
+// Getter/Setter
+int Mario::getPoints()
+{
+	return points;
 }
 
 void Mario::setPoints(const int& n)
 {
 	points = n;
+}
+
+bool Mario::getDeadStatus()
+{
+	return isDead;
+}
+
+void Mario::setDeadStatus(const bool& value) {
+	isDead = value;
+}
+
+float Mario::getDeadTimer()
+{
+	return deadTimer;
+}
+
+sf::Vector2f Mario::getPosition()
+{
+	return position;
 }
 
 int Mario::getLife()
@@ -242,30 +282,4 @@ int Mario::getLife()
 void Mario::setLife(const int& n)
 {
 	life = n;
-}
-
-void Mario::Reset()
-{
-	position = sf::Vector2f(0, 0);
-	velocity = sf::Vector2f(0.0f, 0.0f);
-	collisionBox = sf::FloatRect(
-		position.x,
-		position.y,
-		1.0f / textures[3].getSize().x,
-		1.9f / textures[3].getSize().y
-	);
-	runAnimation.Reset();
-	isDead = false;
-	deadTimer = 3.0f;
-	isOnGround = true;
-}
-
-int Mario::getPoints()
-{
-	return points;
-}
-
-sf::Vector2f Mario::getPosition()
-{
-	return position;
 }

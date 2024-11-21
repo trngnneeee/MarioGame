@@ -1,68 +1,12 @@
 #include "Enemy.h"
-#include <iostream>
 
 Enemy::Enemy()
-	:runAnimation(0.2f), isDefeat(false), dieTime(3.0f), gravity(5.0f)
-{	
-	velocity.x = 3.0f;
-	velocity.y = 0.0f;
-}
-
-Enemy::~Enemy()
+	: runAnimation(0.2f), gravity(5.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(3.0f)
 {
-	if (score)
-		delete score;
 }
 
 void Enemy::Begin()
 {
-	// Init texture
-	if (!texture[0].loadFromFile("./resources/textures/enemy1.png"))
-		return;
-	if (!texture[1].loadFromFile("./resources/textures/enemy2.png"))
-		return;
-
-	// Init animation 
-	runAnimation.addFrame(Frame(&texture[0], 0.1f));
-	runAnimation.addFrame(Frame(&texture[1], 0.2f));
-
-	// Init collision box
-	collisionBox = sf::FloatRect(
-		position.x,
-		position.y,
-		1.0f / texture[0].getSize().x,
-		1.0f / texture[0].getSize().y
-	);
-
-	sprite.setScale(sf::Vector2f(1.0f / texture[0].getSize().x, 1.0f / texture[0].getSize().y));
-}
-
-void Enemy::Update(float deltaTime, const Map& map)
-{
-	// Update position of Collision box
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-
-	handleMove(deltaTime, map);
-
-	UpdateTextures(deltaTime);
-
-	if (score)
-	{
-		score->Update(deltaTime);
-		if (score->isTimeout())
-		{
-			delete score;
-			score = NULL;
-		}
-	}
-
-	if (outOfMapCollision()) isDefeat = true;
-}
-
-void Enemy::handleMove(float deltaTime, const Map& map)
-{
-	handleHorizontalMove(deltaTime, map);
-	handleVerticalMove(deltaTime, map);
 }
 
 void Enemy::handleHorizontalMove(float deltaTime, const Map& map)
@@ -82,13 +26,9 @@ void Enemy::handleHorizontalMove(float deltaTime, const Map& map)
 
 void Enemy::handleVerticalMove(float deltaTime, const Map& map)
 {
-	if (isDefeat) return;
-	
 	velocity.y += gravity * deltaTime;
-
 	sf::Vector2f newPosition = position;
 	newPosition.y += velocity.y * deltaTime;
-
 	collisionBox.left = position.x;
 	collisionBox.top = newPosition.y;
 
@@ -104,38 +44,21 @@ void Enemy::handleVerticalMove(float deltaTime, const Map& map)
 	collisionBox.top = position.y;
 }
 
-void Enemy::UpdateTextures(float deltaTime)
+void Enemy::Update(float deltaTime, const Map& map)
 {
-	if (isDefeat == false)
-		sprite.setTexture(*runAnimation.update(deltaTime));
-	else
-	{
-		sprite.setTexture(texture[0]);
-		dieTime -= deltaTime * 1.0f;
-	}
-}
-
-void Enemy::handleDefeat()
-{
-	isDefeat = true;
-	sprite.setScale(1.0f / texture[0].getSize().x, 0.25f / texture[0].getSize().y);
-	velocity.x = 0;
-	velocity.y = 0;
-
-	if (!score)
-		score = new FloatingScore(100, position);
+	// Update texture
+	sprite.setTexture(*runAnimation.update(deltaTime));
+	// Update collision
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	// Handle Move
+	handleHorizontalMove(deltaTime, map);
+	handleVerticalMove(deltaTime, map);
 }
 
 void Enemy::Draw(sf::RenderWindow& window)
 {
-	if (isDefeat == false)
-		sprite.setPosition(position);
-	else if (dieTime > 0)
-		sprite.setPosition(position.x, position.y + 0.75f);
-
+	sprite.setPosition(position);
 	window.draw(sprite);
-
-	// Draw score get
 	if (score)
 		score->Draw(window);
 }
@@ -154,47 +77,28 @@ bool Enemy::mapCollision(const Map& map)
 	return false; // No collision
 }
 
-bool Enemy::teamCollision(const Enemy& other)
+// Setter/Getter
+sf::FloatRect Enemy::getCollisionBox() const
 {
-	return (collisionBox.intersects(other.collisionBox) && other.isDefeat == false);
+	return collisionBox;
 }
 
-bool Enemy::outOfMapCollision()
+bool Enemy::getDieStatus() const
 {
-	return (position.y >= 18.0f);
+	return isDead;
 }
 
-bool Enemy::getDieStatus()
+void Enemy::setDieStatus(const bool& value)
 {
-	return isDefeat;
+	isDead = value;
+}
+
+sf::Vector2f Enemy::getPosition() const
+{
+	return position;
 }
 
 float Enemy::getDieTime()
 {
 	return dieTime;
-}
-
-sf::Vector2f Enemy::getPosition()
-{
-	return position;
-}
-
-void Enemy::setPosition(const sf::Vector2f& position)
-{
-	this->position = position;
-}
-
-sf::FloatRect& Enemy::getCollisionBox()
-{
-	return collisionBox;
-}
-
-void Enemy::setVelocity()
-{
-	velocity = -velocity;
-}
-
-bool Enemy::operator!=(const Enemy& other)
-{
-	return (collisionBox.getPosition() != other.collisionBox.getPosition() && position != other.position);
 }
