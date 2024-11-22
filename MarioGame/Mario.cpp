@@ -227,7 +227,6 @@ bool Mario::koopaCollision(Koopa& koopa)
 }
 
 void Mario::handleKoopaKick(float deltaTime, Koopa& koopa) {
-
 	float kickDirection = (!facingRight) ? 1.0f : -1.0f;
 	koopa.setVelocity({ kickDirection * koopaKickSpeed, 0 });
 }

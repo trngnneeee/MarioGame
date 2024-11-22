@@ -9,6 +9,8 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 		return;
 	if (!shell.loadFromFile("./resources/textures/koopashell.png"))
 		return;
+	if (!throwTexture.loadFromFile("./resources/textures/koopaDead.png"))
+		return;
 	textures.push_back(texture1);
 	textures.push_back(texture2);
 	
@@ -30,11 +32,29 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 		1.0f / textures[0].getSize().x,
 		1.0f / textures[0].getSize().y
 	);
+
+	// Init default value
 	inShell = false;
+
+	// Init value for dead animation
+	v = 10.0f;
+	tmpGravity = -30.0f;
 }
 
 void Koopa::Update(float deltaTime, const Map& map)
 {
+	if (isDead)
+	{
+		position.y -= v * deltaTime;
+		v += tmpGravity * deltaTime;
+		sprite.setTexture(throwTexture);
+		dieTime -= deltaTime;
+		if (!score)
+			score = new FloatingScore(100, position);
+		else
+			score->Update(deltaTime);
+		return;
+	}
 	// Update texture
 	if (inShell)
 		sprite.setTexture(shell);
@@ -66,4 +86,9 @@ bool Koopa::getInShellStatus() const
 void Koopa::setInShellStatus(const bool& value)
 {
 	inShell = value;
+}
+
+bool Koopa::teamCollision(const Koopa& other)
+{
+	return (velocity.x != 0 && inShell == true && other.inShell == false && collisionBox.intersects(other.collisionBox));
 }

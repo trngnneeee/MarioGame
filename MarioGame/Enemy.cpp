@@ -103,6 +103,11 @@ float Enemy::getDieTime()
 	return dieTime;
 }
 
+sf::Vector2f Enemy::getVelocity() const
+{
+	return velocity;
+}
+
 void Enemy::setVelocity(sf::Vector2f velocity)
 {
 	this->velocity = velocity;

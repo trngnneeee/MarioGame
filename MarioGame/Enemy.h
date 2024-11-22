@@ -50,6 +50,7 @@ public:
 
 	float getDieTime();
 
+	sf::Vector2f getVelocity() const;
 	void setVelocity(sf::Vector2f velocity);
 };
 

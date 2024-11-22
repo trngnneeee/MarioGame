@@ -87,14 +87,14 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	// Update Mario
 	for (int i = 0; i < goombas.size(); i++)
 	{
-		if (mario.goombasCollision(*goombas[i]))
+		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
 		{
 			mario.setDeadStatus(true);
 		}
 	}
 	for (int i = 0; i < koopas.size(); i++)
 	{
-		if (mario.koopaCollision(*koopas[i]))
+		if (koopas[i]->getDieStatus() == false && mario.koopaCollision(*koopas[i]))
 		{
 			if (koopas[i]->getInShellStatus() == false)
 				mario.setDeadStatus(true);
@@ -130,12 +130,29 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	// Update Koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
+		// Collision with Goomba
 		for (int j = 0; j < goombas.size(); j++)
 		{
 			if (goombas[j]->koopaCollision(*koopas[i]))
 				goombas[j]->setDieByKoopaStatus(true);
 		}
+		// Collision with other koopa
+		for (int j = 0; j < koopas.size(); j++)
+		{
+			if (i != j)
+			{
+				if (koopas[i]->teamCollision(*koopas[j]))
+					koopas[j]->setDieStatus(true);
+			}
+		}
 		koopas[i]->Update(deltaTime, map);
+	}
+	for (auto it = koopas.begin(); it != koopas.end();)
+	{
+		if (((*it)->getDieStatus() == true) && ((*it)->getDieTime() <= 0))
+			it = koopas.erase(it);
+		else
+			++it;
 	}
 	// Update time
 	timeAccumulator += deltaTime;

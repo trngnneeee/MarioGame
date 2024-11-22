@@ -22,6 +22,7 @@ public:
 	bool koopaCollision(const Koopa& koopa);
 
 	// Setter/Getter
+	bool getDieByKoopaStatus();
 	void setDieByKoopaStatus(const bool& value);
 };
 
