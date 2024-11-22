@@ -44,6 +44,9 @@ private:
 
 	// Life
 	int life;
+
+	// Koopa kick speed
+	float koopaKickSpeed;
 public:
 	// Constructor
 	Mario();
@@ -64,6 +67,7 @@ public:
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
+	void handleKoopaKick(float deltaTime, Koopa& koopa);
 
 	void Reset();
 

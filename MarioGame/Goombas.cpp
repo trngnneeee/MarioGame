@@ -14,6 +14,8 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 		return;
 	if (!deadTexture.loadFromFile("./resources/textures/goombasDead.png"))
 		return;
+	if (!throwTexture.loadFromFile("./resources/textures/goombasDead2.png"))
+		return;
 	textures.push_back(texture1);
 	textures.push_back(texture2);
 
@@ -34,6 +36,13 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 		1.0f / textures[0].getSize().x,
 		1.0f / textures[0].getSize().y
 	);
+
+	// Init value for dead
+	isDeadByKoopa = false;
+
+	// Init value for dead by koopa animation
+	v = 10.0f;
+	tmpGravity = -30.0f;
 }
 
 void Goombas::Update(float deltaTime, const Map& map)
@@ -43,6 +52,18 @@ void Goombas::Update(float deltaTime, const Map& map)
 		sprite.setTexture(deadTexture);
 		velocity.x = 0;
 		velocity.y = 0;
+		dieTime -= deltaTime;
+		if (!score)
+			score = new FloatingScore(100, position);
+		else
+			score->Update(deltaTime);
+		return;
+	}
+	else if (isDeadByKoopa)
+	{
+		position.y -= v * deltaTime;
+		v += tmpGravity * deltaTime;
+		sprite.setTexture(throwTexture);
 		dieTime -= deltaTime;
 		if (!score)
 			score = new FloatingScore(100, position);
@@ -67,4 +88,14 @@ bool Goombas::teamCollision(const Goombas& other)
 void Goombas::handleTeamCollision()
 {
 	velocity.x = -velocity.x;
+}
+
+bool Goombas::koopaCollision(const Koopa& koopa)
+{
+	return (koopa.getInShellStatus() == true && collisionBox.intersects(koopa.getCollisionBox()));
+}
+
+void Goombas::setDieByKoopaStatus(const bool& value)
+{
+	isDeadByKoopa = value;
 }

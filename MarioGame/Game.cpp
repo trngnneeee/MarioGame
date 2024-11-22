@@ -85,7 +85,6 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	// Update camera
 	camera.position = mario.getPosition();
 	// Update Mario
-	mario.Update(deltaTime, map);
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		if (mario.goombasCollision(*goombas[i]))
@@ -97,13 +96,17 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	{
 		if (mario.koopaCollision(*koopas[i]))
 		{
-			//
+			if (koopas[i]->getInShellStatus() == false)
+				mario.setDeadStatus(true);
+			else
+				mario.handleKoopaKick(deltaTime, *koopas[i]);
+			
 		}
 	}
+	mario.Update(deltaTime, map);
 	// Update Goombas
 	for (int i = 0; i < goombas.size(); i++)
 	{
-		goombas[i]->Update(deltaTime, map);
 		for (int j = 0; j < goombas.size(); j++)
 		{
 			if (i != j)
@@ -115,6 +118,7 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 				}
 			}
 		}
+		goombas[i]->Update(deltaTime, map);
 	}
 	for (auto it = goombas.begin(); it != goombas.end();)
 	{
@@ -126,6 +130,11 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	// Update Koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
+		for (int j = 0; j < goombas.size(); j++)
+		{
+			if (goombas[j]->koopaCollision(*koopas[i]))
+				goombas[j]->setDieByKoopaStatus(true);
+		}
 		koopas[i]->Update(deltaTime, map);
 	}
 	// Update time
@@ -196,11 +205,17 @@ void Reset()
 {
 	map.Reset();
 	mario.Reset();
+	// Reset enemy
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		delete goombas[i];
 	}
 	goombas.clear();
+	for (int i = 0; i < koopas.size(); i++)
+	{
+		delete koopas[i];
+	}
+	koopas.clear();
 	// Reset music
 	music.stop();
 	deadMusic.stop();

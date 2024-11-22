@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(5.0f)
 {
 }
 
@@ -196,7 +196,6 @@ bool Mario::outOfMapCollision()
 }
 
 bool Mario::goombasCollision(Goombas& goombas) {
-	/*return (collisionBox.intersects(goombas.getCollisionBox()));*/
 	if (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false)
 	{
 		if (velocity.y > 0 && position.y + collisionBox.height <= goombas.getPosition().y + goombas.getCollisionBox().height / 2)
@@ -218,12 +217,19 @@ bool Mario::koopaCollision(Koopa& koopa)
 		if (velocity.y > 0 && position.y + collisionBox.height <= koopa.getPosition().y + koopa.getCollisionBox().height / 2)
 		{
 			velocity.y = -jumpStrength / 2;
+			koopa.setVelocity({ 0, 0 });
 			koopa.setInShellStatus(true);
 			return false;
 		}
 		else return true;
 	}
 	return false;
+}
+
+void Mario::handleKoopaKick(float deltaTime, Koopa& koopa) {
+
+	float kickDirection = (!facingRight) ? 1.0f : -1.0f;
+	koopa.setVelocity({ kickDirection * koopaKickSpeed, 0 });
 }
 
 void Mario::Reset()

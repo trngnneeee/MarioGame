@@ -35,13 +35,11 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 
 void Koopa::Update(float deltaTime, const Map& map)
 {
-	if (inShell)
-	{
-		sprite.setTexture(shell);
-		return;
-	}
 	// Update texture
-	sprite.setTexture(*runAnimation.update(deltaTime));
+	if (inShell)
+		sprite.setTexture(shell);
+	else
+		sprite.setTexture(*runAnimation.update(deltaTime));
 	// Update collision
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	// Handle Move
@@ -58,6 +56,11 @@ void Koopa::Update(float deltaTime, const Map& map)
 		sprite.setOrigin(textures[0].getSize().x, 0);
 		sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x * -1, 1.0f / textures[0].getSize().y));
 	}
+}
+
+bool Koopa::getInShellStatus() const
+{
+	return inShell;
 }
 
 void Koopa::setInShellStatus(const bool& value)

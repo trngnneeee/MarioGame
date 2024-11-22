@@ -1,10 +1,14 @@
 #pragma once
 #include "Enemy.h"
+#include "Koopa.h"
 
 class Goombas : public Enemy
 {
 private:
-	
+	bool isDeadByKoopa;
+	sf::Texture throwTexture;
+	float v;
+	float tmpGravity;
 public:
 	// Constructor
 	Goombas();
@@ -14,5 +18,10 @@ public:
 
 	bool teamCollision(const Goombas& other);
 	void handleTeamCollision();
+
+	bool koopaCollision(const Koopa& koopa);
+
+	// Setter/Getter
+	void setDieByKoopaStatus(const bool& value);
 };
 

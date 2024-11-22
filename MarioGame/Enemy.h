@@ -49,5 +49,7 @@ public:
 	sf::Vector2f getPosition() const;
 
 	float getDieTime();
+
+	void setVelocity(sf::Vector2f velocity);
 };
 
