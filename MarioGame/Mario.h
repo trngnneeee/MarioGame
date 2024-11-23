@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Goombas.h"
 #include "Koopa.h"
+#include "PowerUpMushroom.h"
 
 class Mario
 {
@@ -54,20 +55,20 @@ public:
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
 
-	void HandleMove(float deltaTime, Map& map);
-	void HandleHorizontalMove(float deltaTime, Map& map);
-	void HandleVerticalMove(float deltaTime, Map& map);
+	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
+	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
+	void HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
 	
-	void Update(float deltaTime, Map& map);
+	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);
 
-	bool mapCollision(Map& map);
+	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
-	void handleKoopaKick(float deltaTime, Koopa& koopa);
+	bool mushroomCollision(PowerUpMushroom& mushroom);
 
 	void Reset();
 
@@ -84,4 +85,8 @@ public:
 
 	int getLife();
 	void setLife(const int& n);
+
+	sf::FloatRect getCollisionBox() const;
+
+	sf::Vector2f getVelocity();
 };

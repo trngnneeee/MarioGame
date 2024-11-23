@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Goombas.h"
 #include "Koopa.h"
+#include "PowerUpMushroom.h"
 #include <vector>
 #include <iostream>
 
@@ -19,6 +20,9 @@ Menu menu;
 // Enemy
 std::vector<Goombas*> goombas;
 std::vector<Koopa*> koopas;
+
+// Power-up Mushroom
+std::vector<PowerUpMushroom*> mushroom;
 
 sf::Music music;
 sf::Music deadMusic;
@@ -80,11 +84,12 @@ void BeginMenu(sf::RenderWindow& window)
 
 void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 {
-	// Update map
+	/// Update map
 	map.Update(deltaTime);
-	// Update camera
+	/// Update camera
 	camera.position = mario.getPosition();
-	// Update Mario
+	/// Update Mario
+	// Collision with goomba
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
@@ -92,19 +97,17 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			mario.setDeadStatus(true);
 		}
 	}
+	// Collision with koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
-		if (koopas[i]->getDieStatus() == false && mario.koopaCollision(*koopas[i]))
+		if (mario.koopaCollision(*koopas[i]))
 		{
-			if (koopas[i]->getInShellStatus() == false)
+			if (!koopas[i]->getInShellStatus())
 				mario.setDeadStatus(true);
-			else
-				mario.handleKoopaKick(deltaTime, *koopas[i]);
-			
 		}
 	}
-	mario.Update(deltaTime, map);
-	// Update Goombas
+	mario.Update(deltaTime, map, mushroom);
+	/// Update Goombas
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		for (int j = 0; j < goombas.size(); j++)
@@ -127,7 +130,7 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		else
 			++it;
 	}
-	// Update Koopa
+	/// Update Koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		// Collision with Goomba
@@ -154,7 +157,24 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		else
 			++it;
 	}
-	// Update time
+	/// Update Power-up mushroom
+	for (int i = 0; i < mushroom.size(); i++)
+	{
+		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false)
+		{
+			mario.setPoints(mario.getPoints() + 300);
+			mushroom[i]->setDeadStatus(true);
+		}
+		mushroom[i]->Update(deltaTime, map);
+	}
+	for (auto it = mushroom.begin(); it != mushroom.end();)
+	{
+		if (((*it)->getDeadStatus() == true) && (*it)->getDieTime() <= 0)
+			it = mushroom.erase(it);
+		else
+			++it;
+	}
+	/// Update time
 	timeAccumulator += deltaTime;
 	while (timeAccumulator >= 1.0f)
 	{
@@ -193,6 +213,10 @@ void Render(sf::RenderWindow& window)
 {
 	window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 	background.Draw(window);
+	for (int i = 0; i < mushroom.size(); i++)
+	{
+		mushroom[i]->Draw(window);
+	}
 	map.Draw(window);
 	mario.Draw(window);
 	for (int i = 0; i < goombas.size(); i++)
@@ -220,20 +244,30 @@ void RenderMenu(sf::RenderWindow& window)
 
 void Reset()
 {
+	/// Reset map
 	map.Reset();
+	/// Reset mario
 	mario.Reset();
-	// Reset enemy
+	/// Reset enemy
+	// Reset goomba
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		delete goombas[i];
 	}
 	goombas.clear();
+	// Reset koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		delete koopas[i];
 	}
 	koopas.clear();
-	// Reset music
+	/// Reset mushroom
+	for (int i = 0; i < mushroom.size(); i++)
+	{
+		delete mushroom[i];
+	}
+	mushroom.clear();
+	/// Reset music
 	music.stop();
 	deadMusic.stop();
 	deadMusicIsPlay = false;

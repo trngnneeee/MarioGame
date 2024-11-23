@@ -1,10 +1,9 @@
 #include "Map.h"
 #include "EnityColor.h"
-#include <iostream>
 
 // Constructor
 Map::Map(float cellSize)
-	:cellSize(cellSize), grid()
+	: cellSize(cellSize), grid()
 {
 }
 // Functions
@@ -96,15 +95,23 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 	}
 }
 
-void Map::handleBrickCollision(sf::Vector2f hiddenBoxPosition)
+void Map::handleBrickCollision(sf::Vector2f brickPosition)
+{
+	int x = static_cast<int>(brickPosition.x / cellSize);
+	int y = static_cast<int>(brickPosition.y / cellSize);
+
+	grid[x][y] = 0;
+
+	FloatingScore* newScore = new FloatingScore(50, brickPosition);
+	score.push_back(newScore);
+}
+
+void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
 {
 	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
 	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
 
-	grid[x][y] = 0;
-
-	FloatingScore* newScore = new FloatingScore(50, hiddenBoxPosition);
-	score.push_back(newScore);
+	grid[x][y] = 5;
 }
 
 void Map::Update(float deltaTime)

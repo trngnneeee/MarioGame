@@ -7,8 +7,6 @@ class Goombas : public Enemy
 private:
 	bool isDeadByKoopa;
 	sf::Texture throwTexture;
-	float v;
-	float tmpGravity;
 public:
 	// Constructor
 	Goombas();

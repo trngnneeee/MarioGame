@@ -27,6 +27,9 @@ protected:
 	sf::Texture deadTexture;
 	// Floating score
 	FloatingScore* score;
+	// Value for dead animation
+	float v;
+	float tmpGravity;
 public:
 	// Constructor
 	Enemy();

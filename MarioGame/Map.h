@@ -29,7 +29,8 @@ public:
 	// Functions
 	void Begin();
 	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition);
-	void handleBrickCollision(sf::Vector2f hiddenBoxPosition);
+	void handleBrickCollision(sf::Vector2f brickPosition);
+	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
