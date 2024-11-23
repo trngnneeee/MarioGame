@@ -114,7 +114,7 @@ void Koopa::Update(float deltaTime, const Map& map)
 
 bool Koopa::teamCollision(const Koopa& other)
 {
-	return (velocity.x != 0 && inShell == true && other.inShell == false && collisionBox.intersects(other.collisionBox));
+	return (inShell == true && other.getInShellStatus() == false && std::abs(velocity.x) > 5.0f && collisionBox.intersects(other.collisionBox));
 }
 
 bool Koopa::getInShellStatus() const

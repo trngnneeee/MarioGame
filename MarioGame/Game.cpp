@@ -27,10 +27,13 @@ std::vector<PowerUpMushroom*> mushroom;
 sf::Music music;
 sf::Music deadMusic;
 sf::Music levelUp;
+sf::Music win;
 bool deadMusicIsPlay;
 
 float timeAccumulator;
 int gameTime;
+
+sf::Vector2f winPosition;
 
 void Begin(sf::RenderWindow& window)
 {	
@@ -40,7 +43,7 @@ void Begin(sf::RenderWindow& window)
 
 	// Init map
 	map.Begin();
-	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition); 
+	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition); 
 
 	// Init mario
 	mario.Begin(marioPosition);
@@ -72,6 +75,7 @@ void Begin(sf::RenderWindow& window)
 	music.play();	
 	deadMusic.openFromFile("./resources/soundEffect/dead.mp3");
 	levelUp.openFromFile("./resources/soundEffect/level-up.mp3");
+	win.openFromFile("./resources/soundEffect/win.mp3");
 	deadMusicIsPlay = false;
 
 	// Init time
@@ -96,7 +100,14 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	{
 		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
 		{
-			mario.setDeadStatus(true);
+			if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
+				mario.setDeadStatus(true);
+			else
+			{
+				if (mario.getInvicibleTime() == 0)
+					mario.setInvicibleTime(2.0f);
+				mario.setLevelUpStatus(false);
+			}
 		}
 	}
 	// Collision with koopa
@@ -105,10 +116,26 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		if (mario.koopaCollision(*koopas[i]))
 		{
 			if (!koopas[i]->getInShellStatus())
-				mario.setDeadStatus(true);
+			{
+				if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
+					mario.setDeadStatus(true);
+				else
+				{
+					if (mario.getInvicibleTime() == 0)
+						mario.setInvicibleTime(2.0f);
+					mario.setLevelUpStatus(false);
+				}
+			}
 		}
 	}
 	mario.Update(deltaTime, map, mushroom);
+	if (mario.getPosition().x >= winPosition.x)
+	{
+		music.stop();
+		win.play();
+		gameState = GameState::GameOver;
+		return;
+	}
 	/// Update Goombas
 	for (int i = 0; i < goombas.size(); i++)
 	{
@@ -174,6 +201,13 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		{
 			mario.setPoints(mario.getPoints() + 1000);
 			levelUp.play();
+			if (mario.getLevelUpStatus() == false)
+			{
+				mario.setLevelUpStatus(true);
+				mario.setPosition(sf::Vector2f(mario.getPosition().x, mario.getPosition().y - 1.0f));
+			}
+			else
+				mario.setLife(mario.getLife() + 1);
 			mushroom[i]->setDeadStatus(true);
 		}
 		mushroom[i]->Update(deltaTime, map);

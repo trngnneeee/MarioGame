@@ -3,7 +3,7 @@
 
 // Constructor
 Map::Map(float cellSize)
-	: cellSize(cellSize), grid()
+	: cellSize(cellSize), hiddenBoxAnimation(6.0f)
 {
 }
 // Functions
@@ -14,12 +14,23 @@ void Map::Begin() {
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
 	brickTexture.loadFromFile("./resources/textures/brick.png");
-	hiddenBox.loadFromFile("./resources/textures/hiddenbox.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 	useBlock.loadFromFile("./resources/textures/block.png");
+	stickTexture.loadFromFile("./resources/textures/stick.png");
+	circleTexture.loadFromFile("./resources/textures/circle.png");
+
+	hiddenBoxTexture[0].loadFromFile("./resources/textures/hiddenbox1.png");
+	hiddenBoxTexture[1].loadFromFile("./resources/textures/hiddenbox2.png");
+	hiddenBoxTexture[2].loadFromFile("./resources/textures/hiddenbox3.png");
+	hiddenBoxTexture[3].loadFromFile("./resources/textures/hiddenbox4.png");
+
+	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[0], 1.5f));
+	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[1], 3.0f));
+	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[2], 4.5f));
+	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[3], 6.0f));
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition)
+void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -74,6 +85,21 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
 				break;
 			}
+			case EntityType::Win:
+			{
+				winPosition = sf::Vector2f(cellSize * i , cellSize * j);
+				break;
+			}
+			case EntityType::Circle:
+			{
+				grid[i][j] = 6;
+				break;
+			}
+			case EntityType::Stick:
+			{
+				grid[i][j] = 7;
+				break;
+			}
 			}
 		}
 	}
@@ -115,7 +141,7 @@ void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
 }
 
 void Map::Update(float deltaTime)
-{	
+{
 	for (int i = 0; i < score.size();)
 	{
 		if (score[i])
@@ -130,6 +156,17 @@ void Map::Update(float deltaTime)
 		}
 		i++;
 	}
+
+	for (int i = 0; i < grid.size(); i++)
+	{
+		for (int j = 0; j < grid[i].size(); j++)
+		{
+			if (grid[i][j] == 4)
+			{
+				hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
+			}
+		}
+	}
 }
 
 void Map::Draw(sf::RenderWindow& window){
@@ -143,28 +180,58 @@ void Map::Draw(sf::RenderWindow& window){
 			switch (grid[x][y]) {
 			case 1:
 				texture = &stoneTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
 				break;
 			case 2:
 				texture = &copperTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
 				break;
 			case 3:
 				texture = &brickTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
 				break;
 			case 4:
-				texture = &hiddenBox;
+				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
+				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
+				window.draw(hiddenBoxSprite);
 				break;
 			case 5:
 				texture = &useBlock;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
 				break;
+			case 6:
+			{
+				texture = &circleTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 7:
+			{
+				texture = &stickTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
 			default:
 				continue;
 			}
-
-			// Set and draw the block sprite
-			sprite.setTexture(*texture);
-			sprite.setPosition(cellSize * x, cellSize * y);
-			sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-			window.draw(sprite);
 		}
 	}
 	for (int i = 0; i < score.size(); i++)

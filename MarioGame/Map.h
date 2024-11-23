@@ -3,6 +3,7 @@
 #include <vector>
 #include "Game.h"
 #include "FloatingScore.h"
+#include "Animation.h"
 
 class Map
 {
@@ -13,7 +14,12 @@ private:
 
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture stoneTexture, brickTexture, hiddenBox, copperTexture, useBlock;
+	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+
+	// Hidden box
+	sf::Sprite hiddenBoxSprite;
+	sf::Texture hiddenBoxTexture[4];
+	Animation hiddenBoxAnimation;
 
 	// Image
 	sf::Image image;
@@ -28,7 +34,7 @@ public:
 
 	// Functions
 	void Begin();
-	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition);
+	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition);
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);

@@ -48,6 +48,11 @@ private:
 
 	// Koopa kick speed
 	float koopaKickSpeed;
+
+	// Level up (Increase size)
+	bool levelUp;
+	// Invicible time when shrinking from big size to small size
+	float invicibleTime;
 public:
 	// Constructor
 	Mario();
@@ -82,6 +87,7 @@ public:
 	float getDeadTimer();
 
 	sf::Vector2f getPosition();
+	void setPosition(sf::Vector2f position);
 
 	int getLife();
 	void setLife(const int& n);
@@ -89,4 +95,10 @@ public:
 	sf::FloatRect getCollisionBox() const;
 
 	sf::Vector2f getVelocity();
+
+	bool getLevelUpStatus();
+	void setLevelUpStatus(const bool& value);
+
+	float getInvicibleTime();
+	void setInvicibleTime(const float& time);
 };

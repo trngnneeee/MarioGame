@@ -86,7 +86,7 @@ void Goombas::handleTeamCollision()
 
 bool Goombas::koopaCollision(const Koopa& koopa)
 {
-	return (koopa.getVelocity().x != 0 && koopa.getInShellStatus() == true && collisionBox.intersects(koopa.getCollisionBox()));
+	return (koopa.getVelocity().x != 0 && std::abs(koopa.getVelocity().x) > 5.0f && koopa.getInShellStatus() == true && collisionBox.intersects(koopa.getCollisionBox()));
 }
 
 bool Goombas::getDieByKoopaStatus()

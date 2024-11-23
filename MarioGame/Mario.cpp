@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f)
 {
 }
 
@@ -53,9 +53,6 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	// Update position of collision box
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 
-	// Horizontal move
-	HandleHorizontalMove(deltaTime, map, mushroom);
-
 	// Jumping
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		velocity.y = -jumpStrength;
@@ -65,6 +62,9 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 
 	// Vertical move
 	HandleVerticalMove(deltaTime, map, mushroom);
+
+	// Horizontal move
+	HandleHorizontalMove(deltaTime, map, mushroom);
 }
 
 void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom)
@@ -137,6 +137,18 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 		return;
 	}
 
+	if (invicibleTime > 0)
+	{
+		invicibleTime -= deltaTime;
+		std::cout << invicibleTime << "\n";
+		float alpha = (sin(invicibleTime * 100.0f) * 0.5f + 0.5f) * 255;
+		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+	}
+	else
+		sprite.setColor(sf::Color(255, 255, 255, 255));
+
+	jumpStrength = (levelUp) ? 23.0f : 18.0f;
+
 	HandleMove(deltaTime, map, mushroom);
 
 	// Update animation
@@ -155,7 +167,7 @@ void Mario::updateFlip()
 		sprite.setOrigin(0, 0);  // Left-center for right-facing
 	else
 		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
-	sprite.setScale(sf::Vector2f(0.8f / textures[3].getSize().x * (facingRight ? 1 : -1), 0.8f / textures[3].getSize().y));
+	sprite.setScale(sf::Vector2f(0.8f / textures[3].getSize().x * (facingRight ? 1 : -1), ((levelUp) ? 1.8f : 0.8f) * 1.0f / textures[3].getSize().y));
 }
 
 void Mario::Draw(sf::RenderWindow& window)
@@ -179,8 +191,11 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
 			{
 				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
 				{
-					points += 50;
-					map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+					if (levelUp == true)
+					{
+						points += 50;
+						map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+					}
 					return true;
 				}
 				else return true;
@@ -255,6 +270,11 @@ bool Mario::koopaCollision(Koopa& koopa)
 	return false;
 }
 
+bool Mario::mushroomCollision(PowerUpMushroom& mushroom)
+{
+	return collisionBox.intersects(mushroom.getCollisionBox());
+}
+
 void Mario::Reset()
 {
 	position = sf::Vector2f(0, 0);
@@ -271,6 +291,7 @@ void Mario::Reset()
 	deadTimer = 3.0f;
 	v = 10.0f;
 	tmpGravity = -30.0f;
+	levelUp = false;
 }
 
 // Getter/Setter
@@ -284,11 +305,6 @@ void Mario::setPoints(const int& n)
 	points = n;
 }
 
-bool Mario::mushroomCollision(PowerUpMushroom& mushroom)
-{
-	return collisionBox.intersects(mushroom.getCollisionBox());
-}
-
 bool Mario::getDeadStatus()
 {
 	return isDead;
@@ -298,24 +314,24 @@ void Mario::setDeadStatus(const bool& value) {
 	isDead = value;
 }
 
-sf::FloatRect Mario::getCollisionBox() const
-{
-	return collisionBox;
-}
-
-sf::Vector2f Mario::getVelocity()
-{
-	return velocity;
-}
-
 float Mario::getDeadTimer()
 {
 	return deadTimer;
 }
 
+sf::FloatRect Mario::getCollisionBox() const
+{
+	return collisionBox;
+}
+
 sf::Vector2f Mario::getPosition()
 {
 	return position;
+}
+
+void Mario::setPosition(sf::Vector2f position)
+{
+	this->position = position;
 }
 
 int Mario::getLife()
@@ -326,4 +342,28 @@ int Mario::getLife()
 void Mario::setLife(const int& n)
 {
 	life = n;
+}
+
+sf::Vector2f Mario::getVelocity()
+{
+	return velocity;
+}
+
+bool Mario::getLevelUpStatus()
+{
+	return levelUp;
+}
+
+void Mario::setLevelUpStatus(const bool& value)
+{
+	levelUp = value;
+}
+
+float Mario::getInvicibleTime()
+{
+	return invicibleTime;
+}
+
+void Mario::setInvicibleTime(const float& time) {
+	invicibleTime = time;
 }
