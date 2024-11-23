@@ -10,7 +10,7 @@ Mario::Mario()
 
 // Functions
 void Mario::Begin(const sf::Vector2f& marioPosition)
-{	
+{
 	// Init start position for mario
 	position = marioPosition;
 
@@ -39,14 +39,14 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	// Init collision box
 	collisionBox = sf::FloatRect(
 		position.x,
-		position.y,       
+		position.y,
 		0.8f / textures[3].getSize().x,
 		0.8f / textures[3].getSize().y
 	);
 }
 
 void Mario::HandleMove(float deltaTime, Map& map)
-{	
+{
 	// Update previous position
 	previousPos = position;
 
@@ -133,7 +133,7 @@ void Mario::Update(float deltaTime, Map& map, EnemyList enemies, bool& gameOverF
 {
 	if (isDead)
 	{
-		HandleDead(deltaTime); 
+		HandleDead(deltaTime);
 		if (this->outOfMapCollision())
 		{
 			life--;
@@ -205,11 +205,11 @@ bool Mario::mapCollision(Map& map)
 			}
 		}
 	}
-	return false; 
+	return false;
 }
 
 bool Mario::enemyCollison(Enemy& enemy)
-{	 
+{
 	if (enemy.getCollisionBox().intersects(collisionBox) && enemy.getDieStatus() == false)
 	{
 		if (velocity.y > 0 && position.y + collisionBox.height <= enemy.getPosition().y + enemy.getCollisionBox().height / 2)
@@ -233,6 +233,11 @@ void Mario::setPoints(const int& n)
 {
 	points = n;
 }
+void Mario::setCoins(const int& n)
+{
+	coins = n;
+}
+
 
 int Mario::getLife()
 {
@@ -260,12 +265,20 @@ void Mario::Reset()
 	isOnGround = true;
 }
 
-int Mario::getPoints()
+int& Mario::getPoints()
 {
 	return points;
+}
+int& Mario::getCoins()
+{
+	return coins;
 }
 
 sf::Vector2f Mario::getPosition()
 {
 	return position;
+}
+sf::FloatRect Mario::getCollisionBox() const
+{
+	return collisionBox;
 }

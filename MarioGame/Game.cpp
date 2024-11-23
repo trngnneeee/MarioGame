@@ -62,7 +62,7 @@ void BeginMenu(sf::RenderWindow& window)
 void Update(float deltaTime, bool& gameOverFlag)
 {
 	// Update map
-	map.Update(deltaTime);
+  map.Update(deltaTime, mario.getCollisionBox(), mario.getPoints(), mario.getCoins());
 	// Update camera
 	camera.position = mario.getPosition();
 	// Update Mario
@@ -97,7 +97,7 @@ void RenderUI(sf::RenderWindow& window, float deltaTime)
 {
 	window.setView(camera.GetUIView());
 	int displayedTime = static_cast<int>(std::ceil(gameTime)); // Round up for display
-	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), displayedTime);
+	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), displayedTime, mario.getCoins());
 	UI.Draw(window);
 }
 

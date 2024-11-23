@@ -1,7 +1,83 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\21126089(2)\\OOP\\MarioProject\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Map.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\UICounter.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\UICounter.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Mario.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Map.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Mario.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Coin.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Coin.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Camera.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\FloatingScore.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\GameState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\GameState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Animation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Animation.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\FloatingScore.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\Background.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\EnemyList.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D7F6B7B-224A-4130-94C4-DAE8B24078FA}|MarioGame\\MarioGame.vcxproj|solutionrelative:MarioGame\\EnemyList.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\__msvc_format_ucd_tables.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +85,253 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Game.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Game.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\Game.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Game.cpp",
+              "RelativeToolTip": "MarioGame\\Game.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-23T14:54:03.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Enemy.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Enemy.h",
+              "RelativeDocumentMoniker": "MarioGame\\Enemy.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Enemy.h",
+              "RelativeToolTip": "MarioGame\\Enemy.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:27:12.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Map.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.h",
+              "RelativeDocumentMoniker": "MarioGame\\Map.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.h",
+              "RelativeToolTip": "MarioGame\\Map.h",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACIAAABnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-23T14:07:34.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Map.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\Map.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Map.cpp",
+              "RelativeToolTip": "MarioGame\\Map.cpp",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAJEAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-19T12:37:53.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Mario.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\Mario.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.cpp",
+              "RelativeToolTip": "MarioGame\\Mario.cpp",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAAwOwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-19T12:37:09.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UICounter.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.h",
+              "RelativeDocumentMoniker": "MarioGame\\UICounter.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.h",
+              "RelativeToolTip": "MarioGame\\UICounter.h",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB0AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:00.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UICounter.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\UICounter.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\UICounter.cpp",
+              "RelativeToolTip": "MarioGame\\UICounter.cpp",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAwEgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-23T17:14:59.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Coin.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\Coin.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.cpp",
+              "RelativeToolTip": "MarioGame\\Coin.cpp",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACgAAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-23T15:50:51.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Coin.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.h",
+              "RelativeDocumentMoniker": "MarioGame\\Coin.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Coin.h",
+              "RelativeToolTip": "MarioGame\\Coin.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABAAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-23T14:18:55.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Mario.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.h",
+              "RelativeDocumentMoniker": "MarioGame\\Mario.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Mario.h",
+              "RelativeToolTip": "MarioGame\\Mario.h",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAAEgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:35:25.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Camera.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Camera.h",
+              "RelativeDocumentMoniker": "MarioGame\\Camera.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Camera.h",
+              "RelativeToolTip": "MarioGame\\Camera.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:09.082Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FloatingScore.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.h",
+              "RelativeDocumentMoniker": "MarioGame\\FloatingScore.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.h",
+              "RelativeToolTip": "MarioGame\\FloatingScore.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:33:22.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GameState.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\GameState.h",
+              "RelativeDocumentMoniker": "MarioGame\\GameState.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\GameState.h",
+              "RelativeToolTip": "MarioGame\\GameState.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:37.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Animation.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Animation.h",
+              "RelativeDocumentMoniker": "MarioGame\\Animation.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Animation.h",
+              "RelativeToolTip": "MarioGame\\Animation.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:29.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Background.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.h",
+              "RelativeDocumentMoniker": "MarioGame\\Background.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.h",
+              "RelativeToolTip": "MarioGame\\Background.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:08.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FloatingScore.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\FloatingScore.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\FloatingScore.cpp",
+              "RelativeToolTip": "MarioGame\\FloatingScore.cpp",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-19T12:38:32.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Background.cpp",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.cpp",
+              "RelativeDocumentMoniker": "MarioGame\\Background.cpp",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\Background.cpp",
+              "RelativeToolTip": "MarioGame\\Background.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-19T12:37:06.356Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "__msvc_format_ucd_tables.hpp",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\__msvc_format_ucd_tables.hpp",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\include\\__msvc_format_ucd_tables.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:37:01.678Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EnemyList.h",
+              "DocumentMoniker": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\EnemyList.h",
+              "RelativeDocumentMoniker": "MarioGame\\EnemyList.h",
+              "ToolTip": "D:\\21126089(2)\\OOP\\MarioProject\\MarioGame\\EnemyList.h",
+              "RelativeToolTip": "MarioGame\\EnemyList.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-19T12:34:09.801Z"
             }
           ]
         }

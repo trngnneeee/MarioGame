@@ -22,9 +22,9 @@ private:
 	sf::Texture textures[5];
 	sf::Sprite sprite;
 
-	// Points (Coints)
+	// Points 
 	int points;
-
+	int coins;
 	// Position
 	sf::Vector2f position{};
 	sf::Vector2f previousPos;
@@ -66,11 +66,14 @@ public:
 
 	void Reset();
 
-	int getPoints();
+	int& getPoints();
 	void setPoints(const int& n);
-
+	
+	int& getCoins();
+	void setCoins(const int& n);
 	sf::Vector2f getPosition();
 
 	int getLife();
 	void setLife(const int& n);
+	sf::FloatRect getCollisionBox() const;
 };

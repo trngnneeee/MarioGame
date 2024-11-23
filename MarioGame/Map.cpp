@@ -17,47 +17,60 @@ void Map::Begin() {
 	hiddenBox.loadFromFile("./resources/textures/hiddenbox.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 	noneTexture.loadFromFile("./resources/textures/block.png");
+	coinTextures.clear();
+	for (int i = 1; i <= 14; ++i) {
+		sf::Texture coinTexture;
+		coinTexture.loadFromFile("./resources/textures/coin" + std::to_string(i) + ".png");
+		coinTextures.push_back(coinTexture);
+	}
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition)
-{
-	// Clear the previous map (vector)
+void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& enemiesPosition) {
+	// Clear existing map
 	grid.clear();
+	coins.clear();
 	grid = std::vector(image.getSize().x, std::vector(image.getSize().y, 0));
 
-	// Init map
-	for (size_t i = 0; i < grid.size(); i++)
-	{
-		for (size_t j = 0; j < grid[i].size(); j++)
-		{
+	// Initialize map from image
+	for (size_t i = 0; i < grid.size(); i++) {
+		for (size_t j = 0; j < grid[i].size(); j++) {
 			sf::Color color = image.getPixel(i, j);
-			if (color == sf::Color::Black)
+			if (color == sf::Color::Black) {
 				grid[i][j] = 1;
-			else if (color == sf::Color::Blue)
+			}
+			else if (color == sf::Color::Blue) {
 				grid[i][j] = 2;
-			else if (color == sf::Color::Yellow)
+			}
+			else if (color == sf::Color::Yellow) {
 				grid[i][j] = 3;
-			else if (color == sf::Color::Green)
+			}
+			else if (color == sf::Color::Cyan) {
 				grid[i][j] = 4;
-			else if (color == sf::Color::Magenta)
+			}
+			else if (color == sf::Color::Magenta) {
 				enemiesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
-			else if (color == sf::Color::Red)
+			}
+			else if (color == sf::Color::Red) {
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
+			}
+			else if (color == sf::Color::Green) { // Cyan indicates a coin
+				coins.emplace_back(cellSize * i, cellSize * j, coinTextures, cellSize);
+			}
 		}
 	}
 
-	// Init collision box
-	for (int row = 0; row < grid.size(); row++)
-	{
+	// Initialize collision boxes
+	collisionBoxList.clear();
+	for (size_t row = 0; row < grid.size(); row++) {
 		std::vector<sf::FloatRect> tmpArr;
-		for (int colum = 0; colum < grid[row].size(); colum++)
-		{
-			if (grid[row][colum] != 0)
-			{
-				sf::FloatRect tmp(cellSize * row, cellSize * colum, cellSize, cellSize);
+		for (size_t col = 0; col < grid[row].size(); col++) {
+			if (grid[row][col] != 0) {
+				sf::FloatRect tmp(cellSize * row, cellSize * col, cellSize, cellSize);
 				tmpArr.push_back(tmp);
 			}
-			else tmpArr.push_back(sf::FloatRect(0, 0, 0, 0));
+			else {
+				tmpArr.push_back(sf::FloatRect(0, 0, 0, 0));
+			}
 		}
 		collisionBoxList.push_back(tmpArr);
 	}
@@ -74,32 +87,36 @@ void Map::handleBrickCollision(sf::Vector2f hiddenBoxPosition)
 	score.push_back(newScore);
 }
 
-void Map::Update(float deltaTime)
-{	
-	for (int i = 0; i < score.size();)
-	{
-		if (score[i])
-		{
+void Map::Update(float deltaTime, const sf::FloatRect& marioCollisionBox, int& marioPoints, int& marioCoins) {
+	// C?p nh?t các ?i?m n?i
+	for (size_t i = 0; i < score.size();) {
+		if (score[i]) {
 			score[i]->Update(deltaTime);
-			if (score[i]->isTimeout())
-			{
-				delete score[i];
+			if (score[i]->isTimeout()) {
+				delete score[i];  // Xóa ?i?m n?i khi h?t th?i gian
 				score.erase(score.begin() + i);
 				continue;
 			}
 		}
 		i++;
 	}
+
+	// Ki?m tra và thu th?p ??ng xu
+	for (Coin& coin : coins) {
+		if (coin.checkCollision(marioCollisionBox) && !coin.isCollected()) {
+			coin.collect(*this);  // Thu th?p ??ng xu và thêm ?i?m vào Map
+			marioPoints += 100;    // C?ng ?i?m cho Mario
+			marioCoins += 1;
+		}
+	}
 }
 
-void Map::Draw(sf::RenderWindow& window){
-	for (int x = 0; x < grid.size(); x++)
-	{
-		for (int y = 0; y < grid[x].size(); y++)
-		{
+void Map::Draw(sf::RenderWindow& window) {
+	// V? các kh?i
+	for (size_t x = 0; x < grid.size(); x++) {
+		for (size_t y = 0; y < grid[x].size(); y++) {
 			sf::Texture* texture = nullptr;
 
-			// Determine the texture and render block type
 			switch (grid[x][y]) {
 			case 1:
 				texture = &stoneTexture;
@@ -117,26 +134,31 @@ void Map::Draw(sf::RenderWindow& window){
 				continue;
 			}
 
-			// Set and draw the block sprite
 			sprite.setTexture(*texture);
 			sprite.setPosition(cellSize * x, cellSize * y);
 			sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
 			window.draw(sprite);
 		}
 	}
-	for (int i = 0; i < score.size(); i++)
-	{
-		if (score[i])
-			score[i]->Draw(window);
+
+	// V? ??ng xu
+	for (Coin& coin : coins) {
+		coin.Draw(window);
+	}
+
+	// V? các ?i?m n?i
+	for (FloatingScore* fs : score) {
+		if (fs) {
+			fs->Draw(window);
+		}
 	}
 }
 
-void Map::Reset()
-{
+
+void Map::Reset() {
 	grid.clear();
 	collisionBoxList.clear();
-	for (int i = 0; i < score.size(); i++)
-	{
+	for (int i = 0; i < score.size(); i++) {
 		delete score[i];
 	}
 	score.clear();
@@ -155,4 +177,12 @@ float Map::getCellSize()
 const std::vector<std::vector<int>>& Map::getGrid() const
 {
 	return grid;
+}
+const std::vector<Coin>& Map::getCoins() const
+{
+	return coins;
+}
+void Map::addFloatingScore(int points, sf::Vector2f position) {
+	FloatingScore* newScore = new FloatingScore(points, position);
+	score.push_back(newScore);  // Thêm ?i?m vào danh sách score
 }

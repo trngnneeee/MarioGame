@@ -48,7 +48,7 @@ UICounter::UICounter()
 	coinCounter = sf::Text(": x", font);
 }
 
-void UICounter::Update(float deltaTime, Camera camera, const int& points, const int& life, const int& gameTime)
+void UICounter::Update(float deltaTime, Camera camera, const int& points,  const int& life, const int& gameTime, const int& coins)
 {
 	std::ostringstream pointsStream;
 	pointsStream << std::setw(6) << std::setfill('0') << points;
@@ -70,7 +70,7 @@ void UICounter::Update(float deltaTime, Camera camera, const int& points, const 
 	coinSprite.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(25.0f, 10.0f));
 
 	coinCounter.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(30.0f, 10.0f));
-	coinCounter.setString("x " + std::to_string(0));
+	coinCounter.setString("x " + std::to_string(coins));
 }
 
 void UICounter::Draw(sf::RenderWindow& window)
