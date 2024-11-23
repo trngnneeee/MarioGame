@@ -236,7 +236,7 @@ bool Mario::koopaCollision(Koopa& koopa)
 			else
 			{
 				velocity.y = -jumpStrength / 2;
-				koopa.setStandTimer(5.0f);
+				koopa.setStandTimer(3.0f);
 			}
 			koopa.setVelocity(sf::Vector2f(0.0f, 0.0f));
 			return false;

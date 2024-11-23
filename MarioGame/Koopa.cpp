@@ -1,7 +1,7 @@
 #include "Koopa.h"
 
 Koopa::Koopa()
-	: outAnimation(0.4f), inShell(false), standTimer(5.0f)
+	: outAnimation(0.4f), inShell(false), standTimer(3.0f)
 {
 }
 
@@ -62,7 +62,7 @@ void Koopa::Update(float deltaTime, const Map& map)
 		sprite.setTexture(throwTexture);
 		dieTime -= deltaTime;
 		if (!score)
-			score = new FloatingScore(100, position);
+			score = new FloatingScore(200, position);
 		else
 			score->Update(deltaTime);
 		return;
@@ -71,7 +71,7 @@ void Koopa::Update(float deltaTime, const Map& map)
 	if (inShell)
 	{
 		velocity.x *= friction;
-		if (std::abs(velocity.x) < 0.3f)
+		if (std::abs(velocity.x) < 0.5f)
 		{
 			velocity.x = 0.0f;
 		}
@@ -84,7 +84,7 @@ void Koopa::Update(float deltaTime, const Map& map)
 			{
 				inShell = false;
 				velocity.x = 3.0f;
-				standTimer = 5.0f;
+				standTimer = 3.0f;
 				return;
 			}
 		}

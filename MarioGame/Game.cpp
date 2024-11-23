@@ -139,7 +139,11 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		for (int j = 0; j < goombas.size(); j++)
 		{
 			if (goombas[j]->koopaCollision(*koopas[i]))
+			{
+				if (goombas[j]->getDieByKoopaStatus() == false)
+					mario.setPoints(mario.getPoints() + 200);
 				goombas[j]->setDieByKoopaStatus(true);
+			}
 		}
 		// Collision with other koopa
 		for (int j = 0; j < koopas.size(); j++)
@@ -147,7 +151,11 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			if (i != j)
 			{
 				if (koopas[i]->teamCollision(*koopas[j]))
+				{
+					if (koopas[j]->getDieStatus() == false)
+						mario.setPoints(mario.getPoints() + 200);
 					koopas[j]->setDieStatus(true);
+				}
 			}
 		}
 		koopas[i]->Update(deltaTime, map);

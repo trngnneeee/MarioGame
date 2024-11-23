@@ -60,7 +60,7 @@ void Goombas::Update(float deltaTime, const Map& map)
 		sprite.setTexture(throwTexture);
 		dieTime -= deltaTime;
 		if (!score)
-			score = new FloatingScore(100, position);
+			score = new FloatingScore(200, position);
 		else
 			score->Update(deltaTime);
 		return;
