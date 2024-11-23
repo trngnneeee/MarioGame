@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map2.png");
+	image.loadFromFile("map2newnew.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -18,6 +18,7 @@ void Map::Begin() {
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
+	fireTexture.loadFromFile("./resources/textures/fire.png");
 
 	hiddenBoxTexture[0].loadFromFile("./resources/textures/hiddenbox1.png");
 	hiddenBoxTexture[1].loadFromFile("./resources/textures/hiddenbox2.png");
@@ -45,61 +46,66 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			EntityType entityType = getEntityTypeFromColor(color);
 			switch (entityType)
 			{
-			case EntityType::Stone:
-			{
-				grid[i][j] = 1;
-				break;
-			}
-			case EntityType::Copper:
-			{
-				grid[i][j] = 2;
-				break;
-			}
-			case EntityType::Brick:
-			{
-				grid[i][j] = 3;
-				break;
-			}
-			case EntityType::HiddenBox:
-			{
-				grid[i][j] = 4;
-				break;
-			}
-			case EntityType::useBlock:
-			{
-				grid[i][j] = 5;
-				break;
-			}
-			case EntityType::Goomba:
-			{
-				goombasPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
-				break;
-			}
-			case EntityType::Koopa:
-			{
-				koopaPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
-				break;
-			}
-			case EntityType::Mario:
-			{
-				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
-				break;
-			}
-			case EntityType::Win:
-			{
-				winPosition = sf::Vector2f(cellSize * i , cellSize * j);
-				break;
-			}
-			case EntityType::Circle:
-			{
-				grid[i][j] = 6;
-				break;
-			}
-			case EntityType::Stick:
-			{
-				grid[i][j] = 7;
-				break;
-			}
+				case EntityType::Stone:
+				{
+					grid[i][j] = 1;
+					break;
+				}
+				case EntityType::Copper:
+				{
+					grid[i][j] = 2;
+					break;
+				}
+				case EntityType::Brick:
+				{
+					grid[i][j] = 3;
+					break;
+				}
+				case EntityType::HiddenBox:
+				{
+					grid[i][j] = 4;
+					break;
+				}
+				case EntityType::useBlock:
+				{
+					grid[i][j] = 5;
+					break;
+				}
+				case EntityType::Goomba:
+				{
+					goombasPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+					break;
+				}
+				case EntityType::Koopa:
+				{
+					koopaPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+					break;
+				}
+				case EntityType::Mario:
+				{
+					marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
+					break;
+				}
+				case EntityType::Win:
+				{
+					winPosition = sf::Vector2f(cellSize * i , cellSize * j);
+					break;
+				}
+				case EntityType::Circle:
+				{
+					grid[i][j] = 6;
+					break;
+				}
+				case EntityType::Stick:
+				{
+					grid[i][j] = 7;
+					break;
+				}
+				case EntityType::Fire:
+				{
+					grid[i][j] = 8;
+					break;
+				}
 			}
 		}
 	}
@@ -229,6 +235,15 @@ void Map::Draw(sf::RenderWindow& window){
 				window.draw(sprite);
 				break;
 			}
+			case 8:
+			{
+				texture = &fireTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().y);
+				window.draw(sprite);
+			}
+						
 			default:
 				continue;
 			}
