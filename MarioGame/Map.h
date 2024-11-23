@@ -15,6 +15,7 @@ private:
 	// Sprite, Texture
 	sf::Sprite sprite;
 	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+	sf::Texture fireTextures[3];
 
 	// Hidden box
 	sf::Sprite hiddenBoxSprite;

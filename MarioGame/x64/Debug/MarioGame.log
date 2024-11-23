@@ -1,5 +1,25 @@
-﻿  Game.cpp
-  LINK : D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe not found or not built by the last incremental link; performing full link
+﻿  Background.cpp
+  Enemy.cpp
+  Game.cpp
+  Goombas.cpp
+  Koopa.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(110,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(110,41): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(110,41): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(110,41): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(110,41): warning C4244:         ]
+  Map.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(48,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(48,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  Mario.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(169,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(169,41): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(169,41): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(169,41): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(169,41): warning C4244:         ]
+  PowerUpMushroom.cpp
+  UICounter.cpp
+  Generating Code...
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

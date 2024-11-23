@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map2.png");
+	image.loadFromFile("map2newnewFixed.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -18,6 +18,10 @@ void Map::Begin() {
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
+
+	fireTextures[0].loadFromFile("./resources/textures/fire1.png");
+	fireTextures[1].loadFromFile("./resources/textures/fire2.png");
+	fireTextures[2].loadFromFile("./resources/textures/fire3.png");
 
 	hiddenBoxTexture[0].loadFromFile("./resources/textures/hiddenbox1.png");
 	hiddenBoxTexture[1].loadFromFile("./resources/textures/hiddenbox2.png");
@@ -98,6 +102,21 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::Stick:
 			{
 				grid[i][j] = 7;
+				break;
+			}
+			case EntityType::Fire1:
+			{
+				grid[i][j] = 8;
+				break;
+			}
+			case EntityType::Fire2:
+			{
+				grid[i][j] = 9;
+				break;
+			}
+			case EntityType::Fire3:
+			{
+				grid[i][j] = 10;
 				break;
 			}
 			}
@@ -223,6 +242,33 @@ void Map::Draw(sf::RenderWindow& window){
 			case 7:
 			{
 				texture = &stickTexture;
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 8:
+			{
+				texture = &fireTextures[0];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 9:
+			{
+				texture = &fireTextures[1];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 10:
+			{
+				texture = &fireTextures[2];
 				sprite.setTexture(*texture);
 				sprite.setPosition(cellSize * x, cellSize * y);
 				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);

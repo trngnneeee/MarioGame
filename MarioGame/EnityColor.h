@@ -15,7 +15,8 @@ enum class EntityType {
     None,
     Win,
     Stick,
-    Circle
+    Circle,
+    Fire1, Fire2, Fire3
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -24,6 +25,10 @@ sf::Color useBlockColor(100, 100, 0);
 sf::Color winColor(0, 255, 255);
 sf::Color stickColor(0, 150, 0);
 sf::Color circleColor(0, 100, 0);
+
+sf::Color fireColor1(0, 0, 100);
+sf::Color fireColor2(0, 0, 120);
+sf::Color fireColor3(0, 0, 140);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -37,7 +42,10 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::None, sf::Color::Transparent},
     {EntityType::Win, winColor},
     {EntityType::Stick, stickColor},
-    {EntityType::Circle, circleColor}
+    {EntityType::Circle, circleColor},
+    {EntityType::Fire1, fireColor1},
+    {EntityType::Fire2, fireColor2},
+    {EntityType::Fire3, fireColor3}
 };
 
 inline EntityType getEntityTypeFromColor(const sf::Color& color) {
