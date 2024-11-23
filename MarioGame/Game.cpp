@@ -26,6 +26,7 @@ std::vector<PowerUpMushroom*> mushroom;
 
 sf::Music music;
 sf::Music deadMusic;
+sf::Music levelUp;
 bool deadMusicIsPlay;
 
 float timeAccumulator;
@@ -70,6 +71,7 @@ void Begin(sf::RenderWindow& window)
 	music.setLoop(true);
 	music.play();	
 	deadMusic.openFromFile("./resources/soundEffect/dead.mp3");
+	levelUp.openFromFile("./resources/soundEffect/level-up.mp3");
 	deadMusicIsPlay = false;
 
 	// Init time
@@ -162,7 +164,8 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	{
 		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false)
 		{
-			mario.setPoints(mario.getPoints() + 300);
+			mario.setPoints(mario.getPoints() + 1000);
+			levelUp.play();
 			mushroom[i]->setDeadStatus(true);
 		}
 		mushroom[i]->Update(deltaTime, map);
@@ -187,6 +190,7 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 	}
 
+	/// Update game state
 	if (mario.getDeadStatus() == true)
 	{
 		music.stop();

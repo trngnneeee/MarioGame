@@ -79,7 +79,7 @@ void PowerUpMushroom::Update(float deltaTime, const Map& map)
 		velocity = sf::Vector2f(0.0f, 0.0f);
 		dieTime -= deltaTime;
 		if (!score)
-			score = new FloatingScore(500, position);
+			score = new FloatingScore(1000, position);
 		else score->Update(deltaTime);
 		return;
 	}
