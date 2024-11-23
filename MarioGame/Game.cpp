@@ -129,13 +129,13 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 	}
 	mario.Update(deltaTime, map, mushroom);
-	if (mario.getPosition().x >= winPosition.x)
+	/*if (mario.getPosition().x >= winPosition.x)
 	{
 		music.stop();
 		win.play();
 		gameState = GameState::GameOver;
 		return;
-	}
+	}*/
 	/// Update Goombas
 	for (int i = 0; i < goombas.size(); i++)
 	{
