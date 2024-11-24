@@ -12,21 +12,23 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 		return;
 	if (!texture2.loadFromFile("./resources/textures/koopa2.png"))
 		return;
+	textures.push_back(texture1);
+	textures.push_back(texture2);
 	if (!shell.loadFromFile("./resources/textures/koopashell.png"))
 		return;
 	if (!throwTexture.loadFromFile("./resources/textures/koopaDead.png"))
 		return;
-	if (!outShell[0].loadFromFile("./resources/textures/koopaOut1.png"))
-		return;
-	if (!outShell[1].loadFromFile("./resources/textures/koopaOut2.png"))
-		return;
-	if (!outShell[2].loadFromFile("./resources/textures/koopaOut3.png"))
-		return;
-	if (!outShell[3].loadFromFile("./resources/textures/koopaOut4.png"))
-		return;
-	textures.push_back(texture1);
-	textures.push_back(texture2);
-	
+	for (int i = 0; i < 4; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/koopaOut" + std::to_string(i + 1) + ".png");
+		outShell.push_back(tmp);
+	}
+	// Init get out shell animation
+	for (int i = 0; i < outShell.size(); i++)
+	{
+		outAnimation.addFrame(Frame(&outShell[i], 0.1f * (i + 1)));
+	}
 
 	// Init sprite
 	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
@@ -45,12 +47,6 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 		1.0f / textures[0].getSize().x,
 		1.0f / textures[0].getSize().y
 	);
-
-	// Init get out shell animation
-	outAnimation.addFrame(Frame(&outShell[0], 0.1f));
-	outAnimation.addFrame(Frame(&outShell[1], 0.2f));
-	outAnimation.addFrame(Frame(&outShell[2], 0.3f));
-	outAnimation.addFrame(Frame(&outShell[3], 0.4f));
 }
 
 void Koopa::Update(float deltaTime, const Map& map)

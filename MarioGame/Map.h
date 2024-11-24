@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 #include "Game.h"
 #include "FloatingScore.h"
 #include "Animation.h"
@@ -15,11 +16,11 @@ private:
 	// Sprite, Texture
 	sf::Sprite sprite;
 	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
-	sf::Texture fireTextures[3];
+	std::vector< sf::Texture> fireTextures;
 
 	// Hidden box
 	sf::Sprite hiddenBoxSprite;
-	sf::Texture hiddenBoxTexture[4];
+	std::vector< sf::Texture> hiddenBoxTexture;
 	Animation hiddenBoxAnimation;
 
 	// Image

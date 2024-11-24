@@ -3,7 +3,7 @@
 
 // Constructor
 Map::Map(float cellSize)
-	: cellSize(cellSize), hiddenBoxAnimation(6.0f)
+	: cellSize(cellSize), hiddenBoxAnimation(4.0f)
 {
 }
 // Functions
@@ -19,19 +19,23 @@ void Map::Begin() {
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
 
-	fireTextures[0].loadFromFile("./resources/textures/fire1.png");
-	fireTextures[1].loadFromFile("./resources/textures/fire2.png");
-	fireTextures[2].loadFromFile("./resources/textures/fire3.png");
+	for (int i = 0; i < 3; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/fire" + std::to_string(i + 1) + ".png");
+		fireTextures.push_back(tmp);
+	}
 
-	hiddenBoxTexture[0].loadFromFile("./resources/textures/hiddenbox1.png");
-	hiddenBoxTexture[1].loadFromFile("./resources/textures/hiddenbox2.png");
-	hiddenBoxTexture[2].loadFromFile("./resources/textures/hiddenbox3.png");
-	hiddenBoxTexture[3].loadFromFile("./resources/textures/hiddenbox4.png");
-
-	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[0], 1.5f));
-	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[1], 3.0f));
-	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[2], 4.5f));
-	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[3], 6.0f));
+	for (int i = 0; i < 4; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/hiddenbox" + std::to_string(i + 1) + ".png");
+		hiddenBoxTexture.push_back(tmp);
+	}
+	for (int i = 0; i < hiddenBoxTexture.size(); i++)
+	{
+		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 1.0f * (i + 1)));
+	}
 }
 
 void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)

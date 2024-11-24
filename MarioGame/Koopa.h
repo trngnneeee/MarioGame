@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
 #include "Enemy.h"
 #include "Map.h"
 
@@ -9,7 +10,7 @@ private:
 	sf::Texture shell;
 	bool inShell;
 	
-	sf::Texture outShell[4];
+	std::vector<sf::Texture> outShell;
 	Animation outAnimation;
 	
 	sf::Texture throwTexture;
