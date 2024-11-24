@@ -33,6 +33,8 @@ public:
     void Update(float deltaTime);
     void Draw(sf::RenderWindow& window);
 
+    void Reset();
+
     // Setter/Getter
     bool isCollected() const;
     void setCollected(const bool& value);

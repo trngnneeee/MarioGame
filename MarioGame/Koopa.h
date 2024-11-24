@@ -27,6 +27,8 @@ public:
 
 	bool teamCollision(const Koopa& other);
 
+	void Reset();
+
 	// Setter/Getter
 	bool getInShellStatus() const;
 	void setInShellStatus(const bool& value);

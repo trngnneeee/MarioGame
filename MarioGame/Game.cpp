@@ -265,7 +265,6 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			gameTime = 0;
 		}
 	}
-
 	/// Update game state
 	if (mario.getDeadStatus() == true)
 	{
@@ -336,12 +335,14 @@ void Reset()
 	// Reset goomba
 	for (int i = 0; i < goombas.size(); i++)
 	{
+		goombas[i]->Reset();
 		delete goombas[i];
 	}
 	goombas.clear();
 	// Reset koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
+		koopas[i]->Reset();
 		delete koopas[i];
 	}
 	koopas.clear();
@@ -354,6 +355,7 @@ void Reset()
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)
 	{
+		coins[i]->Reset();
 		delete coins[i];
 	}
 	coins.clear();

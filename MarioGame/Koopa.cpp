@@ -118,6 +118,15 @@ bool Koopa::teamCollision(const Koopa& other)
 	return (inShell == true && other.getInShellStatus() == false && std::abs(velocity.x) > 5.0f && collisionBox.intersects(other.collisionBox));
 }
 
+void Koopa::Reset()
+{
+	runAnimation.Reset();
+	textures.clear();
+	if (score) delete score;
+	outShell.clear();
+	outAnimation.Reset();
+}
+
 bool Koopa::getInShellStatus() const
 {
 	return inShell;

@@ -43,6 +43,8 @@ public:
 	
 	bool mapCollision(const Map& map);
 
+	void Reset();
+
 	// Setter/Getter
 	sf::FloatRect getCollisionBox() const;
 

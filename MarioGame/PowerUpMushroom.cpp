@@ -77,10 +77,15 @@ void PowerUpMushroom::Update(float deltaTime, const Map& map)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 0));
 		velocity = sf::Vector2f(0.0f, 0.0f);
-		dieTime -= deltaTime;
-		if (!score)
-			score = new FloatingScore(1000, position);
-		else score->Update(deltaTime);
+		if (dieTime > 0)
+		{
+			dieTime -= deltaTime;
+			if (!score)
+				score = new FloatingScore(1000, position);
+			else score->Update(deltaTime);
+		}
+		else
+			if (score) delete score;
 		return;
 	}
 

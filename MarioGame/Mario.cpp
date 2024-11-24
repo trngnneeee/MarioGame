@@ -184,7 +184,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5 || grid[i][j] == 11 || grid[i][j] == 12 || grid[i][j] == 13 || grid[i][j] == 14))
 				return true;
 			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 3))
 			{

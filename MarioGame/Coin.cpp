@@ -72,6 +72,11 @@ void Coin::Draw(sf::RenderWindow& window)
         score->Draw(window);
 }
 
+void Coin::Reset()
+{
+    coinAnimation.Reset();
+}
+
 bool Coin::isCollected() const {
     return collected;
 }

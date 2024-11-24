@@ -23,6 +23,10 @@ private:
 	std::vector< sf::Texture> hiddenBoxTexture;
 	Animation hiddenBoxAnimation;
 
+	// Tube
+	sf::Sprite tubeSprite;
+	std::vector<sf::Texture> tubeTexture;
+
 	// Image
 	sf::Image image;
 

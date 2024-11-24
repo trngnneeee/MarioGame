@@ -70,11 +70,18 @@ bool Enemy::mapCollision(const Map& map)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 4 || grid[i][j] == 3))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]))
 				return true;
 		}
 	}
 	return false; // No collision
+}
+
+void Enemy::Reset()
+{
+	runAnimation.Reset();
+	textures.clear();
+	if (score) delete score;
 }
 
 // Setter/Getter

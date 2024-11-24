@@ -19,6 +19,7 @@ void Map::Begin() {
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
 
+	// Fire texture
 	for (int i = 0; i < 3; i++)
 	{
 		sf::Texture tmp;
@@ -26,15 +27,25 @@ void Map::Begin() {
 		fireTextures.push_back(tmp);
 	}
 
+	// Hidden box texture
 	for (int i = 0; i < 4; i++)
 	{
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/hiddenbox" + std::to_string(i + 1) + ".png");
 		hiddenBoxTexture.push_back(tmp);
 	}
+	// Hidden box animation
 	for (int i = 0; i < hiddenBoxTexture.size(); i++)
 	{
 		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 1.0f * (i + 1)));
+	}
+
+	// Tube texture
+	for (int i = 0; i < 4; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/tube" + std::to_string(i + 1) + ".png");
+		tubeTexture.push_back(tmp);
 	}
 }
 
@@ -126,6 +137,26 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::Coin:
 			{
 				coinPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+				break;
+			}
+			case EntityType::Tube1:
+			{
+				grid[i][j] = 11;
+				break;
+			}
+			case EntityType::Tube2:
+			{
+				grid[i][j] = 12;
+				break;
+			}
+			case EntityType::Tube3:
+			{
+				grid[i][j] = 13;
+				break;
+			}
+			case EntityType::Tube4:
+			{
+				grid[i][j] = 14;
 				break;
 			}
 			}
@@ -284,6 +315,42 @@ void Map::Draw(sf::RenderWindow& window){
 				window.draw(sprite);
 				break;
 			}
+			case 11:
+			{
+				texture = &tubeTexture[0];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 12:
+			{
+				texture = &tubeTexture[1];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 13:
+			{
+				texture = &tubeTexture[2];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
+			case 14:
+			{
+				texture = &tubeTexture[3];
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize * x, cellSize * y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
+				break;
+			}
 			default:
 				continue;
 			}
@@ -298,6 +365,11 @@ void Map::Draw(sf::RenderWindow& window){
 
 void Map::Reset()
 {
+	for (int i = 0; i < grid.size(); i++)
+	{
+		grid[i].clear();
+		collisionBoxList[i].clear();
+	}
 	grid.clear();
 	collisionBoxList.clear();
 	for (int i = 0; i < score.size(); i++)
@@ -305,6 +377,7 @@ void Map::Reset()
 		delete score[i];
 	}
 	score.clear();
+	hiddenBoxAnimation.Reset();
 }
 
 const std::vector<std::vector<sf::FloatRect>>& Map::getCollisionBoxList() const
