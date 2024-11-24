@@ -191,6 +191,7 @@ void Map::handleBrickCollision(sf::Vector2f brickPosition)
 	int y = static_cast<int>(brickPosition.y / cellSize);
 
 	grid[x][y] = 0;
+	collisionBoxList[x][y] = sf::FloatRect(0, 0, 0, 0);
 
 	FloatingScore* newScore = new FloatingScore(50, brickPosition);
 	score.push_back(newScore);

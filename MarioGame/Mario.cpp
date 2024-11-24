@@ -154,7 +154,14 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 	else
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 
-	jumpStrength = (levelUp) ? 23.0f : 18.0f;
+	// 10 coin -> 1 life
+	if (coin >= 10)
+	{
+		coin -= 10;
+		life++;
+	}
+
+	jumpStrength = (levelUp) ? 25.0f : 20.0f;
 
 	HandleMove(deltaTime, map, mushroom, stars);
 
