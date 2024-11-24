@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), coin(0)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
 {
 }
 
@@ -45,7 +45,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
-void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom)
+void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {	
 	// Update previous position
 	previousPos = position; 
@@ -61,13 +61,13 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	}
 
 	// Vertical move
-	HandleVerticalMove(deltaTime, map, mushroom);
+	HandleVerticalMove(deltaTime, map, mushroom, stars);
 
 	// Horizontal move
-	HandleHorizontalMove(deltaTime, map, mushroom);
+	HandleHorizontalMove(deltaTime, map, mushroom, stars);
 }
 
-void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom)
+void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -76,7 +76,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x += movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushroom)) position.x = newPosition.x;
+		if (!mapCollision(map, mushroom, stars)) position.x = newPosition.x;
 		facingRight = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -85,7 +85,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x -= movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushroom)) position.x = newPosition.x;
+		if (!mapCollision(map, mushroom, stars)) position.x = newPosition.x;
 		facingRight = false;
 	}
 
@@ -93,7 +93,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom)
+void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -103,7 +103,7 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMus
 	collisionBox.top = newPosition.y;
 
 	// Vertical collision check
-	if (!mapCollision(map, mushroom))
+	if (!mapCollision(map, mushroom, stars))
 	{
 		position.y = newPosition.y;
 	}
@@ -120,7 +120,7 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMus
 	}
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom)
+void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {
 	if (isDead)
 	{  
@@ -137,10 +137,18 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 		return;
 	}
 
+	// Shrinking from Big size to Small size
 	if (invicibleTime > 0)
 	{
 		invicibleTime -= deltaTime;
 		float alpha = (sin(invicibleTime * 100.0f) * 0.5f + 0.5f) * 255;
+		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+	} 
+	// Taking star
+	else if (invicibleTime2 > 0)
+	{
+		invicibleTime2 -= deltaTime;
+		float alpha = (sin(invicibleTime2 * 100.0f) * 0.5f + 0.5f) * 255;
 		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
 	}
 	else
@@ -148,7 +156,7 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 
 	jumpStrength = (levelUp) ? 23.0f : 18.0f;
 
-	HandleMove(deltaTime, map, mushroom);
+	HandleMove(deltaTime, map, mushroom, stars);
 
 	// Update animation
 	if (!isOnGround)
@@ -176,7 +184,7 @@ void Mario::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
-bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
+bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {
 	std::vector<std::vector<int>> grid = map.getGrid();
 
@@ -186,6 +194,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
 		{
 			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5 || grid[i][j] == 11 || grid[i][j] == 12 || grid[i][j] == 13 || grid[i][j] == 14))
 				return true;
+			// Brick break
 			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 3))
 			{
 				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
@@ -199,6 +208,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
 				}
 				else return true;
 			}
+			// Hidden box contain mushroom
 			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] == 4)
 			{
 				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
@@ -206,6 +216,18 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom)
 					PowerUpMushroom* newMushroom = new PowerUpMushroom;
 					newMushroom->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
 					mushroom.push_back(newMushroom);
+					map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+					return true;
+				}
+				else return true;
+			}
+			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] == 15)
+			{
+				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
+				{
+					InvicibleStar* newStar = new InvicibleStar;
+					newStar->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+					stars.push_back(newStar);
 					map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
 					return true;
 				}
@@ -272,6 +294,11 @@ bool Mario::koopaCollision(Koopa& koopa)
 bool Mario::mushroomCollision(PowerUpMushroom& mushroom)
 {
 	return collisionBox.intersects(mushroom.getCollisionBox());
+}
+
+bool Mario::starCollision(InvicibleStar& star)
+{
+	return collisionBox.intersects(star.getCollisionBox());
 }
 
 bool Mario::coinCollision(Coin& coin)
@@ -368,8 +395,20 @@ float Mario::getInvicibleTime()
 	return invicibleTime;
 }
 
-void Mario::setInvicibleTime(const float& time) {
+void Mario::setInvicibleTime(const float& time) 
+{
 	invicibleTime = time;
+}
+
+float Mario::getInvicibleTime2()
+{
+	return invicibleTime2;
+}
+
+void Mario::setInvicibleTime2(const float& time)
+{
+
+	invicibleTime2 = time;
 }
 
 int Mario::getCoin()

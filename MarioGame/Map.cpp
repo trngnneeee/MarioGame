@@ -159,6 +159,11 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				grid[i][j] = 14;
 				break;
 			}
+			case EntityType::HiddenBox2:
+			{
+				grid[i][j] = 15;
+				break;
+			}
 			}
 		}
 	}
@@ -220,7 +225,7 @@ void Map::Update(float deltaTime)
 	{
 		for (int j = 0; j < grid[i].size(); j++)
 		{
-			if (grid[i][j] == 4)
+			if (grid[i][j] == 4 || grid[i][j] == 15)
 			{
 				hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 			}
@@ -258,7 +263,7 @@ void Map::Draw(sf::RenderWindow& window){
 				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
 				window.draw(sprite);
 				break;
-			case 4:
+			case 4: case 15:
 				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
 				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
 				window.draw(hiddenBoxSprite);

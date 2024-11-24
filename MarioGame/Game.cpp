@@ -7,6 +7,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "PowerUpMushroom.h"
+#include "InvicibleStar.h"
 #include "Coin.h"
 #include <vector>
 #include <iostream>
@@ -24,6 +25,7 @@ std::vector<Koopa*> koopas;
 
 // Power-up Mushroom
 std::vector<PowerUpMushroom*> mushroom;
+std::vector<InvicibleStar*> stars;
 
 // Coin
 std::vector<Coin*> coins;
@@ -113,22 +115,9 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	{
 		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
 		{
-			if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
-				mario.setDeadStatus(true);
+			if (mario.getInvicibleTime2() > 0)
+				goombas[i]->setDieByKoopaStatus(true);
 			else
-			{
-				if (mario.getInvicibleTime() == 0)
-					mario.setInvicibleTime(2.0f);
-				mario.setLevelUpStatus(false);
-			}
-		}
-	}
-	// Collision with koopa
-	for (int i = 0; i < koopas.size(); i++)
-	{
-		if (mario.koopaCollision(*koopas[i]))
-		{
-			if (!koopas[i]->getInShellStatus())
 			{
 				if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
 					mario.setDeadStatus(true);
@@ -141,7 +130,30 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushroom);
+	// Collision with koopa
+	for (int i = 0; i < koopas.size(); i++)
+	{
+		if (mario.koopaCollision(*koopas[i]))
+		{
+			if (!koopas[i]->getInShellStatus())
+			{
+				if (mario.getInvicibleTime2() > 0)
+					koopas[i]->setDieStatus(true);
+				else
+				{
+					if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
+						mario.setDeadStatus(true);
+					else
+					{
+						if (mario.getInvicibleTime() == 0)
+							mario.setInvicibleTime(2.0f);
+						mario.setLevelUpStatus(false);
+					}
+				}
+			}
+		}
+	}
+	mario.Update(deltaTime, map, mushroom, stars);
 	if (mario.getPosition().x >= winPosition.x)
 	{
 		music.stop();
@@ -232,6 +244,24 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		else
 			++it;
 	}
+	/// Update Invicible Star
+	for (int i = 0; i < stars.size(); i++)
+	{
+		if (mario.starCollision(*stars[i]) && stars[i]->getDeadStatus() == false)
+		{
+			mario.setPoints(mario.getPoints() + 1000);
+			stars[i]->setDeadStatus(true);
+			mario.setInvicibleTime2(10.0f);
+		}
+		stars[i]->Update(deltaTime, map);
+	}
+	for (auto it = stars.begin(); it != stars.end();)
+	{
+		if (((*it)->getDeadStatus() == true) && (*it)->getDieTime() <= 0)
+			it = stars.erase(it);
+		else
+			++it;
+	}
 	/// Update coin
 	for (int i = 0; i < coins.size(); i++)
 	{
@@ -296,6 +326,10 @@ void Render(sf::RenderWindow& window)
 	{
 		mushroom[i]->Draw(window);
 	}
+	for (int i = 0; i < stars.size(); i++)
+	{
+		stars[i]->Draw(window);
+	}
 	map.Draw(window);
 	mario.Draw(window);
 	for (int i = 0; i < goombas.size(); i++)
@@ -352,6 +386,12 @@ void Reset()
 		delete mushroom[i];
 	}
 	mushroom.clear();
+	/// Reset star
+	for (int i = 0; i < stars.size(); i++)
+	{
+		delete stars[i];
+	}
+	stars.clear();
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)
 	{

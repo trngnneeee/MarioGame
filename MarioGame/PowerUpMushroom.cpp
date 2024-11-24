@@ -2,7 +2,7 @@
 #include "Map.h"
 
 PowerUpMushroom::PowerUpMushroom()
-	: gravity(50.0f), velocity(sf::Vector2f(5.0f, 0.0f)), isOut(false), isDead(false), dieTime(3.0f)
+	: gravity(50.0f), velocity(sf::Vector2f(5.0f, 0.0f)), isOut(false), isDead(false), dieTime(1.0f)
 {
 }
 

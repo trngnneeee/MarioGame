@@ -5,6 +5,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "PowerUpMushroom.h"
+#include "InvicibleStar.h"
 #include "Coin.h"
 
 class Mario
@@ -54,6 +55,8 @@ private:
 	bool levelUp;
 	// Invicible time when shrinking from big size to small size
 	float invicibleTime;
+	// Invicible time when getting a star
+	float invicibleTime2;
 
 	// Coin
 	int coin;
@@ -64,20 +67,21 @@ public:
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
 
-	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
-	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
-	void HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
+	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
+	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
+	void HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
 	
-	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom);
+	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);
 
-	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom);
+	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
 	bool mushroomCollision(PowerUpMushroom& mushroom);
+	bool starCollision(InvicibleStar& star);
 	bool coinCollision(Coin& coin);
 
 	void Reset();
@@ -106,6 +110,9 @@ public:
 
 	float getInvicibleTime();
 	void setInvicibleTime(const float& time);
+
+	float getInvicibleTime2();
+	void setInvicibleTime2(const float& time);
 
 	int getCoin();
 	void setCoin(const int coin);

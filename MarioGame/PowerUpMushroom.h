@@ -5,7 +5,7 @@
 
 class PowerUpMushroom
 {
-private:
+protected:
 	// Texture, sprite
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -38,7 +38,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 	bool mapCollision(const Map& map);
-
 	// Setter/Getter
 	sf::FloatRect getCollisionBox() const;
 

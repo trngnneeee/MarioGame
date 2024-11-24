@@ -8,7 +8,7 @@ enum class EntityType {
     Copper,
     Brick,
     useBlock,
-    HiddenBox,
+    HiddenBox, HiddenBox2,
     Goomba,
     Koopa,
     Mario,
@@ -39,27 +39,38 @@ sf::Color tubeColor2(0, 140, 0);
 sf::Color tubeColor3(0, 160, 0);
 sf::Color tubeColor4(0, 180, 0);
 
+sf::Color hiddenBox2Color(150, 100, 0);
+
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
     {EntityType::Copper, sf::Color::Blue},
     {EntityType::Brick, sf::Color::Green},
     {EntityType::useBlock, useBlockColor},
+
     {EntityType::HiddenBox, sf::Color::Yellow},
+    {EntityType::HiddenBox2, hiddenBox2Color},
+
     {EntityType::Goomba, GoombaColor},
     {EntityType::Koopa, KoopaColor},
     {EntityType::Mario, sf::Color::Red},
-    {EntityType::None, sf::Color::Transparent},
+    
     {EntityType::Win, winColor},
+
     {EntityType::Stick, stickColor},
     {EntityType::Circle, circleColor},
+
     {EntityType::Fire1, fireColor1},
     {EntityType::Fire2, fireColor2},
     {EntityType::Fire3, fireColor3},
+
     {EntityType::Coin, coinColor},
+
     {EntityType::Tube1, tubeColor1},
     {EntityType::Tube2, tubeColor2},
     {EntityType::Tube3, tubeColor3},
     {EntityType::Tube4, tubeColor4},
+
+    {EntityType::None, sf::Color::Transparent}
 };
 
 inline EntityType getEntityTypeFromColor(const sf::Color& color) {

@@ -143,6 +143,7 @@
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Goombas.cpp" />
+    <ClCompile Include="InvicibleStar.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="main.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Goombas.h" />
+    <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />

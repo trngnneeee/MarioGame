@@ -55,7 +55,8 @@ void Goombas::Update(float deltaTime, const Map& map)
 				score->Update(deltaTime);
 		}
 		else
-			if (score) delete score;
+			if (score)
+				delete score;
 		return;
 	}
 	else if (isDeadByKoopa)
