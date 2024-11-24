@@ -46,11 +46,16 @@ void Goombas::Update(float deltaTime, const Map& map)
 		sprite.setTexture(deadTexture);
 		velocity.x = 0;
 		velocity.y = 0;
-		dieTime -= deltaTime;
-		if (!score)
-			score = new FloatingScore(100, position);
+		if (dieTime > 0)
+		{
+			dieTime -= deltaTime;
+			if (!score)
+				score = new FloatingScore(100, position);
+			else
+				score->Update(deltaTime);
+		}
 		else
-			score->Update(deltaTime);
+			if (score) delete score;
 		return;
 	}
 	else if (isDeadByKoopa)

@@ -7,6 +7,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "PowerUpMushroom.h"
+#include "Coin.h"
 #include <vector>
 #include <iostream>
 
@@ -24,6 +25,9 @@ std::vector<Koopa*> koopas;
 // Power-up Mushroom
 std::vector<PowerUpMushroom*> mushroom;
 
+// Coin
+std::vector<Coin*> coins;
+
 sf::Music music;
 sf::Music deadMusic;
 sf::Music levelUp;
@@ -39,11 +43,12 @@ void Begin(sf::RenderWindow& window)
 {	
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopaPosition;
+	std::vector<sf::Vector2f> coinPosition;
 	sf::Vector2f marioPosition;
 
 	// Init map
 	map.Begin();
-	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition); 
+	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition); 
 
 	// Init mario
 	mario.Begin(marioPosition);
@@ -61,6 +66,14 @@ void Begin(sf::RenderWindow& window)
 		Koopa* newKoopa = new Koopa;
 		newKoopa->Begin(koopaPosition[i]);
 		koopas.push_back(newKoopa);
+	}
+
+	// Init coin
+	for (int i = 0; i < coinPosition.size(); i++)
+	{
+		Coin* newCoin = new Coin;
+		newCoin->Begin(coinPosition[i]);
+		coins.push_back(newCoin);
 	}
 	
 	// Init background
@@ -129,13 +142,13 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 	}
 	mario.Update(deltaTime, map, mushroom);
-	/*if (mario.getPosition().x >= winPosition.x)
+	if (mario.getPosition().x >= winPosition.x)
 	{
 		music.stop();
 		win.play();
 		gameState = GameState::GameOver;
 		return;
-	}*/
+	}
 	/// Update Goombas
 	for (int i = 0; i < goombas.size(); i++)
 	{
@@ -219,6 +232,27 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		else
 			++it;
 	}
+	/// Update coin
+	for (int i = 0; i < coins.size(); i++)
+	{
+		if (mario.coinCollision(*coins[i]))
+		{
+			if (coins[i]->isCollected() == false)
+			{
+				mario.setPoints(mario.getPoints() + 100);
+				mario.setCoin(mario.getCoin() + 1);
+				coins[i]->setCollected(true);
+			}
+		}
+		coins[i]->Update(deltaTime);
+	}
+	for (auto it = coins.begin(); it != coins.end();)
+	{
+		if (((*it)->isCollected() == true) && (*it)->getDisapperTime() <= 0)
+			it = coins.erase(it);
+		else
+			++it;
+	}
 	/// Update time
 	timeAccumulator += deltaTime;
 	while (timeAccumulator >= 1.0f)
@@ -273,13 +307,17 @@ void Render(sf::RenderWindow& window)
 	{
 		koopas[i]->Draw(window);
 	}
+	for (int i = 0; i < coins.size(); i++)
+	{
+		coins[i]->Draw(window);
+	}
 }
 
 void RenderUI(sf::RenderWindow& window, float deltaTime)
 {
 	window.setView(camera.GetUIView());
 	int displayedTime = static_cast<int>(std::ceil(gameTime)); // Round up for display
-	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), displayedTime);
+	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), mario.getCoin(), displayedTime);
 	UI.Draw(window);
 }
 
@@ -313,6 +351,12 @@ void Reset()
 		delete mushroom[i];
 	}
 	mushroom.clear();
+	/// Reset coin
+	for (int i = 0; i < coins.size(); i++)
+	{
+		delete coins[i];
+	}
+	coins.clear();
 	/// Reset music
 	music.stop();
 	deadMusic.stop();

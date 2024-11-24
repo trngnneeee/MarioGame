@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f)
+	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), coin(0)
 {
 }
 
@@ -140,7 +140,6 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 	if (invicibleTime > 0)
 	{
 		invicibleTime -= deltaTime;
-		std::cout << invicibleTime << "\n";
 		float alpha = (sin(invicibleTime * 100.0f) * 0.5f + 0.5f) * 255;
 		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
 	}
@@ -275,6 +274,11 @@ bool Mario::mushroomCollision(PowerUpMushroom& mushroom)
 	return collisionBox.intersects(mushroom.getCollisionBox());
 }
 
+bool Mario::coinCollision(Coin& coin)
+{
+	return collisionBox.intersects(coin.getCollisionBox());
+}
+
 void Mario::Reset()
 {
 	position = sf::Vector2f(0, 0);
@@ -366,4 +370,14 @@ float Mario::getInvicibleTime()
 
 void Mario::setInvicibleTime(const float& time) {
 	invicibleTime = time;
+}
+
+int Mario::getCoin()
+{
+	return coin;
+}
+
+void Mario::setCoin(const int coin)
+{
+	this->coin = coin;
 }

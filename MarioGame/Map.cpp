@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map2newnewFixed.png");
+	image.loadFromFile("map2.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -34,7 +34,7 @@ void Map::Begin() {
 	hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[3], 6.0f));
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition)
+void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -117,6 +117,11 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::Fire3:
 			{
 				grid[i][j] = 10;
+				break;
+			}
+			case EntityType::Coin:
+			{
+				coinPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			}

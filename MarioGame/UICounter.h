@@ -26,7 +26,7 @@ public:
 	UICounter();
 
 	void Begin();
-	void Update(float deltaTime, Camera camera, const int& points, const int& life, const int& gameTime);
+	void Update(float deltaTime, Camera camera, const int& points, const int& life, const int& coin, const int& gameTime);
 	void Draw(sf::RenderWindow& window);
 };
 

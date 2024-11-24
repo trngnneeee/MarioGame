@@ -60,11 +60,16 @@ void Koopa::Update(float deltaTime, const Map& map)
 		position.y -= v * deltaTime;
 		v += tmpGravity * deltaTime;
 		sprite.setTexture(throwTexture);
-		dieTime -= deltaTime;
-		if (!score)
-			score = new FloatingScore(200, position);
+		if (dieTime > 0)
+		{
+			dieTime -= deltaTime;
+			if (!score)
+				score = new FloatingScore(200, position);
+			else
+				score->Update(deltaTime);
+		}
 		else
-			score->Update(deltaTime);
+			if (score) delete score;
 		return;
 	}
 	// Update texture

@@ -5,6 +5,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "PowerUpMushroom.h"
+#include "Coin.h"
 
 class Mario
 {
@@ -53,6 +54,9 @@ private:
 	bool levelUp;
 	// Invicible time when shrinking from big size to small size
 	float invicibleTime;
+
+	// Coin
+	int coin;
 public:
 	// Constructor
 	Mario();
@@ -74,6 +78,7 @@ public:
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
 	bool mushroomCollision(PowerUpMushroom& mushroom);
+	bool coinCollision(Coin& coin);
 
 	void Reset();
 
@@ -101,4 +106,7 @@ public:
 
 	float getInvicibleTime();
 	void setInvicibleTime(const float& time);
+
+	int getCoin();
+	void setCoin(const int coin);
 };
