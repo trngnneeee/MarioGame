@@ -47,6 +47,16 @@ void Map::Begin() {
 		tmp.loadFromFile("./resources/textures/tube" + std::to_string(i + 1) + ".png");
 		tubeTexture.push_back(tmp);
 	}
+
+	// Castle texture;
+	const std::vector<std::string> castleFiles = {
+		"castleBrick.png", "castleDoorTop.png", "castleDoorBottom.png",
+		"castleTop.png", "castleTopFill.png", "castleWindowLeft.png", "castleWindowRight.png" };
+	for (const auto& file : castleFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Castle/" + file);
+		castleTexture.push_back(tmp);
+	}
 }
 
 void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)
@@ -106,7 +116,7 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			}
 			case EntityType::Win:
 			{
-				winPosition = sf::Vector2f(cellSize * i , cellSize * j);
+				winPosition = sf::Vector2f(cellSize * i, cellSize * j);
 				break;
 			}
 			case EntityType::Circle:
@@ -162,6 +172,42 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::HiddenBox2:
 			{
 				grid[i][j] = 15;
+				break;
+			}
+			// Castle
+			case EntityType::CastleBrick:
+			{
+				grid[i][j] = 16;
+				break;
+			}
+			case EntityType::CastleDoorTop:
+			{
+				grid[i][j] = 17;
+				break;
+			}
+			case EntityType::CastleDoorBottom:
+			{
+				grid[i][j] = 18;
+				break;
+			}
+			case EntityType::CastleTop:
+			{
+				grid[i][j] = 19;
+				break;
+			}
+			case EntityType::CastleTopFill:
+			{
+				grid[i][j] = 20;
+				break;
+			}
+			case EntityType::CastleWindowLeft:
+			{
+				grid[i][j] = 21;
+				break;
+			}
+			case EntityType::CastleWindowRight:
+			{
+				grid[i][j] = 22;
 				break;
 			}
 			}
@@ -234,7 +280,7 @@ void Map::Update(float deltaTime)
 	}
 }
 
-void Map::Draw(sf::RenderWindow& window){
+void Map::Draw(sf::RenderWindow& window) {
 	for (int x = 0; x < grid.size(); x++)
 	{
 		for (int y = 0; y < grid[x].size(); y++)
@@ -245,120 +291,114 @@ void Map::Draw(sf::RenderWindow& window){
 			switch (grid[x][y]) {
 			case 1:
 				texture = &stoneTexture;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			case 2:
 				texture = &copperTexture;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
-				break;
-			case 3:
-				texture = &brickTexture;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			case 4: case 15:
 				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
 				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
 				window.draw(hiddenBoxSprite);
 				break;
+			case 3:
+				texture = &brickTexture;
+				break;
 			case 5:
 				texture = &useBlock;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
+			// Win Milestone
 			case 6:
 			{
 				texture = &circleTexture;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 7:
 			{
 				texture = &stickTexture;
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
+			// Fire
 			case 8:
 			{
 				texture = &fireTextures[0];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 9:
 			{
 				texture = &fireTextures[1];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 10:
 			{
 				texture = &fireTextures[2];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
+			// Tube
 			case 11:
 			{
 				texture = &tubeTexture[0];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 12:
 			{
 				texture = &tubeTexture[1];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 13:
 			{
 				texture = &tubeTexture[2];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
 				break;
 			}
 			case 14:
 			{
 				texture = &tubeTexture[3];
-				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize * x, cellSize * y);
-				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
-				window.draw(sprite);
+				break;
+			}
+			// Castle
+			case 16:
+			{
+				texture = &castleTexture[0];
+				break;
+			}
+			case 17:
+			{
+				texture = &castleTexture[1];
+				break;
+			}
+			case 18:
+			{
+				texture = &castleTexture[2];
+				break;
+			}
+			case 19:
+			{
+				texture = &castleTexture[3];
+				break;
+			}
+			case 20:
+			{
+				texture = &castleTexture[4];
+				break;
+			}
+			case 21:
+			{
+				texture = &castleTexture[5];
+				break;
+			}
+			case 22:
+			{
+				texture = &castleTexture[6];
 				break;
 			}
 			default:
 				continue;
+			}
+			if (texture)
+			{
+				sprite.setTexture(*texture);
+				sprite.setPosition(cellSize* x, cellSize* y);
+				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
+				window.draw(sprite);
 			}
 		}
 	}

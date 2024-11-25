@@ -18,7 +18,8 @@ enum class EntityType {
     Circle,
     Fire1, Fire2, Fire3,
     Coin,
-    Tube1, Tube2, Tube3, Tube4
+    Tube1, Tube2, Tube3, Tube4,
+    CastleBrick, CastleDoorTop, CastleDoorBottom, CastleTop, CastleTopFill, CastleWindowLeft, CastleWindowRight
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -40,6 +41,14 @@ sf::Color tubeColor3(0, 160, 0);
 sf::Color tubeColor4(0, 180, 0);
 
 sf::Color hiddenBox2Color(150, 100, 0);
+
+sf::Color castleBrick(100, 40, 15);
+sf::Color castleDoorTop(100, 60, 15);
+sf::Color castleDoorBottom(100, 80, 15);
+sf::Color castleTop(100, 100, 15);
+sf::Color castleTopFill(100, 120, 15);
+sf::Color castleWindowLeft(100, 140, 15);
+sf::Color castleWindowRight(100, 160, 15);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -69,6 +78,14 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Tube2, tubeColor2},
     {EntityType::Tube3, tubeColor3},
     {EntityType::Tube4, tubeColor4},
+
+    {EntityType::CastleBrick, castleBrick},
+    {EntityType::CastleDoorTop, castleDoorTop},
+    {EntityType::CastleDoorBottom, castleDoorBottom},
+    {EntityType::CastleTop, castleTop},
+    {EntityType::CastleTopFill, castleTopFill},
+    {EntityType::CastleWindowLeft, castleWindowLeft},
+    {EntityType::CastleWindowRight, castleWindowRight},
 
     {EntityType::None, sf::Color::Transparent}
 };

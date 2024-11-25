@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
+	: runAnimation(0.3f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
 {
 }
 
@@ -14,23 +14,38 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	// Init start position for mario
 	position = marioPosition;
 
-	// Init texture
-	if (!textures[0].loadFromFile("./resources/textures/run1.png"))
+	// Init small texture
+	if (!textures[0].loadFromFile("./resources/textures/marioSmallRun1.png"))
 		return;
-	if (!textures[1].loadFromFile("./resources/textures/run2.png"))
+	if (!textures[1].loadFromFile("./resources/textures/marioSmallRun2.png"))
 		return;
-	if (!textures[2].loadFromFile("./resources/textures/run3.png"))
+	if (!textures[2].loadFromFile("./resources/textures/marioSmallRun3.png"))
 		return;
-	if (!textures[3].loadFromFile("./resources/textures/mario.png"))
+	if (!textures[3].loadFromFile("./resources/textures/marioSmall.png"))
 		return;
-	if (!textures[4].loadFromFile("./resources/textures/jump.png"))
+	if (!textures[4].loadFromFile("./resources/textures/marioSmallJump.png"))
 		return;
-	if (!deadTexture.loadFromFile("./resources/textures/dead.png"))
+	if (!deadTexture.loadFromFile("./resources/textures/marioDie.png"))
 		return;
+
+	// Init big texture
+	if (!bigTexture[0].loadFromFile("./resources/textures/marioBigRun1.png"))
+		return;
+	if (!bigTexture[1].loadFromFile("./resources/textures/marioBigRun2.png"))
+		return;
+	if (!bigTexture[2].loadFromFile("./resources/textures/marioBigRun3.png"))
+		return;
+	if (!bigTexture[3].loadFromFile("./resources/textures/marioBig.png"))
+		return;
+	if (!bigTexture[4].loadFromFile("./resources/textures/marioBigJump.png"))
 
 	runAnimation.addFrame(Frame(&textures[0], 0.1f));
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 	runAnimation.addFrame(Frame(&textures[2], 0.3f));
+
+	bigRunAnimation.addFrame(Frame(&bigTexture[0], 0.1f));
+	bigRunAnimation.addFrame(Frame(&bigTexture[1], 0.2f));
+	bigRunAnimation.addFrame(Frame(&bigTexture[2], 0.3f));
 
 	// Init sound effect
 	if (!jumpEffect.openFromFile("./resources/soundEffect/jump.wav"))
@@ -51,7 +66,10 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	previousPos = position; 
 
 	// Update position of collision box
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	if (!levelUp)
+		collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	else
+		collisionBox = sf::FloatRect(position.x, position.y, bigSprite.getGlobalBounds().width, bigSprite.getGlobalBounds().height);
 
 	// Jumping
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -142,17 +160,26 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 	{
 		invicibleTime -= deltaTime;
 		float alpha = (sin(invicibleTime * 100.0f) * 0.5f + 0.5f) * 255;
-		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+		if (!levelUp)
+			sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+		else 
+			bigSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
 	} 
 	// Taking star
 	else if (invicibleTime2 > 0)
 	{
 		invicibleTime2 -= deltaTime;
 		float alpha = (sin(invicibleTime2 * 100.0f) * 0.5f + 0.5f) * 255;
-		sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+		if (!levelUp)
+			sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
+		else
+			bigSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
 	}
 	else
+	{
 		sprite.setColor(sf::Color(255, 255, 255, 255));
+		bigSprite.setColor(sf::Color(255, 255, 255, 255));
+	}
 
 	// 10 coin -> 1 life
 	if (coin >= 10)
@@ -166,29 +193,61 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 	HandleMove(deltaTime, map, mushroom, stars);
 
 	// Update animation
-	if (!isOnGround)
-		sprite.setTexture(textures[4]);
-	else if (velocity.x != 0)
-		sprite.setTexture(*runAnimation.update(deltaTime));
-	else if (isDead == true)
-		sprite.setTexture(deadTexture);
-	else sprite.setTexture(textures[3]);
+	if (!levelUp)
+	{
+		if (!isOnGround)
+			sprite.setTexture(textures[4]);
+		else if (velocity.x != 0)
+			sprite.setTexture(*runAnimation.update(deltaTime));
+		else if (isDead == true)
+			sprite.setTexture(deadTexture);
+		else sprite.setTexture(textures[3]);
+	}
+	else
+	{
+		if (!isOnGround)
+			bigSprite.setTexture(bigTexture[4]);
+		else if (velocity.x != 0)
+			bigSprite.setTexture(*bigRunAnimation.update(deltaTime));
+		else if (isDead == true)
+			bigSprite.setTexture(deadTexture);
+		else bigSprite.setTexture(bigTexture[3]);
+	}
 }
 
 void Mario::updateFlip()
 {
-	if (facingRight)
-		sprite.setOrigin(0, 0);  // Left-center for right-facing
+	if (!levelUp)
+	{
+		sprite.setScale(sf::Vector2f(0.8f / textures[3].getSize().x * (facingRight ? 1 : -1), 0.8f / textures[3].getSize().y));
+		if (facingRight)
+			sprite.setOrigin(0, 0);  // Left-center for right-facing
+		else
+			sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
+	}
 	else
-		sprite.setOrigin(textures[3].getSize().x, 0); // Right-center for left-facing
-	sprite.setScale(sf::Vector2f(0.8f / textures[3].getSize().x * (facingRight ? 1 : -1), ((levelUp) ? 1.8f : 0.8f) * 1.0f / textures[3].getSize().y));
+	{
+		bigSprite.setScale(sf::Vector2f(0.8f / bigTexture[3].getSize().x * (facingRight ? 1 : -1), 1.0f / bigTexture[3].getSize().y));
+		if (facingRight)
+			bigSprite.setOrigin(0, 0);  // Left-center for right-facing
+		else
+			bigSprite.setOrigin(bigTexture[3].getSize().x, 0); // Right-center for left-facing
+	}
 }
 
 void Mario::Draw(sf::RenderWindow& window)
 {
 	updateFlip();
-	sprite.setPosition(position);
-	window.draw(sprite);
+	if (!levelUp)
+	{
+		sprite.setPosition(position);
+		window.draw(sprite);
+	}
+	else
+	{
+		bigSprite.setPosition(position);
+		window.draw(bigSprite);
+	}
 }
 
 bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)

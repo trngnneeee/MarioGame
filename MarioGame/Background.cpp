@@ -3,7 +3,7 @@
 
 void Background::Begin(sf::RenderWindow& window, const float& zoomLevel, const Map& map)
 {
-	if (!texture.loadFromFile("./resources/background/sky.png"))
+	if (!texture.loadFromFile("./resources/background/backgroundTile.png"))
 		return;
 	sprite.setTexture(texture);
 

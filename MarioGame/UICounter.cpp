@@ -34,7 +34,7 @@ void UICounter::Begin()
 		return;
 	coinSprite.setTexture(coinTexture);
 
-	if (!marioTexture.loadFromFile("./resources/textures/mario.png"))
+	if (!marioTexture.loadFromFile("./resources/textures/marioHead.png"))
 		return;
 	marioSprite.setTexture(marioTexture);
 }
@@ -57,7 +57,7 @@ void UICounter::Update(float deltaTime, Camera camera, const int& points, const 
 
 	marioLife.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(30.0f, 6.0f));
 	marioLife.setString("x " + std::to_string(life));
-	marioSprite.setScale(0.1f, 0.1f);
+	marioSprite.setScale(0.2f, 0.2f);
 	marioSprite.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(25.0f, 6.0f));
 
 	timer.setPosition(-camera.GetViewUISize() / 2.0f + sf::Vector2f(87.0f, 6.0f));

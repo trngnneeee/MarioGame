@@ -20,10 +20,13 @@ private:
 
 	// Animation
 	Animation runAnimation;
+	Animation bigRunAnimation;
 
 	// Texture, Sprite
 	sf::Texture textures[5];
 	sf::Sprite sprite;
+	sf::Texture bigTexture[5];
+	sf::Sprite bigSprite;
 
 	// Points (Coints)
 	int points;

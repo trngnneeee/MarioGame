@@ -16,12 +16,17 @@ private:
 	// Sprite, Texture
 	sf::Sprite sprite;
 	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+
+	// Fire
 	std::vector< sf::Texture> fireTextures;
 
 	// Hidden box
 	sf::Sprite hiddenBoxSprite;
 	std::vector< sf::Texture> hiddenBoxTexture;
 	Animation hiddenBoxAnimation;
+
+	// Castle
+	std::vector<sf::Texture> castleTexture;
 
 	// Tube
 	sf::Sprite tubeSprite;

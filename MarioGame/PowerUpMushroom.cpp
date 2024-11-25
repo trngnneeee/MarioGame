@@ -139,3 +139,8 @@ float PowerUpMushroom::getDieTime()
 {
 	return dieTime;
 }
+
+bool PowerUpMushroom::getOutStatus()
+{
+	return isOut;
+}

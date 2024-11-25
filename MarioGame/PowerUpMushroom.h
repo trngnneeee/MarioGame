@@ -45,5 +45,7 @@ public:
 	void setDeadStatus(const bool& value);
 
 	float getDieTime();
+
+	bool getOutStatus();
 };
 

@@ -222,7 +222,7 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	/// Update Power-up mushroom
 	for (int i = 0; i < mushroom.size(); i++)
 	{
-		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false)
+		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false && mushroom[i]->getOutStatus() == true)
 		{
 			mario.setPoints(mario.getPoints() + 1000);
 			levelUp.play();
@@ -247,7 +247,7 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	/// Update Invicible Star
 	for (int i = 0; i < stars.size(); i++)
 	{
-		if (mario.starCollision(*stars[i]) && stars[i]->getDeadStatus() == false)
+		if (mario.starCollision(*stars[i]) && stars[i]->getDeadStatus() == false && stars[i]->getOutStatus() == true)
 		{
 			mario.setPoints(mario.getPoints() + 1000);
 			stars[i]->setDeadStatus(true);
