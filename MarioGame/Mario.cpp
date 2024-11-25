@@ -330,6 +330,8 @@ void Mario::Reset()
 	v = 10.0f;
 	tmpGravity = -30.0f;
 	levelUp = false;
+	invicibleTime = 0.0f;
+	invicibleTime2 = 0.0f;
 }
 
 // Getter/Setter
