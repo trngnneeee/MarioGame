@@ -3,7 +3,7 @@
 
 // Constructor
 Map::Map(float cellSize)
-	: cellSize(cellSize), hiddenBoxAnimation(4.0f)
+	: cellSize(cellSize), hiddenBoxAnimation(1.5f)
 {
 }
 // Functions
@@ -28,7 +28,7 @@ void Map::Begin() {
 	}
 
 	// Hidden box texture
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/hiddenbox" + std::to_string(i + 1) + ".png");
@@ -37,7 +37,7 @@ void Map::Begin() {
 	// Hidden box animation
 	for (int i = 0; i < hiddenBoxTexture.size(); i++)
 	{
-		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 1.0f * (i + 1)));
+		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 0.5f * (i + 1)));
 	}
 
 	// Tube texture
