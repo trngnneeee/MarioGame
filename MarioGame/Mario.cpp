@@ -15,29 +15,29 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	position = marioPosition;
 
 	// Init small texture
-	if (!textures[0].loadFromFile("./resources/textures/marioSmallRun1.png"))
+	if (!textures[0].loadFromFile("./resources/textures/Mario/marioSmallRun1.png"))
 		return;
-	if (!textures[1].loadFromFile("./resources/textures/marioSmallRun2.png"))
+	if (!textures[1].loadFromFile("./resources/textures/Mario/marioSmallRun2.png"))
 		return;
-	if (!textures[2].loadFromFile("./resources/textures/marioSmallRun3.png"))
+	if (!textures[2].loadFromFile("./resources/textures/Mario/marioSmallRun3.png"))
 		return;
-	if (!textures[3].loadFromFile("./resources/textures/marioSmall.png"))
+	if (!textures[3].loadFromFile("./resources/textures/Mario/marioSmall.png"))
 		return;
-	if (!textures[4].loadFromFile("./resources/textures/marioSmallJump.png"))
+	if (!textures[4].loadFromFile("./resources/textures/Mario/marioSmallJump.png"))
 		return;
-	if (!deadTexture.loadFromFile("./resources/textures/marioDie.png"))
+	if (!deadTexture.loadFromFile("./resources/textures/Mario/marioDie.png"))
 		return;
 
 	// Init big texture
-	if (!bigTexture[0].loadFromFile("./resources/textures/marioBigRun1.png"))
+	if (!bigTexture[0].loadFromFile("./resources/textures/Mario/marioBigRun1.png"))
 		return;
-	if (!bigTexture[1].loadFromFile("./resources/textures/marioBigRun2.png"))
+	if (!bigTexture[1].loadFromFile("./resources/textures/Mario/marioBigRun2.png"))
 		return;
-	if (!bigTexture[2].loadFromFile("./resources/textures/marioBigRun3.png"))
+	if (!bigTexture[2].loadFromFile("./resources/textures/Mario/marioBigRun3.png"))
 		return;
-	if (!bigTexture[3].loadFromFile("./resources/textures/marioBig.png"))
+	if (!bigTexture[3].loadFromFile("./resources/textures/Mario/marioBig.png"))
 		return;
-	if (!bigTexture[4].loadFromFile("./resources/textures/marioBigJump.png"))
+	if (!bigTexture[4].loadFromFile("./resources/textures/Mario/marioBigJump.png"))
 
 	runAnimation.addFrame(Frame(&textures[0], 0.1f));
 	runAnimation.addFrame(Frame(&textures[1], 0.2f));

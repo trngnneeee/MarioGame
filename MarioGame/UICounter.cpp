@@ -34,7 +34,7 @@ void UICounter::Begin()
 		return;
 	coinSprite.setTexture(coinTexture);
 
-	if (!marioTexture.loadFromFile("./resources/textures/marioHead.png"))
+	if (!marioTexture.loadFromFile("./resources/textures/Mario/marioHead.png"))
 		return;
 	marioSprite.setTexture(marioTexture);
 }
