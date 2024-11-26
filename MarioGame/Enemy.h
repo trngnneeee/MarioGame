@@ -30,6 +30,8 @@ protected:
 	// Value for dead animation
 	float v;
 	float tmpGravity;
+	// State
+	bool inGame;
 public:
 	// Constructor
 	Enemy();
@@ -57,5 +59,8 @@ public:
 
 	sf::Vector2f getVelocity() const;
 	void setVelocity(sf::Vector2f velocity);
+
+	bool getGameState();
+	void setGameState(const bool& value);
 };
 

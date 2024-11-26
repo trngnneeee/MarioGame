@@ -9,13 +9,13 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 {
 	// Init texture
 	sf::Texture texture1, texture2;
-	if (!texture1.loadFromFile("./resources/textures/goombas1.png"))
+	if (!texture1.loadFromFile("./resources/textures/Goomba/goombas1.png"))
 		return;
-	if (!texture2.loadFromFile("./resources/textures/goombas2.png"))
+	if (!texture2.loadFromFile("./resources/textures/Goomba/goombas2.png"))
 		return;
-	if (!deadTexture.loadFromFile("./resources/textures/goombasDead.png"))
+	if (!deadTexture.loadFromFile("./resources/textures/Goomba/goombasDead.png"))
 		return;
-	if (!throwTexture.loadFromFile("./resources/textures/goombasDead2.png"))
+	if (!throwTexture.loadFromFile("./resources/textures/Goomba/goombasDead2.png"))
 		return;
 	textures.push_back(texture1);
 	textures.push_back(texture2);

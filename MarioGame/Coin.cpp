@@ -11,7 +11,7 @@ void Coin::Begin(sf::Vector2f position)
     for (int i = 0; i < 10; i++)
     {
         sf::Texture tmp;
-        tmp.loadFromFile("./resources/textures/coin" + std::to_string(i + 1) + ".png");
+        tmp.loadFromFile("./resources/textures/Coin/coin" + std::to_string(i + 1) + ".png");
         textures.push_back(tmp);
     }
 

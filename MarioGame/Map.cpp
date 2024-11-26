@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map2.png");
+	image.loadFromFile("map3.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -31,7 +31,7 @@ void Map::Begin() {
 	for (int i = 0; i < 3; i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/hiddenbox" + std::to_string(i + 1) + ".png");
+		tmp.loadFromFile("./resources/textures/HiddenBox/hiddenbox" + std::to_string(i + 1) + ".png");
 		hiddenBoxTexture.push_back(tmp);
 	}
 	// Hidden box animation
@@ -56,6 +56,17 @@ void Map::Begin() {
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/Castle/" + file);
 		castleTexture.push_back(tmp);
+	}
+
+	// Collumn & Floor
+	const std::vector<std::string> collumnFiles = {
+		"collumn.png", "floor-mid.png", "floor-left.png",
+		"floor-right.png" 
+	};
+	for (const auto& file : collumnFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/" + file);
+		collumnTexture.push_back(tmp);
 	}
 }
 
@@ -208,6 +219,27 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::CastleWindowRight:
 			{
 				grid[i][j] = 22;
+				break;
+			}
+			// Collumn & Floor
+			case EntityType::Collumn:
+			{
+				grid[i][j] = 23;
+				break;
+			}
+			case EntityType::Floor:
+			{
+				grid[i][j] = 24;
+				break;
+			}
+			case EntityType::FloorRight:
+			{
+				grid[i][j] = 25;
+				break;
+			}
+			case EntityType::FloorLeft:
+			{
+				grid[i][j] = 26;
 				break;
 			}
 			}
@@ -388,6 +420,27 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 22:
 			{
 				texture = &castleTexture[6];
+				break;
+			}
+			// COllum + Floor
+			case 23:
+			{
+				texture = &collumnTexture[0];
+				break;
+			}
+			case 24:
+			{
+				texture = &collumnTexture[1];
+				break;
+			}
+			case 25:
+			{
+				texture = &collumnTexture[2];
+				break;
+			}
+			case 26:
+			{
+				texture = &collumnTexture[3];
 				break;
 			}
 			default:

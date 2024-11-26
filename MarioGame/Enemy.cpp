@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy()
-	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(3.0f), v(10.0f), tmpGravity(-30.0f)
+	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(3.0f), v(10.0f), tmpGravity(-30.0f), inGame(false)
 {
 }
 
@@ -70,7 +70,7 @@ bool Enemy::mapCollision(const Map& map)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] != 23)
 				return true;
 		}
 	}
@@ -119,3 +119,15 @@ void Enemy::setVelocity(sf::Vector2f velocity)
 {
 	this->velocity = velocity;
 }
+
+bool Enemy::getGameState()
+{
+	return inGame;
+}
+
+void Enemy::setGameState(const bool& value)
+{
+	inGame = value;
+}
+
+

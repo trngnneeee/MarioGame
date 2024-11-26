@@ -20,15 +20,16 @@ sf::Vector2f Camera::GetViewUISize()
 sf::View Camera::GetView(sf::Vector2u windowSize, const float& mapSize)
 {
 	float aspect = (float)windowSize.x / (float)windowSize.y;
+	if (aspect < 1.0f)
+		viewSize = sf::Vector2f(zoomLevel, zoomLevel / aspect);
+	else
+		viewSize = sf::Vector2f(zoomLevel * aspect, zoomLevel);
+
 	float viewWidth = viewSize.x;
 	position.x = std::max(viewWidth / 2.0f, std::min(position.x, mapSize - viewWidth / 2.0f));
 
 	position.y = 8.0f;
 
-	if (aspect < 1.0f)
-		viewSize = sf::Vector2f(zoomLevel, zoomLevel / aspect);
-	else
-		viewSize = sf::Vector2f(zoomLevel * aspect, zoomLevel);
 	return sf::View(sf::Vector2f(position.x, position.y), viewSize);
 }
 

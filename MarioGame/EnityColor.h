@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <string>
@@ -19,13 +19,15 @@ enum class EntityType {
     Fire1, Fire2, Fire3,
     Coin,
     Tube1, Tube2, Tube3, Tube4,
-    CastleBrick, CastleDoorTop, CastleDoorBottom, CastleTop, CastleTopFill, CastleWindowLeft, CastleWindowRight
+    CastleBrick, CastleDoorTop, CastleDoorBottom, CastleTop, CastleTopFill, CastleWindowLeft, CastleWindowRight,
+    Collumn, Floor, FloorLeft, FloorRight
 };
 
 sf::Color GoombaColor(200, 0, 0);
 sf::Color KoopaColor(100, 0, 0);
 sf::Color useBlockColor(100, 100, 0);
 sf::Color winColor(0, 255, 255);
+
 sf::Color stickColor(0, 150, 0);
 sf::Color circleColor(0, 100, 0);
 
@@ -49,6 +51,11 @@ sf::Color castleTop(100, 100, 15);
 sf::Color castleTopFill(100, 120, 15);
 sf::Color castleWindowLeft(100, 140, 15);
 sf::Color castleWindowRight(100, 160, 15);
+
+sf::Color collum(0, 0, 50);
+sf::Color floorColor(0, 50, 50);
+sf::Color floorLeft(0, 30, 50);
+sf::Color floorRight(0, 80, 50);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -86,6 +93,11 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::CastleTopFill, castleTopFill},
     {EntityType::CastleWindowLeft, castleWindowLeft},
     {EntityType::CastleWindowRight, castleWindowRight},
+
+    {EntityType::Collumn, collum},
+    {EntityType::Floor, floorColor},
+    {EntityType::FloorLeft, floorLeft},
+    {EntityType::FloorRight, floorRight},
 
     {EntityType::None, sf::Color::Transparent}
 };

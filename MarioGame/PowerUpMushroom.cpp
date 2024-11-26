@@ -2,17 +2,24 @@
 #include "Map.h"
 
 PowerUpMushroom::PowerUpMushroom()
-	: gravity(50.0f), velocity(sf::Vector2f(5.0f, 0.0f)), isOut(false), isDead(false), dieTime(1.0f)
+	: gravity(50.0f), velocity(sf::Vector2f(5.0f, 0.0f)), isOut(false), isDead(false), dieTime(1.0f), animation(0.2)
 {
 }
 
 void PowerUpMushroom::Begin(sf::Vector2f mushroomPosition)
 {
 	// Init texture
-	if (!texture.loadFromFile("./resources/textures/mushroom.png"))
-		return;
-	sprite.setScale(1.0f / texture.getSize().x, 1.0f / texture.getSize().y);
-	sprite.setTexture(texture);
+	for (int i = 0; i < 2; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Mushroom/mushroom" + std::to_string(i + 1) + ".png");
+		textures.push_back(tmp);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		animation.addFrame(Frame(&textures[i], 0.1f * (i + 1)));
+	}
+	sprite.setScale(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y);
 
 	// Init position
 	position = mushroomPosition;
@@ -22,8 +29,8 @@ void PowerUpMushroom::Begin(sf::Vector2f mushroomPosition)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		1.0f / texture.getSize().x,
-		1.0f / texture.getSize().y
+		1.0f / textures[0].getSize().x,
+		1.0f / textures[0].getSize().y
 	);
 }
 
@@ -66,6 +73,7 @@ void PowerUpMushroom::Update(float deltaTime, const Map& map)
 {
 	if (!isOut)
 	{
+		sprite.setTexture(textures[0]);
 		if (position.y > hiddenBoxPosition - 1.0f)
 			position.y -= 1.0f * deltaTime;
 		else
@@ -94,6 +102,8 @@ void PowerUpMushroom::Update(float deltaTime, const Map& map)
 	// Handle Move
 	handleHorizontalMove(deltaTime, map);
 	handleVerticalMove(deltaTime, map);
+
+	sprite.setTexture(*animation.update(deltaTime));
 }
 
 void PowerUpMushroom::Draw(sf::RenderWindow& window)
@@ -111,7 +121,7 @@ bool PowerUpMushroom::mapCollision(const Map& map)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] != 23)
 			{
 				return true;
 			}

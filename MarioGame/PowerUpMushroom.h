@@ -2,13 +2,17 @@
 #include <SFML/Graphics.hpp>
 #include "Map.h"
 #include "FloatingScore.h"
+#include "Animation.h"
+#include <string>
+#include <vector>
 
 class PowerUpMushroom
 {
 protected:
 	// Texture, sprite
-	sf::Texture texture;
+	std::vector<sf::Texture> textures;
 	sf::Sprite sprite;
+	Animation animation;
 	// Position
 	sf::Vector2f position;
 	float hiddenBoxPosition; // static value to keep track the hidden box position

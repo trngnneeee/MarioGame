@@ -39,6 +39,8 @@ bool deadMusicIsPlay;
 float timeAccumulator;
 int gameTime;
 
+float updateRange = 11.5f;
+
 sf::Vector2f winPosition;
 
 void Begin(sf::RenderWindow& window)
@@ -175,7 +177,14 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 				}
 			}
 		}
-		goombas[i]->Update(deltaTime, map);
+		if (mario.distanceX(*goombas[i]) <= updateRange || goombas[i]->getGameState() == true)
+		{
+			if (goombas[i]->getGameState() == false)
+			{
+				goombas[i]->setGameState(true);
+			}
+			goombas[i]->Update(deltaTime, map);
+		}
 	}
 	for (auto it = goombas.begin(); it != goombas.end();)
 	{
@@ -210,7 +219,14 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 				}
 			}
 		}
-		koopas[i]->Update(deltaTime, map);
+		if (mario.distanceX(*koopas[i]) <= updateRange || koopas[i]->getGameState() == true)
+		{
+			if (koopas[i]->getGameState() == false)
+			{
+				koopas[i]->setGameState(true);
+			}
+			koopas[i]->Update(deltaTime, map);
+		}
 	}
 	for (auto it = koopas.begin(); it != koopas.end();)
 	{

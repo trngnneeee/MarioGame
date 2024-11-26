@@ -32,6 +32,9 @@ private:
 	sf::Sprite tubeSprite;
 	std::vector<sf::Texture> tubeTexture;
 
+	// Collumn + Floor in Map 3
+	std::vector<sf::Texture> collumnTexture;
+
 	// Image
 	sf::Image image;
 

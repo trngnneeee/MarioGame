@@ -30,7 +30,7 @@ void UICounter::Begin()
 	coinCounter.setOutlineThickness(0.5f);
 	coinCounter.setScale(0.1f, 0.1f);
 
-	if (!coinTexture.loadFromFile("./resources/textures/coin1.png"))
+	if (!coinTexture.loadFromFile("./resources/textures/Coin/coin1.png"))
 		return;
 	coinSprite.setTexture(coinTexture);
 

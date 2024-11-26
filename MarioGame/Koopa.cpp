@@ -8,20 +8,20 @@ Koopa::Koopa()
 void Koopa::Begin(const sf::Vector2f& koopaPosition)
 {
 	sf::Texture texture1, texture2;
-	if (!texture1.loadFromFile("./resources/textures/koopa1.png"))
+	if (!texture1.loadFromFile("./resources/textures/Koopa/koopa1.png"))
 		return;
-	if (!texture2.loadFromFile("./resources/textures/koopa2.png"))
+	if (!texture2.loadFromFile("./resources/textures/Koopa/koopa2.png"))
 		return;
 	textures.push_back(texture1);
 	textures.push_back(texture2);
-	if (!shell.loadFromFile("./resources/textures/koopashell.png"))
+	if (!shell.loadFromFile("./resources/textures/Koopa/koopashell.png"))
 		return;
-	if (!throwTexture.loadFromFile("./resources/textures/koopaDead.png"))
+	if (!throwTexture.loadFromFile("./resources/textures/Koopa/koopaDead.png"))
 		return;
 	for (int i = 0; i < 4; i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/koopaOut" + std::to_string(i + 1) + ".png");
+		tmp.loadFromFile("./resources/textures/Koopa/koopaOut" + std::to_string(i + 1) + ".png");
 		outShell.push_back(tmp);
 	}
 	// Init get out shell animation

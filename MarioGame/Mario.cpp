@@ -4,7 +4,7 @@
 
 
 Mario::Mario()
-	: runAnimation(0.3f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
 {
 }
 
@@ -39,9 +39,9 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 		return;
 	if (!bigTexture[4].loadFromFile("./resources/textures/Mario/marioBigJump.png"))
 
-	runAnimation.addFrame(Frame(&textures[0], 0.1f));
-	runAnimation.addFrame(Frame(&textures[1], 0.2f));
-	runAnimation.addFrame(Frame(&textures[2], 0.3f));
+	runAnimation.addFrame(Frame(&textures[0], 0.08f));
+	runAnimation.addFrame(Frame(&textures[1], 0.16f));
+	runAnimation.addFrame(Frame(&textures[2], 0.24f));
 
 	bigRunAnimation.addFrame(Frame(&bigTexture[0], 0.1f));
 	bigRunAnimation.addFrame(Frame(&bigTexture[1], 0.2f));
@@ -238,7 +238,7 @@ void Mario::updateFlip()
 void Mario::Draw(sf::RenderWindow& window)
 {
 	updateFlip();
-	if (!levelUp)
+	if (!levelUp || isDead)
 	{
 		sprite.setPosition(position);
 		window.draw(sprite);
@@ -258,7 +258,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std:
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5 || grid[i][j] == 11 || grid[i][j] == 12 || grid[i][j] == 13 || grid[i][j] == 14))
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5 || grid[i][j] == 11 || grid[i][j] == 12 || grid[i][j] == 13 || grid[i][j] == 14 || grid[i][j] == 24 || grid[i][j] == 25 || grid[i][j] == 26))
 				return true;
 			// Brick break
 			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 3))
@@ -370,6 +370,11 @@ bool Mario::starCollision(InvicibleStar& star)
 bool Mario::coinCollision(Coin& coin)
 {
 	return collisionBox.intersects(coin.getCollisionBox());
+}
+
+float Mario::distanceX(const Enemy& enemy)
+{
+	return std::abs(position.x - enemy.getPosition().x);
 }
 
 void Mario::Reset()
