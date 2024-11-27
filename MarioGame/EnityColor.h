@@ -42,8 +42,6 @@ sf::Color tubeColor2(0, 140, 0);
 sf::Color tubeColor3(0, 160, 0);
 sf::Color tubeColor4(0, 180, 0);
 
-sf::Color hiddenBox2Color(150, 100, 0);
-
 sf::Color castleBrick(100, 40, 15);
 sf::Color castleDoorTop(100, 60, 15);
 sf::Color castleDoorBottom(100, 80, 15);
@@ -64,7 +62,6 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::useBlock, useBlockColor},
 
     {EntityType::HiddenBox, sf::Color::Yellow},
-    {EntityType::HiddenBox2, hiddenBox2Color},
 
     {EntityType::Goomba, GoombaColor},
     {EntityType::Koopa, KoopaColor},

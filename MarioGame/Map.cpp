@@ -9,7 +9,7 @@ Map::Map(float cellSize)
 // Functions
 void Map::Begin() {
 	// Load map
-	image.loadFromFile("map3.png");
+	image.loadFromFile("map2.png");
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -180,11 +180,6 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				grid[i][j] = 14;
 				break;
 			}
-			case EntityType::HiddenBox2:
-			{
-				grid[i][j] = 15;
-				break;
-			}
 			// Castle
 			case EntityType::CastleBrick:
 			{
@@ -327,7 +322,7 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 2:
 				texture = &copperTexture;
 				break;
-			case 4: case 15:
+			case 4: 
 				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
 				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
 				window.draw(hiddenBoxSprite);

@@ -8,6 +8,9 @@
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
 #include "Coin.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 class Mario
 {

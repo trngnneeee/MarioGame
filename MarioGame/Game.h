@@ -6,8 +6,23 @@
 
 extern Camera camera;
 
+class Map;
+class PowerUpMushroom;
+class InvicibleStar;
+
 void Begin(sf::RenderWindow& window);
 void BeginMenu(sf::RenderWindow& window);
+
+void UpdateMap(float deltaTime);
+void UpdateCamera();
+void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gamestate);
+void UpdateGoomba(float deltaTime, const Map& map);
+void UpdateKoopa(float deltaTime, const Map& map);
+void UpdateMushroom(float deltaTime, const Map& map);
+void UpdateStar(float deltaTime, const Map& map);
+void UpdateCoin(float deltaTime);
+void UpdateGameTime(float deltaTime);
+void UpdateGameState(GameState& gameState, sf::RenderWindow& window);
 
 void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window);
 

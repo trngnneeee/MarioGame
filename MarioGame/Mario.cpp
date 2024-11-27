@@ -1,7 +1,5 @@
 #include "Mario.h"
 #include "Map.h"
-#include <iostream>
-
 
 Mario::Mario()
 	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
@@ -279,23 +277,25 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std:
 			{
 				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
 				{
-					PowerUpMushroom* newMushroom = new PowerUpMushroom;
-					newMushroom->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-					mushroom.push_back(newMushroom);
-					map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-					return true;
-				}
-				else return true;
-			}
-			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] == 15)
-			{
-				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
-				{
-					InvicibleStar* newStar = new InvicibleStar;
-					newStar->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-					stars.push_back(newStar);
-					map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-					return true;
+					std::srand(static_cast<unsigned>(std::time(0)));
+					int randomNumber = 1 + (std::rand() % 2);
+					if (randomNumber == 1)
+					{
+						PowerUpMushroom* newMushroom = new PowerUpMushroom;
+						newMushroom->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						mushroom.push_back(newMushroom);
+						map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						return true;
+					}
+					else if (randomNumber == 2)
+					{
+						InvicibleStar* newStar = new InvicibleStar;
+						newStar->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						stars.push_back(newStar);
+						map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						return true;
+					}
+
 				}
 				else return true;
 			}

@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "PowerUpMushroom.h"
-class InvicibleStar : public PowerUpMushroom
+#include "HiddenBoxItem.h"
+class InvicibleStar : public HiddenBoxItem
 {
 private:
 

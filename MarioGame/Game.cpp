@@ -43,6 +43,7 @@ float updateRange = 11.5f;
 
 sf::Vector2f winPosition;
 
+/// Begin
 void Begin(sf::RenderWindow& window)
 {	
 	std::vector<sf::Vector2f> goombasPosition;
@@ -105,13 +106,19 @@ void BeginMenu(sf::RenderWindow& window)
 	menu.Begin(window);
 }
 
-void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
+/// Update 
+void UpdateMap(float deltaTime)
 {
-	/// Update map
 	map.Update(deltaTime);
-	/// Update camera
+}
+
+void UpdateCamera()
+{
 	camera.position = mario.getPosition();
-	/// Update Mario
+}
+
+void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gameState)
+{
 	// Collision with goomba
 	for (int i = 0; i < goombas.size(); i++)
 	{
@@ -163,7 +170,10 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		gameState = GameState::GameOver;
 		return;
 	}
-	/// Update Goombas
+}
+
+void UpdateGoomba(float deltaTime, const Map& map)
+{
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		for (int j = 0; j < goombas.size(); j++)
@@ -186,14 +196,18 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			goombas[i]->Update(deltaTime, map);
 		}
 	}
-	for (auto it = goombas.begin(); it != goombas.end();)
-	{
-		if (((*it)->getDieStatus() == true) && ((*it)->getDieTime() <= 0))
-			it = goombas.erase(it);
-		else
-			++it;
-	}
-	/// Update Koopa
+	// Remove die goomba
+	goombas.erase(
+		std::remove_if(goombas.begin(), goombas.end(),
+			[](const auto& goomba) {
+				return (goomba->getDieStatus() && goomba->getDieTime() <= 0) ||
+					goomba->getPosition().y >= 16.0f;
+			}),
+		goombas.end());
+}
+
+void UpdateKoopa(float deltaTime, const Map& map)
+{
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		// Collision with Goomba
@@ -228,14 +242,18 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			koopas[i]->Update(deltaTime, map);
 		}
 	}
-	for (auto it = koopas.begin(); it != koopas.end();)
-	{
-		if (((*it)->getDieStatus() == true) && ((*it)->getDieTime() <= 0))
-			it = koopas.erase(it);
-		else
-			++it;
-	}
-	/// Update Power-up mushroom
+	// Remove die koopa
+	koopas.erase(
+		std::remove_if(koopas.begin(), koopas.end(),
+			[](const auto& koopa) {
+				return (koopa->getDieStatus() && koopa->getDieTime() <= 0) ||
+					koopa->getPosition().y >= 16.0f;
+			}),
+		koopas.end());
+}
+
+void UpdateMushroom(float deltaTime, const Map& map)
+{
 	for (int i = 0; i < mushroom.size(); i++)
 	{
 		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false && mushroom[i]->getOutStatus() == true)
@@ -253,14 +271,18 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 		mushroom[i]->Update(deltaTime, map);
 	}
-	for (auto it = mushroom.begin(); it != mushroom.end();)
-	{
-		if (((*it)->getDeadStatus() == true) && (*it)->getDieTime() <= 0)
-			it = mushroom.erase(it);
-		else
-			++it;
-	}
-	/// Update Invicible Star
+	// Remove die mushroom
+	mushroom.erase(
+		std::remove_if(mushroom.begin(), mushroom.end(),
+			[](const auto& item) {
+				return (item->getDeadStatus() && item->getDieTime() <= 0) ||
+					item->getPosition().y >= 16.0f;
+			}),
+		mushroom.end());
+}
+
+void UpdateStar(float deltaTime, const Map& map)
+{
 	for (int i = 0; i < stars.size(); i++)
 	{
 		if (mario.starCollision(*stars[i]) && stars[i]->getDeadStatus() == false && stars[i]->getOutStatus() == true)
@@ -271,14 +293,18 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 		stars[i]->Update(deltaTime, map);
 	}
-	for (auto it = stars.begin(); it != stars.end();)
-	{
-		if (((*it)->getDeadStatus() == true) && (*it)->getDieTime() <= 0)
-			it = stars.erase(it);
-		else
-			++it;
-	}
-	/// Update coin
+	// Remove die star
+	stars.erase(
+		std::remove_if(stars.begin(), stars.end(),
+			[](const auto& star) {
+				return (star->getDeadStatus() && star->getDieTime() <= 0) ||
+					star->getPosition().y >= 16.0f;
+			}),
+		stars.end());
+}
+
+void UpdateCoin(float deltaTime)
+{
 	for (int i = 0; i < coins.size(); i++)
 	{
 		if (mario.coinCollision(*coins[i]))
@@ -292,18 +318,21 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 		coins[i]->Update(deltaTime);
 	}
-	for (auto it = coins.begin(); it != coins.end();)
-	{
-		if (((*it)->isCollected() == true) && (*it)->getDisapperTime() <= 0)
-			it = coins.erase(it);
-		else
-			++it;
-	}
-	/// Update time
+	// Remove collected coin
+	coins.erase(
+		std::remove_if(coins.begin(), coins.end(),
+			[](const auto& coin) {
+				return coin->isCollected() && coin->getDisapperTime() <= 0;
+			}),
+		coins.end());
+}
+
+void UpdateGameTime(float deltaTime)
+{
 	timeAccumulator += deltaTime;
 	while (timeAccumulator >= 1.0f)
 	{
-		gameTime--;              
+		gameTime--;
 		timeAccumulator -= 1.0f;
 		if (gameTime < 0)
 		{
@@ -311,7 +340,10 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 			gameTime = 0;
 		}
 	}
-	/// Update game state
+}
+
+void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
+{
 	if (mario.getDeadStatus() == true)
 	{
 		music.stop();
@@ -333,6 +365,22 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 		}
 	}
 }
+
+void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
+{
+	UpdateMap(deltaTime);
+	UpdateCamera();
+	UpdateMario(deltaTime, map, mushroom, stars, gameState);
+	UpdateGoomba(deltaTime, map);
+	UpdateKoopa(deltaTime, map);
+	UpdateMushroom(deltaTime, map);
+	UpdateStar(deltaTime, map);
+	UpdateCoin(deltaTime);
+	UpdateGameTime(deltaTime);
+	UpdateGameState(gameState, window);
+}
+
+/// Render
 
 void Render(sf::RenderWindow& window)
 {
