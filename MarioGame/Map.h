@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <string>
 #include "Game.h"
 #include "FloatingScore.h"
 #include "Animation.h"
@@ -14,12 +15,34 @@ private:
 
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture, fireTexture;
+	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+
+	// Fire
+	std::vector< sf::Texture> fireTextures;
+
+	// Big Bush
+	std::vector<sf::Texture> bigBushTextures;
+
+	// Cloud
+	std::vector<sf::Texture> cloudTextures;
+
+	// Tribush
+	std::vector<sf::Texture> triBushTextures;
 
 	// Hidden box
 	sf::Sprite hiddenBoxSprite;
-	sf::Texture hiddenBoxTexture[4];
+	std::vector< sf::Texture> hiddenBoxTexture;
 	Animation hiddenBoxAnimation;
+
+	// Castle
+	std::vector<sf::Texture> castleTexture;
+
+	// Tube
+	sf::Sprite tubeSprite;
+	std::vector<sf::Texture> tubeTexture;
+
+	// Collumn + Floor in Map 3
+	std::vector<sf::Texture> collumnTexture;
 
 	// Image
 	sf::Image image;
@@ -34,7 +57,7 @@ public:
 
 	// Functions
 	void Begin();
-	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition);
+	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition);
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);
