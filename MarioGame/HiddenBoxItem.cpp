@@ -117,11 +117,14 @@ void HiddenBoxItem::Draw(sf::RenderWindow& window)
 bool HiddenBoxItem::mapCollision(const Map& map)
 {
 	std::vector<std::vector<int>> grid = map.getGrid();
+	const std::set<int> excludedTiles = { 23, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+
 	for (int i = 0; i < map.getCollisionBoxList().size(); i++)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] != 23)
+			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) &&
+				excludedTiles.find(grid[i][j]) == excludedTiles.end())
 			{
 				return true;
 			}

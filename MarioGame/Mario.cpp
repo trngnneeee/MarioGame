@@ -250,58 +250,76 @@ void Mario::Draw(sf::RenderWindow& window)
 
 bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
 {
-	std::vector<std::vector<int>> grid = map.getGrid();
+	const std::vector<std::vector<int>>& grid = map.getGrid();
+	const auto& collisionBoxes = map.getCollisionBoxList();
 
-	for (int i = 0; i < map.getCollisionBoxList().size(); i++)
+	// Define specific grid value sets for easier condition checks
+	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26 };
+	const int brickBlock = 3;
+	const int hiddenMushroomBox = 4;
+
+	for (size_t i = 0; i < collisionBoxes.size(); i++)
 	{
-		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
+		for (size_t j = 0; j < collisionBoxes[i].size(); j++)
 		{
-			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 1 || grid[i][j] == 2 || grid[i][j] == 5 || grid[i][j] == 11 || grid[i][j] == 12 || grid[i][j] == 13 || grid[i][j] == 14 || grid[i][j] == 24 || grid[i][j] == 25 || grid[i][j] == 26))
-				return true;
-			// Brick break
-			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && (grid[i][j] == 3))
+			const sf::FloatRect& currentBox = collisionBoxes[i][j];
+			int tileType = grid[i][j];
+
+			// Check collision with solid blocks
+			if (collisionBox.intersects(currentBox) && solidBlocks.count(tileType))
 			{
-				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
+				return true;
+			}
+			// Handle brick block collisions
+			else if (collisionBox.intersects(currentBox) && tileType == brickBlock)
+			{
+				if (velocity.y < 0 && collisionBox.top <= currentBox.top + currentBox.height && collisionBox.top >= currentBox.top)
 				{
-					if (levelUp == true)
+					if (levelUp)
 					{
 						points += 50;
 						map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 					}
 					return true;
 				}
-				else return true;
-			}
-			// Hidden box contain mushroom
-			else if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) && grid[i][j] == 4)
-			{
-				if (velocity.y < 0 && collisionBox.top <= map.getCollisionBoxList()[i][j].top + map.getCollisionBoxList()[i][j].height && collisionBox.top >= map.getCollisionBoxList()[i][j].top)
+				else
 				{
+					return true;
+				}
+			}
+			// Handle hidden box collisions (mushroom or star)
+			else if (collisionBox.intersects(currentBox) && tileType == hiddenMushroomBox)
+			{
+				if (velocity.y < 0 && collisionBox.top <= currentBox.top + currentBox.height && collisionBox.top >= currentBox.top)
+				{
+					// Generate random number (1 or 2) to spawn power-up
 					std::srand(static_cast<unsigned>(std::time(0)));
 					int randomNumber = 1 + (std::rand() % 2);
+
 					if (randomNumber == 1)
 					{
-						PowerUpMushroom* newMushroom = new PowerUpMushroom;
-						newMushroom->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						auto* newMushroom = new PowerUpMushroom();
+						newMushroom->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 						mushroom.push_back(newMushroom);
-						map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-						return true;
 					}
 					else if (randomNumber == 2)
 					{
-						InvicibleStar* newStar = new InvicibleStar;
-						newStar->Begin(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
+						auto* newStar = new InvicibleStar();
+						newStar->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 						stars.push_back(newStar);
-						map.handleHiddenBoxCollision(sf::Vector2f(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize())));
-						return true;
 					}
 
+					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+					return true;
 				}
-				else return true;
+				else
+				{
+					return true;
+				}
 			}
 		}
 	}
-	return false; 
+	return false;
 }
 
 bool Mario::outOfMapCollision()
