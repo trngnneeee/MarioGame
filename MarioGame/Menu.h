@@ -14,14 +14,18 @@ private:
 	sf::Text title;
 	sf::Text prompt;
 
-	// Play 
-	sf::RectangleShape playButton;
-	sf::Text playText;
-	// Setting
-	sf::RectangleShape settingsButton;
-	sf::Text settingsText;
+	// Map button
+	sf::RectangleShape level1Button;
+	sf::Text level1Text;
+
+	sf::RectangleShape level2Button;
+	sf::Text level2Text;
+
+	sf::RectangleShape level3Button;
+	sf::Text level3Text;
 public:
 	void Begin(sf::RenderWindow& window);
 	void Draw(sf::RenderWindow& window);
+	int HandleInput(sf::RenderWindow& window);
 };
 

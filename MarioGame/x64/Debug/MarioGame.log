@@ -12,8 +12,8 @@ D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(111,41): warning C4244:        
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(111,41): warning C4244:             T=unsigned int
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(111,41): warning C4244:         ]
   Map.cpp
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(84,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(84,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(86,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Map.cpp(86,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
   Mario.cpp
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(224,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(224,42): warning C4244:         with

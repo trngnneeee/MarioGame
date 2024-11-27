@@ -7,9 +7,11 @@ Map::Map(float cellSize)
 {
 }
 // Functions
-void Map::Begin() {
+void Map::Begin(const std::string& mapName) {
+	
+	currentMapName = mapName;
 	// Load map
-	image.loadFromFile("map2.png");
+	image.loadFromFile(mapName);
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -487,4 +489,9 @@ float Map::getCellSize()
 const std::vector<std::vector<int>>& Map::getGrid() const
 {
 	return grid;
+}
+
+std::string Map::getCurrentMapName()
+{
+	return currentMapName;
 }

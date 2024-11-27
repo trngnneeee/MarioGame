@@ -30,11 +30,7 @@ int main() {
 			}
 			if (gameState == GameState::Menu)
 			{
-				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
-				{
-					gameState = GameState::Playing;
-					Begin(window);
-				}
+				handleStart(window, gameState);
 			}			
 		}
 

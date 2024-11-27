@@ -10,7 +10,9 @@ class Map;
 class PowerUpMushroom;
 class InvicibleStar;
 
-void Begin(sf::RenderWindow& window);
+void handleStart(sf::RenderWindow& window, GameState& gameState);
+
+void Begin(sf::RenderWindow& window, const std::string& mapName);
 void BeginMenu(sf::RenderWindow& window);
 
 void UpdateMap(float deltaTime);

@@ -11,6 +11,7 @@
 #include "Coin.h"
 #include <vector>
 #include <iostream>
+#include <string>
 
 Map map(1.0f); 
 Camera camera(16.0f);
@@ -43,8 +44,24 @@ float updateRange = 11.5f;
 
 sf::Vector2f winPosition;
 
+void handleStart(sf::RenderWindow& window, GameState& gameState)
+{
+	int opt = menu.HandleInput(window);
+	std::string mapName;
+	if (opt == 1)
+		mapName = "map1.png";
+	else if (opt == 2)
+		mapName = "map2.png";
+	else if (opt == 3)
+		mapName = "map3.png";
+	else if (opt == 0)
+		return;
+	gameState = GameState::Playing;
+	Begin(window, mapName);
+}
+
 /// Begin
-void Begin(sf::RenderWindow& window)
+void Begin(sf::RenderWindow& window, const std::string& mapName)
 {	
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopaPosition;
@@ -52,7 +69,7 @@ void Begin(sf::RenderWindow& window)
 	sf::Vector2f marioPosition;
 
 	// Init map
-	map.Begin();
+	map.Begin(mapName);
 	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition); 
 
 	// Init mario
@@ -357,7 +374,7 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 			if (mario.getLife() > 0)
 			{
 				Reset();
-				Begin(window);
+				Begin(window, map.getCurrentMapName());
 				mario.setLife(mario.getLife() - 1);
 			}
 			if (mario.getLife() <= 0)
