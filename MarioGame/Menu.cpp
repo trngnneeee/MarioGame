@@ -7,7 +7,7 @@ void Menu::Begin(sf::RenderWindow& window)
 		return;
 
 	// Load background
-	if (!backgroundTexture.loadFromFile("./resources/background/menu-background.png"))
+	if (!backgroundTexture.loadFromFile("./resources/background/MenuUi.png"))
 		return;
 
 	backgroundSprite.setTexture(backgroundTexture);
