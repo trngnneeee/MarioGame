@@ -70,6 +70,33 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/textures/" + file);
 		collumnTexture.push_back(tmp);
 	}
+
+	// Big Bush
+	const std::vector<std::string> bigBushFiles = {
+		"bigBush-left.png", "bigBush-mid.png", "bigBush-right.png" };
+	for (const auto& file : bigBushFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		bigBushTextures.push_back(tmp);
+	}
+	// Cloud
+	const std::vector<std::string> cloudFiles = {
+		"cloud-bottom-left.png", "cloud-bottom-mid.png", "cloud-bottom-right.png",
+		"cloud-top-left.png", "cloud-top-mid.png", "cloud-top-right.png" };
+	for (const auto& file : cloudFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		cloudTextures.push_back(tmp);
+	}
+	// Tribush
+	const std::vector<std::string> triBushFiles = {
+		"triBush-additional.png", "triBush-left.png", "triBush-mid.png",
+		"triBush-right.png", "triBush-top.png" };
+	for (const auto& file : triBushFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		triBushTextures.push_back(tmp);
+	}
 }
 
 void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)
@@ -237,6 +264,79 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			case EntityType::FloorLeft:
 			{
 				grid[i][j] = 26;
+				break;
+			}
+			// Big Bush
+			case EntityType::bigBushLeft:
+			{
+				grid[i][j] = 27;
+				break;
+			}
+			case EntityType::bigBushMid:
+			{
+				grid[i][j] = 28;
+				break;
+			}
+			case EntityType::bigBushRight:
+			{
+				grid[i][j] = 29;
+				break;
+			}
+			//Cloud
+			case EntityType::cloudBottomLeft:
+			{
+				grid[i][j] = 30;
+				break;
+			}
+			case EntityType::cloudBottomMid:
+			{
+				grid[i][j] = 31;
+				break;
+			}
+			case EntityType::cloudBottomRight:
+			{
+				grid[i][j] = 32;
+				break;
+			}
+			case EntityType::cloudTopLeft:
+			{
+				grid[i][j] = 33;
+				break;
+			}
+			case EntityType::cloudTopMid:
+			{
+				grid[i][j] = 34;
+				break;
+			}
+			case EntityType::cloudTopRight:
+			{
+				grid[i][j] = 35;
+				break;
+			}
+			//triBush
+			case EntityType::triBushAdditional:
+			{
+				grid[i][j] = 36;
+				break;
+			}
+			case EntityType::triBushLeft:
+			{
+				grid[i][j] = 37;
+				break;
+			}
+			case EntityType::triBushMid:
+			{
+				grid[i][j] = 38;
+				break;
+			}
+			case EntityType::triBushRight:
+			{
+				grid[i][j] = 39;
+				break;
+			}
+			case EntityType::triBushTop:
+			{
+				grid[i][j] = 40;
 				break;
 			}
 			}
@@ -410,7 +510,7 @@ void Map::Draw(sf::RenderWindow& window) {
 				texture = &castleTexture[6];
 				break;
 			}
-			// COllum + Floor
+			// Collum + Floor
 			case 23:
 			{
 				texture = &collumnTexture[0];
@@ -429,6 +529,79 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 26:
 			{
 				texture = &collumnTexture[3];
+				break;
+			}
+			// Big Bush
+			case 27:
+			{
+				texture = &bigBushTextures[0];
+				break;
+			}
+			case 28:
+			{
+				texture = &bigBushTextures[1];
+				break;
+			}
+			case 29:
+			{
+				texture = &bigBushTextures[2];
+				break;
+			}
+			// Cloud
+			case 30:
+			{
+				texture = &cloudTextures[0];
+				break;
+			}
+			case 31:
+			{
+				texture = &cloudTextures[1];
+				break;
+			}
+			case 32:
+			{
+				texture = &cloudTextures[2];
+				break;
+			}
+			case 33:
+			{
+				texture = &cloudTextures[3];
+				break;
+			}
+			case 34:
+			{
+				texture = &cloudTextures[4];
+				break;
+			}
+			case 35:
+			{
+				texture = &cloudTextures[5];
+				break;
+			}
+			// triBush
+			case 36:
+			{
+				texture = &triBushTextures[0];
+				break;
+			}
+			case 37:
+			{
+				texture = &triBushTextures[1];
+				break;
+			}
+			case 38:
+			{
+				texture = &triBushTextures[2];
+				break;
+			}
+			case 39:
+			{
+				texture = &triBushTextures[3];
+				break;
+			}
+			case 40:
+			{
+				texture = &triBushTextures[4];
 				break;
 			}
 			default:

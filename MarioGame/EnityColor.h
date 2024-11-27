@@ -20,7 +20,10 @@ enum class EntityType {
     Coin,
     Tube1, Tube2, Tube3, Tube4,
     CastleBrick, CastleDoorTop, CastleDoorBottom, CastleTop, CastleTopFill, CastleWindowLeft, CastleWindowRight,
-    Collumn, Floor, FloorLeft, FloorRight
+    Collumn, Floor, FloorLeft, FloorRight,
+    bigBushLeft, bigBushMid, bigBushRight,
+    cloudBottomLeft, cloudBottomMid, cloudBottomRight, cloudTopLeft, cloudTopMid, cloudTopRight,
+    triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -54,6 +57,23 @@ sf::Color collum(0, 0, 50);
 sf::Color floorColor(0, 50, 50);
 sf::Color floorLeft(0, 30, 50);
 sf::Color floorRight(0, 80, 50);
+
+sf::Color bigBushLeftColor(124, 252, 0);
+sf::Color bigBushMidColor(127, 255, 0);
+sf::Color bigBushRightColor(173, 255, 47);
+
+sf::Color cloudBottomLeftColor(251, 252, 248);
+sf::Color cloudBottomMidColor(254, 249, 243);
+sf::Color cloudBottomRightColor(245, 254, 253);
+sf::Color cloudTopLeftColor(253, 246, 228);
+sf::Color cloudTopMidColor(255, 250, 218);
+sf::Color cloudTopRightColor(255, 249, 227);
+
+sf::Color triBushAdditionalColor(0, 250, 154);
+sf::Color triBushLeftColor(0, 255, 127);
+sf::Color triBushMidColor(46, 139, 87);
+sf::Color triBushRightColor(102, 205, 170);
+sf::Color triBushTopColor(60, 179, 113);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -95,6 +115,21 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Floor, floorColor},
     {EntityType::FloorLeft, floorLeft},
     {EntityType::FloorRight, floorRight},
+
+    {EntityType::bigBushLeft, bigBushLeftColor},
+    {EntityType::bigBushMid, bigBushMidColor},
+    {EntityType::bigBushRight, bigBushRightColor},
+    {EntityType::cloudBottomLeft, cloudBottomLeftColor},
+    {EntityType::cloudBottomMid, cloudBottomMidColor},
+    {EntityType::cloudBottomRight, cloudBottomRightColor},
+    {EntityType::cloudTopLeft, cloudTopLeftColor},
+    {EntityType::cloudTopMid, cloudTopMidColor},
+    {EntityType::cloudTopRight, cloudTopRightColor},
+    {EntityType::triBushAdditional, triBushAdditionalColor},
+    {EntityType::triBushLeft, triBushLeftColor},
+    {EntityType::triBushMid, triBushMidColor},
+    {EntityType::triBushRight, triBushRightColor},
+    {EntityType::triBushTop, triBushTopColor},
 
     {EntityType::None, sf::Color::Transparent}
 };

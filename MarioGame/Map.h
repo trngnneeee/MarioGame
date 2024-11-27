@@ -38,6 +38,13 @@ private:
 	// Collumn + Floor in Map 3
 	std::vector<sf::Texture> collumnTexture;
 
+	// Bush
+	std::vector<sf::Texture> bigBushTextures;
+	std::vector<sf::Texture> triBushTextures;
+
+	// Cloud
+	std::vector<sf::Texture> cloudTextures;
+
 	// Image
 	sf::Image image;
 
