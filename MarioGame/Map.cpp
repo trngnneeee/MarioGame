@@ -297,16 +297,7 @@ void Map::Update(float deltaTime)
 		i++;
 	}
 
-	for (int i = 0; i < grid.size(); i++)
-	{
-		for (int j = 0; j < grid[i].size(); j++)
-		{
-			if (grid[i][j] == 4 || grid[i][j] == 15)
-			{
-				hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
-			}
-		}
-	}
+	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 }
 
 void Map::Draw(sf::RenderWindow& window) {

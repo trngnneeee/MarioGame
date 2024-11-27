@@ -21,7 +21,7 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 	textures.push_back(texture2);
 
 	// Init sprite
-	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
+	sprite.setScale(sf::Vector2f(0.9f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
 
 	// Init start position
 	position = goombasPosition;
@@ -34,7 +34,7 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		1.0f / textures[0].getSize().x,
+		0.9f / textures[0].getSize().x,
 		1.0f / textures[0].getSize().y
 	);
 }

@@ -40,7 +40,7 @@ bool deadMusicIsPlay;
 float timeAccumulator;
 int gameTime;
 
-float updateRange = 11.5f;
+float updateRange;
 
 sf::Vector2f winPosition;
 
@@ -361,6 +361,7 @@ void UpdateGameTime(float deltaTime)
 
 void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 {
+	updateRange = window.getSize().x * 11.5f / 1200;
 	if (mario.getDeadStatus() == true)
 	{
 		music.stop();

@@ -8,7 +8,7 @@ enum class EntityType {
     Copper,
     Brick,
     useBlock,
-    HiddenBox, HiddenBox2,
+    HiddenBox,
     Goomba,
     Koopa,
     Mario,

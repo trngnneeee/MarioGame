@@ -31,7 +31,7 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 	}
 
 	// Init sprite
-	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
+	sprite.setScale(sf::Vector2f(0.9f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
 
 	// Init start position
 	position = koopaPosition;
@@ -44,7 +44,7 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		1.0f / textures[0].getSize().x,
+		0.9f / textures[0].getSize().x,
 		1.0f / textures[0].getSize().y
 	);
 }
@@ -104,12 +104,12 @@ void Koopa::Update(float deltaTime, const Map& map)
 	if (velocity.x < 0)
 	{
 		sprite.setOrigin(0, 0);
-		sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
+		sprite.setScale(sf::Vector2f(0.9f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
 	}
 	else
 	{
 		sprite.setOrigin(textures[0].getSize().x, 0);
-		sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x * -1, 1.0f / textures[0].getSize().y));
+		sprite.setScale(sf::Vector2f(0.9f / textures[0].getSize().x * -1, 1.0f / textures[0].getSize().y));
 	}
 }
 
