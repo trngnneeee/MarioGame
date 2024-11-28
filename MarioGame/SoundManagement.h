@@ -19,25 +19,19 @@ private:
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
 public:
-    // Static method to access the singleton instance
     static SoundManager& getInstance()
     {
         static SoundManager instance; 
         return instance;
     }
 
-    // Load a sound effect by name
+    // Functions
     bool loadSound(const std::string& name, const std::string& filepath);
-
-    // Play a sound effect by name
     void playSound(const std::string& name);
-
-    // Stop a sound effect by name
     void stopSound(const std::string& name);
+    void setLoop(const std::string& name, const bool& value);
 
     // Setter/Getter
     bool getPlayedStatus(const std::string& name);
     void setPlayedStatus(const std::string& name, const bool& value);
-
-    void setLoop(const std::string& name, const bool& value);
 };

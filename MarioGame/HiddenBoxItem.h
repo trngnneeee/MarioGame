@@ -30,28 +30,28 @@ protected:
 	FloatingScore* score;
 public:
 	// Constructor
+	virtual ~HiddenBoxItem() = default;
 	HiddenBoxItem();
 
 	// Functions
-	void Begin(sf::Vector2f mushroomPosition);
+	virtual void Begin(sf::Vector2f mushroomPosition) = 0;
+	virtual void Update(float deltaTime, const Map& map);
+	virtual void Draw(sf::RenderWindow& window);
 
-	void handleHorizontalMove(float deltaTime, const Map& map);
-	void handleVerticalMove(float deltaTime, const Map& map);
+	virtual void handleHorizontalMove(float deltaTime, const Map& map);
+	virtual void handleVerticalMove(float deltaTime, const Map& map);
+	virtual bool handleOut(float deltaTime);
+	virtual bool handleDead(float deltaTime);
 
-	void Update(float deltaTime, const Map& map);
-	void Draw(sf::RenderWindow& window);
+	// Collision
+	virtual bool mapCollision(const Map& map);
 
-	bool mapCollision(const Map& map);
 	// Setter/Getter
 	sf::FloatRect getCollisionBox() const;
-
 	bool getDeadStatus();
 	void setDeadStatus(const bool& value);
-
 	float getDieTime();
-
 	bool getOutStatus();
-
 	sf::Vector2f getPosition();
 };
 

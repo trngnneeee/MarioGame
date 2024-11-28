@@ -24,6 +24,7 @@ private:
 	sf::RectangleShape level3Button;
 	sf::Text level3Text;
 public:
+	// Functions
 	void Begin(sf::RenderWindow& window);
 	void Draw(sf::RenderWindow& window);
 	int HandleInput(sf::RenderWindow& window);

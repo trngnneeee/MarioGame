@@ -13,7 +13,6 @@ enum class EntityType {
     Koopa,
     Mario,
     None,
-    Win,
     Stick,
     Circle,
     Fire1, Fire2, Fire3,
@@ -29,7 +28,6 @@ enum class EntityType {
 sf::Color GoombaColor(200, 0, 0);
 sf::Color KoopaColor(100, 0, 0);
 sf::Color useBlockColor(100, 100, 0);
-sf::Color winColor(0, 255, 255);
 
 sf::Color stickColor(0, 150, 0);
 sf::Color circleColor(0, 100, 0);
@@ -87,8 +85,6 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Koopa, KoopaColor},
     {EntityType::Mario, sf::Color::Red},
     
-    {EntityType::Win, winColor},
-
     {EntityType::Stick, stickColor},
     {EntityType::Circle, circleColor},
 

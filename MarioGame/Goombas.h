@@ -11,12 +11,16 @@ public:
 	// Constructor
 	Goombas();
 
-	void Begin(const sf::Vector2f& goombasPosition);
-	void Update(float deltaTime, const Map& map);
-
-	bool teamCollision(const Goombas& other);
+	// Functions
+	void Begin(const sf::Vector2f& position) override;
+	void Update(float deltaTime, const Map& map) override;
+	
+	bool handleDead(float deltaTime);
+	bool handleDeadByKoopa(float deltaTime);
 	void handleTeamCollision();
 
+	// Collision
+	bool teamCollision(const Goombas& other);
 	bool koopaCollision(const Koopa& koopa);
 
 	// Setter/Getter

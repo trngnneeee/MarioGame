@@ -6,6 +6,6 @@ class InvicibleStar : public HiddenBoxItem
 private:
 
 public:
-	void Begin(sf::Vector2f starPosition);
+	void Begin(sf::Vector2f starPosition) override;
 };
 

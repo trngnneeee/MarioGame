@@ -20,20 +20,25 @@ private:
 	// accelaration
 	float friction = 0.98f;
 public:
+	// Constructors
 	Koopa();
 
-	void Begin(const sf::Vector2f& koopaPosition);
-	void Update(float deltaTime, const Map& map);
-
-	bool teamCollision(const Koopa& other);
-
+	// Functions
+	void Begin(const sf::Vector2f& koopaPosition) override;
+	void Update(float deltaTime, const Map& map) override;
 	void Reset();
+
+	bool handleDead(float deltaTime);
+	bool handleOutOfShell(float deltaTime);
+	void updateTexture(float deltaTime);
+	void updateScale();
+
+	// Collision
+	bool teamCollision(const Koopa& other);
 
 	// Setter/Getter
 	bool getInShellStatus() const;
 	void setInShellStatus(const bool& value);
-
-
 	void setStandTimer(const float& value);
 };
 

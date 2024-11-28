@@ -28,9 +28,9 @@ private:
 	Animation bigRunAnimation;
 
 	// Texture, Sprite
-	sf::Texture textures[5];
+	std::vector< sf::Texture> textures;
 	sf::Sprite sprite;
-	sf::Texture bigTexture[5];
+	std::vector< sf::Texture> bigTexture;
 	sf::Sprite bigSprite;
 
 	// Points (Coints)
@@ -75,16 +75,26 @@ public:
 
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
+	void Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void Draw(sf::RenderWindow& window);
+	void Reset();
+	void ResetStillLife();
 
 	void HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
-	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
-	void HandleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
-	
-	void Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
-
+	void UpdateCollisionBox();
+	void handleJump(float deltaTime);
+	void handleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void handleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	bool handleDead(float deltaTime);
+	bool handleOutOfMap();
+	void handleBlinkEffect(float deltaTime);
+	void handleCollectCoin();
+	void handleJumpStrength();
+	void UpdateTexture(float deltaTime);
 	void updateFlip();
-	void Draw(sf::RenderWindow& window);
+	float distanceX(const Enemy& enemy);
 
+	// Collsion
 	bool mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
@@ -93,43 +103,27 @@ public:
 	bool starCollision(InvicibleStar& star);
 	bool coinCollision(Coin& coin);
 
-	float distanceX(const Enemy& enemy);
-
-	void Reset();
-	void ResetStillLife();
-
 	// Getter/Setter
 	int getPoints();
 	void setPoints(const int& n);
-
 	bool getDeadStatus();
 	void setDeadStatus(const bool& value);
-
 	float getDeadTimer();
-
 	sf::Vector2f getPosition();
 	sf::Vector2f getStartPosition();
 	void setPosition(sf::Vector2f position);
-
 	int getLife();
 	void setLife(const int& n);
-
 	sf::FloatRect getCollisionBox() const;
-
 	sf::Vector2f getVelocity();
-
 	bool getLevelUpStatus();
 	void setLevelUpStatus(const bool& value);
-
 	float getInvicibleTime();
 	void setInvicibleTime(const float& time);
-
 	float getInvicibleTime2();
 	void setInvicibleTime2(const float& time);
-
 	int getCoin();
 	void setCoin(const int coin);
-
 	int getMapArchive();
 	void setMapArchive(const int& value);
 };

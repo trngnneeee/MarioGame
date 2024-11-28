@@ -9,8 +9,9 @@ private:
 	sf::Text text;
 	sf::Font font;
 public:
-	// Constructor
+	// Constructors
 	FloatingScore(const int& points, sf::Vector2f startPosition);
+	// Functions
 	void Update(const float& deltaTime);
 	void Draw(sf::RenderWindow& window);
 	bool isTimeout();

@@ -6,32 +6,25 @@ HiddenBoxItem::HiddenBoxItem()
 {
 }
 
-void HiddenBoxItem::Begin(sf::Vector2f itemPosition)
+void HiddenBoxItem::Update(float deltaTime, const Map& map)
 {
-	// Init texture
-	for (int i = 0; i < 2; i++)
-	{
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mushroom/mushroom" + std::to_string(i + 1) + ".png");
-		textures.push_back(tmp);
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		animation.addFrame(Frame(&textures[i], 0.1f * (i + 1)));
-	}
-	sprite.setScale(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y);
+	if (handleOut(deltaTime)) return;
+	if (handleDead(deltaTime)) return;
 
-	// Init position
-	position = itemPosition;
-	hiddenBoxPosition = itemPosition.y;
+	// Update collision
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	handleHorizontalMove(deltaTime, map);
+	handleVerticalMove(deltaTime, map);
 
-	// Init collision box
-	collisionBox = sf::FloatRect(
-		position.x,
-		position.y,
-		1.0f / textures[0].getSize().x,
-		1.0f / textures[0].getSize().y
-	);
+	sprite.setTexture(*animation.update(deltaTime));
+}
+
+void HiddenBoxItem::Draw(sf::RenderWindow& window)
+{
+	sprite.setPosition(position);
+	window.draw(sprite);
+	if (score)
+		score->Draw(window);
 }
 
 void HiddenBoxItem::handleHorizontalMove(float deltaTime, const Map& map)
@@ -69,7 +62,7 @@ void HiddenBoxItem::handleVerticalMove(float deltaTime, const Map& map)
 	collisionBox.top = position.y;
 }
 
-void HiddenBoxItem::Update(float deltaTime, const Map& map)
+bool HiddenBoxItem::handleOut(float deltaTime)
 {
 	if (!isOut)
 	{
@@ -78,9 +71,13 @@ void HiddenBoxItem::Update(float deltaTime, const Map& map)
 			position.y -= 1.0f * deltaTime;
 		else
 			isOut = true;
-		return;
+		return true;
 	}
+	return false;
+}
 
+bool HiddenBoxItem::handleDead(float deltaTime)
+{
 	if (isDead)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 0));
@@ -94,24 +91,9 @@ void HiddenBoxItem::Update(float deltaTime, const Map& map)
 		}
 		else
 			if (score) delete score;
-		return;
+		return true;
 	}
-
-	// Update collision
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-	// Handle Move
-	handleHorizontalMove(deltaTime, map);
-	handleVerticalMove(deltaTime, map);
-
-	sprite.setTexture(*animation.update(deltaTime));
-}
-
-void HiddenBoxItem::Draw(sf::RenderWindow& window)
-{
-	sprite.setPosition(position);
-	window.draw(sprite);
-	if (score)
-		score->Draw(window);
+	return false;
 }
 
 bool HiddenBoxItem::mapCollision(const Map& map)

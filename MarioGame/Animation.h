@@ -19,7 +19,9 @@ private:
 	float length;
 	float time;
 public:
+	// Constructors
 	Animation(float length);
+	// Functions
 	void addFrame(Frame frame);
 	sf::Texture* update(float deltaTime);
 	void Reset();

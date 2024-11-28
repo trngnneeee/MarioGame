@@ -11,8 +11,10 @@ private:
 	float timer;
 	int currentMapType;
 public:
+	// Constructors
 	MapTransition();
 
+	// Functions
 	void Begin();
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
@@ -20,7 +22,6 @@ public:
 	// Setter/Getter
 	float getTimer();
 	void setTimer(const float& value);
-	
 	int getMapType();
 	void setMapType(const int& value);
 };

@@ -97,7 +97,13 @@ void Map::Begin(const std::string& mapName) {
 	}
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)
+void Map::CreateFromImage(
+	sf::Vector2f& marioPosition,
+	sf::Vector2f& winPosition,
+	std::vector<sf::Vector2f>& goombasPosition,
+	std::vector<sf::Vector2f>& koopaPosition,
+	std::vector<sf::Vector2f>& coinPosition
+)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -152,14 +158,10 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
 				break;
 			}
-			case EntityType::Win:
-			{
-				winPosition = sf::Vector2f(cellSize * i, cellSize * j);
-				break;
-			}
 			case EntityType::Circle:
 			{
 				grid[i][j] = 6;
+				winPosition = sf::Vector2f(cellSize * i, cellSize * j);
 				break;
 			}
 			case EntityType::Stick:

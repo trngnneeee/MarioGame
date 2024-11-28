@@ -47,14 +47,6 @@ std::vector<std::unique_ptr<InvicibleStar>> stars;
 // Coin
 std::vector<std::unique_ptr<Coin>> coins;
 
-// Music
-//sf::Music music;
-//bool musicIsPlay;
-//sf::Music deadMusic;
-//sf::Music levelUp;
-//sf::Music win;
-//bool deadMusicIsPlay;
-
 // Game time
 float timeAccumulator;
 int gameTime;
@@ -113,9 +105,13 @@ void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	// Detect winning
 	if (mario.getPosition().x >= winPosition.x)
 	{
-		handleWining();
+		SoundManager::getInstance().stopSound("main");
+		SoundManager::getInstance().setPlayedStatus("main", false);
+		mario.setMapArchive(mario.getMapArchive() + 1);
+		mapTransition.setMapType(mapTransition.getMapType() + 1);
+		mapTransition.setTimer(3.0f);
+		ResetGame();
 		BeginGame(window);
-		return;
 	}
 }
 
@@ -146,14 +142,14 @@ void BeginMap(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vecto
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map1.png";
+		mapName = "map2.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition);
+	map.CreateFromImage(marioPosition, winPosition, goombasPosition, koopaPosition, coinPosition);
 
 	map.CreateCollisionBox();
 }
@@ -488,16 +484,6 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 	}
 }
 
-void handleWining()
-{
-	SoundManager::getInstance().stopSound("main");
-	SoundManager::getInstance().setPlayedStatus("main", false);
-	mario.setMapArchive(mario.getMapArchive() + 1);
-	mapTransition.setMapType(mapTransition.getMapType() + 1);
-	mapTransition.setTimer(3.0f);
-	ResetGame();
-}
-
 /// Render Function
 void RenderMapTransition(sf::RenderWindow& window)
 {
@@ -599,7 +585,4 @@ void ResetGame()
 	}
 	coins.clear();
 	/// Reset music
-	/*music.stop();
-	deadMusic.stop();
-	deadMusicIsPlay = false;*/
 }

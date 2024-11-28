@@ -41,6 +41,19 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 
 void Goombas::Update(float deltaTime, const Map& map)
 {
+	if (handleDead(deltaTime)) return;
+	if (handleDeadByKoopa(deltaTime)) return;
+	// Update texture
+	sprite.setTexture(*runAnimation.update(deltaTime));
+	// Update collision
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	// Handle Move
+	handleHorizontalMove(deltaTime, map);
+	handleVerticalMove(deltaTime, map);
+}
+
+bool Goombas::handleDead(float deltaTime)
+{
 	if (isDead)
 	{
 		sprite.setTexture(deadTexture);
@@ -57,9 +70,14 @@ void Goombas::Update(float deltaTime, const Map& map)
 		else
 			if (score)
 				delete score;
-		return;
+		return true;
 	}
-	else if (isDeadByKoopa)
+	return false;
+}
+
+bool Goombas::handleDeadByKoopa(float deltaTime)
+{
+	if (isDeadByKoopa)
 	{
 		position.y -= v * deltaTime;
 		v += tmpGravity * deltaTime;
@@ -69,15 +87,9 @@ void Goombas::Update(float deltaTime, const Map& map)
 			score = new FloatingScore(200, position);
 		else
 			score->Update(deltaTime);
-		return;
+		return true;
 	}
-	// Update texture
-	sprite.setTexture(*runAnimation.update(deltaTime));
-	// Update collision
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-	// Handle Move
-	handleHorizontalMove(deltaTime, map);
-	handleVerticalMove(deltaTime, map);
+	return false;
 }
 
 bool Goombas::teamCollision(const Goombas& other)

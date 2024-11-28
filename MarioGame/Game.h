@@ -12,6 +12,15 @@ class InvicibleStar;
 
 /// Begin
 void BeginGame(sf::RenderWindow& window);
+/// Update
+void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window);
+/// Render
+void RenderGame(sf::RenderWindow& window);
+/// UI + Menu
+void RenderUI(sf::RenderWindow& window, float deltaTime);
+void RenderMenu(sf::RenderWindow& window);
+/// Reset
+void ResetGame();
 
 void BeginMap(
 	sf::Vector2f& marioPosition,
@@ -20,7 +29,6 @@ void BeginMap(
 	std::vector<sf::Vector2f>& koopaPosition,
 	std::vector<sf::Vector2f>& coinPosition
 );
-
 void BeginMenu(sf::RenderWindow& window);
 void BeginMario(sf::Vector2f marioPosition);
 void BeginGoomba(std::vector<sf::Vector2f> goombasPosition);
@@ -29,10 +37,6 @@ void BeginCoin(std::vector<sf::Vector2f> coinPosition);
 void BeginBackground(const float& zoomLevel, const Map& map);
 void BeginMusic();
 void BeginGameTime();
-
-
-/// Update
-void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window);
 
 bool UpdateMapTransition(float deltaTime);
 void UpdateMap(float deltaTime);
@@ -45,10 +49,6 @@ void UpdateStar(float deltaTime, const Map& map);
 void UpdateCoin(float deltaTime);
 void UpdateGameTime(float deltaTime);
 void UpdateGameState(GameState& gameState, sf::RenderWindow& window);
-void handleWining();
-
-/// Render
-void RenderGame(sf::RenderWindow& window);
 
 void RenderMapTransition(sf::RenderWindow& window);
 void RenderBackground(sf::RenderWindow& window);
@@ -59,8 +59,3 @@ void RenderMario(sf::RenderWindow& window);
 void RenderGoomba(sf::RenderWindow& window);
 void RenderKoopa(sf::RenderWindow& window);
 void RenderCoin(sf::RenderWindow& window);
-
-void RenderUI(sf::RenderWindow& window, float deltaTime);
-void RenderMenu(sf::RenderWindow& window);
-
-void ResetGame();

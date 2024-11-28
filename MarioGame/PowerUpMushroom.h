@@ -7,7 +7,6 @@ class PowerUpMushroom : public HiddenBoxItem
 private:
 	
 public:
-	// Functions
-	void Begin(sf::Vector2f mushroomPosition);
+	void Begin(sf::Vector2f mushroomPosition) override;
 };
 

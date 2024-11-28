@@ -24,20 +24,18 @@ private:
 
     sf::FloatRect collisionBox;
 public:
+    // Constructors
     Coin();
     // Functions
     void Begin(sf::Vector2f position);
     void Update(float deltaTime);
     void Draw(sf::RenderWindow& window);
-
     void Reset();
 
     // Setter/Getter
     bool isCollected() const;
     void setCollected(const bool& value);
-
     sf::FloatRect getCollisionBox() const;
-
     float getDisapperTime();
 };
 

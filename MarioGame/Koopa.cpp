@@ -7,38 +7,35 @@ Koopa::Koopa()
 
 void Koopa::Begin(const sf::Vector2f& koopaPosition)
 {
-	sf::Texture texture1, texture2;
-	if (!texture1.loadFromFile("./resources/textures/Koopa/koopa1.png"))
-		return;
-	if (!texture2.loadFromFile("./resources/textures/Koopa/koopa2.png"))
-		return;
-	textures.push_back(texture1);
-	textures.push_back(texture2);
+	// Koopa default
+	for (int i = 0; i < 2; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Koopa/koopa" + std::to_string(i + 1) + ".png");
+		textures.push_back(tmp);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		runAnimation.addFrame(Frame(&textures[i], 0.1f * (i + 1)));
+	}
 	if (!shell.loadFromFile("./resources/textures/Koopa/koopashell.png"))
 		return;
 	if (!throwTexture.loadFromFile("./resources/textures/Koopa/koopaDead.png"))
 		return;
+	// Out of shell
 	for (int i = 0; i < 4; i++)
 	{
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/Koopa/koopaOut" + std::to_string(i + 1) + ".png");
 		outShell.push_back(tmp);
 	}
-	// Init get out shell animation
 	for (int i = 0; i < outShell.size(); i++)
 	{
 		outAnimation.addFrame(Frame(&outShell[i], 0.1f * (i + 1)));
 	}
 
-	// Init sprite
-	sprite.setScale(sf::Vector2f(0.9f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
-
 	// Init start position
 	position = koopaPosition;
-
-	// Init run animation
-	runAnimation.addFrame(Frame(&textures[0], 0.1f));
-	runAnimation.addFrame(Frame(&textures[1], 0.2f));
 
 	// Init collision box
 	collisionBox = sf::FloatRect(
@@ -50,6 +47,16 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 }
 
 void Koopa::Update(float deltaTime, const Map& map)
+{
+	if (handleDead(deltaTime)) return;
+	updateTexture(deltaTime);
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	handleHorizontalMove(deltaTime, map);
+	handleVerticalMove(deltaTime, map);
+	updateScale();
+}
+
+bool Koopa::handleDead(float deltaTime)
 {
 	if (isDead)
 	{
@@ -66,9 +73,34 @@ void Koopa::Update(float deltaTime, const Map& map)
 		}
 		else
 			if (score) delete score;
-		return;
+		return true;
 	}
-	// Update texture
+	return false;
+}
+
+bool Koopa::handleOutOfShell(float deltaTime)
+{
+	if (velocity.x == 0)
+	{
+		standTimer -= deltaTime;
+		if (standTimer <= 1.5f) sprite.setTexture(*outAnimation.update(deltaTime));
+		if (standTimer <= 0)
+		{
+			inShell = false;
+			velocity.x = 3.0f;
+			standTimer = 3.0f;
+			return true;
+		}
+	}
+	else 
+	{
+		standTimer = 10.0f;
+		return false;
+	}
+}
+
+void Koopa::updateTexture(float deltaTime)
+{
 	if (inShell)
 	{
 		velocity.x *= friction;
@@ -77,30 +109,14 @@ void Koopa::Update(float deltaTime, const Map& map)
 			velocity.x = 0.0f;
 		}
 		sprite.setTexture(shell);
-		if (velocity.x == 0)
-		{
-			standTimer -= deltaTime;
-			if (standTimer <= 1.5f) sprite.setTexture(*outAnimation.update(deltaTime));
-			if (standTimer <= 0)
-			{
-				inShell = false;
-				velocity.x = 3.0f;
-				standTimer = 3.0f;
-				return;
-			}
-		}
-		else standTimer = 10.0f;
+		if (handleOutOfShell(deltaTime)) return;
 	}
 	else
-	{
 		sprite.setTexture(*runAnimation.update(deltaTime));
-	}
-	// Update collision
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-	// Handle Move
-	handleHorizontalMove(deltaTime, map);
-	handleVerticalMove(deltaTime, map);
-	// Update scale
+}
+
+void Koopa::updateScale()
+{
 	if (velocity.x < 0)
 	{
 		sprite.setOrigin(0, 0);

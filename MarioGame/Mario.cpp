@@ -13,34 +13,41 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	startPosition = marioPosition;
 	position = marioPosition;
 
+	deadTexture.loadFromFile("./resources/textures/Mario/marioDie.png");
+
 	// Init small texture
-	if (!textures[0].loadFromFile("./resources/textures/Mario/marioSmallRun1.png"))
-		return;
-	if (!textures[1].loadFromFile("./resources/textures/Mario/marioSmallRun2.png"))
-		return;
-	if (!textures[2].loadFromFile("./resources/textures/Mario/marioSmallRun3.png"))
-		return;
-	if (!textures[3].loadFromFile("./resources/textures/Mario/marioSmall.png"))
-		return;
-	if (!textures[4].loadFromFile("./resources/textures/Mario/marioSmallJump.png"))
-		return;
-	if (!deadTexture.loadFromFile("./resources/textures/Mario/marioDie.png"))
-		return;
-
-	// Init big texture
-	if (!bigTexture[0].loadFromFile("./resources/textures/Mario/marioBigRun1.png"))
-		return;
-	if (!bigTexture[1].loadFromFile("./resources/textures/Mario/marioBigRun2.png"))
-		return;
-	if (!bigTexture[2].loadFromFile("./resources/textures/Mario/marioBigRun3.png"))
-		return;
-	if (!bigTexture[3].loadFromFile("./resources/textures/Mario/marioBig.png"))
-		return;
-	if (!bigTexture[4].loadFromFile("./resources/textures/Mario/marioBigJump.png"))
-
+	std::vector<std::string> filePath1 = {
+		"marioSmallRun1.png",
+		"marioSmallRun2.png",
+		"marioSmallRun3.png",
+		"marioSmall.png",
+		"marioSmallJump.png",
+	};
+	for (int i = 0; i < filePath1.size(); i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Mario/" + filePath1[i]);
+		textures.push_back(tmp);
+	}
 	runAnimation.addFrame(Frame(&textures[0], 0.08f));
 	runAnimation.addFrame(Frame(&textures[1], 0.16f));
 	runAnimation.addFrame(Frame(&textures[2], 0.24f));
+
+
+	// Init big texture
+	std::vector<std::string> filePath2 = {
+		"marioBigRun1.png",
+		"marioBigRun2.png",
+		"marioBigRun3.png",
+		"marioBig.png",
+		"marioBigJump.png",
+	};
+	for (int i = 0; i < filePath1.size(); i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Mario/" + filePath1[i]);
+		bigTexture.push_back(tmp);
+	}
 
 	bigRunAnimation.addFrame(Frame(&bigTexture[0], 0.1f));
 	bigRunAnimation.addFrame(Frame(&bigTexture[1], 0.2f));
@@ -55,32 +62,60 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
+void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+{
+	if (handleDead(deltaTime)) return;
+	if (handleOutOfMap()) return;
+	handleBlinkEffect(deltaTime);
+	handleCollectCoin();
+	handleJumpStrength();
+	HandleMove(deltaTime, map, mushrooms, stars);
+	UpdateTexture(deltaTime);
+}
+
+void Mario::Draw(sf::RenderWindow& window)
+{
+	updateFlip();
+	if (!levelUp || isDead)
+	{
+		sprite.setPosition(position);
+		window.draw(sprite);
+	}
+	else
+	{
+		bigSprite.setPosition(position);
+		window.draw(bigSprite);
+	}
+}
+
 void Mario::HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {	
 	// Update previous position
 	previousPos = position; 
+	UpdateCollisionBox();
+	handleJump(deltaTime);
+	handleVerticalMove(deltaTime, map, mushrooms, stars);
+	handleHorizontalMove(deltaTime, map, mushrooms, stars);
+}
 
-	// Update position of collision box
+void Mario::UpdateCollisionBox()
+{
 	if (!levelUp)
 		collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	else
 		collisionBox = sf::FloatRect(position.x, position.y, bigSprite.getGlobalBounds().width, bigSprite.getGlobalBounds().height);
+}
 
-	// Jumping
+void Mario::handleJump(float deltaTime)
+{
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		velocity.y = -jumpStrength;
 		isOnGround = false;
 		SoundManager::getInstance().playSound("jump");
 	}
-
-	// Vertical move
-	HandleVerticalMove(deltaTime, map, mushrooms, stars);
-
-	// Horizontal move
-	HandleHorizontalMove(deltaTime, map, mushrooms, stars);
 }
 
-void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -106,7 +141,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<std::uni
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -133,23 +168,31 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<std::uniqu
 	}
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+bool Mario::handleDead(float deltaTime)
 {
 	if (isDead)
-	{  
+	{
 		position.y -= v * deltaTime;
 		v += tmpGravity * deltaTime;
 		sprite.setTexture(deadTexture);
 		deadTimer -= deltaTime;
-		return;
+		return true;
 	}
+	return false;
+}
 
+bool Mario::handleOutOfMap()
+{
 	if (outOfMapCollision())
 	{
 		isDead = true;
-		return;
+		return true;
 	}
+	return false;
+}
 
+void Mario::handleBlinkEffect(float deltaTime)
+{
 	// Shrinking from Big size to Small size
 	if (invicibleTime > 0)
 	{
@@ -157,10 +200,10 @@ void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerU
 		float alpha = (sin(invicibleTime * 100.0f) * 0.5f + 0.5f) * 255;
 		if (!levelUp)
 			sprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
-		else 
+		else
 			bigSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(alpha)));
-	} 
-	// Taking star
+	}
+	// Taking invicible star
 	else if (invicibleTime2 > 0)
 	{
 		invicibleTime2 -= deltaTime;
@@ -175,19 +218,24 @@ void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerU
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 		bigSprite.setColor(sf::Color(255, 255, 255, 255));
 	}
+}
 
-	// 10 coin -> 1 life
+void Mario::handleCollectCoin()
+{
 	if (coin >= 10)
 	{
 		coin -= 10;
 		life++;
 	}
+}
 
+void Mario::handleJumpStrength()
+{
 	jumpStrength = (levelUp) ? 25.0f : 20.0f;
+}
 
-	HandleMove(deltaTime, map, mushrooms, stars);
-
-	// Update animation
+void Mario::UpdateTexture(float deltaTime)
+{
 	if (!levelUp)
 	{
 		if (!isOnGround)
@@ -230,27 +278,11 @@ void Mario::updateFlip()
 	}
 }
 
-void Mario::Draw(sf::RenderWindow& window)
-{
-	updateFlip();
-	if (!levelUp || isDead)
-	{
-		sprite.setPosition(position);
-		window.draw(sprite);
-	}
-	else
-	{
-		bigSprite.setPosition(position);
-		window.draw(bigSprite);
-	}
-}
-
 bool Mario::mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
 
-	// Define specific grid value sets for easier condition checks
 	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26 };
 	const int brickBlock = 3;
 	const int hiddenMushroomBox = 4;
@@ -421,7 +453,6 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
-	
 }
 
 void Mario::ResetStillLife()

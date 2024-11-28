@@ -5,10 +5,6 @@ Enemy::Enemy()
 {
 }
 
-void Enemy::Begin()
-{
-}
-
 void Enemy::handleHorizontalMove(float deltaTime, const Map& map)
 {
 	sf::Vector2f newPosition = position;
@@ -42,17 +38,6 @@ void Enemy::handleVerticalMove(float deltaTime, const Map& map)
 	}
 	collisionBox.left = position.x;
 	collisionBox.top = position.y;
-}
-
-void Enemy::Update(float deltaTime, const Map& map)
-{
-	// Update texture
-	sprite.setTexture(*runAnimation.update(deltaTime));
-	// Update collision
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-	// Handle Move
-	handleHorizontalMove(deltaTime, map);
-	handleVerticalMove(deltaTime, map);
 }
 
 void Enemy::Draw(sf::RenderWindow& window)

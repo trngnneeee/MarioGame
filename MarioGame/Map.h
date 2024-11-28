@@ -51,17 +51,25 @@ private:
 	// Score
 	std::vector<FloatingScore*> score;
 public:
+	// Constructors
 	Map(float cellSize = 32.0f);
 
 	// Functions
 	void Begin(const std::string& mapName);
-	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition);
-	void CreateCollisionBox();
-	void handleBrickCollision(sf::Vector2f brickPosition);
-	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
+
+	void CreateFromImage(
+		sf::Vector2f& marioPosition, 
+		sf::Vector2f& winPosition, 
+		std::vector<sf::Vector2f>& goombasPosition, 
+		std::vector<sf::Vector2f>& koopaPosition, 
+		std::vector<sf::Vector2f>& coinPosition
+	);
+	void CreateCollisionBox();
+	void handleBrickCollision(sf::Vector2f brickPosition);
+	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 
 	// Setter/Getter
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;

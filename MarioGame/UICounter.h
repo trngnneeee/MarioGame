@@ -23,8 +23,10 @@ private:
 	sf::Sprite coinSprite;
 	sf::Text coinCounter;
 public:
+	// Constructors
 	UICounter();
 
+	// Functions
 	void Begin();
 	void Update(float deltaTime, Camera camera, const int& points, const int& life, const int& coin, const int& gameTime);
 	void Draw(sf::RenderWindow& window);
