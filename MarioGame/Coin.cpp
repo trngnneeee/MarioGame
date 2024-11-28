@@ -1,7 +1,7 @@
 ﻿#include "Coin.h"
 
 Coin::Coin()
-    : collected(false), coinAnimation(1.0f), disappearTime(3.0f), isPlayed(false)
+    : collected(false), coinAnimation(1.0f), disappearTime(0.3f)
 {
 }
 
@@ -26,13 +26,6 @@ void Coin::Begin(sf::Vector2f position)
     // Init position
     this->position = position;
 
-    // Init sound buffer
-    if (!coinSoundBuffer.loadFromFile("resources/soundEffect/coin.mp3")) {
-        // Kiểm tra lỗi nếu không tải được âm thanh
-        std::cerr << "Không thể tải âm thanh coin!" << std::endl;
-    }
-    coinSound.setBuffer(coinSoundBuffer);
-
     // Init collision box
     collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 }
@@ -45,10 +38,10 @@ void Coin::Update(float deltaTime)
     sprite.setTexture(*coinAnimation.update(deltaTime));
     if (collected)
     {
-        if (!isPlayed)
+        if (!SoundManager::getInstance().getPlayedStatus("coin"))
         {
-            isPlayed = true;
-            coinSound.play();
+            SoundManager::getInstance().playSound("coin");
+            SoundManager::getInstance().setPlayedStatus("coin", true);
         }
         sprite.setColor(sf::Color(255, 255, 255, 0));
         disappearTime -= deltaTime;
@@ -60,7 +53,10 @@ void Coin::Update(float deltaTime)
                 score->Update(deltaTime);
         }
         else
+        {
             if (score) delete score;
+            SoundManager::getInstance().setPlayedStatus("coin", false);
+        }
     }
 }
 

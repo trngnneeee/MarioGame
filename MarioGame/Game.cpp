@@ -10,123 +10,96 @@
 #include "InvicibleStar.h"
 #include "Coin.h"
 #include "MapTransition.h"
+#include "SoundManagement.h"
 #include <vector>
 #include <iostream>
 #include <string>
 
-MapTransition mapTransition;
-
-Map map(1.0f); 
-Camera camera(16.0f);
-Mario mario;
-Background background;
-UICounter UI;
+// Game menu 
 Menu menu;
 
-// Enemy
-std::vector<Goombas*> goombas;
-std::vector<Koopa*> koopas;
+// Map transition
+MapTransition mapTransition;
 
-// Power-up Mushroom
-std::vector<PowerUpMushroom*> mushroom;
-std::vector<InvicibleStar*> stars;
+// Map
+Map map(1.0f); 
+
+// Camera
+Camera camera(16.0f);
+
+// Mario
+Mario mario;
+
+// Background
+Background background;
+
+// Counter for coin, mario's life, gametime
+UICounter UI;
+
+// Enemy
+std::vector<std::unique_ptr<Goombas>> goombas;
+std::vector<std::unique_ptr<Koopa>> koopas;
+
+// Hidden box item
+std::vector<std::unique_ptr<PowerUpMushroom>> mushroom;
+std::vector<std::unique_ptr<InvicibleStar>> stars;
 
 // Coin
-std::vector<Coin*> coins;
+std::vector<std::unique_ptr<Coin>> coins;
 
-sf::Music music;
-sf::Music deadMusic;
-sf::Music levelUp;
-sf::Music win;
-bool deadMusicIsPlay;
+// Music
+//sf::Music music;
+//bool musicIsPlay;
+//sf::Music deadMusic;
+//sf::Music levelUp;
+//sf::Music win;
+//bool deadMusicIsPlay;
 
+// Game time
 float timeAccumulator;
 int gameTime;
 
+// Update range
 float updateRange;
 
+// Win position
 sf::Vector2f winPosition;
+
 /// Begin
-void Begin(sf::RenderWindow& window)
+void BeginMenu(sf::RenderWindow& window)
+{
+	menu.Begin(window);
+}
+
+void BeginGame(sf::RenderWindow& window)
 {	
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopaPosition;
 	std::vector<sf::Vector2f> coinPosition;
 	sf::Vector2f marioPosition;
 
-	mapTransition.Begin();
-
-	// Init map
-	int mapType = mario.getMapArchive();
-	std::string mapName = "";
-	if (mapType == 1)
-		mapName = "map1.png";
-	else if (mapType == 2)
-		mapName = "map2.png";
-	else if (mapType == 3)
-		mapName = "map3.png";
-	mapTransition.setMapType(mapType);
-	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition); 
-
-	// Init collision tile
-	map.CreateCollisionBox();
-
-	// Init mario
-	mario.Begin(marioPosition);
-
-	// Init Goombas
-	for (int i = 0; i < goombasPosition.size(); i++)
-	{
-		Goombas* newGoombas = new Goombas;
-		newGoombas->Begin(goombasPosition[i]);
-		goombas.push_back(newGoombas);
-	}
-	// Init Koopa
-	for (int i = 0; i < koopaPosition.size(); i++)
-	{
-		Koopa* newKoopa = new Koopa;
-		newKoopa->Begin(koopaPosition[i]);
-		koopas.push_back(newKoopa);
-	}
-
-	// Init coin
-	for (int i = 0; i < coinPosition.size(); i++)
-	{
-		Coin* newCoin = new Coin;
-		newCoin->Begin(coinPosition[i]);
-		coins.push_back(newCoin);
-	}
-	
-	// Init background
-	background.Begin(window, camera.zoomLevel, map);
-
-	// Init UICounter 
+	BeginMap(marioPosition, winPosition, goombasPosition, koopaPosition, coinPosition);
+	BeginMario(marioPosition);
+	BeginGoomba(goombasPosition);
+	BeginKoopa(koopaPosition);
+	BeginCoin(coinPosition);
+	BeginBackground(camera.zoomLevel, map);
+	BeginMusic();
+	BeginGameTime();
 	UI.Begin();
-
-	// Init music
-	music.openFromFile("./resources/soundEffect/music.ogg");
-	music.setLoop(true);
-	music.play();	
-	deadMusic.openFromFile("./resources/soundEffect/dead.mp3");
-	levelUp.openFromFile("./resources/soundEffect/level-up.mp3");
-	win.openFromFile("./resources/soundEffect/win.mp3");
-	deadMusicIsPlay = false;
-
-	// Init time
-	gameTime = 300;
-	timeAccumulator = 0;
-}
-
-void BeginMenu(sf::RenderWindow& window)
-{
-	menu.Begin(window);
+	mapTransition.Begin();
 }
 
 /// Update 
-void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
+void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 {
 	if (UpdateMapTransition(deltaTime)) return;
+	if (!SoundManager::getInstance().getPlayedStatus("main"))
+	{
+		SoundManager::getInstance().playSound("main");
+		SoundManager::getInstance().setPlayedStatus("main", true);
+		SoundManager::getInstance().setLoop("main", true);
+	}
 	UpdateMap(deltaTime);
 	UpdateCamera();
 	UpdateMario(deltaTime, map, mushroom, stars, gameState);
@@ -137,19 +110,118 @@ void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	UpdateCoin(deltaTime);
 	UpdateGameTime(deltaTime);
 	UpdateGameState(gameState, window);
+	// Detect winning
 	if (mario.getPosition().x >= winPosition.x)
 	{
 		handleWining();
-		Begin(window);
+		BeginGame(window);
 		return;
 	}
 }
 
+/// Render
+void RenderGame(sf::RenderWindow& window)
+{
+	if (mapTransition.getTimer() > 0)
+	{
+		RenderMapTransition(window);
+		return;
+	}
+
+	window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
+
+	RenderBackground(window);
+	RenderMushroom(window);
+	RenderStar(window);
+	RenderMap(window);
+	RenderMario(window);
+	RenderGoomba(window);
+	RenderKoopa(window);
+	RenderCoin(window);
+}
+
+/// Begin Function
+void BeginMap(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, std::vector<sf::Vector2f>& coinPosition)
+{
+	int mapType = mario.getMapArchive();
+	std::string mapName = "";
+	if (mapType == 1)
+		mapName = "map1.png";
+	else if (mapType == 2)
+		mapName = "map2.png";
+	else if (mapType == 3)
+		mapName = "map3.png";
+	mapTransition.setMapType(mapType);
+	map.Begin(mapName);
+	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition);
+
+	map.CreateCollisionBox();
+}
+
+void BeginMario(sf::Vector2f marioPosition)
+{
+	mario.Begin(marioPosition);
+
+}
+
+void BeginGoomba(std::vector<sf::Vector2f> goombasPosition)
+{
+	for (int i = 0; i < goombasPosition.size(); i++)
+	{
+		auto newGoomba = std::make_unique<Goombas>();
+		newGoomba->Begin(goombasPosition[i]);
+		goombas.push_back(std::move(newGoomba));
+	}
+}
+
+void BeginKoopa(std::vector<sf::Vector2f> koopaPosition)
+{
+	for (int i = 0; i < koopaPosition.size(); i++)
+	{
+		auto newKoopa = std::make_unique<Koopa>();
+        newKoopa->Begin(koopaPosition[i]);
+        koopas.push_back(std::move(newKoopa));
+	}
+}
+
+void BeginCoin(std::vector<sf::Vector2f> coinPosition)
+{
+	for (int i = 0; i < coinPosition.size(); i++)
+	{
+		auto newCoin = std::make_unique<Coin>();
+		newCoin->Begin(coinPosition[i]);
+		coins.push_back(std::move(newCoin));
+	}
+}
+
+void BeginBackground(const float& zoomLevel, const Map& map)
+{
+	background.Begin(camera.zoomLevel, map);
+}
+
+void BeginMusic()
+{
+	SoundManager& soundManager = SoundManager::getInstance();
+	soundManager.loadSound("main", "./resources/soundEffect/music.ogg");
+	soundManager.loadSound("dead", "./resources/soundEffect/dead.ogg");
+	soundManager.loadSound("levelUp", "./resources/soundEffect/level-up.ogg");
+	soundManager.loadSound("win", "./resources/soundEffect/win.ogg");
+	soundManager.loadSound("coin", "./resources/soundEffect/coin.ogg");
+	soundManager.loadSound("jump", "./resources/soundEffect/jump.wav");
+}
+
+void BeginGameTime()
+{
+	gameTime = 300;
+	timeAccumulator = 0;
+}
+
+
+/// Update Function
 bool UpdateMapTransition(float deltaTime)
 {
 	if (mapTransition.getTimer() > 0)
 	{
-
 		mapTransition.Update(deltaTime);
 		return true;
 	}
@@ -166,7 +238,7 @@ void UpdateCamera()
 	camera.position = mario.getPosition();
 }
 
-void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gameState)
+void UpdateMario(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars, GameState& gameState)
 {
 	// Collision with goomba
 	for (int i = 0; i < goombas.size(); i++)
@@ -301,7 +373,10 @@ void UpdateMushroom(float deltaTime, const Map& map)
 		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false && mushroom[i]->getOutStatus() == true)
 		{
 			mario.setPoints(mario.getPoints() + 1000);
-			levelUp.play();
+			if (!SoundManager::getInstance().getPlayedStatus("levelUp"))
+			{
+				SoundManager::getInstance().playSound("levelUp");
+			}
 			if (mario.getLevelUpStatus() == false)
 			{
 				mario.setLevelUpStatus(true);
@@ -389,11 +464,12 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 	updateRange = window.getSize().x * 11.5f / 1200;
 	if (mario.getDeadStatus() == true)
 	{
-		music.stop();
-		if (!deadMusicIsPlay)
+		SoundManager::getInstance().stopSound("main");
+		SoundManager::getInstance().setPlayedStatus("main", false);
+		if (!SoundManager::getInstance().getPlayedStatus("dead"))
 		{
-			deadMusic.play();
-			deadMusicIsPlay = true;
+			SoundManager::getInstance().playSound("dead");
+			SoundManager::getInstance().setPlayedStatus("dead", true);
 		}
 		if (mario.getDeadTimer() <= 0)
 		{
@@ -407,50 +483,77 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 				mario.Reset();
 				gameState = GameState::GameOver;
 			}
+			SoundManager::getInstance().setPlayedStatus("dead", false);
 		}
 	}
 }
 
 void handleWining()
 {
-	music.stop();
-	win.play();
+	SoundManager::getInstance().stopSound("main");
+	SoundManager::getInstance().setPlayedStatus("main", false);
 	mario.setMapArchive(mario.getMapArchive() + 1);
 	mapTransition.setMapType(mapTransition.getMapType() + 1);
 	mapTransition.setTimer(3.0f);
 	ResetGame();
 }
 
-/// Render
-void Render(sf::RenderWindow& window)
+/// Render Function
+void RenderMapTransition(sf::RenderWindow& window)
 {
-	if (mapTransition.getTimer() > 0)
-	{
-		window.setView(window.getDefaultView());
-		mapTransition.Draw(window);
-		return;
-	}
+	window.setView(window.getDefaultView());
+	mapTransition.Draw(window);
+}
 
-	window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
+void RenderBackground(sf::RenderWindow& window)
+{
 	background.Draw(window);
+}
+
+void RenderMushroom(sf::RenderWindow& window)
+{
 	for (int i = 0; i < mushroom.size(); i++)
 	{
 		mushroom[i]->Draw(window);
 	}
+}
+
+void RenderStar(sf::RenderWindow& window)
+{
 	for (int i = 0; i < stars.size(); i++)
 	{
 		stars[i]->Draw(window);
 	}
+}
+
+void RenderMap(sf::RenderWindow& window)
+{
 	map.Draw(window);
+}
+
+void RenderMario(sf::RenderWindow& window)
+{
 	mario.Draw(window);
+}
+
+void RenderGoomba(sf::RenderWindow& window)
+{
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		goombas[i]->Draw(window);
 	}
+}
+
+void RenderKoopa(sf::RenderWindow& window)
+{
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		koopas[i]->Draw(window);
 	}
+}
+
+void RenderCoin(sf::RenderWindow& window)
+{
 	for (int i = 0; i < coins.size(); i++)
 	{
 		coins[i]->Draw(window);
@@ -480,37 +583,23 @@ void ResetGame()
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		goombas[i]->Reset();
-		delete goombas[i];
 	}
 	goombas.clear();
 	// Reset koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		koopas[i]->Reset();
-		delete koopas[i];
 	}
 	koopas.clear();
-	/// Reset mushroom
-	for (int i = 0; i < mushroom.size(); i++)
-	{
-		delete mushroom[i];
-	}
-	mushroom.clear();
-	/// Reset star
-	for (int i = 0; i < stars.size(); i++)
-	{
-		delete stars[i];
-	}
 	stars.clear();
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)
 	{
 		coins[i]->Reset();
-		delete coins[i];
 	}
 	coins.clear();
 	/// Reset music
-	music.stop();
+	/*music.stop();
 	deadMusic.stop();
-	deadMusicIsPlay = false;
+	deadMusicIsPlay = false;*/
 }

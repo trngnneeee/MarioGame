@@ -1,7 +1,7 @@
 #include "Background.h"
 #include <iostream>
 
-void Background::Begin(sf::RenderWindow& window, const float& zoomLevel, const Map& map)
+void Background::Begin(const float& zoomLevel, const Map& map)
 {
 	if (!texture.loadFromFile("./resources/background/backgroundTile.png"))
 		return;

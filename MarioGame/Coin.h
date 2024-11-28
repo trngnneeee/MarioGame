@@ -4,6 +4,7 @@
 #include <iostream>
 #include "FloatingScore.h"
 #include "Animation.h"
+#include "SoundManagement.h"
 #include <string>
 
 class Map;
@@ -16,10 +17,6 @@ private:
     Animation coinAnimation;
 
     sf::Vector2f position;
-    
-    sf::SoundBuffer coinSoundBuffer;
-    sf::Sound coinSound;
-    bool isPlayed;
     
     bool collected;  
     float disappearTime;

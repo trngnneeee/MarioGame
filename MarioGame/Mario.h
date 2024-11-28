@@ -1,5 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
 #include "Map.h"
 #include "Animation.h"
 #include "Goombas.h"
@@ -8,9 +11,7 @@
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
 #include "Coin.h"
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
+#include "SoundManagement.h"
 
 class Mario
 {
@@ -39,9 +40,6 @@ private:
 	sf::Vector2f startPosition;
 	sf::Vector2f position{};
 	sf::Vector2f previousPos;
-
-	// Jump sound
-	sf::Music jumpEffect;
 
 	// Box collision
 	sf::FloatRect collisionBox;
@@ -78,16 +76,16 @@ public:
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
 
-	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
-	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
-	void HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
+	void HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void HandleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void HandleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 	
-	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
+	void Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 
 	void updateFlip();
 	void Draw(sf::RenderWindow& window);
 
-	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars);
+	bool mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);

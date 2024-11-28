@@ -46,10 +46,6 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	bigRunAnimation.addFrame(Frame(&bigTexture[1], 0.2f));
 	bigRunAnimation.addFrame(Frame(&bigTexture[2], 0.3f));
 
-	// Init sound effect
-	if (!jumpEffect.openFromFile("./resources/soundEffect/jump.wav"))
-		return;
-
 	// Init collision box
 	collisionBox = sf::FloatRect(
 		position.x,
@@ -59,7 +55,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
-void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
+void Mario::HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {	
 	// Update previous position
 	previousPos = position; 
@@ -74,17 +70,17 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	if (isOnGround && sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		velocity.y = -jumpStrength;
 		isOnGround = false;
-		jumpEffect.play();
+		SoundManager::getInstance().playSound("jump");
 	}
 
 	// Vertical move
-	HandleVerticalMove(deltaTime, map, mushroom, stars);
+	HandleVerticalMove(deltaTime, map, mushrooms, stars);
 
 	// Horizontal move
-	HandleHorizontalMove(deltaTime, map, mushroom, stars);
+	HandleHorizontalMove(deltaTime, map, mushrooms, stars);
 }
 
-void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
+void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -93,7 +89,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x += movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushroom, stars)) position.x = newPosition.x;
+		if (!mapCollision(map, mushrooms, stars)) position.x = newPosition.x;
 		facingRight = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -102,7 +98,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x -= movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushroom, stars)) position.x = newPosition.x;
+		if (!mapCollision(map, mushrooms, stars)) position.x = newPosition.x;
 		facingRight = false;
 	}
 
@@ -110,7 +106,7 @@ void Mario::HandleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
+void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -120,7 +116,7 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMus
 	collisionBox.top = newPosition.y;
 
 	// Vertical collision check
-	if (!mapCollision(map, mushroom, stars))
+	if (!mapCollision(map, mushrooms, stars))
 	{
 		position.y = newPosition.y;
 	}
@@ -137,7 +133,7 @@ void Mario::HandleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMus
 	}
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
+void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	if (isDead)
 	{  
@@ -189,7 +185,7 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 
 	jumpStrength = (levelUp) ? 25.0f : 20.0f;
 
-	HandleMove(deltaTime, map, mushroom, stars);
+	HandleMove(deltaTime, map, mushrooms, stars);
 
 	// Update animation
 	if (!levelUp)
@@ -249,7 +245,7 @@ void Mario::Draw(sf::RenderWindow& window)
 	}
 }
 
-bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std::vector<InvicibleStar*>& stars)
+bool Mario::mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
 {
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
@@ -299,15 +295,15 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushroom, std:
 
 					if (randomNumber == 1)
 					{
-						auto* newMushroom = new PowerUpMushroom();
+						auto newMushroom = std::make_unique<PowerUpMushroom>();
 						newMushroom->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-						mushroom.push_back(newMushroom);
+						mushrooms.push_back(std::move(newMushroom));
 					}
 					else if (randomNumber == 2)
 					{
-						auto* newStar = new InvicibleStar();
+						auto newStar = std::make_unique<InvicibleStar>();
 						newStar->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-						stars.push_back(newStar);
+						stars.push_back(std::move(newStar));
 					}
 
 					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));

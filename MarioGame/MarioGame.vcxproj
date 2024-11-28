@@ -151,6 +151,7 @@
     <ClCompile Include="MapTransition.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="SoundManagement.cpp" />
     <ClCompile Include="PowerUpMushroom.cpp" />
     <ClCompile Include="UICounter.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="SoundManagement.h" />
     <ClInclude Include="PowerUpMushroom.h" />
     <ClInclude Include="UICounter.h" />
   </ItemGroup>

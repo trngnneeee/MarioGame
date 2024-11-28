@@ -32,7 +32,8 @@ int main() {
 			{
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
 				{
-					Begin(window);
+					window.setView(window.getDefaultView());
+					BeginGame(window);
 					gameState = GameState::Playing;
 				}
 			}			
@@ -46,9 +47,9 @@ int main() {
 		}
 		else if (gameState == GameState::Playing)
 		{			
-			Update(deltaTime, gameState, window);
+			UpdateGame(deltaTime, gameState, window);
 			
-			Render(window);
+			RenderGame(window);
 			
 			RenderUI(window, deltaTime);
 
@@ -56,7 +57,6 @@ int main() {
 		}
 		else if (gameState == GameState::GameOver)
 		{
-			window.setView(window.getDefaultView());
 			gameState = GameState::Menu;
 		}
 	}
