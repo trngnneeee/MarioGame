@@ -9,9 +9,12 @@
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
 #include "Coin.h"
+#include "MapTransition.h"
 #include <vector>
 #include <iostream>
 #include <string>
+
+MapTransition mapTransition;
 
 Map map(1.0f); 
 Camera camera(16.0f);
@@ -43,34 +46,31 @@ int gameTime;
 float updateRange;
 
 sf::Vector2f winPosition;
-
-void handleStart(sf::RenderWindow& window, GameState& gameState)
-{
-	int opt = menu.HandleInput(window);
-	std::string mapName;
-	if (opt == 1)
-		mapName = "map1.png";
-	else if (opt == 2)
-		mapName = "map2.png";
-	else if (opt == 3)
-		mapName = "map3.png";
-	else if (opt == 0)
-		return;
-	gameState = GameState::Playing;
-	Begin(window, mapName);
-}
-
 /// Begin
-void Begin(sf::RenderWindow& window, const std::string& mapName)
+void Begin(sf::RenderWindow& window)
 {	
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopaPosition;
 	std::vector<sf::Vector2f> coinPosition;
 	sf::Vector2f marioPosition;
 
+	mapTransition.Begin();
+
 	// Init map
+	int mapType = mario.getMapArchive();
+	std::string mapName = "";
+	if (mapType == 1)
+		mapName = "map1.png";
+	else if (mapType == 2)
+		mapName = "map2.png";
+	else if (mapType == 3)
+		mapName = "map3.png";
+	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
 	map.CreateFromImage(marioPosition, goombasPosition, koopaPosition, winPosition, coinPosition); 
+
+	// Init collision tile
+	map.CreateCollisionBox();
 
 	// Init mario
 	mario.Begin(marioPosition);
@@ -124,6 +124,38 @@ void BeginMenu(sf::RenderWindow& window)
 }
 
 /// Update 
+void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
+{
+	if (UpdateMapTransition(deltaTime)) return;
+	UpdateMap(deltaTime);
+	UpdateCamera();
+	UpdateMario(deltaTime, map, mushroom, stars, gameState);
+	UpdateGoomba(deltaTime, map);
+	UpdateKoopa(deltaTime, map);
+	UpdateMushroom(deltaTime, map);
+	UpdateStar(deltaTime, map);
+	UpdateCoin(deltaTime);
+	UpdateGameTime(deltaTime);
+	UpdateGameState(gameState, window);
+	if (mario.getPosition().x >= winPosition.x)
+	{
+		handleWining();
+		Begin(window);
+		return;
+	}
+}
+
+bool UpdateMapTransition(float deltaTime)
+{
+	if (mapTransition.getTimer() > 0)
+	{
+
+		mapTransition.Update(deltaTime);
+		return true;
+	}
+	else return false;
+}
+
 void UpdateMap(float deltaTime)
 {
 	map.Update(deltaTime);
@@ -149,7 +181,7 @@ void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushr
 					mario.setDeadStatus(true);
 				else
 				{
-					if (mario.getInvicibleTime() == 0)
+					if (mario.getInvicibleTime() <= 0)
 						mario.setInvicibleTime(2.0f);
 					mario.setLevelUpStatus(false);
 				}
@@ -171,7 +203,7 @@ void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushr
 						mario.setDeadStatus(true);
 					else
 					{
-						if (mario.getInvicibleTime() == 0)
+						if (mario.getInvicibleTime() <= 0)
 							mario.setInvicibleTime(2.0f);
 						mario.setLevelUpStatus(false);
 					}
@@ -180,13 +212,6 @@ void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushr
 		}
 	}
 	mario.Update(deltaTime, map, mushroom, stars);
-	if (mario.getPosition().x >= winPosition.x)
-	{
-		music.stop();
-		win.play();
-		gameState = GameState::GameOver;
-		return;
-	}
 }
 
 void UpdateGoomba(float deltaTime, const Map& map)
@@ -374,34 +399,38 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 		{
 			if (mario.getLife() > 0)
 			{
-				Reset();
-				Begin(window, map.getCurrentMapName());
-				mario.setLife(mario.getLife() - 1);
+				mario.ResetStillLife();
 			}
 			if (mario.getLife() <= 0)
+			{
+				ResetGame();
+				mario.Reset();
 				gameState = GameState::GameOver;
+			}
 		}
 	}
 }
 
-void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window)
+void handleWining()
 {
-	UpdateMap(deltaTime);
-	UpdateCamera();
-	UpdateMario(deltaTime, map, mushroom, stars, gameState);
-	UpdateGoomba(deltaTime, map);
-	UpdateKoopa(deltaTime, map);
-	UpdateMushroom(deltaTime, map);
-	UpdateStar(deltaTime, map);
-	UpdateCoin(deltaTime);
-	UpdateGameTime(deltaTime);
-	UpdateGameState(gameState, window);
+	music.stop();
+	win.play();
+	mario.setMapArchive(mario.getMapArchive() + 1);
+	mapTransition.setMapType(mapTransition.getMapType() + 1);
+	mapTransition.setTimer(3.0f);
+	ResetGame();
 }
 
 /// Render
-
 void Render(sf::RenderWindow& window)
 {
+	if (mapTransition.getTimer() > 0)
+	{
+		window.setView(window.getDefaultView());
+		mapTransition.Draw(window);
+		return;
+	}
+
 	window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 	background.Draw(window);
 	for (int i = 0; i < mushroom.size(); i++)
@@ -430,6 +459,7 @@ void Render(sf::RenderWindow& window)
 
 void RenderUI(sf::RenderWindow& window, float deltaTime)
 {
+	if (mapTransition.getTimer() > 0) return;
 	window.setView(camera.GetUIView());
 	int displayedTime = static_cast<int>(std::ceil(gameTime)); // Round up for display
 	UI.Update(deltaTime, camera, mario.getPoints(), mario.getLife(), mario.getCoin(), displayedTime);
@@ -441,12 +471,10 @@ void RenderMenu(sf::RenderWindow& window)
 	menu.Draw(window);
 }
 
-void Reset()
+void ResetGame()
 {
 	/// Reset map
 	map.Reset();
-	/// Reset mario
-	mario.Reset();
 	/// Reset enemy
 	// Reset goomba
 	for (int i = 0; i < goombas.size(); i++)
@@ -485,11 +513,4 @@ void Reset()
 	music.stop();
 	deadMusic.stop();
 	deadMusicIsPlay = false;
-}
-
-void handleGameOver()
-{
-	mario.setLife(3);
-	mario.setPoints(0);
-	Reset();
 }

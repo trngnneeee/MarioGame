@@ -36,6 +36,7 @@ private:
 	int points;
 
 	// Position
+	sf::Vector2f startPosition;
 	sf::Vector2f position{};
 	sf::Vector2f previousPos;
 
@@ -67,6 +68,9 @@ private:
 
 	// Coin
 	int coin;
+
+	// Map
+	int mapArchive;
 public:
 	// Constructor
 	Mario();
@@ -94,6 +98,7 @@ public:
 	float distanceX(const Enemy& enemy);
 
 	void Reset();
+	void ResetStillLife();
 
 	// Getter/Setter
 	int getPoints();
@@ -105,6 +110,7 @@ public:
 	float getDeadTimer();
 
 	sf::Vector2f getPosition();
+	sf::Vector2f getStartPosition();
 	void setPosition(sf::Vector2f position);
 
 	int getLife();
@@ -125,4 +131,7 @@ public:
 
 	int getCoin();
 	void setCoin(const int coin);
+
+	int getMapArchive();
+	void setMapArchive(const int& value);
 };

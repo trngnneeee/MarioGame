@@ -9,9 +9,6 @@
 class Map
 {
 private:
-	// Current map name
-	std::string currentMapName;
-
 	// Cellsize
 	float cellSize;
 	std::vector<std::vector<int>> grid;
@@ -59,6 +56,7 @@ public:
 	// Functions
 	void Begin(const std::string& mapName);
 	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition);
+	void CreateCollisionBox();
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
 	void Update(float deltaTime);
@@ -69,7 +67,5 @@ public:
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;
 	float getCellSize();
 	const std::vector<std::vector<int>>& getGrid() const;
-
-	std::string getCurrentMapName();
 };
 

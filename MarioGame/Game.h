@@ -10,11 +10,14 @@ class Map;
 class PowerUpMushroom;
 class InvicibleStar;
 
-void handleStart(sf::RenderWindow& window, GameState& gameState);
-
-void Begin(sf::RenderWindow& window, const std::string& mapName);
+/// Begin
+void Begin(sf::RenderWindow& window);
 void BeginMenu(sf::RenderWindow& window);
 
+/// Update
+void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window);
+
+bool UpdateMapTransition(float deltaTime);
 void UpdateMap(float deltaTime);
 void UpdateCamera();
 void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gamestate);
@@ -25,12 +28,10 @@ void UpdateStar(float deltaTime, const Map& map);
 void UpdateCoin(float deltaTime);
 void UpdateGameTime(float deltaTime);
 void UpdateGameState(GameState& gameState, sf::RenderWindow& window);
-
-void Update(float deltaTime, GameState& gameState, sf::RenderWindow& window);
+void handleWining();
 
 void Render(sf::RenderWindow& window);
 void RenderUI(sf::RenderWindow& window, float deltaTime);
 void RenderMenu(sf::RenderWindow& window);
 
-void Reset();
-void handleGameOver();
+void ResetGame();

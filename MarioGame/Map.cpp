@@ -8,8 +8,6 @@ Map::Map(float cellSize)
 }
 // Functions
 void Map::Begin(const std::string& mapName) {
-	
-	currentMapName = mapName;
 	// Load map
 	image.loadFromFile(mapName);
 
@@ -342,8 +340,10 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 			}
 		}
 	}
+}
 
-	// Init collision box
+void Map::CreateCollisionBox()
+{
 	for (int row = 0; row < grid.size(); row++)
 	{
 		std::vector<sf::FloatRect> tmpArr;
@@ -653,9 +653,4 @@ float Map::getCellSize()
 const std::vector<std::vector<int>>& Map::getGrid() const
 {
 	return grid;
-}
-
-std::string Map::getCurrentMapName()
-{
-	return currentMapName;
 }

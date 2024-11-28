@@ -148,6 +148,7 @@
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapTransition.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PowerUpMushroom.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="HiddenBoxItem.h" />
     <ClInclude Include="Koopa.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PowerUpMushroom.h" />

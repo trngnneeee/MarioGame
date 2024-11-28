@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1)
 {
 }
 
@@ -10,6 +10,7 @@ Mario::Mario()
 void Mario::Begin(const sf::Vector2f& marioPosition)
 {	
 	// Init start position for mario
+	startPosition = marioPosition;
 	position = marioPosition;
 
 	// Init small texture
@@ -397,8 +398,26 @@ float Mario::distanceX(const Enemy& enemy)
 
 void Mario::Reset()
 {
+	runAnimation = 0.24f;
+	bigRunAnimation = 0.3f;
+	points = 0;
+	movementSpeed = 7.0f;
+	jumpStrength = 20.0f;
+	gravity = 40.0f;
+	isDead = false;
+	life = 3;
+	deadTimer = 3.0f;
+	v = 10.0f;
+	tmpGravity = -30.0f;
+	koopaKickSpeed = 20.0f;
+	levelUp = false;
+	invicibleTime = 0.0f;
+	invicibleTime2 = 0.0f;
+	coin = 0;
+	mapArchive = 1;
+
 	position = sf::Vector2f(0, 0);
-	velocity = sf::Vector2f(0.0f, 3.0f);
+	velocity = sf::Vector2f(0.0f, 0.0f);
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
@@ -406,14 +425,19 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
+	
+}
+
+void Mario::ResetStillLife()
+{
 	isDead = false;
-	isOnGround = true;
+	life--;
 	deadTimer = 3.0f;
+	levelUp = false;
+	invicibleTime = 1.5f;
+	position = startPosition;
 	v = 10.0f;
 	tmpGravity = -30.0f;
-	levelUp = false;
-	invicibleTime = 0.0f;
-	invicibleTime2 = 0.0f;
 }
 
 // Getter/Setter
@@ -449,6 +473,11 @@ sf::FloatRect Mario::getCollisionBox() const
 sf::Vector2f Mario::getPosition()
 {
 	return position;
+}
+
+sf::Vector2f Mario::getStartPosition()
+{
+	return startPosition;
 }
 
 void Mario::setPosition(sf::Vector2f position)
@@ -510,4 +539,14 @@ int Mario::getCoin()
 void Mario::setCoin(const int coin)
 {
 	this->coin = coin;
+}
+
+int Mario::getMapArchive()
+{
+	return mapArchive;
+}
+
+void Mario::setMapArchive(const int& value)
+{
+	mapArchive = value;
 }

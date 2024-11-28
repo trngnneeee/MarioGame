@@ -30,7 +30,11 @@ int main() {
 			}
 			if (gameState == GameState::Menu)
 			{
-				handleStart(window, gameState);
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+				{
+					Begin(window);
+					gameState = GameState::Playing;
+				}
 			}			
 		}
 
@@ -53,7 +57,6 @@ int main() {
 		else if (gameState == GameState::GameOver)
 		{
 			window.setView(window.getDefaultView());
-			handleGameOver();
 			gameState = GameState::Menu;
 		}
 	}
