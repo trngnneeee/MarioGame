@@ -27,6 +27,13 @@ void HiddenBoxItem::Draw(sf::RenderWindow& window)
 		score->Draw(window);
 }
 
+void HiddenBoxItem::Reset()
+{
+	animation.Reset();
+	textures.clear();
+	if (score) delete score;
+}
+
 void HiddenBoxItem::handleHorizontalMove(float deltaTime, const Map& map)
 {
 	sf::Vector2f newPosition = position;

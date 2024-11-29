@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
+#include "HiddenBoxItemFactory.h"
 #include "Coin.h"
 #include "SoundManagement.h"
 
@@ -75,17 +76,17 @@ public:
 
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
-	void Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 	void ResetAfterDead();
 	void ResetAfterWin();
 
-	void HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
 	void UpdateCollisionBox();
 	void handleJump(float deltaTime);
-	void handleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
-	void handleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	void handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
+	void handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
 	bool handleDead(float deltaTime);
 	bool handleOutOfMap();
 	void handleBlinkEffect(float deltaTime);
@@ -96,7 +97,7 @@ public:
 	float distanceX(const Enemy& enemy);
 
 	// Collsion
-	bool mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
+	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);

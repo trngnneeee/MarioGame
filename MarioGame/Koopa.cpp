@@ -5,6 +5,11 @@ Koopa::Koopa()
 {
 }
 
+Koopa* Koopa::clone() const
+{
+	return new Koopa(*this);
+}
+
 void Koopa::Begin(const sf::Vector2f& koopaPosition)
 {
 	// Koopa default

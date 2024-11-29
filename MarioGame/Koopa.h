@@ -22,6 +22,8 @@ private:
 public:
 	// Constructors
 	Koopa();
+	Koopa* clone() const override;
+
 
 	// Functions
 	void Begin(const sf::Vector2f& koopaPosition) override;

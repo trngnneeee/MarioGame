@@ -140,9 +140,11 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Goombas.cpp" />
+    <ClCompile Include="HiddenBoxItemFactory.cpp" />
     <ClCompile Include="InvicibleStar.cpp" />
     <ClCompile Include="HiddenBoxItem.cpp" />
     <ClCompile Include="Koopa.cpp" />
@@ -161,11 +163,13 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnityColor.h" />
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Goombas.h" />
+    <ClInclude Include="HiddenBoxItemFactory.h" />
     <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="HiddenBoxItem.h" />
     <ClInclude Include="Koopa.h" />

@@ -3,9 +3,11 @@ D:\HCMUS\MarioGame\MarioGame\MarioGame\Background.cpp;D:\HCMUS\MarioGame\MarioGa
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Camera.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Camera.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Coin.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Coin.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Enemy.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Enemy.obj
+D:\HCMUS\MarioGame\MarioGame\MarioGame\EnemyFactory.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\EnemyFactory.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\FloatingScore.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\FloatingScore.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Game.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Game.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Goombas.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Goombas.obj
+D:\HCMUS\MarioGame\MarioGame\MarioGame\HiddenBoxItemFactory.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\HiddenBoxItemFactory.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\InvicibleStar.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\InvicibleStar.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\HiddenBoxItem.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\HiddenBoxItem.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Koopa.obj

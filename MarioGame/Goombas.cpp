@@ -5,6 +5,11 @@ Goombas::Goombas()
 {
 }
 
+Goombas* Goombas::clone() const
+{
+	return new Goombas(*this);
+}
+
 void Goombas::Begin(const sf::Vector2f& goombasPosition)
 {
 	// Init texture

@@ -41,7 +41,7 @@ void BeginGameTime();
 bool UpdateMapTransition(float deltaTime);
 void UpdateMap(float deltaTime);
 void UpdateCamera();
-void UpdateMario(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars, GameState& gamestate);
+void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gamestate);
 void UpdateGoomba(float deltaTime, const Map& map);
 void UpdateKoopa(float deltaTime, const Map& map);
 void UpdateMushroom(float deltaTime, const Map& map);

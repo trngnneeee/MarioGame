@@ -10,6 +10,8 @@ private:
 public:
 	// Constructor
 	Goombas();
+	Goombas* clone() const override;
+
 
 	// Functions
 	void Begin(const sf::Vector2f& position) override;

@@ -11,6 +11,7 @@
 #include "Coin.h"
 #include "MapTransition.h"
 #include "SoundManagement.h"
+#include "EnemyFactory.h"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -37,12 +38,12 @@ Background background;
 UICounter UI;
 
 // Enemy
-std::vector<std::unique_ptr<Goombas>> goombas;
-std::vector<std::unique_ptr<Koopa>> koopas;
+std::vector<Goombas*> goombas;
+std::vector<Koopa*> koopas;
 
 // Hidden box item
-std::vector<std::unique_ptr<PowerUpMushroom>> mushroom;
-std::vector<std::unique_ptr<InvicibleStar>> stars;
+std::vector<PowerUpMushroom*> mushrooms;
+std::vector<InvicibleStar*> stars;
 
 // Coin
 std::vector<std::unique_ptr<Coin>> coins;
@@ -94,7 +95,7 @@ void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	}
 	UpdateMap(deltaTime);
 	UpdateCamera();
-	UpdateMario(deltaTime, map, mushroom, stars, gameState);
+	UpdateMario(deltaTime, map, mushrooms, stars, gameState);
 	UpdateGoomba(deltaTime, map);
 	UpdateKoopa(deltaTime, map);
 	UpdateMushroom(deltaTime, map);
@@ -151,21 +152,29 @@ void BeginMario(sf::Vector2f marioPosition)
 
 void BeginGoomba(std::vector<sf::Vector2f> goombasPosition)
 {
+	EnemyFactory factory;
 	for (int i = 0; i < goombasPosition.size(); i++)
 	{
-		auto newGoomba = std::make_unique<Goombas>();
-		newGoomba->Begin(goombasPosition[i]);
-		goombas.push_back(std::move(newGoomba));
+		Enemy* newEnemy = factory.createItem("Goomba");
+		if (newEnemy)
+		{
+			newEnemy->Begin(goombasPosition[i]);
+			goombas.push_back(static_cast<Goombas*>(newEnemy));
+		}
 	}
 }
 
 void BeginKoopa(std::vector<sf::Vector2f> koopaPosition)
 {
+	EnemyFactory factory;
 	for (int i = 0; i < koopaPosition.size(); i++)
 	{
-		auto newKoopa = std::make_unique<Koopa>();
-        newKoopa->Begin(koopaPosition[i]);
-        koopas.push_back(std::move(newKoopa));
+		Enemy* newEnemy = factory.createItem("Koopa");
+		if (newEnemy)
+		{
+			newEnemy->Begin(koopaPosition[i]);
+			koopas.push_back(static_cast<Koopa*>(newEnemy));
+		}
 	}
 }
 
@@ -223,7 +232,7 @@ void UpdateCamera()
 	camera.setPosition(mario.getPosition());
 }
 
-void UpdateMario(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars, GameState& gameState)
+void UpdateMario(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, GameState& gameState)
 {
 	// Collision with goomba
 	for (int i = 0; i < goombas.size(); i++)
@@ -268,7 +277,7 @@ void UpdateMario(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpM
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushroom, stars);
+	mario.Update(deltaTime, map, mushrooms, stars);
 }
 
 void UpdateGoomba(float deltaTime, const Map& map)
@@ -353,9 +362,9 @@ void UpdateKoopa(float deltaTime, const Map& map)
 
 void UpdateMushroom(float deltaTime, const Map& map)
 {
-	for (int i = 0; i < mushroom.size(); i++)
+	for (int i = 0; i < mushrooms.size(); i++)
 	{
-		if (mario.mushroomCollision(*mushroom[i]) && mushroom[i]->getDeadStatus() == false && mushroom[i]->getOutStatus() == true)
+		if (mario.mushroomCollision(*mushrooms[i]) && mushrooms[i]->getDeadStatus() == false && mushrooms[i]->getOutStatus() == true)
 		{
 			mario.setPoints(mario.getPoints() + 1000);
 			if (!SoundManager::getInstance().getPlayedStatus("levelUp"))
@@ -369,18 +378,18 @@ void UpdateMushroom(float deltaTime, const Map& map)
 			}
 			else
 				mario.setLife(mario.getLife() + 1);
-			mushroom[i]->setDeadStatus(true);
+			mushrooms[i]->setDeadStatus(true);
 		}
-		mushroom[i]->Update(deltaTime, map);
+		mushrooms[i]->Update(deltaTime, map);
 	}
 	// Remove die mushroom
-	mushroom.erase(
-		std::remove_if(mushroom.begin(), mushroom.end(),
+	mushrooms.erase(
+		std::remove_if(mushrooms.begin(), mushrooms.end(),
 			[](const auto& item) {
 				return (item->getDeadStatus() && item->getDieTime() <= 0) ||
 					item->getPosition().y >= 16.0f;
 			}),
-		mushroom.end());
+		mushrooms.end());
 }
 
 void UpdateStar(float deltaTime, const Map& map)
@@ -503,9 +512,9 @@ void RenderBackground(sf::RenderWindow& window)
 
 void RenderMushroom(sf::RenderWindow& window)
 {
-	for (int i = 0; i < mushroom.size(); i++)
+	for (int i = 0; i < mushrooms.size(); i++)
 	{
-		mushroom[i]->Draw(window);
+		mushrooms[i]->Draw(window);
 	}
 }
 
@@ -574,14 +583,29 @@ void ResetGame()
 	for (int i = 0; i < goombas.size(); i++)
 	{
 		goombas[i]->Reset();
+		delete goombas[i];
 	}
 	goombas.clear();
 	// Reset koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		koopas[i]->Reset();
+		delete koopas[i];
 	}
 	koopas.clear();
+	/// Reset Mushroom
+	for (int i = 0; i < mushrooms.size(); i++)
+	{
+		mushrooms[i]->Reset();
+		delete mushrooms[i];
+	}
+	mushrooms.clear();
+	/// Reset Star
+	for (int i = 0; i < stars.size(); i++)
+	{
+		stars[i]->Reset();
+		delete stars[i];
+	}
 	stars.clear();
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)

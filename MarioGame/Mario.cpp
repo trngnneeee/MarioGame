@@ -62,7 +62,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
 {
 	if (handleDead(deltaTime)) return;
 	if (handleOutOfMap()) return;
@@ -88,7 +88,7 @@ void Mario::Draw(sf::RenderWindow& window)
 	}
 }
 
-void Mario::HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
 {	
 	// Update previous position
 	previousPos = position; 
@@ -115,7 +115,7 @@ void Mario::handleJump(float deltaTime)
 	}
 }
 
-void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
 {
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -141,7 +141,7 @@ void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<std::uni
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -278,7 +278,7 @@ void Mario::updateFlip()
 	}
 }
 
-bool Mario::mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars)
+bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
 {
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
@@ -286,6 +286,8 @@ bool Mario::mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>
 	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26 };
 	const int brickBlock = 3;
 	const int hiddenMushroomBox = 4;
+
+	HiddenBoxItemFactory factory;
 
 	for (size_t i = 0; i < collisionBoxes.size(); i++)
 	{
@@ -327,15 +329,21 @@ bool Mario::mapCollision(Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>
 
 					if (randomNumber == 1)
 					{
-						auto newMushroom = std::make_unique<PowerUpMushroom>();
-						newMushroom->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-						mushrooms.push_back(std::move(newMushroom));
+						HiddenBoxItem* newItem = factory.createItem("Mushroom");
+						if (newItem)
+						{
+							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+							mushrooms.push_back(static_cast<PowerUpMushroom*>(newItem));
+						}
 					}
 					else if (randomNumber == 2)
 					{
-						auto newStar = std::make_unique<InvicibleStar>();
-						newStar->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-						stars.push_back(std::move(newStar));
+						HiddenBoxItem* newItem = factory.createItem("Star");
+						if (newItem)
+						{
+							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+							stars.push_back(static_cast<InvicibleStar*>(newItem));
+						}
 					}
 
 					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));

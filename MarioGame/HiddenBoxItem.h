@@ -33,10 +33,13 @@ public:
 	virtual ~HiddenBoxItem() = default;
 	HiddenBoxItem();
 
+	virtual HiddenBoxItem* clone() const = 0;
+
 	// Functions
 	virtual void Begin(sf::Vector2f mushroomPosition) = 0;
 	virtual void Update(float deltaTime, const Map& map);
 	virtual void Draw(sf::RenderWindow& window);
+	virtual void Reset();
 
 	virtual void handleHorizontalMove(float deltaTime, const Map& map);
 	virtual void handleVerticalMove(float deltaTime, const Map& map);

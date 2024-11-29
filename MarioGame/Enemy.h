@@ -35,6 +35,8 @@ protected:
 public:
 	// Constructor
 	virtual ~Enemy() = default;
+	virtual Enemy* clone() const = 0;
+
 	Enemy();
 
 	// Functions
