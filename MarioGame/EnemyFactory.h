@@ -16,6 +16,6 @@ public:
     ~EnemyFactory();
 
     // Functions
-    Enemy* createItem(const std::string& itemType) const;
+    Enemy* createEnemy(const std::string& enemyType) const;
 };
 

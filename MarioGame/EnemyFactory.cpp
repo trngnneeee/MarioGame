@@ -13,10 +13,10 @@ EnemyFactory::~EnemyFactory()
     }
 }
 
-Enemy* EnemyFactory::createItem(const std::string& itemType) const
+Enemy* EnemyFactory::createEnemy(const std::string& enemyType) const
 {
-    if (prototypes.find(itemType) != prototypes.end()) {
-        return prototypes.at(itemType)->clone();
+    if (prototypes.find(enemyType) != prototypes.end()) {
+        return prototypes.at(enemyType)->clone();
     }
     return nullptr;
 }

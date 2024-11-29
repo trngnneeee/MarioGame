@@ -155,7 +155,7 @@ void BeginGoomba(std::vector<sf::Vector2f> goombasPosition)
 	EnemyFactory factory;
 	for (int i = 0; i < goombasPosition.size(); i++)
 	{
-		Enemy* newEnemy = factory.createItem("Goomba");
+		Enemy* newEnemy = factory.createEnemy("Goomba");
 		if (newEnemy)
 		{
 			newEnemy->Begin(goombasPosition[i]);
@@ -169,7 +169,7 @@ void BeginKoopa(std::vector<sf::Vector2f> koopaPosition)
 	EnemyFactory factory;
 	for (int i = 0; i < koopaPosition.size(); i++)
 	{
-		Enemy* newEnemy = factory.createItem("Koopa");
+		Enemy* newEnemy = factory.createEnemy("Koopa");
 		if (newEnemy)
 		{
 			newEnemy->Begin(koopaPosition[i]);
