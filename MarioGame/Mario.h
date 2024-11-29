@@ -78,7 +78,8 @@ public:
 	void Update(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
-	void ResetStillLife();
+	void ResetAfterDead();
+	void ResetAfterWin();
 
 	void HandleMove(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars);
 	void UpdateCollisionBox();

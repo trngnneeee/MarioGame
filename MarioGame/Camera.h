@@ -5,10 +5,9 @@ class Camera
 private:
 	sf::Vector2f viewSize{};
 	sf::Vector2f viewUISize{};
-public:
 	float zoomLevel;
 	sf::Vector2f position;
-
+public:
 	// Constructor
 	Camera(float zoomLevel = 1.0f);
 
@@ -18,5 +17,10 @@ public:
 
 	sf::Vector2f GetViewSize();
 	sf::Vector2f GetViewUISize();
+
+
+	// Setter/Getter
+	float getZoomlevel();
+	void setPosition(const sf::Vector2f& position);
 };
 

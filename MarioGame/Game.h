@@ -48,7 +48,8 @@ void UpdateMushroom(float deltaTime, const Map& map);
 void UpdateStar(float deltaTime, const Map& map);
 void UpdateCoin(float deltaTime);
 void UpdateGameTime(float deltaTime);
-void UpdateGameState(GameState& gameState, sf::RenderWindow& window);
+void UpdateDead(GameState& gameState, sf::RenderWindow& window);
+void UpdateWin(sf::RenderWindow& window);
 
 void RenderMapTransition(sf::RenderWindow& window);
 void RenderBackground(sf::RenderWindow& window);

@@ -39,3 +39,13 @@ sf::View Camera::GetUIView()
 	viewUISize = sf::Vector2f(100.0f, 100.0f / aspect);
 	return sf::View(sf::Vector2f(), viewUISize);
 }
+
+float Camera::getZoomlevel()
+{
+	return zoomLevel;
+}
+
+void Camera::setPosition(const sf::Vector2f& position)
+{
+	this->position = position;
+}

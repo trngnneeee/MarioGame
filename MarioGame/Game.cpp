@@ -75,7 +75,7 @@ void BeginGame(sf::RenderWindow& window)
 	BeginGoomba(goombasPosition);
 	BeginKoopa(koopaPosition);
 	BeginCoin(coinPosition);
-	BeginBackground(camera.zoomLevel, map);
+	BeginBackground(camera.getZoomlevel(), map);
 	BeginMusic();
 	BeginGameTime();
 	UI.Begin();
@@ -101,18 +101,8 @@ void UpdateGame(float deltaTime, GameState& gameState, sf::RenderWindow& window)
 	UpdateStar(deltaTime, map);
 	UpdateCoin(deltaTime);
 	UpdateGameTime(deltaTime);
-	UpdateGameState(gameState, window);
-	// Detect winning
-	if (mario.getPosition().x >= winPosition.x)
-	{
-		SoundManager::getInstance().stopSound("main");
-		SoundManager::getInstance().setPlayedStatus("main", false);
-		mario.setMapArchive(mario.getMapArchive() + 1);
-		mapTransition.setMapType(mapTransition.getMapType() + 1);
-		mapTransition.setTimer(3.0f);
-		ResetGame();
-		BeginGame(window);
-	}
+	UpdateDead(gameState, window);
+	UpdateWin(window);
 }
 
 /// Render
@@ -142,7 +132,7 @@ void BeginMap(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vecto
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map2.png";
+		mapName = "map1.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
@@ -157,7 +147,6 @@ void BeginMap(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vecto
 void BeginMario(sf::Vector2f marioPosition)
 {
 	mario.Begin(marioPosition);
-
 }
 
 void BeginGoomba(std::vector<sf::Vector2f> goombasPosition)
@@ -192,7 +181,7 @@ void BeginCoin(std::vector<sf::Vector2f> coinPosition)
 
 void BeginBackground(const float& zoomLevel, const Map& map)
 {
-	background.Begin(camera.zoomLevel, map);
+	background.Begin(camera.getZoomlevel(), map);
 }
 
 void BeginMusic()
@@ -231,7 +220,7 @@ void UpdateMap(float deltaTime)
 
 void UpdateCamera()
 {
-	camera.position = mario.getPosition();
+	camera.setPosition(mario.getPosition());
 }
 
 void UpdateMario(float deltaTime, Map& map, std::vector<std::unique_ptr<PowerUpMushroom>>& mushrooms, std::vector<std::unique_ptr<InvicibleStar>>& stars, GameState& gameState)
@@ -455,7 +444,7 @@ void UpdateGameTime(float deltaTime)
 	}
 }
 
-void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
+void UpdateDead(GameState& gameState, sf::RenderWindow& window)
 {
 	updateRange = window.getSize().x * 11.5f / 1200;
 	if (mario.getDeadStatus() == true)
@@ -471,7 +460,7 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 		{
 			if (mario.getLife() > 0)
 			{
-				mario.ResetStillLife();
+				mario.ResetAfterDead();
 			}
 			if (mario.getLife() <= 0)
 			{
@@ -481,6 +470,22 @@ void UpdateGameState(GameState& gameState, sf::RenderWindow& window)
 			}
 			SoundManager::getInstance().setPlayedStatus("dead", false);
 		}
+	}
+}
+
+void UpdateWin(sf::RenderWindow& window)
+{
+	if (mario.getPosition().x >= winPosition.x)
+	{
+		SoundManager::getInstance().stopSound("main");
+		SoundManager::getInstance().setPlayedStatus("main", false);
+
+		mario.setMapArchive(mario.getMapArchive() + 1);
+		mario.ResetAfterWin();
+		mapTransition.setMapType(mapTransition.getMapType() + 1);
+		mapTransition.setTimer(3.0f);
+		ResetGame();
+		BeginGame(window);
 	}
 }
 

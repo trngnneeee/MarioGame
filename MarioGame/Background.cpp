@@ -14,7 +14,7 @@ void Background::Begin(const float& zoomLevel, const Map& map)
 	sprite.setScale(scaleX, scaleY);
 }
 
-void Background::Update(sf::Vector2f position)
+void Background::Update(const sf::Vector2f& position)
 {
 	sprite.setPosition(position);	
 }

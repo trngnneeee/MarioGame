@@ -27,7 +27,7 @@ public:
     // Constructors
     Coin();
     // Functions
-    void Begin(sf::Vector2f position);
+    void Begin(const sf::Vector2f& position);
     void Update(float deltaTime);
     void Draw(sf::RenderWindow& window);
     void Reset();

@@ -10,7 +10,7 @@ private:
 public:
 	// Functions
 	void Begin(const float& zoomLevel, const Map& map);
-	void Update(sf::Vector2f position);
+	void Update(const sf::Vector2f& position);
 	void Draw(sf::RenderWindow& window);
 };
 

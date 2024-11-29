@@ -56,7 +56,7 @@ public:
 	sf::Vector2f getPosition() const;
 	float getDieTime();
 	sf::Vector2f getVelocity() const;
-	void setVelocity(sf::Vector2f velocity);
+	void setVelocity(const sf::Vector2f& velocity);
 	bool getGameState();
 	void setGameState(const bool& value);
 };

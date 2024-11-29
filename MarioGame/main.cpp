@@ -1,13 +1,9 @@
 #include "Game.h"
-#include "Camera.h"
 #include "GameState.h"
-#include "Menu.h"
-#include <iostream>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
 	sf::Clock deltaClock;
-
 	window.setFramerateLimit(60);
 
 	GameState gameState = GameState::Menu;

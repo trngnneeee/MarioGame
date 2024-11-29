@@ -455,7 +455,7 @@ void Mario::Reset()
 	runAnimation.Reset();
 }
 
-void Mario::ResetStillLife()
+void Mario::ResetAfterDead()
 {
 	isDead = false;
 	life--;
@@ -465,6 +465,33 @@ void Mario::ResetStillLife()
 	position = startPosition;
 	v = 10.0f;
 	tmpGravity = -30.0f;
+}
+
+void Mario::ResetAfterWin()
+{
+	runAnimation = 0.24f;
+	bigRunAnimation = 0.3f;
+	movementSpeed = 7.0f;
+	jumpStrength = 20.0f;
+	gravity = 40.0f;
+	isDead = false;
+	deadTimer = 3.0f;
+	v = 10.0f;
+	tmpGravity = -30.0f;
+	koopaKickSpeed = 20.0f;
+	levelUp = false;
+	invicibleTime = 0.0f;
+	invicibleTime2 = 0.0f;
+
+	position = sf::Vector2f(0, 0);
+	velocity = sf::Vector2f(0.0f, 0.0f);
+	collisionBox = sf::FloatRect(
+		position.x,
+		position.y,
+		1.0f / textures[3].getSize().x,
+		1.9f / textures[3].getSize().y
+	);
+	runAnimation.Reset();
 }
 
 // Getter/Setter

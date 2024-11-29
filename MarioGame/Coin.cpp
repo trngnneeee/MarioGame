@@ -5,7 +5,7 @@ Coin::Coin()
 {
 }
 
-void Coin::Begin(sf::Vector2f position)
+void Coin::Begin(const sf::Vector2f& position)
 {
     // Init textures
     for (int i = 0; i < 10; i++)
