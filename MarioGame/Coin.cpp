@@ -1,7 +1,7 @@
 ﻿#include "Coin.h"
 
 Coin::Coin()
-    : collected(false), coinAnimation(1.0f), disappearTime(0.3f)
+    : collected(false), coinAnimation(1.0f), disappearTime(1.5f)
 {
 }
 
@@ -38,11 +38,6 @@ void Coin::Update(float deltaTime)
     sprite.setTexture(*coinAnimation.update(deltaTime));
     if (collected)
     {
-        if (!SoundManager::getInstance().getPlayedStatus("coin"))
-        {
-            SoundManager::getInstance().playSound("coin");
-            SoundManager::getInstance().setPlayedStatus("coin", true);
-        }
         sprite.setColor(sf::Color(255, 255, 255, 0));
         disappearTime -= deltaTime;
         if (disappearTime > 0)

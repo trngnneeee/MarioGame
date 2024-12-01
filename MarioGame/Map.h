@@ -2,9 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include "Game.h"
 #include "FloatingScore.h"
 #include "Animation.h"
+#include "SoundManagement.h"
 
 class Map
 {

@@ -62,7 +62,6 @@ void Menu::Begin(sf::RenderWindow& window)
 
 void Menu::Draw(sf::RenderWindow& window)
 {
-	window.clear();
 	window.draw(backgroundSprite);
 	window.draw(title);
 	window.draw(prompt);
@@ -75,7 +74,6 @@ void Menu::Draw(sf::RenderWindow& window)
 
 	window.draw(level3Button);
 	window.draw(level3Text);
-	window.display();
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)

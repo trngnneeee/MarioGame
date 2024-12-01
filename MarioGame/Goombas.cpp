@@ -1,4 +1,5 @@
 #include "Goombas.h"
+#include <iostream>
 
 Goombas::Goombas()
 	: isDeadByKoopa(false)
@@ -73,8 +74,10 @@ bool Goombas::handleDead(float deltaTime)
 				score->Update(deltaTime);
 		}
 		else
+		{
 			if (score)
 				delete score;
+		}
 		return true;
 	}
 	return false;

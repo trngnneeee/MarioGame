@@ -2,7 +2,7 @@
 #include <iostream>
 
 MapTransition::MapTransition()
-	: timer(3.0f), currentMapType(1)
+	: timer(2.0f), currentMapType(1)
 {
 }
 

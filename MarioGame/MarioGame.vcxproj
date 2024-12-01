@@ -142,7 +142,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
     <ClCompile Include="HiddenBoxItemFactory.cpp" />
     <ClCompile Include="InvicibleStar.cpp" />
@@ -152,6 +152,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapTransition.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MarioGame.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="SoundManagement.cpp" />
     <ClCompile Include="PowerUpMushroom.cpp" />
@@ -166,8 +167,8 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnityColor.h" />
     <ClInclude Include="FloatingScore.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="Goombas.h" />
     <ClInclude Include="HiddenBoxItemFactory.h" />
     <ClInclude Include="InvicibleStar.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="MarioGame.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="SoundManagement.h" />
     <ClInclude Include="PowerUpMushroom.h" />

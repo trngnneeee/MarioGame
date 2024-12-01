@@ -29,9 +29,10 @@ public:
     bool loadSound(const std::string& name, const std::string& filepath);
     void playSound(const std::string& name);
     void stopSound(const std::string& name);
-    void setLoop(const std::string& name, const bool& value);
 
     // Setter/Getter
+    void setLoop(const std::string& name, const bool& value);
+    void setVolume(const std::string& name, const int& value);
     bool getPlayedStatus(const std::string& name);
     void setPlayedStatus(const std::string& name, const bool& value);
 };

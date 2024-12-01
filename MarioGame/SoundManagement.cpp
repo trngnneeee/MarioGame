@@ -50,3 +50,18 @@ void SoundManager::setLoop(const std::string& name, const bool& value)
         it->second.first.setLoop(value);
     }
 }
+
+void SoundManager::setVolume(const std::string& name, const int& value)
+{
+    if (value < 0 || value > 100) {
+        throw std::out_of_range("Volume must be between 0 and 100.");
+    }
+
+    auto it = sounds.find(name);
+    if (it != sounds.end()) {
+        it->second.first.setVolume(value);
+    }
+    else {
+        throw std::invalid_argument("Sound not found: " + name);
+    }
+}

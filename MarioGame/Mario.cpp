@@ -308,6 +308,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 				{
 					if (levelUp)
 					{
+						SoundManager::getInstance().playSound("brick");
 						points += 50;
 						map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 					}
@@ -324,6 +325,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 				if (velocity.y < 0 && collisionBox.top <= currentBox.top + currentBox.height && collisionBox.top >= currentBox.top)
 				{
 					// Generate random number (1 or 2) to spawn power-up
+					SoundManager::getInstance().playSound("item");
 					std::srand(static_cast<unsigned>(std::time(0)));
 					int randomNumber = 1 + (std::rand() % 2);
 
@@ -372,6 +374,7 @@ bool Mario::goombasCollision(Goombas& goombas) {
 			points += 100;
 			velocity.y = -jumpStrength / 2; 
 			goombas.setDieStatus(true);
+			SoundManager::getInstance().playSound("goomba");
 			return false;
 		}
 		else return true;
@@ -387,6 +390,7 @@ bool Mario::koopaCollision(Koopa& koopa)
 		{
 			if (koopa.getInShellStatus() == false)
 			{
+				SoundManager::getInstance().playSound("goomba");
 				velocity.y = -jumpStrength / 2;
 				koopa.setInShellStatus(true);
 			}
@@ -405,6 +409,7 @@ bool Mario::koopaCollision(Koopa& koopa)
 			{
 				int kickDirection = (!facingRight) ? 1 : -1;
 				koopa.setVelocity(sf::Vector2f(koopaKickSpeed * kickDirection, 0));
+				SoundManager::getInstance().playSound("kick");
 				return false;
 			}
 		}
