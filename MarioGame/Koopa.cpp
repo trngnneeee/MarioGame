@@ -50,7 +50,24 @@ void Koopa::Begin(const sf::Vector2f& koopaPosition)
 		1.0f / textures[0].getSize().y
 	);
 }
-
+void Koopa::setSpeedBasedOnMapType(int mapType) {
+    switch (mapType) {
+        case 1:
+            setSpeedStrategy(new NormalSpeedStrategy());
+            break;
+        case 2:
+            setSpeedStrategy(new FastSpeedStrategy());
+            break;
+        case 3:
+            setSpeedStrategy(new SuperFastSpeedStrategy());
+            break;
+        default:
+            setSpeedStrategy(new NormalSpeedStrategy());
+            break;
+    }
+    // Cập nhật tốc độ từ chiến lược ban đầu
+    velocity.x = getSpeed();
+}
 void Koopa::Update(float deltaTime, const Map& map)
 {
 	if (handleDead(deltaTime)) return;

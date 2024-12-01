@@ -1,6 +1,18 @@
-﻿  EnemyFactory.cpp
+﻿  Background.cpp
+  EnemyFactory.cpp
   Game.cpp
+  Goombas.cpp
+  Mario.cpp
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(269,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(269,42): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(269,42): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(269,42): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(269,42): warning C4244:         ]
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(277,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(277,47): warning C4244:         with
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(277,47): warning C4244:         [
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(277,47): warning C4244:             T=unsigned int
+D:\21126089(2)\OOP\MarioProject\MarioGame\Mario.cpp(277,47): warning C4244:         ]
+  UICounter.cpp
   Generating Code...
-  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+  MarioGame.vcxproj -> D:\21126089(2)\OOP\MarioProject\x64\Debug\MarioGame.exe

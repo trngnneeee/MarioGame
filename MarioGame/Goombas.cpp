@@ -44,10 +44,31 @@ void Goombas::Begin(const sf::Vector2f& goombasPosition)
 	);
 }
 
+void Goombas::setSpeedBasedOnMapType(int mapType) {
+    switch (mapType) {
+        case 1:
+            setSpeedStrategy(new NormalSpeedStrategy());
+            break;
+        case 2:
+            setSpeedStrategy(new FastSpeedStrategy());
+            break;
+        case 3:
+            setSpeedStrategy(new SuperFastSpeedStrategy());
+            break;
+        default:
+            setSpeedStrategy(new NormalSpeedStrategy());
+            break;
+    }
+    // Cập nhật tốc độ từ chiến lược ban đầu
+    velocity.x = getSpeed();
+}
+
 void Goombas::Update(float deltaTime, const Map& map)
 {
+
 	if (handleDead(deltaTime)) return;
 	if (handleDeadByKoopa(deltaTime)) return;
+	
 	// Update texture
 	sprite.setTexture(*runAnimation.update(deltaTime));
 	// Update collision
@@ -121,3 +142,4 @@ void Goombas::setDieByKoopaStatus(const bool& value)
 {
 	isDeadByKoopa = value;
 }
+

@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Map.h"
 #include "FloatingScore.h"
+#include "SpeedStrategy.h"
 
 class Enemy
 {
@@ -32,9 +33,11 @@ protected:
 	sf::Texture deadTexture;
 	// Floating score
 	FloatingScore* score;
+	SpeedStrategy* speedStrategy;
+	 float baseSpeed;
 public:
 	// Constructor
-	virtual ~Enemy() = default;
+	virtual ~Enemy() { delete speedStrategy; }
 	virtual Enemy* clone() const = 0;
 
 	Enemy();
@@ -61,5 +64,7 @@ public:
 	void setVelocity(const sf::Vector2f& velocity);
 	bool getGameState();
 	void setGameState(const bool& value);
+	void setSpeedStrategy(SpeedStrategy* strategy);
+	float getSpeed() const ;
 };
 

@@ -1,6 +1,9 @@
 #pragma once
 #include "Enemy.h"
 #include "Koopa.h"
+#include "NormalSpeedStrategy.h"
+#include "FastSpeedStrategy.h"
+#include "SuperFastSpeedStrategy.h"
 
 class Goombas : public Enemy
 {
@@ -28,5 +31,8 @@ public:
 	// Setter/Getter
 	bool getDieByKoopaStatus();
 	void setDieByKoopaStatus(const bool& value);
+
+	void setSpeedBasedOnMapType(int mapType);
+
 };
 

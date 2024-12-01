@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy()
-	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(3.0f), v(10.0f), tmpGravity(-30.0f), inGame(false)
+	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(3.0f), v(10.0f), tmpGravity(-30.0f), inGame(false),speedStrategy(nullptr), baseSpeed(3.0f)
 {
 }
 
@@ -120,4 +120,11 @@ void Enemy::setGameState(const bool& value)
 	inGame = value;
 }
 
+ void Enemy:: setSpeedStrategy(SpeedStrategy* strategy) {
+        if (speedStrategy) delete speedStrategy;
+        speedStrategy = strategy;
+    }
 
+float Enemy:: getSpeed() const {
+        return speedStrategy ? speedStrategy->calculateSpeed(baseSpeed) : baseSpeed;
+    }
