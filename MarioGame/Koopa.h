@@ -3,6 +3,9 @@
 #include <string>
 #include "Enemy.h"
 #include "Map.h"
+#include "NormalSpeedStrategy.h"
+#include "FastSpeedStrategy.h"
+#include "SuperFastSpeedStrategy.h"
 
 class Koopa : public Enemy
 {
@@ -42,5 +45,6 @@ public:
 	bool getInShellStatus() const;
 	void setInShellStatus(const bool& value);
 	void setStandTimer(const float& value);
+	void setSpeedBasedOnMapType(int mapType);
 };
 

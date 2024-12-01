@@ -141,6 +141,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
+    <ClCompile Include="FastSpeedStrategy.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
@@ -154,8 +155,11 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioGame.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="NormalSpeedStrategy.cpp" />
     <ClCompile Include="SoundManagement.cpp" />
     <ClCompile Include="PowerUpMushroom.cpp" />
+    <ClCompile Include="SpeedStrategy.cpp" />
+    <ClCompile Include="SuperFastSpeedStrategy.cpp" />
     <ClCompile Include="UICounter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +170,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnityColor.h" />
+    <ClInclude Include="FastSpeedStrategy.h" />
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTime.h" />
@@ -179,8 +184,11 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGame.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="NormalSpeedStrategy.h" />
     <ClInclude Include="SoundManagement.h" />
     <ClInclude Include="PowerUpMushroom.h" />
+    <ClInclude Include="SpeedStrategy.h" />
+    <ClInclude Include="SuperFastSpeedStrategy.h" />
     <ClInclude Include="UICounter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

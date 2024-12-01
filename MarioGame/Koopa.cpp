@@ -162,3 +162,22 @@ void Koopa::setStandTimer(const float& value)
 {
 	standTimer = value;
 }
+
+void Koopa::setSpeedBasedOnMapType(int mapType)
+{
+	switch (mapType) {
+	case 1:
+		setSpeedStrategy(new NormalSpeedStrategy());
+		break;
+	case 2:
+		setSpeedStrategy(new FastSpeedStrategy());
+		break;
+	case 3:
+		setSpeedStrategy(new SuperFastSpeedStrategy());
+		break;
+	default:
+		setSpeedStrategy(new NormalSpeedStrategy());
+		break;
+	}
+	velocity.x = getSpeedStrategy();
+}

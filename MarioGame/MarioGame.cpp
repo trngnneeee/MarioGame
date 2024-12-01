@@ -160,6 +160,7 @@ void MarioGame::MarioBegin(const sf::Vector2f& marioPosition)
 
 void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition)
 {
+	int mapType = mario.getMapArchive();
 	EnemyFactory factory;
 	for (int i = 0; i < goombasPosition.size(); i++)
 	{
@@ -168,6 +169,7 @@ void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, con
 		{
 			newEnemy->Begin(goombasPosition[i]);
 			goombas.push_back(static_cast<Goombas*>(newEnemy));
+			static_cast<Goombas*>(newEnemy)->setSpeedBasedOnMapType(mapType);
 		}
 	}
 	for (int i = 0; i < koopasPosition.size(); i++)
@@ -177,6 +179,7 @@ void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, con
 		{
 			newEnemy->Begin(koopasPosition[i]);
 			koopas.push_back(static_cast<Koopa*>(newEnemy));
+			static_cast<Goombas*>(newEnemy)->setSpeedBasedOnMapType(mapType);
 		}
 	}
 }

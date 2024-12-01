@@ -1,8 +1,33 @@
-﻿  main.cpp
+﻿  Background.cpp
+  Enemy.cpp
+  EnemyFactory.cpp
+  FastSpeedStrategy.cpp
+  Goombas.cpp
+  Koopa.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         ]
+  main.cpp
+  Mario.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         ]
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         ]
   MarioGame.cpp
-  PowerUpMushroom.cpp
+  NormalSpeedStrategy.cpp
+  SpeedStrategy.cpp
+  SuperFastSpeedStrategy.cpp
   UICounter.cpp
   Generating Code...
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Koopa.cpp(105,1): warning C4715: 'Koopa::handleOutOfShell': not all control paths return a value
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

@@ -81,6 +81,18 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpeedStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalSpeedStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperFastSpeedStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FastSpeedStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -150,6 +162,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalSpeedStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperFastSpeedStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FastSpeedStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
