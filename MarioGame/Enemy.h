@@ -68,4 +68,3 @@ public:
 	float getSpeedStrategy() const;
 	void setSpeedStrategy(SpeedStrategy* strategy);
 };
-
