@@ -1,4 +1,4 @@
-#include "MarioGame.h"
+﻿#include "MarioGame.h"
 
 /// MAIN FUNCTIONS
 void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
@@ -8,12 +8,20 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	{
 		if (event.type == sf::Event::Closed)
 			window.close();
+
 		if (gameState == GameState::Playing)
 		{
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-				pause = !pause;
+			{
+				gameState = GameState::Paused;
+				pauseMenu.Initialize(window); // Khởi tạo menu tạm dừng
+			}
 		}
-		if (gameState == GameState::Menu)
+		else if (gameState == GameState::Paused)
+		{
+			pauseMenu.HandleInput(event, gameState, window); // Xử lý đầu vào trong PauseMenu
+		}
+		else if (gameState == GameState::Menu)
 		{
 			if (menu.HandleInput(window) == 1)
 			{
@@ -23,6 +31,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 		}
 	}
 }
+
 
 void MarioGame::Begin(sf::RenderWindow& window)
 {
@@ -46,12 +55,16 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 {
 	if (gameState == GameState::Menu)
 	{
+		// Xử lý menu chính
 	}
 	else if (gameState == GameState::Playing)
 	{
 		if (pause) return;
+
 		updateRange = (window.getSize().x * 11.5f) / 1200;
+
 		if (MapTransitionUpdate(deltaTime)) return;
+
 		MusicUpdate();
 		MapUpdate(deltaTime);
 		MarioUpdate(deltaTime, map, gameState);
@@ -74,11 +87,16 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 			SoundManager::getInstance().playSound("win");
 		}
 	}
+	else if (gameState == GameState::Paused)
+	{
+		pauseMenu.Update(deltaTime, window); // Cập nhật PauseMenu
+	}
 	else if (gameState == GameState::GameOver)
 	{
 		gameState = GameState::Menu;
 	}
 }
+
 
 void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 {
@@ -103,6 +121,25 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		EnemyDraw(window);
 		CoinDraw(window);
 		UIDraw(window);
+	}
+	else if (gameState == GameState::Paused)
+	{
+		if (mapTransition.getTimer() > 0)
+		{
+			window.setView(window.getDefaultView());
+			MapTransitionDraw(window);
+			return;
+		}
+		window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
+		BackgroundDraw(window);
+		HiddenBoxItemDraw(window);
+		MapDraw(window);
+		MarioDraw(window);
+		EnemyDraw(window);
+		CoinDraw(window);
+		UIDraw(window);
+		window.setView(window.getDefaultView());
+		pauseMenu.Render(window); // Vẽ giao diện tạm dừng
 	}
 	else if (gameState == GameState::GameOver)
 	{
