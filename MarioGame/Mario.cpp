@@ -42,10 +42,10 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 		"marioBig.png",
 		"marioBigJump.png",
 	};
-	for (int i = 0; i < filePath1.size(); i++)
+	for (int i = 0; i < filePath2.size(); i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mario/" + filePath1[i]);
+		tmp.loadFromFile("./resources/textures/Mario/" + filePath2[i]);
 		bigTexture.push_back(tmp);
 	}
 
@@ -231,7 +231,7 @@ void Mario::handleCollectCoin()
 
 void Mario::handleJumpStrength()
 {
-	jumpStrength = (levelUp) ? 25.0f : 20.0f;
+	jumpStrength = (levelUp) ? 20.0f : 17.0f;
 }
 
 void Mario::UpdateTexture(float deltaTime)
@@ -492,7 +492,6 @@ void Mario::ResetAfterWin()
 	v = 10.0f;
 	tmpGravity = -30.0f;
 	koopaKickSpeed = 20.0f;
-	levelUp = false;
 	invicibleTime = 0.0f;
 	invicibleTime2 = 0.0f;
 

@@ -7,13 +7,12 @@ int main() {
 	sf::Image Icon;
 	Icon.loadFromFile("./resources/textures/Mario/marioHead.png");
 	window.setIcon(Icon.getSize().x, Icon.getSize().y, Icon.getPixelsPtr());
-	sf::Clock deltaClock;
 	window.setFramerateLimit(60);
 
+	sf::Clock deltaClock;
 	MarioGame game;
 	GameState gameState = GameState::Menu;
 	game.MenuBegin(window);
-
 
 	while (window.isOpen())
 	{
