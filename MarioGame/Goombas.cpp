@@ -143,3 +143,4 @@ void Goombas::setDieByKoopaStatus(const bool& value)
 	isDeadByKoopa = value;
 }
 
+

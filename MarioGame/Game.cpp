@@ -305,7 +305,7 @@ void UpdateGoomba(float deltaTime, const Map& map)
 			{
 				goombas[i]->setGameState(true);
 			}
-	
+	       
 			goombas[i]->Update(deltaTime, map);
 		}
 	}
