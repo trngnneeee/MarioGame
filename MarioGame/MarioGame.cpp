@@ -15,7 +15,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 		}
 		if (gameState == GameState::Menu)
 		{
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+			if (menu.HandleInput(window) == 1)
 			{
 				Begin(window);
 				gameState = GameState::Playing;
@@ -49,6 +49,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 	}
 	else if (gameState == GameState::Playing)
 	{
+		updateRange = (window.getSize().x * 11.5f) / 1200;
 		if (MapTransitionUpdate(deltaTime)) return;
 		MusicUpdate();
 		MapUpdate(deltaTime);

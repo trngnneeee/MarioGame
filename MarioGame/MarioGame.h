@@ -35,7 +35,7 @@ private:
 	std::vector<InvicibleStar*> stars;
 	sf::Vector2f winPosition;
 
-	float updateRange = 11.5f;
+	float updateRange;
 
 public:
 	/// MAIN FUNCTIONS
