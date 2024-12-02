@@ -36,7 +36,7 @@ private:
 	sf::Vector2f winPosition;
 
 	float updateRange;
-
+	bool pause;
 public:
 	/// MAIN FUNCTIONS
 	void Event(sf::RenderWindow& window, GameState& gameState);

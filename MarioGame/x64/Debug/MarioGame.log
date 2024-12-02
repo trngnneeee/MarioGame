@@ -1,7 +1,7 @@
-﻿  MapTransition.cpp
-  MarioGame.cpp
+﻿  MarioGame.cpp
   main.cpp
   Generating Code...
+  LINK : D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe not found or not built by the last incremental link; performing full link
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.
