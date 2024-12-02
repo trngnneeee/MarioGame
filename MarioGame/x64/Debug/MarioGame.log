@@ -1,4 +1,61 @@
-﻿  main.cpp
-  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+﻿  Animation.cpp
+  Background.cpp
+  Camera.cpp
+  Coin.cpp
+  Enemy.cpp
+  EnemyFactory.cpp
+  FastSpeedStrategy.cpp
+  FloatingScore.cpp
+  GameTime.cpp
+  Goombas.cpp
+  HiddenBoxItemFactory.cpp
+  InvicibleStar.cpp
+  HiddenBoxItem.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\HiddenBoxItem.cpp(5,110): warning C4305: 'argument': truncation from 'double' to 'float'
+  Koopa.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         ]
+  Map.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(117,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(117,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+  MapTransition.cpp
+  Mario.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         ]
+  MarioGame.cpp
+  Menu.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         ]
+  Generating Code...
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(105,1): warning C4715: 'Koopa::handleOutOfShell': not all control paths return a value
+  Compiling...
+  NormalSpeedStrategy.cpp
+  SoundManagement.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(62,36): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  PowerUpMushroom.cpp
+  SpeedStrategy.cpp
+  SuperFastSpeedStrategy.cpp
+  UICounter.cpp
+  Generating Code...
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(37,1): warning C4715: 'SoundManager::getPlayedStatus': not all control paths return a value
+  MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe

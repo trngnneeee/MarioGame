@@ -14,7 +14,7 @@ void MapTransition::Begin()
 void MapTransition::Update(float deltaTime)
 {
 	timer -= deltaTime;
-	sprite.setScale(4.0f, 4.0f);
+	sprite.setScale(5.0f, 5.0f);
 }
 
 void MapTransition::Draw(sf::RenderWindow& window)

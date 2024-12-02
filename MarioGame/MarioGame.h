@@ -47,6 +47,7 @@ public:
 	/// HELPER FUNCTIONS
 	// BEGIN FUNCTIONS
 	void MusicBegin();
+	void HandleStart(GameState& gameState, sf::RenderWindow& window);
 	void MapTransitionBegin();
 	void MapBegin(
 		sf::Vector2f& marioPosition, 

@@ -109,6 +109,16 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 
 /// HELPER FUNCTIONS
 /// Begin Function
+
+void MarioGame::HandleStart(GameState& gameState, sf::RenderWindow& window)
+{
+	int option = menu.HandleInput(window);
+	if (option == 1)
+	{
+		Begin(window);
+		gameState = GameState::Playing;
+	}
+}
 void MarioGame::MusicBegin()
 {
 	SoundManager& soundManager = SoundManager::getInstance();
