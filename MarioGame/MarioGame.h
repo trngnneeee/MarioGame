@@ -17,6 +17,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include "PauseMenu.h"
 class MarioGame
 {
 private:
@@ -37,6 +38,7 @@ private:
 
 	float updateRange;
 	bool pause;
+	PauseMenu pauseMenu;
 public:
 	/// MAIN FUNCTIONS
 	void Event(sf::RenderWindow& window, GameState& gameState);
@@ -100,5 +102,7 @@ public:
 
 	// RESET FUNCTIONS
 	void GameReset();
+   // PAUSE MENU UPDATE
+	void UpdatePauseMenu(sf::RenderWindow& window, GameState& gameState);
 };
 

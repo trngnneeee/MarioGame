@@ -156,6 +156,7 @@
     <ClCompile Include="MarioGame.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NormalSpeedStrategy.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="SoundManagement.cpp" />
     <ClCompile Include="PowerUpMushroom.cpp" />
     <ClCompile Include="SpeedStrategy.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="MarioGame.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NormalSpeedStrategy.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="SoundManagement.h" />
     <ClInclude Include="PowerUpMushroom.h" />
     <ClInclude Include="SpeedStrategy.h" />
