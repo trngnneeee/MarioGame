@@ -224,6 +224,7 @@ void Mario::handleCollectCoin()
 {
 	if (coin >= 10)
 	{
+		SoundManager::getInstance().playSound("life-up");
 		coin -= 10;
 		life++;
 	}
