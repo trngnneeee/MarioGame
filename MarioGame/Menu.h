@@ -10,10 +10,6 @@ private:
 	sf::Texture backgroundTexture;
 	sf::Sprite backgroundSprite;
 
-	// Title
-	sf::Text title;
-	sf::Text prompt;
-
 	// Map button
 	sf::RectangleShape level1Button;
 	sf::Text level1Text;

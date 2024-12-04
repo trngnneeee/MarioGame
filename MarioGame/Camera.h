@@ -10,16 +10,11 @@ private:
 public:
 	// Constructor
 	Camera(float zoomLevel = 1.0f);
-
-	// Function
+	// Setter/Getter
 	sf::View GetView(sf::Vector2u windowSize, const float& mapSize);
-	sf::View GetUIView();
-
+	sf::View GetUIView(); 
 	sf::Vector2f GetViewSize();
 	sf::Vector2f GetViewUISize();
-
-
-	// Setter/Getter
 	float getZoomlevel();
 	void setPosition(const sf::Vector2f& position);
 };

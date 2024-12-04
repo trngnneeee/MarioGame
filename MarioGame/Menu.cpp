@@ -33,8 +33,6 @@ void Menu::Begin(sf::RenderWindow& window)
 void Menu::Draw(sf::RenderWindow& window)
 {
 	window.draw(backgroundSprite);
-	window.draw(prompt);
-
 	window.draw(level1Button);
 	window.draw(level1Text);
 }

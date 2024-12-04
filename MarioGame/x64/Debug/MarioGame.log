@@ -1,4 +1,12 @@
-﻿  MarioGame.cpp
+﻿  main.cpp
+  MarioGame.cpp
+  Menu.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:             T=unsigned int
+D:\HCMUS\MarioGame\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         ]
+  Generating Code...
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

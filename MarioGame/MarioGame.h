@@ -102,7 +102,5 @@ public:
 
 	// RESET FUNCTIONS
 	void GameReset();
-   // PAUSE MENU UPDATE
-	void UpdatePauseMenu(sf::RenderWindow& window, GameState& gameState);
 };
 
