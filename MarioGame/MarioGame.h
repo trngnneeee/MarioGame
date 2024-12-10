@@ -6,6 +6,7 @@
 #include "EnemyFactory.h"
 #include "Goombas.h"
 #include "Koopa.h"
+#include "Chomper.h"
 #include "Coin.h"
 #include "Background.h"
 #include "GameTime.h"
@@ -26,6 +27,7 @@ private:
 	Mario mario;
 	std::vector<Goombas*> goombas;
 	std::vector<Koopa*> koopas;
+	std::vector<Chomper*> chompers;
 	std::vector<std::unique_ptr<Coin>> coins;
 	Background background;
 	GameTime gameTime;
@@ -55,10 +57,12 @@ public:
 		sf::Vector2f& winPosition, 
 		std::vector<sf::Vector2f>& goombasPosition,
 		std::vector<sf::Vector2f>& koopasPosition, 
-		std::vector<sf::Vector2f>& coinsPosition
+		std::vector<sf::Vector2f>& coinsPosition,
+		std::vector<sf::Vector2f>& chompersPosition
 	);
 	void MarioBegin(const sf::Vector2f& marioPosition);
 	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
+	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
 	void CoinBegin(const std::vector<sf::Vector2f>& coinsPosition);
 	void BackgroundBegin();
 	void GameTimeBegin();
@@ -77,6 +81,7 @@ public:
 	);
 	void GoombaUpdate(const float& deltaTime, const Map& map);
 	void KoopaUpdate(const float& deltaTime, const Map& map);
+	void ChomperUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
 	void GameTimeUpdate(const float& deltaTime);
 	void UIUpdate(const float& deltaTime);
@@ -97,6 +102,7 @@ public:
 	void MapDraw(sf::RenderWindow& window);
 	void MarioDraw(sf::RenderWindow& window);
 	void EnemyDraw(sf::RenderWindow& window);
+	void ChomperDraw(sf::RenderWindow& window);
 	void CoinDraw(sf::RenderWindow& window);
 	void UIDraw(sf::RenderWindow& window);
 

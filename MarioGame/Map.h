@@ -65,7 +65,8 @@ public:
 		sf::Vector2f& winPosition, 
 		std::vector<sf::Vector2f>& goombasPosition, 
 		std::vector<sf::Vector2f>& koopaPosition, 
-		std::vector<sf::Vector2f>& coinPosition
+		std::vector<sf::Vector2f>& coinPosition,
+		std::vector<sf::Vector2f>& chompersPosition
 	);
 	void CreateCollisionBox();
 	void handleBrickCollision(sf::Vector2f brickPosition);

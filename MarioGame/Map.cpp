@@ -102,7 +102,8 @@ void Map::CreateFromImage(
 	sf::Vector2f& winPosition,
 	std::vector<sf::Vector2f>& goombasPosition,
 	std::vector<sf::Vector2f>& koopaPosition,
-	std::vector<sf::Vector2f>& coinPosition
+	std::vector<sf::Vector2f>& coinPosition,
+	std::vector<sf::Vector2f>& chompersPosition
 )
 {
 	// Clear the previous map (vector)
@@ -337,6 +338,11 @@ void Map::CreateFromImage(
 			case EntityType::triBushTop:
 			{
 				grid[i][j] = 40;
+				break;
+			}
+			case EntityType::Chomper:
+			{
+				chompersPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			}

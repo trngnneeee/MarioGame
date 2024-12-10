@@ -46,10 +46,12 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopasPosition;
 	std::vector<sf::Vector2f> coinsPosition;
+	std::vector<sf::Vector2f> chompersPosition;
 	sf::Vector2f marioPosition;
-	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition);
+	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
 	MarioBegin(marioPosition);
 	EnemyBegin(goombasPosition, koopasPosition);
+	ChomperBegin(chompersPosition);
 	CoinBegin(coinsPosition);
 	BackgroundBegin();
 	GameTimeBegin();
@@ -76,6 +78,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		MarioUpdate(deltaTime, map, gameState);
 		GoombaUpdate(deltaTime, map);
 		KoopaUpdate(deltaTime, map);
+		ChomperUpdate(deltaTime);
 		CoinUpdate(deltaTime);
 		GameTimeUpdate(deltaTime);
 		UIUpdate(deltaTime);
@@ -122,6 +125,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
+		ChomperDraw(window);
 		MapDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
@@ -139,6 +143,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
+		ChomperDraw(window);
 		MapDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
@@ -180,7 +185,7 @@ void MarioGame::MapTransitionBegin()
 	mapTransition.Begin();
 }
 
-void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition)
+void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition)
 {
 	map = Map(1.0f);
 	int mapType = mario.getMapArchive();
@@ -193,7 +198,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition);
+	map.CreateFromImage(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
 
 	map.CreateCollisionBox();
 }
@@ -226,6 +231,16 @@ void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, con
 			koopas.push_back(static_cast<Koopa*>(newEnemy));
 			static_cast<Goombas*>(newEnemy)->setSpeedBasedOnMapType(mapType);
 		}
+	}
+}
+
+void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
+{
+	for (int i = 0; i < chompersPosition.size(); i++)
+	{
+		Chomper* newChomper = new Chomper;
+		newChomper->Begin(chompersPosition[i]);
+		chompers.push_back(newChomper);
 	}
 }
 
@@ -336,6 +351,25 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 			}
 		}
 	}
+	// Collision with chomper
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		if (mario.chomperCollision(*chompers[i]))
+		{
+			if (mario.getInvicibleTime2() > 0) continue;
+			else
+			{
+				if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
+					mario.setDeadStatus(true);
+				else
+				{
+					if (mario.getInvicibleTime() <= 0)
+						mario.setInvicibleTime(2.0f);
+					mario.setLevelUpStatus(false);
+				}
+			}
+		}
+	}
 	mario.Update(deltaTime, map, mushrooms, stars);
 }
 
@@ -417,6 +451,14 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 					koopa->getPosition().y >= 16.0f;
 			}),
 		koopas.end());
+}
+
+void MarioGame::ChomperUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Update(deltaTime);
+	}
 }
 
 void MarioGame::CoinUpdate(const float& deltaTime)
@@ -616,6 +658,14 @@ void MarioGame::EnemyDraw(sf::RenderWindow& window)
 	}
 }
 
+void MarioGame::ChomperDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Draw(window);
+	}
+}
+
 void MarioGame::CoinDraw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < coins.size(); i++)
@@ -644,6 +694,13 @@ void MarioGame::GameReset()
 		delete koopas[i];
 	}
 	koopas.clear();
+	// Reset chomper
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Reset();
+		delete chompers[i];
+	}
+	chompers.clear();
 	/// Reset Mushroom
 	for (int i = 0; i < mushrooms.size(); i++)
 	{

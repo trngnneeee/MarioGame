@@ -3,6 +3,7 @@
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
+
 	// Icon app 
 	sf::Image Icon;
 	Icon.loadFromFile("./resources/textures/Mario/marioHead.png");

@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Goombas.h"
 #include "Koopa.h"
+#include "Chomper.h"
 #include "Enemy.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
@@ -104,6 +105,7 @@ public:
 	bool mushroomCollision(PowerUpMushroom& mushroom);
 	bool starCollision(InvicibleStar& star);
 	bool coinCollision(Coin& coin);
+	bool chomperCollision(Chomper& chomper);
 
 	// Getter/Setter
 	int getPoints();

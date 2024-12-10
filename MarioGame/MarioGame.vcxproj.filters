@@ -96,6 +96,9 @@
     <ClCompile Include="PauseMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Chomper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -182,5 +185,25 @@
     <ClInclude Include="PauseMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Chomper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="map2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\Chomper\chomper1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\Chomper\chomper2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -22,7 +22,8 @@ enum class EntityType {
     Collumn, Floor, FloorLeft, FloorRight,
     bigBushLeft, bigBushMid, bigBushRight,
     cloudBottomLeft, cloudBottomMid, cloudBottomRight, cloudTopLeft, cloudTopMid, cloudTopRight,
-    triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop
+    triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop,
+    Chomper
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -72,6 +73,8 @@ sf::Color triBushLeftColor(0, 255, 127);
 sf::Color triBushMidColor(46, 139, 87);
 sf::Color triBushRightColor(102, 205, 170);
 sf::Color triBushTopColor(60, 179, 113);
+
+sf::Color chomperColor(0, 234, 0);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -126,6 +129,8 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::triBushMid, triBushMidColor},
     {EntityType::triBushRight, triBushRightColor},
     {EntityType::triBushTop, triBushTopColor},
+
+    {EntityType::Chomper, chomperColor},
 
     {EntityType::None, sf::Color::Transparent}
 };

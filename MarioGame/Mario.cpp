@@ -433,6 +433,11 @@ bool Mario::coinCollision(Coin& coin)
 	return collisionBox.intersects(coin.getCollisionBox());
 }
 
+bool Mario::chomperCollision(Chomper& chomper)
+{
+	return collisionBox.intersects(chomper.getCollisionBox());
+}
+
 float Mario::distanceX(const Enemy& enemy)
 {
 	return std::abs(position.x - enemy.getPosition().x);
