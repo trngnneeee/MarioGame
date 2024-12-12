@@ -2,9 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include "Game.h"
 #include "FloatingScore.h"
 #include "Animation.h"
+#include "SoundManagement.h"
 
 class Map
 {
@@ -15,19 +15,10 @@ private:
 
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture, greenBlockTexture, coralTexture, waterTexture;
 
 	// Fire
 	std::vector< sf::Texture> fireTextures;
-
-	// Big Bush
-	std::vector<sf::Texture> bigBushTextures;
-
-	// Cloud
-	std::vector<sf::Texture> cloudTextures;
-
-	// Tribush
-	std::vector<sf::Texture> triBushTextures;
 
 	// Hidden box
 	sf::Sprite hiddenBoxSprite;
@@ -41,8 +32,19 @@ private:
 	sf::Sprite tubeSprite;
 	std::vector<sf::Texture> tubeTexture;
 
+	// Blue tube
+	sf::Sprite blueTubeSprite;
+	std::vector<sf::Texture> blueTubeTexture;
+
 	// Collumn + Floor in Map 3
 	std::vector<sf::Texture> collumnTexture;
+
+	// Bush
+	std::vector<sf::Texture> bigBushTextures;
+	std::vector<sf::Texture> triBushTextures;
+
+	// Cloud
+	std::vector<sf::Texture> cloudTextures;
 
 	// Image
 	sf::Image image;
@@ -53,19 +55,31 @@ private:
 	// Score
 	std::vector<FloatingScore*> score;
 public:
+	// Constructors
 	Map(float cellSize = 32.0f);
 
 	// Functions
-	void Begin();
-	void CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition);
-	void handleBrickCollision(sf::Vector2f brickPosition);
-	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
+	void Begin(const std::string& mapName);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 
+	void CreateFromImage(
+		sf::Vector2f& marioPosition, 
+		sf::Vector2f& winPosition, 
+		std::vector<sf::Vector2f>& goombasPosition, 
+		std::vector<sf::Vector2f>& koopaPosition, 
+		std::vector<sf::Vector2f>& coinPosition,
+		std::vector<sf::Vector2f>& chompersPosition
+	);
+	void CreateCollisionBox();
+	void handleBrickCollision(sf::Vector2f brickPosition);
+	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
+
+	// Setter/Getter
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;
-	float getCellSize();
+	float getCellSize() const;
 	const std::vector<std::vector<int>>& getGrid() const;
 };
+
 
