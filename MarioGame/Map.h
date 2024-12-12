@@ -74,7 +74,7 @@ public:
 
 	// Setter/Getter
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;
-	float getCellSize();
+	float getCellSize() const;
 	const std::vector<std::vector<int>>& getGrid() const;
 };
 

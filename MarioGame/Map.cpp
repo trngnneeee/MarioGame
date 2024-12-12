@@ -653,7 +653,7 @@ const std::vector<std::vector<sf::FloatRect>>& Map::getCollisionBoxList() const
 	return collisionBoxList;
 }
 
-float Map::getCellSize()
+float Map::getCellSize() const 
 {
 	return cellSize;
 }

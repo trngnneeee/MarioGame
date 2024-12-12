@@ -28,5 +28,6 @@ public:
 	void handleHiding(float deltaTime);
 	// Setters/Getters
 	sf::FloatRect getCollisionBox() const;
+	bool getHidingStatus();
 };
 

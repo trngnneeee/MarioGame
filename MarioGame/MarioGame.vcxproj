@@ -137,12 +137,14 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chomper.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="FastSpeedStrategy.cpp" />
+    <ClCompile Include="FireFlower.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
@@ -167,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chomper.h" />
     <ClInclude Include="Coin.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnityColor.h" />
     <ClInclude Include="FastSpeedStrategy.h" />
+    <ClInclude Include="FireFlower.h" />
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTime.h" />
@@ -194,13 +198,6 @@
     <ClInclude Include="SpeedStrategy.h" />
     <ClInclude Include="SuperFastSpeedStrategy.h" />
     <ClInclude Include="UICounter.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="map1.png" />
-    <Image Include="map2.png" />
-    <Image Include="map3.png" />
-    <Image Include="resources\textures\Chomper\chomper1.png" />
-    <Image Include="resources\textures\Chomper\chomper2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

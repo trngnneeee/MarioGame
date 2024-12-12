@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false)
 {
 }
 
@@ -62,15 +62,18 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
+void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
 {
 	if (handleDead(deltaTime)) return;
 	if (handleOutOfMap()) return;
 	handleBlinkEffect(deltaTime);
 	handleCollectCoin();
 	handleJumpStrength();
-	HandleMove(deltaTime, map, mushrooms, stars);
+	HandleMove(deltaTime, map, mushrooms, stars, flowers);
 	UpdateTexture(deltaTime);
+	// Shoot
+	handleShoot(deltaTime);
+	UpdateBullet(deltaTime, map);
 }
 
 void Mario::Draw(sf::RenderWindow& window)
@@ -86,16 +89,17 @@ void Mario::Draw(sf::RenderWindow& window)
 		bigSprite.setPosition(position);
 		window.draw(bigSprite);
 	}
+	DrawBullet(window);
 }
 
-void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
+void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
 {	
 	// Update previous position
 	previousPos = position; 
 	UpdateCollisionBox();
 	handleJump(deltaTime);
-	handleVerticalMove(deltaTime, map, mushrooms, stars);
-	handleHorizontalMove(deltaTime, map, mushrooms, stars);
+	handleVerticalMove(deltaTime, map, mushrooms, stars, flowers);
+	handleHorizontalMove(deltaTime, map, mushrooms, stars, flowers);
 }
 
 void Mario::UpdateCollisionBox()
@@ -115,7 +119,7 @@ void Mario::handleJump(float deltaTime)
 	}
 }
 
-void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
+void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
 {
 	// Horizontal move
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -124,7 +128,7 @@ void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x += movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushrooms, stars)) position.x = newPosition.x;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.x = newPosition.x;
 		facingRight = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -133,7 +137,7 @@ void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 		newPosition.x -= movementSpeed * deltaTime;
 		collisionBox.left = newPosition.x;
 		collisionBox.top = position.y;
-		if (!mapCollision(map, mushrooms, stars)) position.x = newPosition.x;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.x = newPosition.x;
 		facingRight = false;
 	}
 
@@ -141,7 +145,7 @@ void Mario::handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpM
 	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
-void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
+void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
 {
 	// Applying gravity
 	velocity.y += gravity * deltaTime;
@@ -151,7 +155,7 @@ void Mario::handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMus
 	collisionBox.top = newPosition.y;
 
 	// Vertical collision check
-	if (!mapCollision(map, mushrooms, stars))
+	if (!mapCollision(map, mushrooms, stars, flowers))
 	{
 		position.y = newPosition.y;
 	}
@@ -259,6 +263,49 @@ void Mario::UpdateTexture(float deltaTime)
 	}
 }
 
+void Mario::handleShoot(float deltaTime)
+{
+	shootCooldown -= deltaTime;
+	if (shootingAbility == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && shootCooldown <= 0.0f)
+	{
+		SoundManager::getInstance().playSound("bullet");
+		Bullet* newBullet = new Bullet;
+		newBullet->Begin(position);
+		newBullet->setVelocity(sf::Vector2f((facingRight ? 1 : -1) * 10.0f, 0.0f));
+		bullets.push_back(newBullet);
+		shootCooldown = shootCooldownTimer;
+	}
+}
+
+void Mario::UpdateBullet(const float& deltaTime, const Map& map)
+{
+	if (bullets.size() > 0)
+	{
+		for (auto it = bullets.begin(); it != bullets.end(); it++)
+		{
+			(*it)->Update(deltaTime, map);
+		}
+		for (auto it = bullets.begin(); it != bullets.end();)
+		{
+			if ((*it)->getAppearTime() <= 0.0f)
+			{
+				(*it)->Reset();
+				delete (*it);
+				it = bullets.erase(it);
+			}
+			else it++;
+		}
+	}
+}
+
+void Mario::DrawBullet(sf::RenderWindow& window)
+{
+	for (auto it = bullets.begin(); it != bullets.end(); it++)
+	{
+		(*it)->Draw(window);
+	}
+}
+
 void Mario::updateFlip()
 {
 	if (!levelUp)
@@ -279,7 +326,7 @@ void Mario::updateFlip()
 	}
 }
 
-bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars)
+bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
 {
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
@@ -320,15 +367,13 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 					return true;
 				}
 			}
-			// Handle hidden box collisions (mushroom or star)
 			else if (collisionBox.intersects(currentBox) && tileType == hiddenMushroomBox)
 			{
 				if (velocity.y < 0 && collisionBox.top <= currentBox.top + currentBox.height && collisionBox.top >= currentBox.top)
 				{
-					// Generate random number (1 or 2) to spawn power-up
 					SoundManager::getInstance().playSound("item");
 					std::srand(static_cast<unsigned>(std::time(0)));
-					int randomNumber = 1 + (std::rand() % 2);
+					int randomNumber = 1 + (std::rand() % 3);
 
 					if (randomNumber == 1)
 					{
@@ -346,6 +391,15 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 						{
 							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 							stars.push_back(static_cast<InvicibleStar*>(newItem));
+						}
+					}
+					else if (randomNumber == 3)
+					{
+						HiddenBoxItem* newItem = factory.createItem("Flower");
+						if (newItem)
+						{
+							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+							flowers.push_back(static_cast<FireFlower*>(newItem));
 						}
 					}
 
@@ -428,6 +482,11 @@ bool Mario::starCollision(InvicibleStar& star)
 	return collisionBox.intersects(star.getCollisionBox());
 }
 
+bool Mario::flowerCollision(FireFlower& flower)
+{
+	return collisionBox.intersects(flower.getCollisionBox());
+}
+
 bool Mario::coinCollision(Coin& coin)
 {
 	return collisionBox.intersects(coin.getCollisionBox());
@@ -435,7 +494,7 @@ bool Mario::coinCollision(Coin& coin)
 
 bool Mario::chomperCollision(Chomper& chomper)
 {
-	return collisionBox.intersects(chomper.getCollisionBox());
+	return (collisionBox.intersects(chomper.getCollisionBox()) && chomper.getHidingStatus() != true);
 }
 
 float Mario::distanceX(const Enemy& enemy)
@@ -621,4 +680,19 @@ int Mario::getMapArchive()
 void Mario::setMapArchive(const int& value)
 {
 	mapArchive = value;
+}
+
+std::vector<Bullet*> Mario::getBullets() const
+{
+	return bullets;
+}
+
+bool Mario::getShootingStatus()
+{
+	return shootingAbility;
+}
+
+void Mario::setShootingStatus(const bool& value)
+{
+	shootingAbility = value;
 }

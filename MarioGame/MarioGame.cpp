@@ -85,8 +85,8 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		CameraUpdate();
 		MushroomUpdate(deltaTime, map);
 		StarUpdate(deltaTime, map);
+		FlowerUpdate(deltaTime, map);
 		DeadUpdate(gameState);
-
 		if (WinDetect())
 		{
 			SoundManager::getInstance().stopSound("main");
@@ -172,6 +172,8 @@ void MarioGame::MusicBegin()
 	soundManager.loadSound("kick", "./resources/soundEffect/kick.wav");
 	soundManager.loadSound("item", "./resources/soundEffect/item.wav");
 	soundManager.loadSound("gameover", "./resources/soundEffect/gameover.wav");
+	soundManager.loadSound("levelDown", "./resources/soundEffect/level-down.wav");
+	soundManager.loadSound("bullet", "./resources/soundEffect/bullet.wav");
 
 	soundManager.loadSound("brick", "./resources/soundEffect/brick.wav");
 	soundManager.setVolume("brick", 100);
@@ -323,6 +325,10 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				{
 					if (mario.getInvicibleTime() <= 0)
 						mario.setInvicibleTime(2.0f);
+					if (mario.getLevelUpStatus() == true)
+					{
+						SoundManager::getInstance().playSound("levelDown");
+					}
 					mario.setLevelUpStatus(false);
 				}
 			}
@@ -345,6 +351,10 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					{
 						if (mario.getInvicibleTime() <= 0)
 							mario.setInvicibleTime(2.0f);
+						if (mario.getLevelUpStatus() == true)
+						{
+							SoundManager::getInstance().playSound("levelDown");
+						}
 						mario.setLevelUpStatus(false);
 					}
 				}
@@ -365,12 +375,16 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				{
 					if (mario.getInvicibleTime() <= 0)
 						mario.setInvicibleTime(2.0f);
+					if (mario.getLevelUpStatus() == true)
+					{
+						SoundManager::getInstance().playSound("levelDown");
+					}
 					mario.setLevelUpStatus(false);
 				}
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushrooms, stars);
+	mario.Update(deltaTime, map, mushrooms, stars, flowers);
 }
 
 void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
@@ -386,6 +400,15 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 					goombas[i]->handleTeamCollision();
 					goombas[j]->handleTeamCollision();
 				}
+			}
+		}
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (goombas[i]->bulletCollision(*bullets[j]))
+			{	
+				goombas[i]->setDieByKoopaStatus(true);
+				bullets[j]->setAppearTime(0.0f);
 			}
 		}
 		if (mario.distanceX(*goombas[i]) <= updateRange || goombas[i]->getGameState() == true)
@@ -432,6 +455,15 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 						mario.setPoints(mario.getPoints() + 200);
 					koopas[j]->setDieStatus(true);
 				}
+			}
+		}
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (koopas[i]->bulletCollision(*bullets[j]))
+			{
+				koopas[i]->setDieStatus(true);
+				bullets[j]->setAppearTime(0.0f);
 			}
 		}
 		if (mario.distanceX(*koopas[i]) <= updateRange || koopas[i]->getGameState() == true)
@@ -560,6 +592,37 @@ void MarioGame::StarUpdate(const float& deltaTime, const Map& map)
 		stars.end());
 }
 
+void MarioGame::FlowerUpdate(const float& deltaTime, const Map& map)
+{
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		if (mario.flowerCollision(*flowers[i]) && flowers[i]->getDeadStatus() == false && flowers[i]->getOutStatus() == true)
+		{
+			if (mario.getShootingStatus() == false)
+			{
+				mario.setShootingStatus(true);
+				SoundManager::getInstance().playSound("levelUp");
+			}
+			else
+			{
+				mario.setLife(mario.getLife() + 1);
+				SoundManager::getInstance().playSound("life-up");
+			}
+			mario.setPoints(mario.getPoints() + 1000);
+			flowers[i]->setDeadStatus(true);
+		}
+		flowers[i]->Update(deltaTime, map);
+	}
+	// Remove die flower
+	flowers.erase(
+		std::remove_if(flowers.begin(), flowers.end(),
+			[](const auto& flower) {
+				return (flower->getDeadStatus() && flower->getDieTime() <= 0) ||
+					flower->getPosition().y >= 16.0f;
+			}),
+		flowers.end());
+}
+
 void MarioGame::DeadUpdate(GameState& gameState)
 {
 	if (mario.getDeadStatus() == true)
@@ -639,6 +702,10 @@ void MarioGame::HiddenBoxItemDraw(sf::RenderWindow& window)
 	{
 		stars[i]->Draw(window);
 	}
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		flowers[i]->Draw(window);
+	}
 }
 
 void MarioGame::MarioDraw(sf::RenderWindow& window)
@@ -715,6 +782,13 @@ void MarioGame::GameReset()
 		delete stars[i];
 	}
 	stars.clear();
+	/// Reset Flower
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		flowers[i]->Reset();
+		delete flowers[i];
+	}
+	flowers.clear();
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)
 	{

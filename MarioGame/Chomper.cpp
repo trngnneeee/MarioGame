@@ -2,7 +2,7 @@
 #include <iostream>
 
 Chomper::Chomper()
-	: animation(0.2f), velocity(0.5f), isHiding(false), hidingDuration(2.0f), hidingTimer(0.0f)
+	: animation(0.2f), velocity(3.0f), isHiding(false), hidingDuration(4.0f), hidingTimer(0.0f)
 {
 }
 
@@ -25,15 +25,15 @@ void Chomper::Begin(sf::Vector2f position)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		1.0f / textures[0].getSize().x,
-		2.0f / textures[0].getSize().y
+		0.8f / textures[0].getSize().x,
+		1.9f / textures[0].getSize().y
 	);
 }
 
 void Chomper::Update(float deltaTime)
 {
-	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	handleHiding(deltaTime);
+	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 2.0f / textures[0].getSize().y));
 	sprite.setPosition(position);
 	sprite.setTexture(*animation.update(deltaTime));
@@ -47,6 +47,7 @@ void Chomper::Draw(sf::RenderWindow& window)
 void Chomper::Reset()
 {
 	animation.Reset();
+	textures.clear();
 }
 
 void Chomper::handleHiding(float deltaTime)
@@ -78,4 +79,9 @@ void Chomper::handleHiding(float deltaTime)
 sf::FloatRect Chomper::getCollisionBox() const
 {
 	return collisionBox;
+}
+
+bool Chomper::getHidingStatus()
+{
+	return isHiding;
 }

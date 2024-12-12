@@ -14,6 +14,7 @@
 #include "UICounter.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
+#include "FireFlower.h"
 #include "GameState.h"
 #include <vector>
 #include <iostream>
@@ -36,6 +37,7 @@ private:
 	Camera camera;
 	std::vector<PowerUpMushroom*> mushrooms;
 	std::vector<InvicibleStar*> stars;
+	std::vector<FireFlower*> flowers;
 	sf::Vector2f winPosition;
 
 	float updateRange;
@@ -89,6 +91,8 @@ public:
 	void CameraUpdate();
 	void MushroomUpdate(const float& deltaTime, const Map& map);
 	void StarUpdate(const float& deltaTime, const Map& map);
+	void FlowerUpdate(const float& deltaTime, const Map& map);
+
 	void DeadUpdate(GameState& gameState);
 	bool WinDetect();
 

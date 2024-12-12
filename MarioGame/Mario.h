@@ -11,9 +11,11 @@
 #include "Enemy.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
+#include "FireFlower.h"
 #include "HiddenBoxItemFactory.h"
 #include "Coin.h"
 #include "SoundManagement.h"
+#include "Bullet.h"
 
 class Mario
 {
@@ -71,39 +73,49 @@ private:
 
 	// Map
 	int mapArchive;
+
+	// Shooting
+	bool shootingAbility;
+	std::vector<Bullet*> bullets;
+	float shootCooldown;
+	float shootCooldownTimer;
 public:
 	// Constructor
 	Mario();
 
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
-	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
+	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 	void ResetAfterDead();
 	void ResetAfterWin();
 
-	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
+	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	void UpdateCollisionBox();
 	void handleJump(float deltaTime);
-	void handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
-	void handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
+	void handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	bool handleDead(float deltaTime);
 	bool handleOutOfMap();
 	void handleBlinkEffect(float deltaTime);
 	void handleCollectCoin();
 	void handleJumpStrength();
 	void UpdateTexture(float deltaTime);
+	void handleShoot(float deltaTime);
+	void UpdateBullet(const float& deltaTime, const Map& map);
+	void DrawBullet(sf::RenderWindow& window);
 	void updateFlip();
 	float distanceX(const Enemy& enemy);
 
 	// Collsion
-	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars);
+	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
 	bool mushroomCollision(PowerUpMushroom& mushroom);
 	bool starCollision(InvicibleStar& star);
+	bool flowerCollision(FireFlower& flower);
 	bool coinCollision(Coin& coin);
 	bool chomperCollision(Chomper& chomper);
 
@@ -130,4 +142,7 @@ public:
 	void setCoin(const int coin);
 	int getMapArchive();
 	void setMapArchive(const int& value);
+	std::vector<Bullet*> getBullets() const;
+	bool getShootingStatus();
+	void setShootingStatus(const bool& value);
 };

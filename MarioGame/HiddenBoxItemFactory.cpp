@@ -4,6 +4,7 @@ HiddenBoxItemFactory::HiddenBoxItemFactory()
 {
 	prototypes["Mushroom"] = new PowerUpMushroom();
 	prototypes["Star"] = new InvicibleStar();
+	prototypes["Flower"] = new FireFlower();
 }
 
 HiddenBoxItemFactory::~HiddenBoxItemFactory()

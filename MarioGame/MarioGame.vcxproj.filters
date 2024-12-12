@@ -99,6 +99,12 @@
     <ClCompile Include="Chomper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireFlower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -188,22 +194,11 @@
     <ClInclude Include="Chomper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="map2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="map3.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="map1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\textures\Chomper\chomper1.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\textures\Chomper\chomper2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FireFlower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
