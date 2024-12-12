@@ -14,7 +14,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			{
 				gameState = GameState::Paused;
-				pauseMenu.Initialize(window); // Khởi tạo menu tạm dừng
+				pauseMenu.Initialize(window); // Kh?i t?o menu t?m d?ng
 			}
 		}
 		else if (gameState == GameState::Paused)
@@ -27,11 +27,10 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 				return;
 			}
 		}
-		else if (gameState == GameState::LoginMenu)
+		else if (gameState == GameState::MenuLogin)
 		{
 			if (loginMenu.HandleInput(event, gameState, window) == 1)
 			{
-				window.clear();
 				MenuBegin(window);
 				gameState = GameState::Menu;
 			}
@@ -70,11 +69,12 @@ void MarioGame::Begin(sf::RenderWindow& window)
 
 void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window)
 {
-	if (gameState == GameState::Menu)
+
+	if (gameState == GameState::Playing)
 	{
-		// Xử lý menu chính
-	}
-	else if (gameState == GameState::Playing)
+		if (pause) return;
+
+	if (gameState == GameState::Playing)
 	{
 		if (pause) return;
 
@@ -116,7 +116,17 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 
 void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 {
-	if (gameState == GameState::Menu)
+	if (gameState == GameState::MenuLogin)
+	{
+		window.setView(window.getDefaultView());
+		LoginMenuDraw(window);
+	}
+	else if (gameState == GameState::Menu)
+	{
+		window.setView(window.getDefaultView());
+		LoginMenuDraw(window);
+	}
+	else if (gameState == GameState::Menu)
 	{
 		window.setView(window.getDefaultView());
 		MenuDraw(window);
@@ -166,7 +176,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 	}
 	else if (gameState == GameState::GameOver)
 	{
-	}
+	}  
 }
 
 /// HELPER FUNCTIONS

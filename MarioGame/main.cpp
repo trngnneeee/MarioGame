@@ -12,8 +12,11 @@ int main() {
 
 	sf::Clock deltaClock;
 	MarioGame game;
-	GameState gameState = GameState::LoginMenu;
+	GameState gameState = GameState::MenuLogin;
 	game.LoginMenuBegin(window);
+
+	//DEFAULT USERNAME: VU
+	//DEFAULT PASSWORD: 123
 
 	while (window.isOpen())
 	{

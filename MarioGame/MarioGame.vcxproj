@@ -189,7 +189,7 @@
     <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="HiddenBoxItem.h" />
     <ClInclude Include="Koopa.h" />
-    <ClInclude Include="LoginMenu.h" />
+    <ClInclude Include="LogInMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />

@@ -1,6 +1,6 @@
 #pragma once
 enum class GameState
 {
-	LoginMenu, Menu, Playing, Paused, GameOver,
+	MenuLogin, Menu, Playing, Paused, GameOver,
 };
 
