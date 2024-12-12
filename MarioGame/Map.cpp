@@ -19,8 +19,8 @@ void Map::Begin(const std::string& mapName) {
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
 	greenBlockTexture.loadFromFile("./resources/textures/greenBlock.png");
-	coralTexture.loadFromFile("./resources/textures/coral.png");
-	waterTexture.loadFromFile("./resources/textures/water.png");
+	coralTexture.loadFromFile("./resources/backgroundComponent/coral.png");
+	waterTexture.loadFromFile("./resources/backgroundComponent/water.png");
 
 	// Fire texture
 	for (int i = 0; i < 3; i++)
