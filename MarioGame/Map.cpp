@@ -7,9 +7,9 @@ Map::Map(float cellSize)
 {
 }
 // Functions
-void Map::Begin() {
+void Map::Begin(const std::string& mapName) {
 	// Load map
-	image.loadFromFile("map3new.png");
+	image.loadFromFile(mapName);
 
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
@@ -18,6 +18,9 @@ void Map::Begin() {
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
+	greenBlockTexture.loadFromFile("./resources/textures/greenBlock.png");
+	coralTexture.loadFromFile("./resources/textures/coral.png");
+	waterTexture.loadFromFile("./resources/textures/water.png");
 
 	// Fire texture
 	for (int i = 0; i < 3; i++)
@@ -26,37 +29,6 @@ void Map::Begin() {
 		tmp.loadFromFile("./resources/textures/fire" + std::to_string(i + 1) + ".png");
 		fireTextures.push_back(tmp);
 	}
-
-	// Big Bush
-	const std::vector<std::string> bigBushFiles = {
-		"bigBush-left.png", "bigBush-mid.png", "bigBush-right.png"};
-	for (const auto& file : bigBushFiles) {
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/backgroundComponent/" + file);
-		bigBushTextures.push_back(tmp);
-	}
-
-	// Cloud
-	const std::vector<std::string> cloudFiles = {
-		"cloud-bottom-left.png", "cloud-bottom-mid.png", "cloud-bottom-right.png",
-		"cloud-top-left.png", "cloud-top-mid.png", "cloud-top-right.png"};
-	for (const auto& file : cloudFiles) {
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/backgroundComponent/" + file);
-		cloudTextures.push_back(tmp);
-	}
-
-	// Tribush
-	const std::vector<std::string> triBushFiles = {
-		"triBush-additional.png", "triBush-left.png", "triBush-mid.png",
-		"triBush-right.png", "triBush-top.png"};
-	for (const auto& file : triBushFiles) {
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/backgroundComponent/" + file);
-		triBushTextures.push_back(tmp);
-	}
-
-
 
 	// Hidden box texture
 	for (int i = 0; i < 3; i++)
@@ -79,6 +51,14 @@ void Map::Begin() {
 		tubeTexture.push_back(tmp);
 	}
 
+	// blue tube texture
+	for (int i = 0; i < 4; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/blueTube" + std::to_string(i + 1) + ".png");
+		blueTubeTexture.push_back(tmp);
+	}
+
 	// Castle texture;
 	const std::vector<std::string> castleFiles = {
 		"castleBrick.png", "castleDoorTop.png", "castleDoorBottom.png",
@@ -99,9 +79,43 @@ void Map::Begin() {
 		tmp.loadFromFile("./resources/textures/" + file);
 		collumnTexture.push_back(tmp);
 	}
+
+	// Big Bush
+	const std::vector<std::string> bigBushFiles = {
+		"bigBush-left.png", "bigBush-mid.png", "bigBush-right.png" };
+	for (const auto& file : bigBushFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		bigBushTextures.push_back(tmp);
+	}
+	// Cloud
+	const std::vector<std::string> cloudFiles = {
+		"cloud-bottom-left.png", "cloud-bottom-mid.png", "cloud-bottom-right.png",
+		"cloud-top-left.png", "cloud-top-mid.png", "cloud-top-right.png" };
+	for (const auto& file : cloudFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		cloudTextures.push_back(tmp);
+	}
+	// Tribush
+	const std::vector<std::string> triBushFiles = {
+		"triBush-additional.png", "triBush-left.png", "triBush-mid.png",
+		"triBush-right.png", "triBush-top.png" };
+	for (const auto& file : triBushFiles) {
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/backgroundComponent/" + file);
+		triBushTextures.push_back(tmp);
+	}
 }
 
-void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopaPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& coinPosition)
+void Map::CreateFromImage(
+	sf::Vector2f& marioPosition,
+	sf::Vector2f& winPosition,
+	std::vector<sf::Vector2f>& goombasPosition,
+	std::vector<sf::Vector2f>& koopaPosition,
+	std::vector<sf::Vector2f>& coinPosition,
+	std::vector<sf::Vector2f>& chompersPosition
+)
 {
 	// Clear the previous map (vector)
 	grid.clear();
@@ -156,14 +170,10 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				marioPosition = sf::Vector2f(cellSize * i + cellSize / 2.0f, cellSize * j + cellSize / 2.0f);
 				break;
 			}
-			case EntityType::Win:
-			{
-				winPosition = sf::Vector2f(cellSize * i, cellSize * j);
-				break;
-			}
 			case EntityType::Circle:
 			{
 				grid[i][j] = 6;
+				winPosition = sf::Vector2f(cellSize * i, cellSize * j);
 				break;
 			}
 			case EntityType::Stick:
@@ -268,84 +278,136 @@ void Map::CreateFromImage(sf::Vector2f& marioPosition, std::vector<sf::Vector2f>
 				grid[i][j] = 26;
 				break;
 			}
-			//Big Bush
+			// Big Bush
 			case EntityType::bigBushLeft:
 			{
 				grid[i][j] = 27;
-				break;	
+				break;
 			}
 			case EntityType::bigBushMid:
 			{
 				grid[i][j] = 28;
-				break;	
+				break;
 			}
 			case EntityType::bigBushRight:
 			{
 				grid[i][j] = 29;
-				break;	
+				break;
 			}
 			//Cloud
 			case EntityType::cloudBottomLeft:
 			{
 				grid[i][j] = 30;
-				break;	
+				break;
 			}
 			case EntityType::cloudBottomMid:
 			{
 				grid[i][j] = 31;
-				break;	
+				break;
 			}
 			case EntityType::cloudBottomRight:
 			{
 				grid[i][j] = 32;
-				break;	
+				break;
 			}
 			case EntityType::cloudTopLeft:
 			{
 				grid[i][j] = 33;
-				break;	
+				break;
 			}
 			case EntityType::cloudTopMid:
 			{
 				grid[i][j] = 34;
-				break;	
+				break;
 			}
 			case EntityType::cloudTopRight:
 			{
 				grid[i][j] = 35;
-				break;	
+				break;
 			}
 			//triBush
 			case EntityType::triBushAdditional:
 			{
 				grid[i][j] = 36;
-				break;	
+				break;
 			}
 			case EntityType::triBushLeft:
 			{
 				grid[i][j] = 37;
-				break;	
+				break;
 			}
 			case EntityType::triBushMid:
 			{
 				grid[i][j] = 38;
-				break;	
+				break;
 			}
 			case EntityType::triBushRight:
 			{
 				grid[i][j] = 39;
-				break;	
+				break;
 			}
 			case EntityType::triBushTop:
 			{
 				grid[i][j] = 40;
-				break;	
+				break;
+			}
+
+			// coral
+			case EntityType::Coral:
+            {
+                 grid[i][j] = 41;
+                 break;
+            }
+
+			//green block
+			case EntityType::greenBlock:
+            {
+                 grid[i][j] = 42;
+                 break;
+            }
+
+			// water
+			case EntityType::Water:
+			{
+				grid[i][j] = 43;
+				break;
+			}
+
+			// blue tube
+			case EntityType::blueTube1:
+			{
+				grid[i][j] = 44;
+				break;
+			}
+			case EntityType::blueTube2:
+			{
+				grid[i][j] = 45;
+				break;
+			}
+			case EntityType::blueTube3:
+			{
+				grid[i][j] = 46;
+				break;
+			}
+			case EntityType::blueTube4:
+			{
+				grid[i][j] = 47;
+				break;
+			}
+
+			// chomper 
+			case EntityType::Chomper:
+			{
+				chompersPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+				break;
 			}
 			}
 		}
 	}
+}
 
-	// Init collision box
+void Map::CreateCollisionBox()
+{
 	for (int row = 0; row < grid.size(); row++)
 	{
 		std::vector<sf::FloatRect> tmpArr;
@@ -399,16 +461,7 @@ void Map::Update(float deltaTime)
 		i++;
 	}
 
-	for (int i = 0; i < grid.size(); i++)
-	{
-		for (int j = 0; j < grid[i].size(); j++)
-		{
-			if (grid[i][j] == 4 || grid[i][j] == 15)
-			{
-				hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
-			}
-		}
-	}
+	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 }
 
 void Map::Draw(sf::RenderWindow& window) {
@@ -521,7 +574,7 @@ void Map::Draw(sf::RenderWindow& window) {
 				texture = &castleTexture[6];
 				break;
 			}
-			// COllum + Floor
+			// Collum + Floor
 			case 23:
 			{
 				texture = &collumnTexture[0];
@@ -542,7 +595,6 @@ void Map::Draw(sf::RenderWindow& window) {
 				texture = &collumnTexture[3];
 				break;
 			}
-
 			// Big Bush
 			case 27:
 			{
@@ -559,7 +611,6 @@ void Map::Draw(sf::RenderWindow& window) {
 				texture = &bigBushTextures[2];
 				break;
 			}
-
 			// Cloud
 			case 30:
 			{
@@ -591,7 +642,6 @@ void Map::Draw(sf::RenderWindow& window) {
 				texture = &cloudTextures[5];
 				break;
 			}
-
 			// triBush
 			case 36:
 			{
@@ -619,6 +669,47 @@ void Map::Draw(sf::RenderWindow& window) {
 				break;
 			}
 			
+			// coral
+			case 41:
+            {
+                 texture = &coralTexture;
+                 break;
+            }
+			 
+			// green block
+            case 42:
+            {
+                 texture = &greenBlockTexture;
+                 break;
+            }     
+
+			// water
+			case 43:
+			{
+				texture = &waterTexture;
+				break;
+			}
+
+			//blue tube
+			case 44:
+			{
+				texture = &blueTubeTexture[0];
+				break;
+			}
+			case 45:
+			{
+				texture = &blueTubeTexture[1];
+				break;
+			}
+			case 46:
+			{
+				texture = &blueTubeTexture[2];
+			}
+			case 47:
+			{
+				texture = &blueTubeTexture[3];
+				break;
+			}
 			default:
 				continue;
 			}
@@ -660,7 +751,7 @@ const std::vector<std::vector<sf::FloatRect>>& Map::getCollisionBoxList() const
 	return collisionBoxList;
 }
 
-float Map::getCellSize()
+float Map::getCellSize() const 
 {
 	return cellSize;
 }
