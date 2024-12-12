@@ -266,12 +266,12 @@ void Mario::UpdateTexture(float deltaTime)
 void Mario::handleShoot(float deltaTime)
 {
 	shootCooldown -= deltaTime;
-	if (shootingAbility == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && shootCooldown <= 0.0f)
+	if (shootingAbility == true && sf::Mouse::isButtonPressed(sf::Mouse::Left) && shootCooldown <= 0.0f)
 	{
 		SoundManager::getInstance().playSound("bullet");
 		Bullet* newBullet = new Bullet;
 		newBullet->Begin(position);
-		newBullet->setVelocity(sf::Vector2f((facingRight ? 1 : -1) * 10.0f, 0.0f));
+		newBullet->setVelocity(sf::Vector2f((facingRight ? 1 : -1) * 10.0f + velocity.x, 0.0f));
 		bullets.push_back(newBullet);
 		shootCooldown = shootCooldownTimer;
 	}
@@ -331,7 +331,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
 
-	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26 };
+	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
 	const int brickBlock = 3;
 	const int hiddenMushroomBox = 4;
 
@@ -531,6 +531,7 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
+	shootingAbility = false;
 }
 
 void Mario::ResetAfterDead()

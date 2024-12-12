@@ -397,8 +397,8 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 			{
 				if (goombas[i]->teamCollision(*goombas[j]))
 				{
-					goombas[i]->handleTeamCollision();
-					goombas[j]->handleTeamCollision();
+					if (goombas[j]->getDieStatus() == false) goombas[i]->handleTeamCollision();
+					if (goombas[i]->getDieStatus() == false) goombas[j]->handleTeamCollision();
 				}
 			}
 		}

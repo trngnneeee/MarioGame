@@ -18,6 +18,9 @@ void Map::Begin(const std::string& mapName) {
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
 	circleTexture.loadFromFile("./resources/textures/circle.png");
+	greenBlockTexture.loadFromFile("./resources/textures/greenBlock.png");
+	coralTexture.loadFromFile("./resources/textures/coral.png");
+	waterTexture.loadFromFile("./resources/textures/water.png");
 
 	// Fire texture
 	for (int i = 0; i < 3; i++)
@@ -94,6 +97,13 @@ void Map::Begin(const std::string& mapName) {
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/backgroundComponent/" + file);
 		triBushTextures.push_back(tmp);
+	}
+	// Blue tube
+	for (int i = 0; i < 4; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/BlueTube/blueTube" + std::to_string(i + 1) + ".png");
+		blueTubeTextures.push_back(tmp);
 	}
 }
 
@@ -343,6 +353,41 @@ void Map::CreateFromImage(
 			case EntityType::Chomper:
 			{
 				chompersPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
+				break;
+			}
+			case EntityType::Coral:
+			{
+				grid[i][j] = 41;
+				break;
+			}
+			case EntityType::greenBlock:
+			{
+				grid[i][j] = 42;
+				break;
+			}
+			case EntityType::Water:
+			{
+				grid[i][j] = 43;
+				break;
+			}
+			case EntityType::blueTube1:
+			{
+				grid[i][j] = 44;
+				break;
+			}
+			case EntityType::blueTube2:
+			{
+				grid[i][j] = 45;
+				break;
+			}
+			case EntityType::blueTube3:
+			{
+				grid[i][j] = 46;
+				break;
+			}
+			case EntityType::blueTube4:
+			{
+				grid[i][j] = 47;
 				break;
 			}
 			}
@@ -610,6 +655,42 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 40:
 			{
 				texture = &triBushTextures[4];
+				break;
+			}
+			case 41:
+			{
+				texture = &coralTexture;
+				break;
+			}
+			case 42:
+			{
+				texture = &greenBlockTexture;
+				break;
+			}
+			case 43:
+			{
+				texture = &waterTexture;
+				break;
+			}
+			// Blue tube
+			case 44:
+			{
+				texture = &blueTubeTextures[0];
+				break;
+			}
+			case 45:
+			{
+				texture = &blueTubeTextures[1];
+				break;
+			}
+			case 46:
+			{
+				texture = &blueTubeTextures[2];
+				break;
+			}
+			case 47:
+			{
+				texture = &blueTubeTextures[3];
 				break;
 			}
 			default:

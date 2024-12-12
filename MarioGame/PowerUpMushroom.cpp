@@ -24,7 +24,7 @@ void PowerUpMushroom::Begin(sf::Vector2f mushroomPosition)
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		1.0f / textures[0].getSize().x,
-		1.0f / textures[0].getSize().y
+		0.9f / textures[0].getSize().x,
+		0.9f / textures[0].getSize().y
 	);
 }

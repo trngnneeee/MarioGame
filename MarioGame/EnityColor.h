@@ -23,7 +23,9 @@ enum class EntityType {
     bigBushLeft, bigBushMid, bigBushRight,
     cloudBottomLeft, cloudBottomMid, cloudBottomRight, cloudTopLeft, cloudTopMid, cloudTopRight,
     triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop,
-    Chomper
+    Chomper,
+    Coral, greenBlock, Water,
+    blueTube1, blueTube2, blueTube3, blueTube4
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -75,6 +77,15 @@ sf::Color triBushRightColor(102, 205, 170);
 sf::Color triBushTopColor(60, 179, 113);
 
 sf::Color chomperColor(0, 234, 0);
+
+sf::Color coralColor(255, 0, 145); //ff0091
+sf::Color greenBlockColor(53, 94, 59); //355e3b
+sf::Color waterColor(68, 108, 207); //46ccf
+
+sf::Color blueTube1Color(204, 119, 34);
+sf::Color blueTube2Color(205, 170, 110);
+sf::Color blueTube3Color(251, 236, 93);
+sf::Color blueTube4Color(253, 253, 150);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -131,6 +142,16 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::triBushTop, triBushTopColor},
 
     {EntityType::Chomper, chomperColor},
+
+    {EntityType::Coral, coralColor},
+    {EntityType::greenBlock, greenBlockColor},
+    {EntityType::Water, waterColor},
+
+    {EntityType::blueTube1, blueTube1Color},
+    {EntityType::blueTube2, blueTube2Color},
+    {EntityType::blueTube3, blueTube3Color},
+    {EntityType::blueTube4, blueTube4Color},
+
 
     {EntityType::None, sf::Color::Transparent}
 };
