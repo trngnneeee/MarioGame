@@ -188,6 +188,7 @@ void MarioGame::MusicBegin()
 	soundManager.loadSound("gameover", "./resources/soundEffect/gameover.wav");
 	soundManager.loadSound("levelDown", "./resources/soundEffect/level-down.wav");
 	soundManager.loadSound("bullet", "./resources/soundEffect/bullet.wav");
+	soundManager.loadSound("explode", "./resources/soundEffect/explode.wav");
 
 	soundManager.loadSound("brick", "./resources/soundEffect/brick.wav");
 	soundManager.setVolume("brick", 100);

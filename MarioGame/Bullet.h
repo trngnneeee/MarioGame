@@ -4,12 +4,17 @@
 #include <string>
 #include "Animation.h"
 #include "Map.h"
+#include "SoundManagement.h"
 class Bullet
 {
 private:
 	sf::Sprite sprite;
-	std::vector< sf::Texture> textures;
+	std::vector<sf::Texture> textures;
+	std::vector<sf::Texture> booms;
 	Animation animation;
+	sf::Sprite explodeSprite;
+	Animation boomAnimation;
+	bool isExplode;
 	sf::Vector2f velocity;
 	float gravity;
 	sf::Vector2f position;

@@ -214,11 +214,5 @@
     <Image Include="waterMap.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\textures\coral.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\textures\water.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

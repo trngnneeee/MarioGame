@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(true), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f)
 {
 }
 
@@ -365,7 +365,7 @@ void Mario::UpdateTexture(float deltaTime)
 		}
 		else
 		{
-			sprite.setTexture(*bigSwimAnimation.update(deltaTime));
+			bigSprite.setTexture(*bigSwimAnimation.update(deltaTime));
 		}
 	}
 }

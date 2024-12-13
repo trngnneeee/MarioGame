@@ -2,7 +2,7 @@
 #include <iostream>
 
 Bullet::Bullet()
-	: animation(0.2f), appearTime(3.0f), velocity(sf::Vector2f(10.0f, 0.0f)), gravity(20.0f)
+	: animation(0.2f), boomAnimation(0.3f), appearTime(2.0f), velocity(sf::Vector2f(10.0f, 0.0f)), gravity(20.0f), isExplode(false)
 {
 }
 
@@ -17,6 +17,16 @@ void Bullet::Begin(const sf::Vector2f& position)
 	for (int i = 0; i < 4; i++)
 	{
 		animation.addFrame(Frame(&textures[i], 0.05f * (i + 1)));
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Bullet/boom" + std::to_string(i + 1) + ".png");
+		booms.push_back(tmp);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		boomAnimation.addFrame(Frame(&booms[i], 0.1f * (i + 1)));
 	}
 	this->position = position;
 	collisionBox = sf::FloatRect(
@@ -36,20 +46,36 @@ void Bullet::Update(const float& deltaTime, const Map& map)
 		0.5f
 	);
 	appearTime -= deltaTime;
+	if (isExplode)
+	{
+		explodeSprite.setTexture(*boomAnimation.update(deltaTime));
+		return;
+	}
 	handleCollisionWithMap(deltaTime, map);
 	sprite.setTexture(*animation.update(deltaTime));
 }
 
 void Bullet::Draw(sf::RenderWindow& window)
 {
-	sprite.setPosition(position);
-	sprite.setScale(sf::Vector2f(0.5f / textures[0].getSize().x, 0.5f / textures[0].getSize().y));
-	window.draw(sprite);
+	if (!isExplode)
+	{
+		sprite.setPosition(position);
+		sprite.setScale(sf::Vector2f(0.5f / textures[0].getSize().x, 0.5f / textures[0].getSize().y));
+		window.draw(sprite);
+	}
+	else
+	{
+		explodeSprite.setPosition(position);
+		explodeSprite.setScale(sf::Vector2f(1.0f / booms[0].getSize().x, 1.0f / booms[0].getSize().y));
+		window.draw(explodeSprite);
+	}
 }
 
 void Bullet::Reset()
 {
 	animation.Reset();
+	boomAnimation.Reset();
+	booms.clear();
 	textures.clear();
 }
 
@@ -70,7 +96,8 @@ void Bullet::handleCollisionWithMap(const float& deltaTime, const Map& map)
 	{
 		if (collisionAxis.x == 1)
 		{
-			velocity.x = -velocity.x * 0.8f;
+			SoundManager::getInstance().playSound("explode");
+			isExplode = true;
 		}
 		if (collisionAxis.y == 1)
 		{
