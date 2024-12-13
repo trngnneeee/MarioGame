@@ -1,5 +1,6 @@
 #include "Map.h"
 #include "EnityColor.h"
+#include <iostream>
 
 // Constructor
 Map::Map(float cellSize)

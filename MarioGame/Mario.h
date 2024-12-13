@@ -79,6 +79,13 @@ private:
 	std::vector<Bullet*> bullets;
 	float shootCooldown;
 	float shootCooldownTimer;
+
+	// Swim
+	bool isSwimming;
+	std::vector<sf::Texture> smallSwimTextures;
+	Animation smallSwimAnimation;
+	std::vector<sf::Texture> bigSwimTextures;
+	Animation bigSwimAnimation;
 public:
 	// Constructor
 	Mario();
@@ -92,6 +99,7 @@ public:
 	void ResetAfterWin();
 
 	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void handleSwimming(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	void UpdateCollisionBox();
 	void handleJump(float deltaTime);
 	void handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);

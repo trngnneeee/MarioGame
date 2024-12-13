@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f)
 {
 }
 
@@ -33,7 +33,6 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	runAnimation.addFrame(Frame(&textures[1], 0.16f));
 	runAnimation.addFrame(Frame(&textures[2], 0.24f));
 
-
 	// Init big texture
 	std::vector<std::string> filePath2 = {
 		"marioBigRun1.png",
@@ -52,6 +51,28 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	bigRunAnimation.addFrame(Frame(&bigTexture[0], 0.1f));
 	bigRunAnimation.addFrame(Frame(&bigTexture[1], 0.2f));
 	bigRunAnimation.addFrame(Frame(&bigTexture[2], 0.3f));
+
+	// Swimming animation
+	for (int i = 0; i < 5; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Mario/marioSmallSwim" + std::to_string(i + 1) + ".png");
+		smallSwimTextures.push_back(tmp);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		smallSwimAnimation.addFrame(Frame(&smallSwimTextures[i], 0.1f * (i + 1)));
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		sf::Texture tmp;
+		tmp.loadFromFile("./resources/textures/Mario/marioBigSwim" + std::to_string(i + 1) + ".png");
+		bigSwimTextures.push_back(tmp);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		bigSwimAnimation.addFrame(Frame(&bigSwimTextures[i], 0.1f * (i + 1)));
+	}
 
 	// Init collision box
 	collisionBox = sf::FloatRect(
@@ -97,9 +118,81 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	// Update previous position
 	previousPos = position; 
 	UpdateCollisionBox();
-	handleJump(deltaTime);
-	handleVerticalMove(deltaTime, map, mushrooms, stars, flowers);
-	handleHorizontalMove(deltaTime, map, mushrooms, stars, flowers);
+	if (!isSwimming)
+	{
+		handleJump(deltaTime);
+		handleVerticalMove(deltaTime, map, mushrooms, stars, flowers);
+		handleHorizontalMove(deltaTime, map, mushrooms, stars, flowers);
+	}
+	else
+	{
+		handleSwimming(deltaTime, map, mushrooms, stars, flowers);
+	}
+}
+
+void Mario::handleSwimming(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
+{
+	// Applying gravity (Smaller gravity in water)
+	velocity.y = 5.0f;
+	sf::Vector2f newPosition = position;
+	newPosition.y += velocity.y * deltaTime;
+	collisionBox.left = position.x;
+	collisionBox.top = newPosition.y;
+
+	if (!mapCollision(map, mushrooms, stars, flowers))
+	{
+		position.y = newPosition.y;
+	}
+	else {
+		if (velocity.y > 0) {
+			position.y = newPosition.y - velocity.y * deltaTime;
+			velocity.y = 0;
+		}
+		else if (velocity.y < 0) {
+			position.y = newPosition.y - velocity.y * deltaTime;
+			velocity.y = 0;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		sf::Vector2f newPosition = position;
+		newPosition.x += movementSpeed * deltaTime;
+		collisionBox.left = newPosition.x;
+		collisionBox.top = position.y;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.x = newPosition.x;
+		facingRight = true;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		sf::Vector2f newPosition = position;
+		newPosition.x -= movementSpeed * deltaTime;
+		collisionBox.left = newPosition.x;
+		collisionBox.top = position.y;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.x = newPosition.x;
+		facingRight = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		sf::Vector2f newPosition = position;
+		newPosition.y -= 10.0f * deltaTime; 
+		collisionBox.left = position.x;
+		collisionBox.top = newPosition.y;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.y = newPosition.y;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		sf::Vector2f newPosition = position;
+		newPosition.y += 10.0f * deltaTime; 
+		collisionBox.left = position.x;
+		collisionBox.top = newPosition.y;
+		if (!mapCollision(map, mushrooms, stars, flowers)) position.y = newPosition.y;
+	}
+
+	// Calculate horizontal velocity
+	velocity.x = (position.x - previousPos.x) / deltaTime;
 }
 
 void Mario::UpdateCollisionBox()
@@ -243,23 +336,37 @@ void Mario::UpdateTexture(float deltaTime)
 {
 	if (!levelUp)
 	{
-		if (!isOnGround)
-			sprite.setTexture(textures[4]);
-		else if (velocity.x != 0)
-			sprite.setTexture(*runAnimation.update(deltaTime));
-		else if (isDead == true)
-			sprite.setTexture(deadTexture);
-		else sprite.setTexture(textures[3]);
+		if (!isSwimming)
+		{
+			if (!isOnGround)
+				sprite.setTexture(textures[4]);
+			else if (velocity.x != 0)
+				sprite.setTexture(*runAnimation.update(deltaTime));
+			else if (isDead == true)
+				sprite.setTexture(deadTexture);
+			else sprite.setTexture(textures[3]);
+		}
+		else
+		{
+			sprite.setTexture(*smallSwimAnimation.update(deltaTime));
+		}
 	}
 	else
 	{
-		if (!isOnGround)
-			bigSprite.setTexture(bigTexture[4]);
-		else if (velocity.x != 0)
-			bigSprite.setTexture(*bigRunAnimation.update(deltaTime));
-		else if (isDead == true)
-			bigSprite.setTexture(deadTexture);
-		else bigSprite.setTexture(bigTexture[3]);
+		if (!isSwimming)
+		{
+			if (!isOnGround)
+				bigSprite.setTexture(bigTexture[4]);
+			else if (velocity.x != 0)
+				bigSprite.setTexture(*bigRunAnimation.update(deltaTime));
+			else if (isDead == true)
+				bigSprite.setTexture(deadTexture);
+			else bigSprite.setTexture(bigTexture[3]);
+		}
+		else
+		{
+			sprite.setTexture(*bigSwimAnimation.update(deltaTime));
+		}
 	}
 }
 
@@ -334,6 +441,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 	const std::set<int> solidBlocks = { 1, 2, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
 	const int brickBlock = 3;
 	const int hiddenMushroomBox = 4;
+	const int water = 43;
 
 	HiddenBoxItemFactory factory;
 
@@ -347,6 +455,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 			// Check collision with solid blocks
 			if (collisionBox.intersects(currentBox) && solidBlocks.count(tileType))
 			{
+				isSwimming = false;
 				return true;
 			}
 			// Handle brick block collisions
@@ -410,6 +519,10 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 				{
 					return true;
 				}
+			}
+			else if (collisionBox.intersects(currentBox) && tileType == water)
+			{
+				isSwimming = true;
 			}
 		}
 	}
@@ -531,6 +644,13 @@ void Mario::Reset()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
+	bigRunAnimation.Reset();
+	smallSwimAnimation.Reset();
+	bigSwimAnimation.Reset();
+	textures.clear();
+	bigTexture.clear();
+	smallSwimTextures.clear();
+	bigSwimTextures.clear();
 	shootingAbility = false;
 }
 
