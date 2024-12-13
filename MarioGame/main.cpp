@@ -12,8 +12,8 @@ int main() {
 
 	sf::Clock deltaClock;
 	MarioGame game;
-	GameState gameState = GameState::Menu;
-	game.MenuBegin(window);
+	GameState gameState = GameState::LoginMenu;
+	game.LoginMenuBegin(window);
 
 	while (window.isOpen())
 	{

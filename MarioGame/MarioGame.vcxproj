@@ -152,6 +152,7 @@
     <ClCompile Include="InvicibleStar.cpp" />
     <ClCompile Include="HiddenBoxItem.cpp" />
     <ClCompile Include="Koopa.cpp" />
+    <ClCompile Include="LoginMenu.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapTransition.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="HiddenBoxItem.h" />
     <ClInclude Include="Koopa.h" />
+    <ClInclude Include="LoginMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />

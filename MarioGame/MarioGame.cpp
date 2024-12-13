@@ -27,6 +27,15 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 				return;
 			}
 		}
+		else if (gameState == GameState::LoginMenu)
+		{
+			if (loginMenu.HandleInput(event, gameState, window) == 1)
+			{
+				window.clear();
+				MenuBegin(window);
+				gameState = GameState::Menu;
+			}
+		}
 		else if (gameState == GameState::Menu)
 		{
 			if (menu.HandleInput(window) == 1)
@@ -113,6 +122,11 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 	{
 		window.setView(window.getDefaultView());
 		MenuDraw(window);
+	}
+	else if (gameState == GameState::LoginMenu)
+	{
+		window.setView(window.getDefaultView());
+		LoginMenuDraw(window);
 	}
 	else if (gameState == GameState::Playing)
 	{
@@ -279,6 +293,11 @@ void MarioGame::CameraBegin()
 void MarioGame::MenuBegin(sf::RenderWindow& window)
 {
 	menu.Begin(window);
+}
+
+void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
+{
+	loginMenu.Begin(window);
 }
 
 /// Update Function
@@ -673,6 +692,11 @@ void MarioGame::MapTransitionDraw(sf::RenderWindow& window)
 void MarioGame::MenuDraw(sf::RenderWindow& window)
 {
 	menu.Draw(window);
+}
+
+void MarioGame::LoginMenuDraw(sf::RenderWindow& window)
+{
+	loginMenu.Draw(window);
 }
 
 void MarioGame::BackgroundDraw(sf::RenderWindow& window)

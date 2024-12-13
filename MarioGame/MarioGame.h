@@ -11,6 +11,7 @@
 #include "Background.h"
 #include "GameTime.h"
 #include "Menu.h"
+#include "LoginMenu.h"
 #include "UICounter.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
@@ -34,6 +35,7 @@ private:
 	GameTime gameTime;
 	UICounter UI;
 	Menu menu;
+	LoginMenu loginMenu;
 	Camera camera;
 	std::vector<PowerUpMushroom*> mushrooms;
 	std::vector<InvicibleStar*> stars;
@@ -71,6 +73,7 @@ public:
 	void UICounterBegin();
 	void CameraBegin();
 	void MenuBegin(sf::RenderWindow& window);
+	void LoginMenuBegin(sf::RenderWindow& window);
 
 	// UPDATE FUNCTIONS
 	void MusicUpdate();
@@ -99,6 +102,7 @@ public:
 	// DRAW FUNCTIONS
 	void MapTransitionDraw(sf::RenderWindow& window);
 	void MenuDraw(sf::RenderWindow& window);
+	void LoginMenuDraw(sf::RenderWindow& window);
 
 	/*CAUTIOUS: KEEP THIS DRAW ORDER FOR CORRECT Z-INDEX*/
 	void BackgroundDraw(sf::RenderWindow& window);
