@@ -21,20 +21,38 @@ void Menu::Begin(sf::RenderWindow& window)
 	level1Button.setFillColor(backgroundColor);
 	level1Button.setOutlineColor(sf::Color::White);
 	level1Button.setOutlineThickness(5.0f);
-	level1Button.setPosition(window.getSize().x / 2 - level1Button.getSize().x / 2, window.getSize().y / 2 + 120);
+	level1Button.setPosition(window.getSize().x / 2 - level1Button.getSize().x / 2, window.getSize().y / 2 + 80);
+
 	level1Text = sf::Text("Play", font, 40);
 	level1Text.setFillColor(sf::Color::White);
 	level1Text.setPosition(
 		level1Button.getPosition().x + (level1Button.getSize().x - level1Text.getGlobalBounds().width) / 2,
 		level1Button.getPosition().y + (level1Button.getSize().y - level1Text.getGlobalBounds().height) / 2 - 10
 	);
+
+	exitButton.setSize(sf::Vector2f(200, 50));
+	exitButton.setFillColor(backgroundColor);
+	exitButton.setOutlineColor(sf::Color::White);
+	exitButton.setOutlineThickness(5.0f);
+	exitButton.setPosition(window.getSize().x / 2 - exitButton.getSize().x / 2, window.getSize().y / 2 + 160);
+
+	exitText = sf::Text("Exit", font, 40);
+	exitText.setFillColor(sf::Color::White);
+	exitText.setPosition(
+		exitButton.getPosition().x + (exitButton.getSize().x - exitText.getGlobalBounds().width) / 2,
+		exitButton.getPosition().y + (exitButton.getSize().y - exitText.getGlobalBounds().height) / 2 - 10
+	);
 }
 
 void Menu::Draw(sf::RenderWindow& window)
 {
 	window.draw(backgroundSprite);
+
 	window.draw(level1Button);
 	window.draw(level1Text);
+
+	window.draw(exitButton);
+	window.draw(exitText);
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)
@@ -58,5 +76,19 @@ int Menu::HandleInput(sf::RenderWindow& window)
 		level1Button.setFillColor(backgroundColor);
 	}
 
-	return 2;
+	if (exitButton.getGlobalBounds().contains(worldPos))
+	{
+
+		exitButton.setFillColor(sf::Color::Blue);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			return 2;
+		}
+	}
+	else
+	{
+		exitButton.setFillColor(backgroundColor);
+	}
+
+	return 3;
 }
