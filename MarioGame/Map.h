@@ -82,6 +82,7 @@ public:
 	void CreateFromImage(
 		sf::Vector2f& marioPosition, 
 		sf::Vector2f& winPosition, 
+		sf::Vector2f& endWinPosition,
 		std::vector<sf::Vector2f>& goombasPosition, 
 		std::vector<sf::Vector2f>& koopaPosition, 
 		std::vector<sf::Vector2f>& coinPosition,

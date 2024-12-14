@@ -41,6 +41,7 @@ private:
 	std::vector<InvicibleStar*> stars;
 	std::vector<FireFlower*> flowers;
 	sf::Vector2f winPosition;
+	sf::Vector2f endWinPosition;
 
 	float updateRange;
 	bool pause;

@@ -87,6 +87,10 @@ private:
 	Animation smallSwimAnimation;
 	std::vector<sf::Texture> bigSwimTextures;
 	Animation bigSwimAnimation;
+
+	// Win
+	bool isWinning;
+	std::vector<sf::Texture> winTextures;
 public:
 	// Constructor
 	Mario();
@@ -155,4 +159,6 @@ public:
 	std::vector<Bullet*> getBullets() const;
 	bool getShootingStatus();
 	void setShootingStatus(const bool& value);
+	bool getWinningState();
+	void setWinningState(const bool& value);
 };

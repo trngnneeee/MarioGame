@@ -188,6 +188,7 @@ void Map::blueTubeBegin()
 void Map::CreateFromImage(
 	sf::Vector2f& marioPosition,
 	sf::Vector2f& winPosition,
+	sf::Vector2f& endWinPosition,
 	std::vector<sf::Vector2f>& goombasPosition,
 	std::vector<sf::Vector2f>& koopaPosition,
 	std::vector<sf::Vector2f>& coinPosition,
@@ -256,6 +257,12 @@ void Map::CreateFromImage(
 			case EntityType::Stick:
 			{
 				grid[i][j] = 7;
+				break;
+			}
+			case EntityType::EndWinPoint:
+			{
+				endWinPosition = sf::Vector2f(cellSize * i, cellSize * j);
+				grid[i][j] = 5;
 				break;
 			}
 			case EntityType::Fire1:

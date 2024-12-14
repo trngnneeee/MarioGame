@@ -98,8 +98,6 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		DeadUpdate(gameState);
 		if (WinDetect())
 		{
-			SoundManager::getInstance().stopSound("main");
-			SoundManager::getInstance().setPlayedStatus("main", false);
 			GameReset();
 			Begin(window);
 			SoundManager::getInstance().playSound("win");
@@ -189,6 +187,7 @@ void MarioGame::MusicBegin()
 	soundManager.loadSound("levelDown", "./resources/soundEffect/level-down.wav");
 	soundManager.loadSound("bullet", "./resources/soundEffect/bullet.wav");
 	soundManager.loadSound("explode", "./resources/soundEffect/explode.wav");
+	soundManager.loadSound("flag", "./resources/soundEffect/flag.wav");
 
 	soundManager.loadSound("brick", "./resources/soundEffect/brick.wav");
 	soundManager.setVolume("brick", 100);
@@ -208,14 +207,14 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "waterMap.png";
+		mapName = "map1.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
+	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
 
 	map.CreateCollisionBox();
 }
@@ -304,7 +303,7 @@ void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
 /// Update Function
 void MarioGame::MusicUpdate()
 {
-	if (!SoundManager::getInstance().getPlayedStatus("main"))
+	if (!SoundManager::getInstance().getPlayedStatus("main") && mario.getWinningState() == false)
 	{
 		SoundManager::getInstance().playSound("main");
 		SoundManager::getInstance().setPlayedStatus("main", true);
@@ -675,11 +674,21 @@ bool MarioGame::WinDetect()
 {
 	if (mario.getPosition().x >= winPosition.x)
 	{
-		mario.setMapArchive(mario.getMapArchive() + 1);
-		mario.ResetAfterWin();
-		mapTransition.setMapType(mapTransition.getMapType() + 1);
-		mapTransition.setTimer(5.5f);	
-		return true;
+		if (mario.getWinningState() == false)
+		{
+			SoundManager::getInstance().stopSound("main");
+			SoundManager::getInstance().setPlayedStatus("main", false);
+			mario.setWinningState(true);
+			SoundManager::getInstance().playSound("flag");
+		}
+		if (mario.getPosition().y >= endWinPosition.y - 1.0f)
+		{
+			mario.setMapArchive(mario.getMapArchive() + 1);
+			mario.ResetAfterWin();
+			mapTransition.setMapType(mapTransition.getMapType() + 1);
+			mapTransition.setTimer(5.5f);
+			return true;
+		}
 	}
 	return false;
 }

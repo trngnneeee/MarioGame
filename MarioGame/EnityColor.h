@@ -14,7 +14,8 @@ enum class EntityType {
     Mario,
     None,
     Stick,
-    Circle,
+    Circle, // Win point
+    EndWinPoint,
     Fire1, Fire2, Fire3,
     Coin,
     Tube1, Tube2, Tube3, Tube4,
@@ -34,6 +35,7 @@ sf::Color useBlockColor(100, 100, 0);
 
 sf::Color stickColor(0, 150, 0);
 sf::Color circleColor(0, 100, 0);
+sf::Color endWinPointColor(123, 123, 123);
 
 sf::Color fireColor1(0, 0, 100);
 sf::Color fireColor2(0, 0, 120);
@@ -101,6 +103,7 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     
     {EntityType::Stick, stickColor},
     {EntityType::Circle, circleColor},
+    {EntityType::EndWinPoint, endWinPointColor},
 
     {EntityType::Fire1, fireColor1},
     {EntityType::Fire2, fireColor2},
