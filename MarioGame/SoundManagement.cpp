@@ -34,6 +34,9 @@ bool SoundManager::getPlayedStatus(const std::string& name)
     auto it = sounds.find(name);
     if (it != sounds.end())
         return it->second.second;
+
+
+    return false;
 }
 
 void SoundManager::setPlayedStatus(const std::string& name, const bool& value)
