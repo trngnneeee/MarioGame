@@ -1,11 +1,24 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Animation.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Animation.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Background.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Background.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Camera.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Camera.obj
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Animation.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Animation.obj
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Background.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Background.obj
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bullet.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Bullet.obj
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Camera.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Camera.obj
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Chomper.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Chomper.obj
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Coin.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Coin.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Enemy.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Enemy.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\EnemyFactory.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\EnemyFactory.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\FastSpeedStrategy.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\FastSpeedStrategy.obj
+<<<<<<< HEAD
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\FireFlower.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\FireFlower.obj
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\FloatingCoin.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\FloatingCoin.obj
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\FloatingScore.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\FloatingScore.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\GameTime.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\GameTime.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Goombas.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Goombas.obj
@@ -13,6 +26,10 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\HiddenBoxItemFactory.cpp;C:\User
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\InvicibleStar.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\InvicibleStar.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\HiddenBoxItem.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\HiddenBoxItem.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Koopa.obj
+<<<<<<< HEAD
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\LoginMenu.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\LoginMenu.obj
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Map.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\main.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\main.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\MapTransition.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\MapTransition.obj
@@ -20,11 +37,16 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp;C:\Users\dinhd\source\
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\MarioGame.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Menu.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\NormalSpeedStrategy.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\NormalSpeedStrategy.obj
+<<<<<<< HEAD
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\PauseMenu.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\PauseMenu.obj
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\SoundManagement.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\PowerUpMushroom.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\PowerUpMushroom.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\SpeedStrategy.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\SpeedStrategy.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\SuperFastSpeedStrategy.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\SuperFastSpeedStrategy.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\UICounter.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\UICounter.obj
+<<<<<<< HEAD
 =======
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Animation.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Animation.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\Background.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\Background.obj
@@ -58,4 +80,6 @@ D:\HCMUS\MarioGame\MarioGame\MarioGame\PowerUpMushroom.cpp;D:\HCMUS\MarioGame\Ma
 D:\HCMUS\MarioGame\MarioGame\MarioGame\SpeedStrategy.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\SpeedStrategy.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\SuperFastSpeedStrategy.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\SuperFastSpeedStrategy.obj
 D:\HCMUS\MarioGame\MarioGame\MarioGame\UICounter.cpp;D:\HCMUS\MarioGame\MarioGame\MarioGame\x64\Debug\UICounter.obj
+>>>>>>> main
+=======
 >>>>>>> main
