@@ -1,2 +1,12 @@
-﻿  MarioGame.cpp
+﻿  Menu.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:         ]
   MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe

@@ -17,6 +17,9 @@ private:
 	sf::RectangleShape exitButton;
 	sf::Text exitText;
 
+	sf::ConvexShape invertedTriangle;
+
+
 
 public:
 	// Functions

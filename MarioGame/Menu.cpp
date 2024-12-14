@@ -42,6 +42,12 @@ void Menu::Begin(sf::RenderWindow& window)
 		exitButton.getPosition().x + (exitButton.getSize().x - exitText.getGlobalBounds().width) / 2,
 		exitButton.getPosition().y + (exitButton.getSize().y - exitText.getGlobalBounds().height) / 2 - 10
 	);
+
+	invertedTriangle.setPoint(0, sf::Vector2f(40, 50)); // Bottom-center
+	invertedTriangle.setPoint(1, sf::Vector2f(30, 30)); // Top-left
+	invertedTriangle.setPoint(2, sf::Vector2f(50, 30));
+
+	invertedTriangle.setFillColor(sf::Color::Blue);
 }
 
 void Menu::Draw(sf::RenderWindow& window)
@@ -53,6 +59,8 @@ void Menu::Draw(sf::RenderWindow& window)
 
 	window.draw(exitButton);
 	window.draw(exitText);
+
+	window.draw(invertedTriangle);
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)
