@@ -18,7 +18,7 @@ private:
 	sf::RectangleShape exitButton;
 	sf::Text exitText;
 
-	
+
 public:
 	// Functions
 	void Begin(sf::RenderWindow& window);
