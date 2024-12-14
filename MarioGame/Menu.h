@@ -13,6 +13,10 @@ private:
 	// Map button
 	sf::RectangleShape level1Button;
 	sf::Text level1Text;
+
+	sf::RectangleShape exitButton;
+	sf::Text exitText;
+
 public:
 	// Functions
 	void Begin(sf::RenderWindow& window);
