@@ -17,7 +17,9 @@ private:
     sf::Text usernameText;
     sf::Text passwordText;
     sf::Text loginText;
- 
+    sf::Text registerText;
+
+
     // Input fields
     sf::Text usernameInput;
     sf::Text passwordInput;
@@ -25,6 +27,7 @@ private:
     sf::RectangleShape usernameBox;
     sf::RectangleShape passwordBox;
     sf::RectangleShape loginButton;
+    sf::RectangleShape registerButton;
 
     // Hide password
     sf::Texture passwordTexture; 

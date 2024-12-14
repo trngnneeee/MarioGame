@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ﻿  Animation.cpp
 <<<<<<< HEAD
@@ -277,3 +278,7 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:         ]
   MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe
 >>>>>>> Stashed changes
+=======
+﻿  MarioGame.cpp
+  MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe
+>>>>>>> main
