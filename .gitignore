@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/x64/Debug/MarioGame.exe
+/x64/Debug/MarioGame.pdb
+/x64/Debug/MarioGame.exe
+/x64/Debug/MarioGame.pdb
