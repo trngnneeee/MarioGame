@@ -82,6 +82,7 @@ private:
 
 	// Swim
 	bool isSwimming;
+	float outOfWaterTime;
 	std::vector<sf::Texture> smallSwimTextures;
 	Animation smallSwimAnimation;
 	std::vector<sf::Texture> bigSwimTextures;
@@ -99,6 +100,7 @@ public:
 	void ResetAfterWin();
 
 	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void updateSwimmingState(float deltaTime);
 	void handleSwimming(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	void UpdateCollisionBox();
 	void handleJump(float deltaTime);
