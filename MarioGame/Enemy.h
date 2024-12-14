@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "FloatingScore.h"
 #include "SpeedStrategy.h"
+#include "Bullet.h"
 
 class Enemy
 {
@@ -54,6 +55,7 @@ public:
 
 	// Collision
 	bool mapCollision(const Map& map);
+	bool bulletCollision(const Bullet& bullet);
 
 	// Setter/Getter
 	sf::FloatRect getCollisionBox() const;

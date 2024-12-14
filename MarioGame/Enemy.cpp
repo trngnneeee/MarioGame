@@ -67,6 +67,11 @@ bool Enemy::mapCollision(const Map& map)
 	return false;
 }
 
+bool Enemy::bulletCollision(const Bullet& bullet)
+{
+	return bullet.getCollisionBox().intersects(collisionBox);
+}
+
 void Enemy::Reset()
 {
 	runAnimation.Reset();

@@ -1,78 +1,202 @@
-<<<<<<< HEAD
 ﻿  Animation.cpp
-  Background.cpp
-  Camera.cpp
-  Coin.cpp
-  Enemy.cpp
-  EnemyFactory.cpp
-  FastSpeedStrategy.cpp
-  FloatingScore.cpp
-  GameTime.cpp
-  Goombas.cpp
-  HiddenBoxItemFactory.cpp
-  InvicibleStar.cpp
-  HiddenBoxItem.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\HiddenBoxItem.cpp(5,110): warning C4305: 'argument': truncation from 'double' to 'float'
-  Koopa.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         with
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         [
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:             T=unsigned int
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(132,41): warning C4244:         ]
   Map.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(117,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(117,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
-  main.cpp
-  MapTransition.cpp
-  Mario.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         with
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         [
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:             T=unsigned int
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         ]
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         with
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         [
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:             T=unsigned int
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(207,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(207,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
   MarioGame.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(117,17): error C2601: 'MarioGame::Render': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(185,17): error C2601: 'MarioGame::HandleStart': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(194,17): error C2601: 'MarioGame::MusicBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(219,17): error C2601: 'MarioGame::MapTransitionBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(224,17): error C2601: 'MarioGame::MapBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(242,17): error C2601: 'MarioGame::MarioBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(247,17): error C2601: 'MarioGame::EnemyBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(273,17): error C2601: 'MarioGame::ChomperBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(283,17): error C2601: 'MarioGame::CoinBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(293,17): error C2601: 'MarioGame::BackgroundBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(298,17): error C2601: 'MarioGame::GameTimeBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(303,17): error C2601: 'MarioGame::UICounterBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(308,17): error C2601: 'MarioGame::CameraBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(313,17): error C2601: 'MarioGame::MenuBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(318,17): error C2601: 'MarioGame::LoginMenuBegin': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(324,17): error C2601: 'MarioGame::MusicUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(335,17): error C2601: 'MarioGame::MapTransitionUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(345,17): error C2601: 'MarioGame::MapUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(350,17): error C2601: 'MarioGame::MarioUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(429,17): error C2601: 'MarioGame::GoombaUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(472,17): error C2601: 'MarioGame::KoopaUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(527,17): error C2601: 'MarioGame::ChomperUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(535,17): error C2601: 'MarioGame::CoinUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(560,17): error C2601: 'MarioGame::GameTimeUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(570,17): error C2601: 'MarioGame::UIUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(575,17): error C2601: 'MarioGame::CameraUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(580,17): error C2601: 'MarioGame::MushroomUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(612,17): error C2601: 'MarioGame::StarUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(634,17): error C2601: 'MarioGame::FlowerUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(665,17): error C2601: 'MarioGame::DeadUpdate': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(693,17): error C2601: 'MarioGame::WinDetect': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(717,17): error C2601: 'MarioGame::MapTransitionDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(722,17): error C2601: 'MarioGame::MenuDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(727,17): error C2601: 'MarioGame::LoginMenuDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(732,17): error C2601: 'MarioGame::BackgroundDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(737,17): error C2601: 'MarioGame::UIDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(744,17): error C2601: 'MarioGame::MapDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(749,17): error C2601: 'MarioGame::HiddenBoxItemDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(765,17): error C2601: 'MarioGame::MarioDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(770,17): error C2601: 'MarioGame::EnemyDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(782,17): error C2601: 'MarioGame::ChomperDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(790,17): error C2601: 'MarioGame::CoinDraw': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(799,17): error C2601: 'MarioGame::GameReset': local function definitions are illegal
+      C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1):
+      this line contains a '{' which has not yet been matched
+  
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(71,1): error C1075: '{': no matching token found
   Menu.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         with
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         [
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:             T=unsigned int
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,105): warning C4244:         ]
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         with
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         [
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:             T=unsigned int
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,105): warning C4244:         ]
-  Generating Code...
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(105,1): warning C4715: 'Koopa::handleOutOfShell': not all control paths return a value
-  Compiling...
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(19,1): error C2059: syntax error: '<<'
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(22,2): error C2065: 'prompt': undeclared identifier
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(23,2): error C2065: 'prompt': undeclared identifier
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(23,46): error C2065: 'prompt': undeclared identifier
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(26,1): error C2059: syntax error: '=='
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(30,28): error C2065: 'backgroundColor': undeclared identifier
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(33,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(33,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(33,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(33,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(33,105): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(48,1): error C2059: syntax error: '<<'
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(54,1): error C2059: syntax error: '=='
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(57,1): error C2059: syntax error: '>>'
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(82,1): error C2059: syntax error: '<<'
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(84,1): error C2059: syntax error: '=='
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(85,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(85,1): error C2059: syntax error: '}'
   NormalSpeedStrategy.cpp
   SoundManagement.cpp
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(62,36): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  PowerUpMushroom.cpp
-  SpeedStrategy.cpp
-  SuperFastSpeedStrategy.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(65,36): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   UICounter.cpp
   Generating Code...
-C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(37,1): warning C4715: 'SoundManager::getPlayedStatus': not all control paths return a value
-  MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe
-=======
-﻿  Mario.cpp
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         with
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         [
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:             T=unsigned int
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(269,42): warning C4244:         ]
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         with
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         [
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:             T=unsigned int
-D:\HCMUS\MarioGame\MarioGame\MarioGame\Mario.cpp(277,47): warning C4244:         ]
-  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
->>>>>>> 6a94c30c812544c1e6fd4ebb5f1b3efc5a064258

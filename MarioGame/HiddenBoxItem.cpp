@@ -106,14 +106,14 @@ bool HiddenBoxItem::handleDead(float deltaTime)
 bool HiddenBoxItem::mapCollision(const Map& map)
 {
 	std::vector<std::vector<int>> grid = map.getGrid();
-	const std::set<int> excludedTiles = { 23, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+	const std::set<int> excludedTiles = { 1, 2, 3, 4, 5, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 42, 44, 45, 46, 47 };
 
 	for (int i = 0; i < map.getCollisionBoxList().size(); i++)
 	{
 		for (int j = 0; j < map.getCollisionBoxList()[i].size(); j++)
 		{
 			if (collisionBox.intersects(map.getCollisionBoxList()[i][j]) &&
-				excludedTiles.find(grid[i][j]) == excludedTiles.end())
+				excludedTiles.find(grid[i][j]) != excludedTiles.end())
 			{
 				return true;
 			}

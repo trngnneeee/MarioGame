@@ -14,7 +14,8 @@ enum class EntityType {
     Mario,
     None,
     Stick,
-    Circle,
+    Circle, // Win point
+    EndWinPoint,
     Fire1, Fire2, Fire3,
     Coin,
     Tube1, Tube2, Tube3, Tube4,
@@ -22,7 +23,10 @@ enum class EntityType {
     Collumn, Floor, FloorLeft, FloorRight,
     bigBushLeft, bigBushMid, bigBushRight,
     cloudBottomLeft, cloudBottomMid, cloudBottomRight, cloudTopLeft, cloudTopMid, cloudTopRight,
-    triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop
+    triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop,
+    Chomper,
+    Coral, greenBlock, Water,
+    blueTube1, blueTube2, blueTube3, blueTube4
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -31,6 +35,7 @@ sf::Color useBlockColor(100, 100, 0);
 
 sf::Color stickColor(0, 150, 0);
 sf::Color circleColor(0, 100, 0);
+sf::Color endWinPointColor(123, 123, 123);
 
 sf::Color fireColor1(0, 0, 100);
 sf::Color fireColor2(0, 0, 120);
@@ -73,6 +78,17 @@ sf::Color triBushMidColor(46, 139, 87);
 sf::Color triBushRightColor(102, 205, 170);
 sf::Color triBushTopColor(60, 179, 113);
 
+sf::Color chomperColor(0, 234, 0);
+
+sf::Color coralColor(255, 0, 145); //ff0091
+sf::Color greenBlockColor(53, 94, 59); //355e3b
+sf::Color waterColor(68, 108, 207); //46ccf
+
+sf::Color blueTube1Color(204, 119, 34);
+sf::Color blueTube2Color(205, 170, 110);
+sf::Color blueTube3Color(251, 236, 93);
+sf::Color blueTube4Color(253, 253, 150);
+
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
     {EntityType::Copper, sf::Color::Blue},
@@ -87,6 +103,7 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     
     {EntityType::Stick, stickColor},
     {EntityType::Circle, circleColor},
+    {EntityType::EndWinPoint, endWinPointColor},
 
     {EntityType::Fire1, fireColor1},
     {EntityType::Fire2, fireColor2},
@@ -126,6 +143,18 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::triBushMid, triBushMidColor},
     {EntityType::triBushRight, triBushRightColor},
     {EntityType::triBushTop, triBushTopColor},
+
+    {EntityType::Chomper, chomperColor},
+
+    {EntityType::Coral, coralColor},
+    {EntityType::greenBlock, greenBlockColor},
+    {EntityType::Water, waterColor},
+
+    {EntityType::blueTube1, blueTube1Color},
+    {EntityType::blueTube2, blueTube2Color},
+    {EntityType::blueTube3, blueTube3Color},
+    {EntityType::blueTube4, blueTube4Color},
+
 
     {EntityType::None, sf::Color::Transparent}
 };

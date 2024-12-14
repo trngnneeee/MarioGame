@@ -1,4 +1,4 @@
-#include "MarioGame.h"
+﻿#include "MarioGame.h"
 
 /// MAIN FUNCTIONS
 void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
@@ -8,6 +8,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	{
 		if (event.type == sf::Event::Closed)
 			window.close();
+
 		if (gameState == GameState::Playing)
 		{
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
@@ -45,6 +46,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	}
 }
 
+
 void MarioGame::Begin(sf::RenderWindow& window)
 {
 	MusicBegin();
@@ -52,10 +54,12 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopasPosition;
 	std::vector<sf::Vector2f> coinsPosition;
+	std::vector<sf::Vector2f> chompersPosition;
 	sf::Vector2f marioPosition;
-	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition);
+	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
 	MarioBegin(marioPosition);
 	EnemyBegin(goombasPosition, koopasPosition);
+	ChomperBegin(chompersPosition);
 	CoinBegin(coinsPosition);
 	BackgroundBegin();
 	GameTimeBegin();
@@ -72,34 +76,43 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 
 	if (gameState == GameState::Playing)
 	{
+		if (pause) return;
+
+		updateRange = (window.getSize().x * 11.5f) / 1200;
+
 		if (MapTransitionUpdate(deltaTime)) return;
+
 		MusicUpdate();
 		MapUpdate(deltaTime);
 		MarioUpdate(deltaTime, map, gameState);
 		GoombaUpdate(deltaTime, map);
 		KoopaUpdate(deltaTime, map);
+		ChomperUpdate(deltaTime);
 		CoinUpdate(deltaTime);
 		GameTimeUpdate(deltaTime);
 		UIUpdate(deltaTime);
 		CameraUpdate();
 		MushroomUpdate(deltaTime, map);
 		StarUpdate(deltaTime, map);
+		FlowerUpdate(deltaTime, map);
 		DeadUpdate(gameState);
-
 		if (WinDetect())
 		{
-			SoundManager::getInstance().stopSound("main");
-			SoundManager::getInstance().setPlayedStatus("main", false);
 			GameReset();
 			Begin(window);
 			SoundManager::getInstance().playSound("win");
 		}
+	}
+	else if (gameState == GameState::Paused)
+	{
+		pauseMenu.Update(deltaTime, window);// Cập nhật PauseMenu
 	}
 	else if (gameState == GameState::GameOver)
 	{
 		gameState = GameState::Menu;
 	}
 }
+
 
 void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 {
@@ -118,6 +131,11 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		window.setView(window.getDefaultView());
 		MenuDraw(window);
 	}
+	else if (gameState == GameState::LoginMenu)
+	{
+		window.setView(window.getDefaultView());
+		LoginMenuDraw(window);
+	}
 	else if (gameState == GameState::Playing)
 	{
 		if (mapTransition.getTimer() > 0)
@@ -129,11 +147,32 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
+		ChomperDraw(window);
 		MapDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
 		CoinDraw(window);
 		UIDraw(window);
+	}
+	else if (gameState == GameState::Paused)
+	{
+		if (mapTransition.getTimer() > 0)
+		{
+			window.setView(window.getDefaultView());
+			MapTransitionDraw(window);
+			return;
+		}
+		window.setView(camera.GetView(window.getSize(), map.getCellSize() * map.getGrid().size()));
+		BackgroundDraw(window);
+		HiddenBoxItemDraw(window);
+		ChomperDraw(window);
+		MapDraw(window);
+		MarioDraw(window);
+		EnemyDraw(window);
+		CoinDraw(window);
+		UIDraw(window);
+		window.setView(window.getDefaultView());
+		pauseMenu.Render(window); // Vẽ giao diện tạm dừng
 	}
 	else if (gameState == GameState::GameOver)
 	{
@@ -165,6 +204,10 @@ void MarioGame::MusicBegin()
 	soundManager.loadSound("kick", "./resources/soundEffect/kick.wav");
 	soundManager.loadSound("item", "./resources/soundEffect/item.wav");
 	soundManager.loadSound("gameover", "./resources/soundEffect/gameover.wav");
+	soundManager.loadSound("levelDown", "./resources/soundEffect/level-down.wav");
+	soundManager.loadSound("bullet", "./resources/soundEffect/bullet.wav");
+	soundManager.loadSound("explode", "./resources/soundEffect/explode.wav");
+	soundManager.loadSound("flag", "./resources/soundEffect/flag.wav");
 
 	soundManager.loadSound("brick", "./resources/soundEffect/brick.wav");
 	soundManager.setVolume("brick", 100);
@@ -178,7 +221,7 @@ void MarioGame::MapTransitionBegin()
 	mapTransition.Begin();
 }
 
-void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition)
+void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition)
 {
 	map = Map(1.0f);
 	int mapType = mario.getMapArchive();
@@ -191,7 +234,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition);
+	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
 
 	map.CreateCollisionBox();
 }
@@ -224,6 +267,16 @@ void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, con
 			koopas.push_back(static_cast<Koopa*>(newEnemy));
 			static_cast<Goombas*>(newEnemy)->setSpeedBasedOnMapType(mapType);
 		}
+	}
+}
+
+void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
+{
+	for (int i = 0; i < chompersPosition.size(); i++)
+	{
+		Chomper* newChomper = new Chomper;
+		newChomper->Begin(chompersPosition[i]);
+		chompers.push_back(newChomper);
 	}
 }
 
@@ -270,7 +323,7 @@ void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
 /// Update Function
 void MarioGame::MusicUpdate()
 {
-	if (!SoundManager::getInstance().getPlayedStatus("main"))
+	if (!SoundManager::getInstance().getPlayedStatus("main") && mario.getWinningState() == false)
 	{
 		SoundManager::getInstance().playSound("main");
 		SoundManager::getInstance().setPlayedStatus("main", true);
@@ -311,6 +364,10 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				{
 					if (mario.getInvicibleTime() <= 0)
 						mario.setInvicibleTime(2.0f);
+					if (mario.getLevelUpStatus() == true)
+					{
+						SoundManager::getInstance().playSound("levelDown");
+					}
 					mario.setLevelUpStatus(false);
 				}
 			}
@@ -333,13 +390,40 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					{
 						if (mario.getInvicibleTime() <= 0)
 							mario.setInvicibleTime(2.0f);
+						if (mario.getLevelUpStatus() == true)
+						{
+							SoundManager::getInstance().playSound("levelDown");
+						}
 						mario.setLevelUpStatus(false);
 					}
 				}
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushrooms, stars);
+	// Collision with chomper
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		if (mario.chomperCollision(*chompers[i]))
+		{
+			if (mario.getInvicibleTime2() > 0) continue;
+			else
+			{
+				if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
+					mario.setDeadStatus(true);
+				else
+				{
+					if (mario.getInvicibleTime() <= 0)
+						mario.setInvicibleTime(2.0f);
+					if (mario.getLevelUpStatus() == true)
+					{
+						SoundManager::getInstance().playSound("levelDown");
+					}
+					mario.setLevelUpStatus(false);
+				}
+			}
+		}
+	}
+	mario.Update(deltaTime, map, mushrooms, stars, flowers);
 }
 
 void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
@@ -352,9 +436,18 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 			{
 				if (goombas[i]->teamCollision(*goombas[j]))
 				{
-					goombas[i]->handleTeamCollision();
-					goombas[j]->handleTeamCollision();
+					if (goombas[j]->getDieStatus() == false) goombas[i]->handleTeamCollision();
+					if (goombas[i]->getDieStatus() == false) goombas[j]->handleTeamCollision();
 				}
+			}
+		}
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (goombas[i]->bulletCollision(*bullets[j]))
+			{	
+				goombas[i]->setDieByKoopaStatus(true);
+				bullets[j]->setAppearTime(0.0f);
 			}
 		}
 		if (mario.distanceX(*goombas[i]) <= updateRange || goombas[i]->getGameState() == true)
@@ -403,6 +496,15 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 				}
 			}
 		}
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (koopas[i]->bulletCollision(*bullets[j]))
+			{
+				koopas[i]->setDieStatus(true);
+				bullets[j]->setAppearTime(0.0f);
+			}
+		}
 		if (mario.distanceX(*koopas[i]) <= updateRange || koopas[i]->getGameState() == true)
 		{
 			if (koopas[i]->getGameState() == false)
@@ -420,6 +522,14 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 					koopa->getPosition().y >= 16.0f;
 			}),
 		koopas.end());
+}
+
+void MarioGame::ChomperUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Update(deltaTime);
+	}
 }
 
 void MarioGame::CoinUpdate(const float& deltaTime)
@@ -521,6 +631,37 @@ void MarioGame::StarUpdate(const float& deltaTime, const Map& map)
 		stars.end());
 }
 
+void MarioGame::FlowerUpdate(const float& deltaTime, const Map& map)
+{
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		if (mario.flowerCollision(*flowers[i]) && flowers[i]->getDeadStatus() == false && flowers[i]->getOutStatus() == true)
+		{
+			if (mario.getShootingStatus() == false)
+			{
+				mario.setShootingStatus(true);
+				SoundManager::getInstance().playSound("levelUp");
+			}
+			else
+			{
+				mario.setLife(mario.getLife() + 1);
+				SoundManager::getInstance().playSound("life-up");
+			}
+			mario.setPoints(mario.getPoints() + 1000);
+			flowers[i]->setDeadStatus(true);
+		}
+		flowers[i]->Update(deltaTime, map);
+	}
+	// Remove die flower
+	flowers.erase(
+		std::remove_if(flowers.begin(), flowers.end(),
+			[](const auto& flower) {
+				return (flower->getDeadStatus() && flower->getDieTime() <= 0) ||
+					flower->getPosition().y >= 16.0f;
+			}),
+		flowers.end());
+}
+
 void MarioGame::DeadUpdate(GameState& gameState)
 {
 	if (mario.getDeadStatus() == true)
@@ -553,11 +694,21 @@ bool MarioGame::WinDetect()
 {
 	if (mario.getPosition().x >= winPosition.x)
 	{
-		mario.setMapArchive(mario.getMapArchive() + 1);
-		mario.ResetAfterWin();
-		mapTransition.setMapType(mapTransition.getMapType() + 1);
-		mapTransition.setTimer(5.5f);	
-		return true;
+		if (mario.getWinningState() == false)
+		{
+			SoundManager::getInstance().stopSound("main");
+			SoundManager::getInstance().setPlayedStatus("main", false);
+			mario.setWinningState(true);
+			SoundManager::getInstance().playSound("flag");
+		}
+		if (mario.getPosition().y >= endWinPosition.y - 1.0f)
+		{
+			mario.setMapArchive(mario.getMapArchive() + 1);
+			mario.ResetAfterWin();
+			mapTransition.setMapType(mapTransition.getMapType() + 1);
+			mapTransition.setTimer(5.5f);
+			return true;
+		}
 	}
 	return false;
 }
@@ -605,6 +756,10 @@ void MarioGame::HiddenBoxItemDraw(sf::RenderWindow& window)
 	{
 		stars[i]->Draw(window);
 	}
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		flowers[i]->Draw(window);
+	}
 }
 
 void MarioGame::MarioDraw(sf::RenderWindow& window)
@@ -621,6 +776,14 @@ void MarioGame::EnemyDraw(sf::RenderWindow& window)
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		koopas[i]->Draw(window);
+	}
+}
+
+void MarioGame::ChomperDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Draw(window);
 	}
 }
 
@@ -652,6 +815,13 @@ void MarioGame::GameReset()
 		delete koopas[i];
 	}
 	koopas.clear();
+	// Reset chomper
+	for (int i = 0; i < chompers.size(); i++)
+	{
+		chompers[i]->Reset();
+		delete chompers[i];
+	}
+	chompers.clear();
 	/// Reset Mushroom
 	for (int i = 0; i < mushrooms.size(); i++)
 	{
@@ -666,6 +836,13 @@ void MarioGame::GameReset()
 		delete stars[i];
 	}
 	stars.clear();
+	/// Reset Flower
+	for (int i = 0; i < flowers.size(); i++)
+	{
+		flowers[i]->Reset();
+		delete flowers[i];
+	}
+	flowers.clear();
 	/// Reset coin
 	for (int i = 0; i < coins.size(); i++)
 	{

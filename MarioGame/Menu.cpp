@@ -16,12 +16,6 @@ void Menu::Begin(sf::RenderWindow& window)
 		window.getSize().y / backgroundSprite.getLocalBounds().height
 	);
 
-	// Init prompt
-	prompt = sf::Text("Press play to start", font, 30);
-	prompt.setFillColor(sf::Color::White);
-	prompt.setPosition(window.getSize().x / 2 - prompt.getGlobalBounds().width / 2, window.getSize().y / 2 + 50);
-
-	// Init Level 1 button
 	sf::Color backgroundColor(148, 148, 255, 255);
 	level1Button.setSize(sf::Vector2f(200, 50));
 	level1Button.setFillColor(backgroundColor);
@@ -42,11 +36,8 @@ void Menu::Begin(sf::RenderWindow& window)
 void Menu::Draw(sf::RenderWindow& window)
 {
 	window.draw(backgroundSprite);
-	window.draw(prompt);
-
 	window.draw(level1Button);
 	window.draw(level1Text);
-
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)

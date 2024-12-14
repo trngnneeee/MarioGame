@@ -264,5 +264,36 @@ void LoginMenu::Draw(sf::RenderWindow& window)
 
     window.draw(passwordSprite);
     window.draw(errorMessage);
+}
 
+void LoginMenu::UpdateTextPositions(sf::RenderWindow& window)
+{
+    sf::View view = window.getView();
+    sf::Vector2f viewCenter = view.getCenter();
+
+    float centerX = viewCenter.x;
+    float centerY = viewCenter.y + 50;
+    // Position username elements
+    usernameBox.setPosition(centerX, centerY);
+    usernameText.setPosition(centerX - 200, centerY);
+    usernameInput.setPosition(centerX, centerY);
+    // Position password elements
+    passwordBox.setPosition(centerX, centerY + 60);
+    passwordText.setPosition(centerX - 200, centerY + 60);
+    passwordInput.setPosition(centerX, centerY + 68);
+    // Position login button
+    loginButton.setPosition(centerX - loginButton.getGlobalBounds().width / 2, centerY + 130);
+    loginText.setPosition
+    (
+        loginButton.getPosition().x + (loginButton.getSize().x - loginText.getGlobalBounds().width) / 2,
+        loginButton.getPosition().y + (loginButton.getSize().y - loginText.getGlobalBounds().height) / 2 - 10
+    );
+    passwordSprite.setPosition(
+        passwordBox.getPosition().x + passwordBox.getLocalBounds().width - passwordSprite.getGlobalBounds().width,
+        passwordBox.getPosition().y
+    );
+    errorMessage.setPosition(
+        loginButton.getSize().x + 130,
+        loginButton.getSize().y + 650
+    );
 }

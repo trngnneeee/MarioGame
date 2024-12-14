@@ -2,6 +2,7 @@
 #include "HiddenBoxItem.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
+#include "FireFlower.h"
 #include <unordered_map>
 #include <string>
 
