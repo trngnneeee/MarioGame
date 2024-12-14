@@ -15,11 +15,17 @@ int main() {
 	GameState gameState = GameState::LoginMenu;
 	game.LoginMenuBegin(window);
 
+	//DEFAULT USERNAME: VU
+	//DEFAULT PASSWORD: 123
+
 	while (window.isOpen())
 	{
 		float deltaTime = deltaClock.restart().asSeconds();
 		if (deltaTime > 1.f / 30.0f) continue;
-
+		if (gameState == GameState::Menu)
+		{
+			game.HandleStart(gameState, window);
+		}
 		game.Event(window, gameState);
 
 		window.clear();

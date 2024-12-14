@@ -10,9 +10,15 @@ private:
 	sf::Texture backgroundTexture;
 	sf::Sprite backgroundSprite;
 
-	// Map button
+
+	// Play button
 	sf::RectangleShape level1Button;
 	sf::Text level1Text;
+
+	sf::RectangleShape exitButton;
+	sf::Text exitText;
+
+
 public:
 	// Functions
 	void Begin(sf::RenderWindow& window);
