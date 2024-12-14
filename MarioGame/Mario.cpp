@@ -482,27 +482,14 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 				{
 					SoundManager::getInstance().playSound("item");
 					std::srand(static_cast<unsigned>(std::time(0)));
-					int randomNumber = 1 + (std::rand() % 4);
-
-					if (randomNumber == 1)
-					{
-						HiddenBoxItem* newItem = factory.createItem("Mushroom");
-						if (newItem)
-						{
-							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-							mushrooms.push_back(static_cast<PowerUpMushroom*>(newItem));
-						}
-					}
-					else if (randomNumber == 2)
-					{
-						HiddenBoxItem* newItem = factory.createItem("Star");
-						if (newItem)
-						{
-							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-							stars.push_back(static_cast<InvicibleStar*>(newItem));
-						}
-					}
-					else if (randomNumber == 3)
+					int randomNumber = 1 + (std::rand() % 100);
+					/*
+						Coin: 80%
+						Mushroom: 15%
+						Star: 3%
+						Flower: 2%
+					*/
+					if (randomNumber <= 2)
 					{
 						HiddenBoxItem* newItem = factory.createItem("Flower");
 						if (newItem)
@@ -511,7 +498,25 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 							flowers.push_back(static_cast<FireFlower*>(newItem));
 						}
 					}
-					else if (randomNumber == 4)
+					else if (randomNumber <= 5)
+					{
+						HiddenBoxItem* newItem = factory.createItem("Star");
+						if (newItem)
+						{
+							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+							stars.push_back(static_cast<InvicibleStar*>(newItem));
+						}
+					}
+					else if (randomNumber <= 20)
+					{
+						HiddenBoxItem* newItem = factory.createItem("Mushroom");
+						if (newItem)
+						{
+							newItem->Begin(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+							mushrooms.push_back(static_cast<PowerUpMushroom*>(newItem));
+						}
+					}
+					else if (randomNumber <= 100)
 					{
 						coin += 1;
 						SoundManager::getInstance().playSound("coin");
