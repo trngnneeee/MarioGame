@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(true), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f)
 {
 }
 
@@ -373,7 +373,7 @@ void Mario::UpdateTexture(float deltaTime)
 void Mario::handleShoot(float deltaTime)
 {
 	shootCooldown -= deltaTime;
-	if (shootingAbility == true && sf::Mouse::isButtonPressed(sf::Mouse::Left) && shootCooldown <= 0.0f)
+	if (shootingAbility == true && sf::Keyboard::isKeyPressed(sf::Keyboard::F) && shootCooldown <= 0.0f)
 	{
 		SoundManager::getInstance().playSound("bullet");
 		Bullet* newBullet = new Bullet;
@@ -482,7 +482,7 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 				{
 					SoundManager::getInstance().playSound("item");
 					std::srand(static_cast<unsigned>(std::time(0)));
-					int randomNumber = 1 + (std::rand() % 3);
+					int randomNumber = 1 + (std::rand() % 4);
 
 					if (randomNumber == 1)
 					{
@@ -511,6 +511,12 @@ bool Mario::mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std
 							flowers.push_back(static_cast<FireFlower*>(newItem));
 						}
 					}
+					else if (randomNumber == 4)
+					{
+						coin += 1;
+						SoundManager::getInstance().playSound("coin");
+						map.handleCoinHiddenBox(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
+					}
 
 					map.handleHiddenBoxCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
 					return true;
@@ -535,7 +541,7 @@ bool Mario::outOfMapCollision()
 }
 
 bool Mario::goombasCollision(Goombas& goombas) {
-	if (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false)
+	if (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false && isDead == false)
 	{
 		if (velocity.y > 0 && position.y + collisionBox.height <= goombas.getPosition().y + goombas.getCollisionBox().height / 2)
 		{
@@ -552,7 +558,7 @@ bool Mario::goombasCollision(Goombas& goombas) {
 
 bool Mario::koopaCollision(Koopa& koopa)
 {
-	if (koopa.getCollisionBox().intersects(collisionBox) && koopa.getDieStatus() == false)
+	if (koopa.getCollisionBox().intersects(collisionBox) && koopa.getDieStatus() == false && isDead == false)
 	{
 		if (velocity.y > 0 && position.y + collisionBox.height <= koopa.getPosition().y + koopa.getCollisionBox().height / 2)
 		{

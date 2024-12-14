@@ -9,9 +9,56 @@ Map::Map(float cellSize)
 }
 // Functions
 void Map::Begin(const std::string& mapName) {
-	// Load map
 	image.loadFromFile(mapName);
+	TileBegin();
+	FireBegin();
+	HiddenBoxBegin();
+	TubeBegin();
+	CastleBegin();
+	CollumnFloorBegin();
+	bigBushBegin();
+	cloudBegin();
+	triBushBegin();
+	blueTubeBegin();
+}
 
+void Map::Update(float deltaTime)
+{
+	FloatingScoreUpdate(deltaTime);
+	FloatingCoinUpdate(deltaTime);
+	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
+}
+
+void Map::Draw(sf::RenderWindow& window) {
+	FloatingCoinDraw(window);
+	TileDraw(window);
+	FloatingCoinDraw(window);
+}
+
+void Map::Reset()
+{
+	for (int i = 0; i < grid.size(); i++)
+	{
+		grid[i].clear();
+		collisionBoxList[i].clear();
+	}
+	grid.clear();
+	collisionBoxList.clear();
+	for (int i = 0; i < score.size(); i++)
+	{
+		delete score[i];
+	}
+	score.clear();
+	for (int i = 0; i < coins.size(); i++)
+	{
+		delete coins[i];
+	}
+	coins.clear();
+	hiddenBoxAnimation.Reset();
+}
+
+void Map::TileBegin()
+{
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
 	brickTexture.loadFromFile("./resources/textures/brick.png");
@@ -22,7 +69,10 @@ void Map::Begin(const std::string& mapName) {
 	greenBlockTexture.loadFromFile("./resources/textures/greenBlock.png");
 	coralTexture.loadFromFile("./resources/textures/coral.png");
 	waterTexture.loadFromFile("./resources/textures/water.png");
+}
 
+void Map::FireBegin()
+{
 	// Fire texture
 	for (int i = 0; i < 3; i++)
 	{
@@ -30,7 +80,10 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/textures/fire" + std::to_string(i + 1) + ".png");
 		fireTextures.push_back(tmp);
 	}
+}
 
+void Map::HiddenBoxBegin()
+{
 	// Hidden box texture
 	for (int i = 0; i < 3; i++)
 	{
@@ -43,7 +96,10 @@ void Map::Begin(const std::string& mapName) {
 	{
 		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 0.5f * (i + 1)));
 	}
+}
 
+void Map::TubeBegin()
+{
 	// Tube texture
 	for (int i = 0; i < 4; i++)
 	{
@@ -51,7 +107,10 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/textures/tube" + std::to_string(i + 1) + ".png");
 		tubeTexture.push_back(tmp);
 	}
+}
 
+void Map::CastleBegin()
+{
 	// Castle texture;
 	const std::vector<std::string> castleFiles = {
 		"castleBrick.png", "castleDoorTop.png", "castleDoorBottom.png",
@@ -61,18 +120,24 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/textures/Castle/" + file);
 		castleTexture.push_back(tmp);
 	}
+}
 
+void Map::CollumnFloorBegin()
+{
 	// Collumn & Floor
 	const std::vector<std::string> collumnFiles = {
 		"collumn.png", "floor-mid.png", "floor-left.png",
-		"floor-right.png" 
+		"floor-right.png"
 	};
 	for (const auto& file : collumnFiles) {
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/" + file);
 		collumnTexture.push_back(tmp);
 	}
+}
 
+void Map::bigBushBegin()
+{
 	// Big Bush
 	const std::vector<std::string> bigBushFiles = {
 		"bigBush-left.png", "bigBush-mid.png", "bigBush-right.png" };
@@ -81,6 +146,10 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/backgroundComponent/" + file);
 		bigBushTextures.push_back(tmp);
 	}
+}
+
+void Map::cloudBegin()
+{
 	// Cloud
 	const std::vector<std::string> cloudFiles = {
 		"cloud-bottom-left.png", "cloud-bottom-mid.png", "cloud-bottom-right.png",
@@ -90,6 +159,10 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/backgroundComponent/" + file);
 		cloudTextures.push_back(tmp);
 	}
+}
+
+void Map::triBushBegin()
+{
 	// Tribush
 	const std::vector<std::string> triBushFiles = {
 		"triBush-additional.png", "triBush-left.png", "triBush-mid.png",
@@ -99,6 +172,10 @@ void Map::Begin(const std::string& mapName) {
 		tmp.loadFromFile("./resources/backgroundComponent/" + file);
 		triBushTextures.push_back(tmp);
 	}
+}
+
+void Map::blueTubeBegin()
+{
 	// Blue tube
 	for (int i = 0; i < 4; i++)
 	{
@@ -414,6 +491,42 @@ void Map::CreateCollisionBox()
 	}
 }
 
+void Map::FloatingScoreUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < score.size();)
+	{
+		if (score[i])
+		{
+			score[i]->Update(deltaTime);
+			if (score[i]->isTimeout())
+			{
+				delete score[i];
+				score.erase(score.begin() + i);
+				continue;
+			}
+		}
+		i++;
+	}
+}
+
+void Map::FloatingCoinUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < coins.size();)
+	{
+		if (coins[i])
+		{
+			coins[i]->Update(deltaTime);
+			if (coins[i]->isTimeOut())
+			{
+				delete coins[i];
+				coins.erase(coins.begin() + i);
+				continue;
+			}
+		}
+		i++;
+	}
+}
+
 void Map::handleBrickCollision(sf::Vector2f brickPosition)
 {
 	int x = static_cast<int>(brickPosition.x / cellSize);
@@ -434,27 +547,28 @@ void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
 	grid[x][y] = 5;
 }
 
-void Map::Update(float deltaTime)
+void Map::handleCoinHiddenBox(sf::Vector2f coinPosition)
 {
-	for (int i = 0; i < score.size();)
-	{
-		if (score[i])
-		{
-			score[i]->Update(deltaTime);
-			if (score[i]->isTimeout())
-			{
-				delete score[i];
-				score.erase(score.begin() + i);
-				continue;
-			}
-		}
-		i++;
-	}
+	int x = static_cast<int>(coinPosition.x / cellSize);
+	int y = static_cast<int>(coinPosition.y / cellSize);
 
-	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
+	grid[x][y] = 5;
+
+	FloatingCoin* newCoin = new FloatingCoin(coinPosition);
+	coins.push_back(newCoin);
 }
 
-void Map::Draw(sf::RenderWindow& window) {
+void Map::FloatingCoinDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < coins.size(); i++)
+	{
+		if (coins[i])
+			coins[i]->Draw(window);
+	}
+}
+
+void Map::TileDraw(sf::RenderWindow& window)
+{
 	for (int x = 0; x < grid.size(); x++)
 	{
 		for (int y = 0; y < grid[x].size(); y++)
@@ -469,7 +583,7 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 2:
 				texture = &copperTexture;
 				break;
-			case 4: 
+			case 4:
 				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
 				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
 				window.draw(hiddenBoxSprite);
@@ -480,7 +594,7 @@ void Map::Draw(sf::RenderWindow& window) {
 			case 5:
 				texture = &useBlock;
 				break;
-			// Win Milestone
+				// Win Milestone
 			case 6:
 			{
 				texture = &circleTexture;
@@ -700,34 +814,21 @@ void Map::Draw(sf::RenderWindow& window) {
 			if (texture)
 			{
 				sprite.setTexture(*texture);
-				sprite.setPosition(cellSize* x, cellSize* y);
+				sprite.setPosition(cellSize * x, cellSize * y);
 				sprite.setScale(cellSize / texture->getSize().x, cellSize / texture->getSize().x);
 				window.draw(sprite);
 			}
 		}
 	}
+}
+
+void Map::FloatingScoreDraw(sf::RenderWindow& window)
+{
 	for (int i = 0; i < score.size(); i++)
 	{
 		if (score[i])
 			score[i]->Draw(window);
 	}
-}
-
-void Map::Reset()
-{
-	for (int i = 0; i < grid.size(); i++)
-	{
-		grid[i].clear();
-		collisionBoxList[i].clear();
-	}
-	grid.clear();
-	collisionBoxList.clear();
-	for (int i = 0; i < score.size(); i++)
-	{
-		delete score[i];
-	}
-	score.clear();
-	hiddenBoxAnimation.Reset();
 }
 
 const std::vector<std::vector<sf::FloatRect>>& Map::getCollisionBoxList() const

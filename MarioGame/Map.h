@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "FloatingScore.h"
+#include "FloatingCoin.h"
 #include "Animation.h"
 #include "SoundManagement.h"
 
@@ -54,16 +55,30 @@ private:
 
 	// Score
 	std::vector<FloatingScore*> score;
+	// Coin
+	std::vector<FloatingCoin*> coins;
 public:
 	// Constructors
 	Map(float cellSize = 32.0f);
 
-	// Functions
+	///	MAIN FUNCTIONS
 	void Begin(const std::string& mapName);
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 
+	/// HELPER FUNCTIONS
+	// Begin Functions
+	void TileBegin();
+	void FireBegin();
+	void HiddenBoxBegin();
+	void TubeBegin();
+	void CastleBegin();
+	void CollumnFloorBegin();
+	void bigBushBegin();
+	void cloudBegin();
+	void triBushBegin();
+	void blueTubeBegin();
 	void CreateFromImage(
 		sf::Vector2f& marioPosition, 
 		sf::Vector2f& winPosition, 
@@ -73,8 +88,17 @@ public:
 		std::vector<sf::Vector2f>& chompersPosition
 	);
 	void CreateCollisionBox();
+	// Update Functions
+	void FloatingScoreUpdate(const float& deltaTime);
+	void FloatingCoinUpdate(const float& deltaTime);
+	// Collision Hanlde Functions
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
+	void handleCoinHiddenBox(sf::Vector2f coinPosition);
+	// Draw Functions
+	void FloatingCoinDraw(sf::RenderWindow& window);
+	void TileDraw(sf::RenderWindow& window);
+	void FloatingScoreDraw(sf::RenderWindow& window);
 
 	// Setter/Getter
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;
