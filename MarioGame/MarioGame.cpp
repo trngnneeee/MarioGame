@@ -56,10 +56,12 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	std::vector<sf::Vector2f> koopasPosition;
 	std::vector<sf::Vector2f> coinsPosition;
 	std::vector<sf::Vector2f> chompersPosition;
+	std::vector<sf::Vector2f> bridgesPosition;
 	sf::Vector2f marioPosition;
-	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
+	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition);
 	MarioBegin(marioPosition);
 	EnemyBegin(goombasPosition, koopasPosition);
+	FlyingBridgeBegin(bridgesPosition);
 	ChomperBegin(chompersPosition);
 	CoinBegin(coinsPosition);
 	BackgroundBegin();
@@ -88,6 +90,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		GoombaUpdate(deltaTime, map);
 		KoopaUpdate(deltaTime, map);
 		ChomperUpdate(deltaTime);
+		FlyingBridgeUpdate(deltaTime);
 		CoinUpdate(deltaTime);
 		GameTimeUpdate(deltaTime);
 		UIUpdate(deltaTime);
@@ -138,6 +141,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
+		FlyingBridgeDraw(window);
 		MapDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
@@ -156,6 +160,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
+		FlyingBridgeDraw(window);
 		MapDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
@@ -201,20 +206,20 @@ void MarioGame::MapTransitionBegin()
 	mapTransition.Begin();
 }
 
-void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition)
+void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition, std::vector<sf::Vector2f>& bridgesPosition)
 {
 	map = Map(1.0f);
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map1.png";
+		mapName = "map3.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition);
+	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition);
 
 	map.CreateCollisionBox();
 }
@@ -257,6 +262,16 @@ void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
 		Chomper* newChomper = new Chomper;
 		newChomper->Begin(chompersPosition[i]);
 		chompers.push_back(newChomper);
+	}
+}
+
+void MarioGame::FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition)
+{
+	for (int i = 0; i < bridgesPosition.size(); i++)
+	{
+		FlyingBridge* newBridge = new FlyingBridge;
+		newBridge->Begin(bridgesPosition[i]);
+		bridges.push_back(newBridge);
 	}
 }
 
@@ -403,7 +418,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushrooms, stars, flowers);
+	mario.Update(deltaTime, map, mushrooms, stars, flowers, bridges);
 }
 
 void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
@@ -509,6 +524,14 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 	for (int i = 0; i < chompers.size(); i++)
 	{
 		chompers[i]->Update(deltaTime);
+	}
+}
+
+void MarioGame::FlyingBridgeUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < bridges.size(); i++)
+	{
+		bridges[i]->Update(deltaTime);
 	}
 }
 
@@ -759,6 +782,14 @@ void MarioGame::EnemyDraw(sf::RenderWindow& window)
 	}
 }
 
+void MarioGame::FlyingBridgeDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < bridges.size(); i++)
+	{
+		bridges[i]->Draw(window);
+	}
+}
+
 void MarioGame::ChomperDraw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < chompers.size(); i++)
@@ -828,6 +859,12 @@ void MarioGame::GameReset()
 	{
 		coins[i]->Reset();
 	}
+	/// Reset bridge
+	for (int i = 0; i < bridges.size(); i++)
+	{
+		delete bridges[i];
+	}
+	bridges.clear();
 	coins.clear();
 	/// Reset music
 }

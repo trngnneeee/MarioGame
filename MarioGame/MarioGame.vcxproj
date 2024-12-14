@@ -147,6 +147,7 @@
     <ClCompile Include="FireFlower.cpp" />
     <ClCompile Include="FloatingCoin.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
+    <ClCompile Include="FlyingBridge.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
     <ClCompile Include="HiddenBoxItemFactory.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="FireFlower.h" />
     <ClInclude Include="FloatingCoin.h" />
     <ClInclude Include="FloatingScore.h" />
+    <ClInclude Include="FlyingBridge.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Goombas.h" />

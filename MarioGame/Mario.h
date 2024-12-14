@@ -16,6 +16,7 @@
 #include "Coin.h"
 #include "SoundManagement.h"
 #include "Bullet.h"
+#include "FlyingBridge.h"
 
 class Mario
 {
@@ -97,13 +98,14 @@ public:
 
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
-	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers, const std::vector<FlyingBridge*>& bridges);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 	void ResetAfterDead();
 	void ResetAfterWin();
 
 	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void HandleBridgeStanding(float deltaTime, std::vector<FlyingBridge*> bridges);
 	void updateSwimmingState(float deltaTime);
 	void handleSwimming(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
 	void UpdateCollisionBox();

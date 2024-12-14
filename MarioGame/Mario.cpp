@@ -90,7 +90,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	);
 }
 
-void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers)
+void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers, const std::vector<FlyingBridge*>& bridges)
 {
 	if (!isWinning)
 	{
@@ -101,6 +101,7 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 		handleCollectCoin();
 		handleJumpStrength();
 		HandleMove(deltaTime, map, mushrooms, stars, flowers);
+		HandleBridgeStanding(deltaTime ,bridges);
 		UpdateTexture(deltaTime);
 		// Shoot
 		handleShoot(deltaTime);
@@ -144,6 +145,40 @@ void Mario::HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>&
 	else
 	{
 		handleSwimming(deltaTime, map, mushrooms, stars, flowers);
+	}
+}
+
+void Mario::HandleBridgeStanding(float deltaTime, std::vector<FlyingBridge*> bridges)
+{
+	sf::Vector2f newPosition = position;
+	collisionBox.left = position.x;
+	collisionBox.top = newPosition.y + velocity.y * deltaTime;
+
+	bool hasCollided = false;
+
+	for (FlyingBridge* bridge : bridges)
+	{
+		sf::FloatRect bridgeBox = bridge->getCollisionBox();
+
+		if (collisionBox.intersects(bridgeBox))
+		{
+			if (velocity.y > 0 && position.y + collisionBox.height <= bridgeBox.top + 1)
+			{
+				position.y = bridgeBox.top - collisionBox.height;
+				velocity.y = 0;
+				isOnGround = true;
+				hasCollided = true;
+			}
+			else if (velocity.y < 0 && position.y >= bridgeBox.top + bridgeBox.height)
+			{
+				position.y = bridgeBox.top + bridgeBox.height;
+				velocity.y = 0;
+			}
+
+			position.y += bridge->getVelocity().y * deltaTime;
+			hasCollided = true;
+			break;
+		}
 	}
 }
 
@@ -352,7 +387,7 @@ void Mario::handleCollectCoin()
 
 void Mario::handleJumpStrength()
 {
-	jumpStrength = (levelUp) ? 20.0f : 17.0f;
+	jumpStrength = (levelUp) ? 20.0f : 20.0f;
 }
 
 void Mario::UpdateTexture(float deltaTime)

@@ -86,7 +86,8 @@ public:
 		std::vector<sf::Vector2f>& goombasPosition, 
 		std::vector<sf::Vector2f>& koopaPosition, 
 		std::vector<sf::Vector2f>& coinPosition,
-		std::vector<sf::Vector2f>& chompersPosition
+		std::vector<sf::Vector2f>& chompersPosition,
+		std::vector<sf::Vector2f>& bridgesPosition
 	);
 	void CreateCollisionBox();
 	// Update Functions

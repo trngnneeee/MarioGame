@@ -21,6 +21,7 @@
 #include <iostream>
 #include <string>
 #include "PauseMenu.h"
+#include "FlyingBridge.h"
 class MarioGame
 {
 private:
@@ -42,6 +43,7 @@ private:
 	std::vector<FireFlower*> flowers;
 	sf::Vector2f winPosition;
 	sf::Vector2f endWinPosition;
+	std::vector<FlyingBridge*> bridges;
 
 	float updateRange;
 	bool pause;
@@ -63,11 +65,13 @@ public:
 		std::vector<sf::Vector2f>& goombasPosition,
 		std::vector<sf::Vector2f>& koopasPosition, 
 		std::vector<sf::Vector2f>& coinsPosition,
-		std::vector<sf::Vector2f>& chompersPosition
+		std::vector<sf::Vector2f>& chompersPosition,
+		std::vector<sf::Vector2f>& bridgesPosition
 	);
 	void MarioBegin(const sf::Vector2f& marioPosition);
 	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
 	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
+	void FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition);
 	void CoinBegin(const std::vector<sf::Vector2f>& coinsPosition);
 	void BackgroundBegin();
 	void GameTimeBegin();
@@ -88,6 +92,7 @@ public:
 	void GoombaUpdate(const float& deltaTime, const Map& map);
 	void KoopaUpdate(const float& deltaTime, const Map& map);
 	void ChomperUpdate(const float& deltaTime);
+	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
 	void GameTimeUpdate(const float& deltaTime);
 	void UIUpdate(const float& deltaTime);
@@ -111,6 +116,7 @@ public:
 	void MapDraw(sf::RenderWindow& window);
 	void MarioDraw(sf::RenderWindow& window);
 	void EnemyDraw(sf::RenderWindow& window);
+	void FlyingBridgeDraw(sf::RenderWindow& window);
 	void ChomperDraw(sf::RenderWindow& window);
 	void CoinDraw(sf::RenderWindow& window);
 	void UIDraw(sf::RenderWindow& window);

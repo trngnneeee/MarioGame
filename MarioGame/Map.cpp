@@ -192,7 +192,8 @@ void Map::CreateFromImage(
 	std::vector<sf::Vector2f>& goombasPosition,
 	std::vector<sf::Vector2f>& koopaPosition,
 	std::vector<sf::Vector2f>& coinPosition,
-	std::vector<sf::Vector2f>& chompersPosition
+	std::vector<sf::Vector2f>& chompersPosition,
+	std::vector<sf::Vector2f>& bridgesPosition
 )
 {
 	// Clear the previous map (vector)
@@ -473,6 +474,11 @@ void Map::CreateFromImage(
 			case EntityType::blueTube4:
 			{
 				grid[i][j] = 47;
+				break;
+			}
+			case EntityType::flyingBridge:
+			{
+				bridgesPosition.push_back(sf::Vector2f(cellSize* i, cellSize* j));
 				break;
 			}
 			}
