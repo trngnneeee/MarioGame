@@ -57,6 +57,7 @@ void MarioGame::Begin(sf::RenderWindow& window)
 {
 	MusicBegin();
 	MapTransitionBegin();
+	GameOverBegin();
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopasPosition;
 	std::vector<sf::Vector2f> coinsPosition;
@@ -105,8 +106,8 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		MushroomUpdate(deltaTime, map);
 		StarUpdate(deltaTime, map);
 		FlowerUpdate(deltaTime, map);
-		DeadUpdate(gameState);
 		FlagUpdate(deltaTime);
+		DeadUpdate(gameState);
 		if (WinDetect())
 		{
 			GameReset();
@@ -120,7 +121,10 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 	}
 	else if (gameState == GameState::GameOver)
 	{
-		gameState = GameState::Menu;
+		if (gameOver.isTimeOut())
+			gameState = GameState::Menu;
+		else
+			GameOverUpdate(deltaTime);
 	}
 }
 
@@ -181,6 +185,8 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 	}
 	else if (gameState == GameState::GameOver)
 	{
+		window.setView(window.getDefaultView());
+		GameOverDraw(window);
 	}  
 }
 
@@ -351,6 +357,11 @@ void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
 	loginMenu.Begin(window);
 }
 
+void MarioGame::GameOverBegin()
+{
+	gameOver.Begin();
+}
+
 void MarioGame::FlagBegin(sf::Vector2f winPosition)
 {
 	winFlag.Begin(winPosition);
@@ -376,6 +387,11 @@ bool MarioGame::MapTransitionUpdate(const float& deltaTime)
 		return true;
 	}
 	else return false;
+}
+
+void MarioGame::GameOverUpdate(const float& deltaTime)
+{
+	gameOver.Update(deltaTime);
 }
 
 void MarioGame::MapUpdate(const float& deltaTime)
@@ -607,6 +623,7 @@ void MarioGame::GameTimeUpdate(const float& deltaTime)
 	if (gameTime.getGameTime() < 0)
 	{
 		mario.setDeadStatus(true);
+		mario.setLife(0);
 		gameTime.setGameTime(0);
 	}
 }
@@ -781,6 +798,11 @@ void MarioGame::MenuDraw(sf::RenderWindow& window)
 void MarioGame::LoginMenuDraw(sf::RenderWindow& window)
 {
 	loginMenu.Draw(window);
+}
+
+void MarioGame::GameOverDraw(sf::RenderWindow& window)
+{
+	gameOver.Draw(window);
 }
 
 void MarioGame::BackgroundDraw(sf::RenderWindow& window)

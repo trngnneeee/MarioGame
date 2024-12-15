@@ -17,12 +17,13 @@
 #include "InvicibleStar.h"
 #include "FireFlower.h"
 #include "GameState.h"
-#include <vector>
-#include <iostream>
-#include <string>
 #include "PauseMenu.h"
 #include "FlyingBridge.h"
 #include "Flag.h"
+#include "GameOver.h"
+#include <vector>
+#include <iostream>
+#include <string>
 class MarioGame
 {
 private:
@@ -36,8 +37,11 @@ private:
 	Background background;
 	GameTime gameTime;
 	UICounter UI;
+
 	Menu menu;
 	LoginMenu loginMenu;
+	GameOver gameOver;
+
 	Camera camera;
 	std::vector<PowerUpMushroom*> mushrooms;
 	std::vector<InvicibleStar*> stars;
@@ -82,11 +86,13 @@ public:
 	void CameraBegin();
 	void MenuBegin(sf::RenderWindow& window);
 	void LoginMenuBegin(sf::RenderWindow& window);
+	void GameOverBegin();
 	void FlagBegin(sf::Vector2f winPosition);
 
 	// UPDATE FUNCTIONS
 	void MusicUpdate();
 	bool MapTransitionUpdate(const float& deltaTime);
+	void GameOverUpdate(const float& deltaTime);
 	void MapUpdate(const float& deltaTime);
 	void MarioUpdate(
 		const float& deltaTime,
@@ -114,6 +120,7 @@ public:
 	void MapTransitionDraw(sf::RenderWindow& window);
 	void MenuDraw(sf::RenderWindow& window);
 	void LoginMenuDraw(sf::RenderWindow& window);
+	void GameOverDraw(sf::RenderWindow& window);
 
 	/*CAUTIOUS: KEEP THIS DRAW ORDER FOR CORRECT Z-INDEX*/
 	void BackgroundDraw(sf::RenderWindow& window);
