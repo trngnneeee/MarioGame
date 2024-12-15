@@ -237,7 +237,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map3.png";
+		mapName = "map1.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
@@ -293,7 +293,7 @@ void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
 void MarioGame::FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition)
 {
 	// Only treat for map 3
-	if (mario.getMapArchive() == 1)
+	if (mario.getMapArchive() == 3)
 	{
 		for (int i = 0; i < bridgesPosition.size() - 1; i++)
 		{
@@ -455,7 +455,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 	// Collision with chomper
 	for (int i = 0; i < chompers.size(); i++)
 	{
-		if (mario.chomperCollision(*chompers[i]))
+		if (mario.chomperCollision(*chompers[i]) && chompers[i]->getDeadStatus() == false)
 		{
 			if (mario.getInvicibleTime2() > 0) continue;
 			else
@@ -496,7 +496,7 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (goombas[i]->bulletCollision(*bullets[j]))
+			if (goombas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
 			{	
 				goombas[i]->setDieByKoopaStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -551,7 +551,7 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (koopas[i]->bulletCollision(*bullets[j]))
+			if (koopas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
 			{
 				koopas[i]->setDieStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -580,6 +580,15 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 {
 	for (int i = 0; i < chompers.size(); i++)
 	{
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (chompers[i]->bulletCollision(*bullets[j]))
+			{
+				chompers[i]->setDeadStatus(true);
+				bullets[j]->setAppearTime(0.0f);
+			}
+		}
 		chompers[i]->Update(deltaTime);
 	}
 }

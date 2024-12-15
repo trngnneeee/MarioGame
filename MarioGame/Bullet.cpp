@@ -161,3 +161,8 @@ sf::FloatRect Bullet::getCollisionBox() const
 {
 	return collisionBox;
 }
+
+bool Bullet::getExplodeStatus()
+{
+	return isExplode;
+}

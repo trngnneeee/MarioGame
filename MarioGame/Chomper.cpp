@@ -2,13 +2,13 @@
 #include <iostream>
 
 Chomper::Chomper()
-	: animation(0.2f), velocity(3.0f), isHiding(false), hidingDuration(4.0f), hidingTimer(0.0f)
+	: animation(0.2f), velocity(1.5f), isHiding(false), hidingDuration(4.0f), hidingTimer(0.0f), isDead(false)
 {
 }
 
 void Chomper::Begin(sf::Vector2f position)
 {
-	this->position.y = position.y - 1.0f;
+	this->position.y = position.y - 0.5f;
 	this->position.x = position.x + 0.5f;
 	minY = this->position.y;
 	maxY = this->position.y + 2.0f;
@@ -22,32 +22,40 @@ void Chomper::Begin(sf::Vector2f position)
 	{
 		animation.addFrame(Frame(&textures[i], 0.1f * (i + 1)));
 	}
+	score = new FloatingScore(200, position);
 	collisionBox = sf::FloatRect(
 		position.x,
 		position.y,
-		0.8f / textures[0].getSize().x,
-		1.9f / textures[0].getSize().y
+		1.0f / textures[0].getSize().x,
+		1.5f / textures[0].getSize().y
 	);
 }
 
 void Chomper::Update(float deltaTime)
 {
+	if (isDead)
+	{
+		score->Update(deltaTime);
+		return;
+	}
 	handleHiding(deltaTime);
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 2.0f / textures[0].getSize().y));
+	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.5f / textures[0].getSize().y));
 	sprite.setPosition(position);
 	sprite.setTexture(*animation.update(deltaTime));
 }
 
 void Chomper::Draw(sf::RenderWindow& window)
 {
-	window.draw(sprite);
+	if (isDead) score->Draw(window);
+	else window.draw(sprite);
 }
 
 void Chomper::Reset()
 {
 	animation.Reset();
 	textures.clear();
+	delete score;
 }
 
 void Chomper::handleHiding(float deltaTime)
@@ -76,6 +84,11 @@ void Chomper::handleHiding(float deltaTime)
 	}
 }
 
+bool Chomper::bulletCollision(const Bullet& bullet)
+{
+	return collisionBox.intersects(bullet.getCollisionBox());
+}
+
 sf::FloatRect Chomper::getCollisionBox() const
 {
 	return collisionBox;
@@ -84,4 +97,14 @@ sf::FloatRect Chomper::getCollisionBox() const
 bool Chomper::getHidingStatus()
 {
 	return isHiding;
+}
+
+bool Chomper::getDeadStatus()
+{
+	return isDead;
+}
+
+void Chomper::setDeadStatus(const bool& value)
+{
+	isDead = value;
 }
