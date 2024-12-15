@@ -152,6 +152,7 @@
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
+    <ClCompile Include="HiddenBox.cpp" />
     <ClCompile Include="HiddenBoxItemFactory.cpp" />
     <ClCompile Include="InvicibleStar.cpp" />
     <ClCompile Include="HiddenBoxItem.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Goombas.h" />
+    <ClInclude Include="HiddenBox.h" />
     <ClInclude Include="HiddenBoxItemFactory.h" />
     <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="HiddenBoxItem.h" />

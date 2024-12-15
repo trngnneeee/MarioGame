@@ -13,6 +13,9 @@
 #include "Menu.h"
 #include "LoginMenu.h"
 #include "UICounter.h"
+#include "FloatingCoin.h"
+#include "HiddenBox.h"
+#include "HiddenBoxItemFactory.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
 #include "FireFlower.h"
@@ -43,6 +46,8 @@ private:
 	GameOver gameOver;
 
 	Camera camera;
+	std::vector<FloatingCoin*> floatingCoin;
+	std::vector<HiddenBox*> hiddenBoxes;
 	std::vector<PowerUpMushroom*> mushrooms;
 	std::vector<InvicibleStar*> stars;
 	std::vector<FireFlower*> flowers;
@@ -73,13 +78,15 @@ public:
 		std::vector<sf::Vector2f>& koopasPosition, 
 		std::vector<sf::Vector2f>& coinsPosition,
 		std::vector<sf::Vector2f>& chompersPosition,
-		std::vector<sf::Vector2f>& bridgesPosition
+		std::vector<sf::Vector2f>& bridgesPosition,
+		std::vector<sf::Vector2f>& hiddenBoxesPosition
 	);
 	void MarioBegin(const sf::Vector2f& marioPosition);
 	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
 	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
 	void FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition);
 	void CoinBegin(const std::vector<sf::Vector2f>& coinsPosition);
+	void HiddenBoxBegin(const std::vector<sf::Vector2f>& hiddenBoxesPosition);
 	void BackgroundBegin();
 	void GameTimeBegin();
 	void UICounterBegin();
@@ -104,6 +111,8 @@ public:
 	void ChomperUpdate(const float& deltaTime);
 	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
+	void FloatingCoinUpdate(const float& deltaTime);
+	void HiddenBoxUpdate(const float& deltaTime);
 	void GameTimeUpdate(const float& deltaTime);
 	void UIUpdate(const float& deltaTime);
 
@@ -127,6 +136,8 @@ public:
 	void HiddenBoxItemDraw(sf::RenderWindow& window);
 	void ChomperDraw(sf::RenderWindow& window);
 	void MapDraw(sf::RenderWindow& window);
+	void FloatingCoinDraw(sf::RenderWindow& window);
+	void HiddenBoxDraw(sf::RenderWindow& window);
 	void FlyingBridgeDraw(sf::RenderWindow& window);
 	void FlagDraw(sf::RenderWindow& window);
 	void MarioDraw(sf::RenderWindow& window);

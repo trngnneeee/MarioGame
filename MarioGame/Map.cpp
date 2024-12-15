@@ -49,11 +49,6 @@ void Map::Reset()
 		delete score[i];
 	}
 	score.clear();
-	for (int i = 0; i < coins.size(); i++)
-	{
-		delete coins[i];
-	}
-	coins.clear();
 	hiddenBoxAnimation.Reset();
 }
 
@@ -193,7 +188,8 @@ void Map::CreateFromImage(
 	std::vector<sf::Vector2f>& koopaPosition,
 	std::vector<sf::Vector2f>& coinPosition,
 	std::vector<sf::Vector2f>& chompersPosition,
-	std::vector<sf::Vector2f>& bridgesPosition
+	std::vector<sf::Vector2f>& bridgesPosition,
+	std::vector<sf::Vector2f>& hiddenBoxesPosition
 )
 {
 	// Clear the previous map (vector)
@@ -227,6 +223,7 @@ void Map::CreateFromImage(
 			case EntityType::HiddenBox:
 			{
 				grid[i][j] = 4;
+				hiddenBoxesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			case EntityType::useBlock:
@@ -550,25 +547,6 @@ void Map::handleBrickCollision(sf::Vector2f brickPosition)
 
 	FloatingScore* newScore = new FloatingScore(50, brickPosition);
 	score.push_back(newScore);
-}
-
-void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
-{
-	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
-	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
-
-	grid[x][y] = 5;
-}
-
-void Map::handleCoinHiddenBox(sf::Vector2f coinPosition)
-{
-	int x = static_cast<int>(coinPosition.x / cellSize);
-	int y = static_cast<int>(coinPosition.y / cellSize);
-
-	grid[x][y] = 5;
-
-	FloatingCoin* newCoin = new FloatingCoin(coinPosition);
-	coins.push_back(newCoin);
 }
 
 void Map::FloatingCoinDraw(sf::RenderWindow& window)

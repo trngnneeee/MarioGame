@@ -87,7 +87,8 @@ public:
 		std::vector<sf::Vector2f>& koopaPosition, 
 		std::vector<sf::Vector2f>& coinPosition,
 		std::vector<sf::Vector2f>& chompersPosition,
-		std::vector<sf::Vector2f>& bridgesPosition
+		std::vector<sf::Vector2f>& bridgesPosition,
+		std::vector<sf::Vector2f>& hiddenBoxesPosition
 	);
 	void CreateCollisionBox();
 	// Update Functions
@@ -95,8 +96,6 @@ public:
 	void FloatingCoinUpdate(const float& deltaTime);
 	// Collision Hanlde Functions
 	void handleBrickCollision(sf::Vector2f brickPosition);
-	void handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition);
-	void handleCoinHiddenBox(sf::Vector2f coinPosition);
 	// Draw Functions
 	void FloatingCoinDraw(sf::RenderWindow& window);
 	void TileDraw(sf::RenderWindow& window);
