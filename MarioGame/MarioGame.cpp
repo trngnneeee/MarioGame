@@ -752,7 +752,7 @@ bool MarioGame::WinDetect()
 			SoundManager::getInstance().setPlayedStatus("main", false);
 			mario.setWinningState(true);
 			mario.setPosition(winPosition);
-			winFlag.setPosition(mario.getPosition());
+			winFlag.setPosition(sf::Vector2f(mario.getPosition().x - 0.5f, mario.getPosition().y));
 			SoundManager::getInstance().playSound("flag");
 		}
 		if (mario.getPosition().y >= endWinPosition.y - 1.0f)

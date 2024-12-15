@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false), smallWinAnimation(0.2f), bigWinAnimation(0.2f)
 {
 }
 
@@ -78,8 +78,18 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	sf::Texture tmp;
 	tmp.loadFromFile("./resources/textures/Mario/marioSmallWin.png");
 	winTextures.push_back(tmp);
+	tmp.loadFromFile("./resources/textures/Mario/marioSmallWin2.png");
+	winTextures.push_back(tmp);
 	tmp.loadFromFile("./resources/textures/Mario/marioBigWin.png");
 	winTextures.push_back(tmp);
+	tmp.loadFromFile("./resources/textures/Mario/marioBigWin2.png");
+	winTextures.push_back(tmp);
+
+	smallWinAnimation.addFrame(Frame(&winTextures[0], 0.1f));
+	smallWinAnimation.addFrame(Frame(&winTextures[1], 0.2f));
+
+	bigWinAnimation.addFrame(Frame(&winTextures[2], 0.1f));
+	bigWinAnimation.addFrame(Frame(&winTextures[3], 0.2f));
 
 	// Init collision box
 	collisionBox = sf::FloatRect(
@@ -110,8 +120,8 @@ void Mario::Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mus
 	else
 	{
 		position.y += 5.0f * deltaTime;
-		sprite.setTexture(winTextures[0]);
-		bigSprite.setTexture(winTextures[1]);
+		sprite.setTexture(*smallWinAnimation.update(deltaTime));
+		bigSprite.setTexture(*bigWinAnimation.update(deltaTime));
 	}
 }
 
@@ -378,10 +388,10 @@ void Mario::handleBlinkEffect(float deltaTime)
 
 void Mario::handleCollectCoin()
 {
-	if (coin >= 10)
+	if (coin >= 100)
 	{
 		SoundManager::getInstance().playSound("life-up");
-		coin -= 10;
+		coin -= 100;
 		life++;
 	}
 }
@@ -717,10 +727,13 @@ void Mario::Reset()
 	bigRunAnimation.Reset();
 	smallSwimAnimation.Reset();
 	bigSwimAnimation.Reset();
+	smallWinAnimation.Reset();
+	bigWinAnimation.Reset();
 	textures.clear();
 	bigTexture.clear();
 	smallSwimTextures.clear();
 	bigSwimTextures.clear();
+	winTextures.clear();
 	shootingAbility = false;
 	isWinning = false;
 }
@@ -761,6 +774,16 @@ void Mario::ResetAfterWin()
 		1.9f / textures[3].getSize().y
 	);
 	runAnimation.Reset();
+	bigRunAnimation.Reset();
+	smallSwimAnimation.Reset();
+	bigSwimAnimation.Reset();
+	smallWinAnimation.Reset();
+	bigWinAnimation.Reset();
+	textures.clear();
+	bigTexture.clear();
+	smallSwimTextures.clear();
+	bigSwimTextures.clear();
+	winTextures.clear();
 	isWinning = false;
 }
 

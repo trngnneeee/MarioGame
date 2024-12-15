@@ -92,6 +92,8 @@ private:
 	// Win
 	bool isWinning;
 	std::vector<sf::Texture> winTextures;
+	Animation smallWinAnimation;
+	Animation bigWinAnimation;
 public:
 	// Constructor
 	Mario();
