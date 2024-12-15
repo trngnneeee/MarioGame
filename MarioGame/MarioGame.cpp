@@ -73,6 +73,7 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	GameTimeBegin();
 	UICounterBegin();
 	CameraBegin();
+	FlagBegin(winPosition);
 }
 
 void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window)
@@ -105,6 +106,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		StarUpdate(deltaTime, map);
 		FlowerUpdate(deltaTime, map);
 		DeadUpdate(gameState);
+		FlagUpdate(deltaTime);
 		if (WinDetect())
 		{
 			GameReset();
@@ -147,8 +149,9 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
-		FlyingBridgeDraw(window);
 		MapDraw(window);
+		FlyingBridgeDraw(window);
+		FlagDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
 		CoinDraw(window);
@@ -166,8 +169,9 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
-		FlyingBridgeDraw(window);
 		MapDraw(window);
+		FlyingBridgeDraw(window);
+		FlagDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
 		CoinDraw(window);
@@ -182,7 +186,6 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 
 /// HELPER FUNCTIONS
 /// Begin Function
-
 void MarioGame::HandleStart(GameState& gameState, sf::RenderWindow& window)
 {
 	int option = menu.HandleInput(window);
@@ -346,6 +349,11 @@ void MarioGame::MenuBegin(sf::RenderWindow& window)
 void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
 {
 	loginMenu.Begin(window);
+}
+
+void MarioGame::FlagBegin(sf::Vector2f winPosition)
+{
+	winFlag.Begin(winPosition);
 }
 
 /// Update Function
@@ -698,6 +706,14 @@ void MarioGame::FlowerUpdate(const float& deltaTime, const Map& map)
 		flowers.end());
 }
 
+void MarioGame::FlagUpdate(const float& deltaTime)
+{
+	if (mario.getWinningState() == true)
+	{
+		winFlag.Update(deltaTime);
+	}
+}
+
 void MarioGame::DeadUpdate(GameState& gameState)
 {
 	if (mario.getDeadStatus() == true)
@@ -735,6 +751,8 @@ bool MarioGame::WinDetect()
 			SoundManager::getInstance().stopSound("main");
 			SoundManager::getInstance().setPlayedStatus("main", false);
 			mario.setWinningState(true);
+			mario.setPosition(winPosition);
+			winFlag.setPosition(mario.getPosition());
 			SoundManager::getInstance().playSound("flag");
 		}
 		if (mario.getPosition().y >= endWinPosition.y - 1.0f)
@@ -780,6 +798,11 @@ void MarioGame::UIDraw(sf::RenderWindow& window)
 void MarioGame::MapDraw(sf::RenderWindow& window)
 {
 	map.Draw(window);
+}
+
+void MarioGame::FlagDraw(sf::RenderWindow& window)
+{
+	winFlag.Draw(window);
 }
 
 void MarioGame::HiddenBoxItemDraw(sf::RenderWindow& window)

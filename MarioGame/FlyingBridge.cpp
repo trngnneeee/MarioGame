@@ -1,5 +1,4 @@
 #include "FlyingBridge.h"
-#include <iostream>
 
 FlyingBridge::FlyingBridge(const sf::Vector2f& velocity, const float& maxRangeX, const float& minRangeX, const float& maxRangeY, const float& minRangeY)
 {

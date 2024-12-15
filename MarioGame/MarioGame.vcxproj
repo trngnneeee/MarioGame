@@ -145,6 +145,7 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="FastSpeedStrategy.cpp" />
     <ClCompile Include="FireFlower.cpp" />
+    <ClCompile Include="Flag.cpp" />
     <ClCompile Include="FloatingCoin.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
     <ClCompile Include="FlyingBridge.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="EnityColor.h" />
     <ClInclude Include="FastSpeedStrategy.h" />
     <ClInclude Include="FireFlower.h" />
+    <ClInclude Include="Flag.h" />
     <ClInclude Include="FloatingCoin.h" />
     <ClInclude Include="FloatingScore.h" />
     <ClInclude Include="FlyingBridge.h" />

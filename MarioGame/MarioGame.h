@@ -22,6 +22,7 @@
 #include <string>
 #include "PauseMenu.h"
 #include "FlyingBridge.h"
+#include "Flag.h"
 class MarioGame
 {
 private:
@@ -44,6 +45,7 @@ private:
 	sf::Vector2f winPosition;
 	sf::Vector2f endWinPosition;
 	std::vector<FlyingBridge*> bridges;
+	Flag winFlag;
 
 	float updateRange;
 	bool pause;
@@ -80,6 +82,7 @@ public:
 	void CameraBegin();
 	void MenuBegin(sf::RenderWindow& window);
 	void LoginMenuBegin(sf::RenderWindow& window);
+	void FlagBegin(sf::Vector2f winPosition);
 
 	// UPDATE FUNCTIONS
 	void MusicUpdate();
@@ -102,6 +105,7 @@ public:
 	void MushroomUpdate(const float& deltaTime, const Map& map);
 	void StarUpdate(const float& deltaTime, const Map& map);
 	void FlowerUpdate(const float& deltaTime, const Map& map);
+	void FlagUpdate(const float& deltaTime);
 
 	void DeadUpdate(GameState& gameState);
 	bool WinDetect();
@@ -114,11 +118,12 @@ public:
 	/*CAUTIOUS: KEEP THIS DRAW ORDER FOR CORRECT Z-INDEX*/
 	void BackgroundDraw(sf::RenderWindow& window);
 	void HiddenBoxItemDraw(sf::RenderWindow& window);
+	void ChomperDraw(sf::RenderWindow& window);
 	void MapDraw(sf::RenderWindow& window);
+	void FlyingBridgeDraw(sf::RenderWindow& window);
+	void FlagDraw(sf::RenderWindow& window);
 	void MarioDraw(sf::RenderWindow& window);
 	void EnemyDraw(sf::RenderWindow& window);
-	void FlyingBridgeDraw(sf::RenderWindow& window);
-	void ChomperDraw(sf::RenderWindow& window);
 	void CoinDraw(sf::RenderWindow& window);
 	void UIDraw(sf::RenderWindow& window);
 
