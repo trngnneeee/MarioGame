@@ -168,6 +168,7 @@ void Mario::HandleBridgeStanding(float deltaTime, std::vector<FlyingBridge*> bri
 				velocity.y = 0;
 				isOnGround = true;
 				hasCollided = true;
+				position.x += bridge->getVelocity().x * deltaTime;
 			}
 			else if (velocity.y < 0 && position.y >= bridgeBox.top + bridgeBox.height)
 			{

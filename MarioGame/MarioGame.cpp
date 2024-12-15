@@ -283,11 +283,28 @@ void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
 
 void MarioGame::FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition)
 {
-	for (int i = 0; i < bridgesPosition.size(); i++)
+	// Only treat for map 3
+	if (mario.getMapArchive() == 1)
 	{
-		FlyingBridge* newBridge = new FlyingBridge;
-		newBridge->Begin(bridgesPosition[i]);
-		bridges.push_back(newBridge);
+		for (int i = 0; i < bridgesPosition.size() - 1; i++)
+		{
+			FlyingBridge* newBridge = new FlyingBridge(sf::Vector2f(0.0f, 5.0f), 0.0f, 0.0f, 15.0f, 5.0f);
+			newBridge->Begin(bridgesPosition[i]);
+			bridges.push_back(newBridge);
+		}
+		FlyingBridge* newBridge1 = new FlyingBridge(sf::Vector2f(3.0f, 0.0f), bridgesPosition[3].x + 2.0f, bridgesPosition[3].x - 6.0f, 0.0f, 0.0f);
+		newBridge1->Begin(bridgesPosition[3]);
+		bridges.push_back(newBridge1);
+	}
+	// Other map
+	else
+	{
+		for (int i = 0; i < bridgesPosition.size(); i++)
+		{
+			FlyingBridge* newBridge = new FlyingBridge(sf::Vector2f(0.0f, 5.0f), 0.0f, 0.0f, 15.0f, 5.0f);
+			newBridge->Begin(bridgesPosition[i]);
+			bridges.push_back(newBridge);
+		}
 	}
 }
 
