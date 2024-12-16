@@ -126,6 +126,9 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BrickParticle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -240,6 +243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickParticle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

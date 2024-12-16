@@ -53,7 +53,6 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	}
 }
 
-
 void MarioGame::Begin(sf::RenderWindow& window)
 {
 	MusicBegin();
@@ -106,6 +105,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		FlyingBridgeUpdate(deltaTime);
 		CoinUpdate(deltaTime);
 		BrickUpdate(deltaTime);
+		BrickParticleUpdate(deltaTime);
 		FloatingScoreUpdate(deltaTime);
 		FloatingCoinUpdate(deltaTime);
 		HiddenBoxUpdate(deltaTime);
@@ -163,6 +163,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		ChomperDraw(window);
 		MapDraw(window);
 		BrickDraw(window);
+		BrickParticleDraw(window);
 		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
@@ -187,6 +188,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		ChomperDraw(window);
 		MapDraw(window);
 		BrickDraw(window);
+		BrickParticleDraw(window);
 		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
@@ -348,7 +350,7 @@ void MarioGame::BrickBegin(const std::vector<sf::Vector2f>& bricksPosition)
 	for (int i = 0; i < bricksPosition.size(); i++)
 	{
 		Brick* newBrick = new Brick;
-		newBrick->Begin(bricksPosition[i], 5);
+		newBrick->Begin(bricksPosition[i], 1);
 		bricks.push_back(newBrick);
 	}
 }
@@ -790,8 +792,38 @@ void MarioGame::BrickUpdate(const float& deltaTime)
 			FloatingScore* newFloatingScore = new FloatingScore(50, bricks[i]->getPosition());
 			floatingScore.push_back(newFloatingScore);
 			map.handleBrickCollision(bricks[i]->getStartPosition());
+			// Spawm brick particles
+			for (int j = 0; j < 4; j++)
+			{
+				sf::Vector2f velocity(
+					(std::rand() % 17 - 8), 
+					(std::rand() % 17 - 8)
+				);
+				BrickParticle* newBrickParticle = new BrickParticle;
+				newBrickParticle->Begin(bricks[i]->getPosition(), velocity);
+				brickParticles.push_back(newBrickParticle);
+			}
 			delete bricks[i];
 			bricks.erase(bricks.begin() + i);
+
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void MarioGame::BrickParticleUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < brickParticles.size();)
+	{
+		brickParticles[i]->Update(deltaTime);
+		if (brickParticles[i]->isTimeOut())
+		{
+			brickParticles[i]->Reset();
+			delete brickParticles[i];
+			brickParticles.erase(brickParticles.begin() + i);
 		}
 		else
 		{
@@ -802,7 +834,7 @@ void MarioGame::BrickUpdate(const float& deltaTime)
 
 void MarioGame::FloatingScoreUpdate(const float& deltaTime)
 {
-	for (int i = 0; i < floatingScore.size(); i++)
+	for (int i = 0; i < floatingScore.size();)
 	{
 		floatingScore[i]->Update(deltaTime);
 		if (floatingScore[i]->isTimeout())
@@ -819,7 +851,7 @@ void MarioGame::FloatingScoreUpdate(const float& deltaTime)
 
 void MarioGame::FloatingCoinUpdate(const float& deltaTime)
 {
-	for (int i = 0; i < floatingCoin.size(); i++)
+	for (int i = 0; i < floatingCoin.size();)
 	{
 		floatingCoin[i]->Update(deltaTime);
 		if (floatingCoin[i]->isTimeOut())
@@ -1052,6 +1084,14 @@ void MarioGame::BrickDraw(sf::RenderWindow& window)
 	for (int i = 0; i < bricks.size(); i++)
 	{
 		bricks[i]->Draw(window);
+	}
+}
+
+void MarioGame::BrickParticleDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < brickParticles.size(); i++)
+	{
+		brickParticles[i]->Draw(window);
 	}
 }
 

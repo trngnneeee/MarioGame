@@ -14,6 +14,7 @@
 #include "LoginMenu.h"
 #include "UICounter.h"
 #include "Brick.h"
+#include "BrickParticle.h"
 #include "FloatingScore.h"
 #include "FloatingCoin.h"
 #include "HiddenBox.h"
@@ -49,6 +50,7 @@ private:
 
 	Camera camera;
 	std::vector<Brick*> bricks;
+	std::vector<BrickParticle*> brickParticles;
 	std::vector<FloatingCoin*> floatingCoin;
 	std::vector<FloatingScore*> floatingScore;
 	std::vector<HiddenBox*> hiddenBoxes;
@@ -118,6 +120,7 @@ public:
 	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
 	void BrickUpdate(const float& deltaTime);
+	void BrickParticleUpdate(const float& deltaTime);
 	void FloatingScoreUpdate(const float& deltaTime);
 	void FloatingCoinUpdate(const float& deltaTime);
 	void HiddenBoxUpdate(const float& deltaTime);
@@ -145,6 +148,7 @@ public:
 	void ChomperDraw(sf::RenderWindow& window);
 	void MapDraw(sf::RenderWindow& window);
 	void BrickDraw(sf::RenderWindow& window);
+	void BrickParticleDraw(sf::RenderWindow& window);
 	void FloatingScoreDraw(sf::RenderWindow& window);
 	void FloatingCoinDraw(sf::RenderWindow& window);
 	void HiddenBoxDraw(sf::RenderWindow& window);
