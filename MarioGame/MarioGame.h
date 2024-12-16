@@ -13,6 +13,7 @@
 #include "Menu.h"
 #include "LoginMenu.h"
 #include "UICounter.h"
+#include "FloatingScore.h"
 #include "FloatingCoin.h"
 #include "HiddenBox.h"
 #include "HiddenBoxItemFactory.h"
@@ -47,6 +48,7 @@ private:
 
 	Camera camera;
 	std::vector<FloatingCoin*> floatingCoin;
+	std::vector<FloatingScore*> floatingScore;
 	std::vector<HiddenBox*> hiddenBoxes;
 	std::vector<PowerUpMushroom*> mushrooms;
 	std::vector<InvicibleStar*> stars;
@@ -111,6 +113,7 @@ public:
 	void ChomperUpdate(const float& deltaTime);
 	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
+	void FloatingScoreUpdate(const float& deltaTime);
 	void FloatingCoinUpdate(const float& deltaTime);
 	void HiddenBoxUpdate(const float& deltaTime);
 	void GameTimeUpdate(const float& deltaTime);
@@ -136,6 +139,7 @@ public:
 	void HiddenBoxItemDraw(sf::RenderWindow& window);
 	void ChomperDraw(sf::RenderWindow& window);
 	void MapDraw(sf::RenderWindow& window);
+	void FloatingScoreDraw(sf::RenderWindow& window);
 	void FloatingCoinDraw(sf::RenderWindow& window);
 	void HiddenBoxDraw(sf::RenderWindow& window);
 	void FlyingBridgeDraw(sf::RenderWindow& window);

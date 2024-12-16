@@ -33,8 +33,8 @@ void HiddenBox::Begin(const sf::Vector2f& position)
 
 void HiddenBox::Update(const float& deltaTime)
 {
-	HandleBounceUp(deltaTime);
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+	HandleBounceUp(deltaTime);
 	if (used) sprite.setTexture(usedTexture);
 	else sprite.setTexture(*animation.update(deltaTime));
 }
@@ -57,6 +57,7 @@ void HiddenBox::HandleBounceUp(const float& deltaTime)
 	if (isBouncing)
 	{
 		bounceTime += deltaTime;
+		sprite.setTexture(textures[0]);
 
 		if (bounceTime <= bounceDuration / 2.0f)
 		{

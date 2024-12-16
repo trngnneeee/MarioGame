@@ -32,11 +32,11 @@ protected:
 	// Collision box
 	sf::FloatRect collisionBox;
 	sf::Texture deadTexture;
-	// Floating score
-	FloatingScore* score;
 	// Speed Strategy
 	SpeedStrategy* speedStrategy;
 	float baseSpeed;
+	// Added Floating Score
+	bool addedFloatingScore;
 public:
 	// Constructor
 	virtual ~Enemy() { delete speedStrategy; }
@@ -69,4 +69,6 @@ public:
 	void setGameState(const bool& value);
 	float getSpeedStrategy() const;
 	void setSpeedStrategy(SpeedStrategy* strategy);
+	bool getAddedFloatingScore() const;
+	void setAddedFloatingScore(const bool& value);
 };

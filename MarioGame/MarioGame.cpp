@@ -102,6 +102,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		ChomperUpdate(deltaTime);
 		FlyingBridgeUpdate(deltaTime);
 		CoinUpdate(deltaTime);
+		FloatingScoreUpdate(deltaTime);
 		FloatingCoinUpdate(deltaTime);
 		HiddenBoxUpdate(deltaTime);
 		GameTimeUpdate(deltaTime);
@@ -158,6 +159,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
 		MapDraw(window);
+		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
 		FlyingBridgeDraw(window);
@@ -180,6 +182,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
 		MapDraw(window);
+		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
 		FlyingBridgeDraw(window);
@@ -424,7 +427,16 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 	{
 		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
 		{
-			if (mario.getInvicibleTime2() > 0)
+			// Jump on head
+			if (mario.getVelocity().y > 0 && mario.getPosition().y + mario.getCollisionBox().height <= goombas[i]->getPosition().y + goombas[i]->getCollisionBox().height / 2)
+			{
+				mario.setPoints(mario.getPoints() + 100);
+				mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+				goombas[i]->setDieStatus(true);
+				SoundManager::getInstance().playSound("goomba");
+			}
+			// Kicked by Koopa
+			else if (mario.getInvicibleTime2() > 0)
 				goombas[i]->setDieByKoopaStatus(true);
 			else
 			{
@@ -442,14 +454,44 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				}
 			}
 		}
+		if ((goombas[i]->getDieStatus() == true || goombas[i]->getDieByKoopaStatus() == true) && (goombas[i]->getAddedFloatingScore() == false))
+		{
+			FloatingScore* newScore = new FloatingScore(100, goombas[i]->getPosition());
+			floatingScore.push_back(newScore);
+			goombas[i]->setAddedFloatingScore(true);
+		}
 	}
 	// Collision with koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		if (mario.koopaCollision(*koopas[i]))
 		{
-			if (!koopas[i]->getInShellStatus())
+			// Jump on head
+			if (mario.getVelocity().y > 0 && mario.getPosition().y + mario.getCollisionBox().height <= koopas[i]->getPosition().y + koopas[i]->getCollisionBox().height / 2)
 			{
+				if (koopas[i]->getInShellStatus() == false)
+				{
+					SoundManager::getInstance().playSound("goomba");
+					mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+					koopas[i]->setInShellStatus(true);
+				}
+				else
+				{
+					mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+					koopas[i]->setStandTimer(3.0f);
+				}
+				koopas[i]->setVelocity(sf::Vector2f(0.0f, 0.0f));
+			}
+			// Kick
+			else if (koopas[i]->getInShellStatus() == true)
+			{
+				int kickDirection = (!mario.getFacingRightStatus()) ? 1 : -1;
+				koopas[i]->setVelocity(sf::Vector2f(mario.getKoopaKickSpeed() * kickDirection, 0));
+				SoundManager::getInstance().playSound("kick");
+			}
+			else
+			{
+				// Taking Star
 				if (mario.getInvicibleTime2() > 0)
 					koopas[i]->setDieStatus(true);
 				else
@@ -468,6 +510,12 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					}
 				}
 			}
+		}
+		if (koopas[i]->getDieStatus() == true && koopas[i]->getAddedFloatingScore() == false)
+		{
+			FloatingScore* newScore = new FloatingScore(100, koopas[i]->getPosition());
+			floatingScore.push_back(newScore);
+			koopas[i]->setAddedFloatingScore(true);
 		}
 	}
 	// Collision with chomper
@@ -704,6 +752,23 @@ void MarioGame::CoinUpdate(const float& deltaTime)
 		coins.end());
 }
 
+void MarioGame::FloatingScoreUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < floatingScore.size(); i++)
+	{
+		floatingScore[i]->Update(deltaTime);
+		if (floatingScore[i]->isTimeout())
+		{
+			delete floatingScore[i];
+			floatingScore.erase(floatingScore.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
 void MarioGame::FloatingCoinUpdate(const float& deltaTime)
 {
 	for (int i = 0; i < floatingCoin.size(); i++)
@@ -934,6 +999,14 @@ void MarioGame::MapDraw(sf::RenderWindow& window)
 	map.Draw(window);
 }
 
+void MarioGame::FloatingScoreDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < floatingScore.size(); i++)
+	{
+		floatingScore[i]->Draw(window);
+	}
+}
+
 void MarioGame::FloatingCoinDraw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < floatingCoin.size(); i++)
@@ -1039,6 +1112,12 @@ void MarioGame::GameReset()
 		delete chompers[i];
 	}
 	chompers.clear();
+	/// Reset Floating Score
+	for (int i = 0; i < floatingScore.size(); i++)
+	{
+		delete floatingScore[i];
+	}
+	floatingScore.clear();
 	/// Reset Floating Coin
 	for (int i = 0; i < floatingCoin.size(); i++)
 	{

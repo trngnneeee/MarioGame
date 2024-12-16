@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy()
-	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(0.2f), v(10.0f), tmpGravity(-30.0f), inGame(false), speedStrategy(nullptr), baseSpeed(3.0f)
+	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(0.2f), v(10.0f), tmpGravity(-30.0f), inGame(false), speedStrategy(nullptr), baseSpeed(3.0f), addedFloatingScore(false)
 {
 }
 
@@ -44,8 +44,6 @@ void Enemy::Draw(sf::RenderWindow& window)
 {
 	sprite.setPosition(position);
 	window.draw(sprite);
-	if (score)
-		score->Draw(window);
 }
 
 bool Enemy::mapCollision(const Map& map)
@@ -76,7 +74,6 @@ void Enemy::Reset()
 {
 	runAnimation.Reset();
 	textures.clear();
-	if (score) delete score;
 }
 
 // Setter/Getter
@@ -134,6 +131,16 @@ void Enemy::setSpeedStrategy(SpeedStrategy* strategy)
 {
 	if (speedStrategy) delete speedStrategy;
 	speedStrategy = strategy;
+}
+
+bool Enemy::getAddedFloatingScore() const
+{
+	return addedFloatingScore;
+}
+
+void Enemy::setAddedFloatingScore(const bool& value)
+{
+	addedFloatingScore = value;
 }
 
 

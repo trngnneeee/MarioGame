@@ -557,54 +557,12 @@ bool Mario::outOfMapCollision()
 }
 
 bool Mario::goombasCollision(Goombas& goombas) {
-	if (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false && isDead == false)
-	{
-		if (velocity.y > 0 && position.y + collisionBox.height <= goombas.getPosition().y + goombas.getCollisionBox().height / 2)
-		{
-			points += 100;
-			velocity.y = -jumpStrength / 2; 
-			goombas.setDieStatus(true);
-			SoundManager::getInstance().playSound("goomba");
-			return false;
-		}
-		else return true;
-	}
-	return false;
+	return (goombas.getCollisionBox().intersects(collisionBox) && goombas.getDieStatus() == false && isDead == false);
 }
 
 bool Mario::koopaCollision(Koopa& koopa)
 {
-	if (koopa.getCollisionBox().intersects(collisionBox) && koopa.getDieStatus() == false && isDead == false)
-	{
-		if (velocity.y > 0 && position.y + collisionBox.height <= koopa.getPosition().y + koopa.getCollisionBox().height / 2)
-		{
-			if (koopa.getInShellStatus() == false)
-			{
-				SoundManager::getInstance().playSound("goomba");
-				velocity.y = -jumpStrength / 2;
-				koopa.setInShellStatus(true);
-			}
-			else
-			{
-				velocity.y = -jumpStrength / 2;
-				koopa.setStandTimer(3.0f);
-			}
-			koopa.setVelocity(sf::Vector2f(0.0f, 0.0f));
-			return false;
-		}
-		else
-		{
-			if (koopa.getInShellStatus() == false) return true;
-			else
-			{
-				int kickDirection = (!facingRight) ? 1 : -1;
-				koopa.setVelocity(sf::Vector2f(koopaKickSpeed * kickDirection, 0));
-				SoundManager::getInstance().playSound("kick");
-				return false;
-			}
-		}
-	}
-	return false;
+	return (koopa.getCollisionBox().intersects(collisionBox) && koopa.getDieStatus() == false && isDead == false);
 }
 
 bool Mario::mushroomCollision(PowerUpMushroom& mushroom)
@@ -789,6 +747,11 @@ sf::Vector2f Mario::getVelocity()
 	return velocity;
 }
 
+void Mario::setVelocity(const sf::Vector2f& value)
+{
+	velocity = value;
+}
+
 bool Mario::getLevelUpStatus()
 {
 	return levelUp;
@@ -863,4 +826,19 @@ bool Mario::getWinningState()
 void Mario::setWinningState(const bool& value)
 {
 	isWinning = value;
+}
+
+float Mario::getJumpStrength() const
+{
+	return jumpStrength;
+}
+
+int Mario::getFacingRightStatus()
+{
+	return facingRight;
+}
+
+float Mario::getKoopaKickSpeed()
+{
+	return koopaKickSpeed;
 }

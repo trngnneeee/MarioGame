@@ -149,6 +149,7 @@ public:
 	void setLife(const int& n);
 	sf::FloatRect getCollisionBox() const;
 	sf::Vector2f getVelocity();
+	void setVelocity(const sf::Vector2f& value);
 	bool getLevelUpStatus();
 	void setLevelUpStatus(const bool& value);
 	float getInvicibleTime();
@@ -164,4 +165,7 @@ public:
 	void setShootingStatus(const bool& value);
 	bool getWinningState();
 	void setWinningState(const bool& value);
+	float getJumpStrength() const;
+	int getFacingRightStatus();
+	float getKoopaKickSpeed();
 };
