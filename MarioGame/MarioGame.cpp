@@ -133,7 +133,6 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 	}
 }
 
-
 void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 {
 	if (gameState == GameState::Menu)
@@ -547,7 +546,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 	for (int i = 0; i < hiddenBoxes.size(); i++)
 	{
 		sf::FloatRect hiddenBoxCollisionBox = hiddenBoxes[i]->getCollisionBox();
-		if (hiddenBoxCollisionBox.intersects(marioCollisionBox) && hiddenBoxes[i]->getUsedStatus() == false)
+		if (hiddenBoxCollisionBox.intersects(marioCollisionBox) && hiddenBoxes[i]->getUsedStatus() == false && hiddenBoxes[i]->getBounceStatus() == false)
 		{
 			if (marioVelocity.y < 0 && marioCollisionBox.top <= hiddenBoxCollisionBox.top + hiddenBoxCollisionBox.height && marioCollisionBox.top >= hiddenBoxCollisionBox.top)
 			{
@@ -555,19 +554,20 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				std::srand(static_cast<unsigned>(std::time(0)));
 				int randomNumber = 1 + (std::rand() % 100);
 				HiddenBoxItemFactory factory;
-					/*
-						Coin: 80%
-						Mushroom: 15%
-						Star: 3%
-						Flower: 2%
-					*/
+				sf::Vector2f position = sf::Vector2f(hiddenBoxes[i]->getPosition().x, hiddenBoxes[i]->getPosition().y - hiddenBoxes[i]->getBounceHeight());
+				/*
+					Coin: 80%
+					Mushroom: 15%
+					Star: 3%
+					Flower: 2%
+				*/
 				if (randomNumber <= 2)
 				{
 					SoundManager::getInstance().playSound("item");
 					HiddenBoxItem* newItem = factory.createItem("Flower");
 					if (newItem)
 					{
-						newItem->Begin(hiddenBoxes[i]->getPosition());
+						newItem->Begin(position);
 						flowers.push_back(static_cast<FireFlower*>(newItem));
 					}
 				}
@@ -577,7 +577,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					HiddenBoxItem* newItem = factory.createItem("Star");
 					if (newItem)
 					{
-						newItem->Begin(hiddenBoxes[i]->getPosition());
+						newItem->Begin(position);
 						stars.push_back(static_cast<InvicibleStar*>(newItem));
 					}
 				}
@@ -587,7 +587,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					HiddenBoxItem* newItem = factory.createItem("Mushroom");
 					if (newItem)
 					{
-						newItem->Begin(hiddenBoxes[i]->getPosition());
+						newItem->Begin(position);
 						mushrooms.push_back(static_cast<PowerUpMushroom*>(newItem));
 					}
 				}

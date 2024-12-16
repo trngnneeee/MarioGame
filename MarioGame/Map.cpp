@@ -544,11 +544,6 @@ void Map::TileDraw(sf::RenderWindow& window)
 			case 2:
 				texture = &copperTexture;
 				break;
-			case 4:
-				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
-				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
-				window.draw(hiddenBoxSprite);
-				break;
 			case 3:
 				texture = &brickTexture;
 				break;

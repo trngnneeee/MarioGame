@@ -36,5 +36,6 @@ public:
 	void setUsedStatus(const bool& value);
 	bool getBounceStatus() const;
 	void setBounceStatus(const bool& value);
+	float getBounceHeight() const;
 };
 

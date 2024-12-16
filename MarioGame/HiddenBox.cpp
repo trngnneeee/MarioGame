@@ -4,7 +4,7 @@
 const double M_PI = 3.14159265358979323846f;
 
 HiddenBox::HiddenBox()
-	: animation(1.5f), used(false), isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.2f)
+	: animation(1.5f), used(false), isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.1f)
 {
 }
 
@@ -37,12 +37,12 @@ void HiddenBox::Update(const float& deltaTime)
 	HandleBounceUp(deltaTime);
 	if (used) sprite.setTexture(usedTexture);
 	else sprite.setTexture(*animation.update(deltaTime));
+	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
 }
 
 void HiddenBox::Draw(sf::RenderWindow& window)
 {
 	sprite.setPosition(position);
-	sprite.setScale(sf::Vector2f(1.0f / textures[0].getSize().x, 1.0f / textures[0].getSize().y));
 	window.draw(sprite);
 }
 
@@ -104,4 +104,9 @@ bool HiddenBox::getBounceStatus() const
 void HiddenBox::setBounceStatus(const bool& value)
 {
 	isBouncing = value;
+}
+
+float HiddenBox::getBounceHeight() const
+{
+	return bounceHeight;
 }
