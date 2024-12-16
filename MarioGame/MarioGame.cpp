@@ -64,13 +64,15 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	std::vector<sf::Vector2f> chompersPosition;
 	std::vector<sf::Vector2f> bridgesPosition;
 	std::vector<sf::Vector2f> hiddenBoxesPosition;
+	std::vector<sf::Vector2f> bricksPosition;
 	sf::Vector2f marioPosition;
-	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition);
+	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
 	MarioBegin(marioPosition);
 	EnemyBegin(goombasPosition, koopasPosition);
 	FlyingBridgeBegin(bridgesPosition);
 	ChomperBegin(chompersPosition);
 	CoinBegin(coinsPosition);
+	BrickBegin(bricksPosition);
 	HiddenBoxBegin(hiddenBoxesPosition);
 	BackgroundBegin();
 	GameTimeBegin();
@@ -102,6 +104,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		ChomperUpdate(deltaTime);
 		FlyingBridgeUpdate(deltaTime);
 		CoinUpdate(deltaTime);
+		BrickUpdate(deltaTime);
 		FloatingScoreUpdate(deltaTime);
 		FloatingCoinUpdate(deltaTime);
 		HiddenBoxUpdate(deltaTime);
@@ -158,6 +161,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
 		MapDraw(window);
+		BrickDraw(window);
 		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
@@ -181,6 +185,7 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
 		MapDraw(window);
+		BrickDraw(window);
 		FloatingScoreDraw(window);
 		FloatingCoinDraw(window);
 		HiddenBoxDraw(window);
@@ -241,7 +246,7 @@ void MarioGame::MapTransitionBegin()
 	mapTransition.Begin();
 }
 
-void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition, std::vector<sf::Vector2f>& bridgesPosition, std::vector<sf::Vector2f>& hiddenBoxesPosition)
+void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition, std::vector<sf::Vector2f>& bridgesPosition, std::vector<sf::Vector2f>& hiddenBoxesPosition, std::vector<sf::Vector2f>& bricksPosition)
 {
 	map = Map(1.0f);
 	int mapType = mario.getMapArchive();
@@ -254,7 +259,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition);
+	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
 
 	map.CreateCollisionBox();
 }
@@ -334,6 +339,16 @@ void MarioGame::CoinBegin(const std::vector<sf::Vector2f>& coinsPosition)
 		auto newCoin = std::make_unique<Coin>();
 		newCoin->Begin(coinsPosition[i]);
 		coins.push_back(std::move(newCoin));
+	}
+}
+
+void MarioGame::BrickBegin(const std::vector<sf::Vector2f>& bricksPosition)
+{
+	for (int i = 0; i < bricksPosition.size(); i++)
+	{
+		Brick* newBrick = new Brick;
+		newBrick->Begin(bricksPosition[i]);
+		bricks.push_back(newBrick);
 	}
 }
 
@@ -601,6 +616,17 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 			}
 		}
 	}
+	// Collision with brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (mario.getCollisionBox().intersects(bricks[i]->getCollisionBox()))
+		{
+			if (marioVelocity.y < 0 && marioCollisionBox.top <= bricks[i]->getCollisionBox().top + bricks[i]->getCollisionBox().height && marioCollisionBox.top >= bricks[i]->getCollisionBox().top && mario.getLevelUpStatus() == true)
+			{
+				bricks[i]->setBounceStatus(true);
+			}
+		}
+	}
 	mario.Update(deltaTime, map, bridges);
 }
 
@@ -750,6 +776,27 @@ void MarioGame::CoinUpdate(const float& deltaTime)
 				return coin->isCollected() && coin->getDisapperTime() <= 0;
 			}),
 		coins.end());
+}
+
+void MarioGame::BrickUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < bricks.size();)
+	{
+		bricks[i]->Update(deltaTime);
+		if (bricks[i]->getBrokeStatus() == true)
+		{
+			SoundManager::getInstance().playSound("brick");
+			FloatingScore* newFloatingScore = new FloatingScore(50, bricks[i]->getPosition());
+			floatingScore.push_back(newFloatingScore);
+			map.handleBrickCollision(bricks[i]->getStartPosition());
+			delete bricks[i];
+			bricks.erase(bricks.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
 }
 
 void MarioGame::FloatingScoreUpdate(const float& deltaTime)
@@ -999,6 +1046,14 @@ void MarioGame::MapDraw(sf::RenderWindow& window)
 	map.Draw(window);
 }
 
+void MarioGame::BrickDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		bricks[i]->Draw(window);
+	}
+}
+
 void MarioGame::FloatingScoreDraw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < floatingScore.size(); i++)
@@ -1132,6 +1187,12 @@ void MarioGame::GameReset()
 		delete hiddenBoxes[i];
 	}
 	hiddenBoxes.clear();
+	/// Reset Brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		delete bricks[i];
+	}
+	bricks.clear();
 	/// Reset Mushroom
 	for (int i = 0; i < mushrooms.size(); i++)
 	{

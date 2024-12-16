@@ -13,6 +13,7 @@
 #include "Menu.h"
 #include "LoginMenu.h"
 #include "UICounter.h"
+#include "Brick.h"
 #include "FloatingScore.h"
 #include "FloatingCoin.h"
 #include "HiddenBox.h"
@@ -47,6 +48,7 @@ private:
 	GameOver gameOver;
 
 	Camera camera;
+	std::vector<Brick*> bricks;
 	std::vector<FloatingCoin*> floatingCoin;
 	std::vector<FloatingScore*> floatingScore;
 	std::vector<HiddenBox*> hiddenBoxes;
@@ -81,13 +83,15 @@ public:
 		std::vector<sf::Vector2f>& coinsPosition,
 		std::vector<sf::Vector2f>& chompersPosition,
 		std::vector<sf::Vector2f>& bridgesPosition,
-		std::vector<sf::Vector2f>& hiddenBoxesPosition
+		std::vector<sf::Vector2f>& hiddenBoxesPosition,
+		std::vector<sf::Vector2f>& bricksPosition
 	);
 	void MarioBegin(const sf::Vector2f& marioPosition);
 	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
 	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
 	void FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition);
 	void CoinBegin(const std::vector<sf::Vector2f>& coinsPosition);
+	void BrickBegin(const std::vector<sf::Vector2f>& bricksPosition);
 	void HiddenBoxBegin(const std::vector<sf::Vector2f>& hiddenBoxesPosition);
 	void BackgroundBegin();
 	void GameTimeBegin();
@@ -113,6 +117,7 @@ public:
 	void ChomperUpdate(const float& deltaTime);
 	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
+	void BrickUpdate(const float& deltaTime);
 	void FloatingScoreUpdate(const float& deltaTime);
 	void FloatingCoinUpdate(const float& deltaTime);
 	void HiddenBoxUpdate(const float& deltaTime);
@@ -139,6 +144,7 @@ public:
 	void HiddenBoxItemDraw(sf::RenderWindow& window);
 	void ChomperDraw(sf::RenderWindow& window);
 	void MapDraw(sf::RenderWindow& window);
+	void BrickDraw(sf::RenderWindow& window);
 	void FloatingScoreDraw(sf::RenderWindow& window);
 	void FloatingCoinDraw(sf::RenderWindow& window);
 	void HiddenBoxDraw(sf::RenderWindow& window);

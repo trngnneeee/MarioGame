@@ -4,7 +4,7 @@
 
 // Constructor
 Map::Map(float cellSize)
-	: cellSize(cellSize), hiddenBoxAnimation(1.5f)
+	: cellSize(cellSize)
 {
 }
 // Functions
@@ -12,7 +12,6 @@ void Map::Begin(const std::string& mapName) {
 	image.loadFromFile(mapName);
 	TileBegin();
 	FireBegin();
-	HiddenBoxBegin();
 	TubeBegin();
 	CastleBegin();
 	CollumnFloorBegin();
@@ -25,7 +24,6 @@ void Map::Begin(const std::string& mapName) {
 void Map::Update(float deltaTime)
 {
 	FloatingScoreUpdate(deltaTime);
-	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 }
 
 void Map::Draw(sf::RenderWindow& window) {
@@ -46,14 +44,12 @@ void Map::Reset()
 		delete score[i];
 	}
 	score.clear();
-	hiddenBoxAnimation.Reset();
 }
 
 void Map::TileBegin()
 {
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
-	brickTexture.loadFromFile("./resources/textures/brick.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
@@ -71,22 +67,6 @@ void Map::FireBegin()
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/fire" + std::to_string(i + 1) + ".png");
 		fireTextures.push_back(tmp);
-	}
-}
-
-void Map::HiddenBoxBegin()
-{
-	// Hidden box texture
-	for (int i = 0; i < 3; i++)
-	{
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/HiddenBox/hiddenbox" + std::to_string(i + 1) + ".png");
-		hiddenBoxTexture.push_back(tmp);
-	}
-	// Hidden box animation
-	for (int i = 0; i < hiddenBoxTexture.size(); i++)
-	{
-		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 0.5f * (i + 1)));
 	}
 }
 
@@ -186,7 +166,8 @@ void Map::CreateFromImage(
 	std::vector<sf::Vector2f>& coinPosition,
 	std::vector<sf::Vector2f>& chompersPosition,
 	std::vector<sf::Vector2f>& bridgesPosition,
-	std::vector<sf::Vector2f>& hiddenBoxesPosition
+	std::vector<sf::Vector2f>& hiddenBoxesPosition,
+	std::vector<sf::Vector2f>& bricksPosition
 )
 {
 	// Clear the previous map (vector)
@@ -215,6 +196,7 @@ void Map::CreateFromImage(
 			case EntityType::Brick:
 			{
 				grid[i][j] = 3;
+				bricksPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			case EntityType::HiddenBox:
@@ -523,9 +505,6 @@ void Map::handleBrickCollision(sf::Vector2f brickPosition)
 
 	grid[x][y] = 0;
 	collisionBoxList[x][y] = sf::FloatRect(0, 0, 0, 0);
-
-	FloatingScore* newScore = new FloatingScore(50, brickPosition);
-	score.push_back(newScore);
 }
 
 void Map::TileDraw(sf::RenderWindow& window)
@@ -543,9 +522,6 @@ void Map::TileDraw(sf::RenderWindow& window)
 				break;
 			case 2:
 				texture = &copperTexture;
-				break;
-			case 3:
-				texture = &brickTexture;
 				break;
 			case 5:
 				texture = &useBlock;

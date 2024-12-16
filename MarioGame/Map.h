@@ -16,15 +16,10 @@ private:
 
 	// Sprite, Texture
 	sf::Sprite sprite;
-	sf::Texture stoneTexture, brickTexture, copperTexture, useBlock, stickTexture, circleTexture;
+	sf::Texture stoneTexture, copperTexture, useBlock, stickTexture, circleTexture;
 
 	// Fire
 	std::vector< sf::Texture> fireTextures;
-
-	// Hidden box
-	sf::Sprite hiddenBoxSprite;
-	std::vector< sf::Texture> hiddenBoxTexture;
-	Animation hiddenBoxAnimation;
 
 	// Castle
 	std::vector<sf::Texture> castleTexture;
@@ -69,7 +64,6 @@ public:
 	// Begin Functions
 	void TileBegin();
 	void FireBegin();
-	void HiddenBoxBegin();
 	void TubeBegin();
 	void CastleBegin();
 	void CollumnFloorBegin();
@@ -86,7 +80,8 @@ public:
 		std::vector<sf::Vector2f>& coinPosition,
 		std::vector<sf::Vector2f>& chompersPosition,
 		std::vector<sf::Vector2f>& bridgesPosition,
-		std::vector<sf::Vector2f>& hiddenBoxesPosition
+		std::vector<sf::Vector2f>& hiddenBoxesPosition,
+		std::vector<sf::Vector2f>& bricksPosition
 	);
 	void CreateCollisionBox();
 	// Update Functions

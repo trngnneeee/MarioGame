@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(true), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false), smallWinAnimation(0.2f), bigWinAnimation(0.2f)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(true), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false), smallWinAnimation(0.2f), bigWinAnimation(0.2f)
 {
 }
 
@@ -507,8 +507,7 @@ bool Mario::mapCollision(Map& map)
 	const std::vector<std::vector<int>>& grid = map.getGrid();
 	const auto& collisionBoxes = map.getCollisionBoxList();
 
-	const std::set<int> solidBlocks = { 1, 2, 4, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
-	const int brickBlock = 3;
+	const std::set<int> solidBlocks = { 1, 2, 3, 4, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
 	const int water = 43;
 
 	for (size_t i = 0; i < collisionBoxes.size(); i++)
@@ -522,24 +521,6 @@ bool Mario::mapCollision(Map& map)
 			if (collisionBox.intersects(currentBox) && solidBlocks.count(tileType))
 			{
 				return true;
-			}
-			// Handle brick block collisions
-			else if (collisionBox.intersects(currentBox) && tileType == brickBlock)
-			{
-				if (velocity.y < 0 && collisionBox.top <= currentBox.top + currentBox.height && collisionBox.top >= currentBox.top)
-				{
-					if (levelUp)
-					{
-						SoundManager::getInstance().playSound("brick");
-						points += 50;
-						map.handleBrickCollision(sf::Vector2f(i * map.getCellSize(), j * map.getCellSize()));
-					}
-					return true;
-				}
-				else
-				{
-					return true;
-				}
 			}
 			else if (collisionBox.intersects(currentBox) && tileType == water)
 			{
