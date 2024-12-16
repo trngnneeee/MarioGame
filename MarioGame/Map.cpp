@@ -25,14 +25,11 @@ void Map::Begin(const std::string& mapName) {
 void Map::Update(float deltaTime)
 {
 	FloatingScoreUpdate(deltaTime);
-	FloatingCoinUpdate(deltaTime);
 	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 }
 
 void Map::Draw(sf::RenderWindow& window) {
-	FloatingCoinDraw(window);
 	TileDraw(window);
-	FloatingCoinDraw(window);
 }
 
 void Map::Reset()
@@ -519,24 +516,6 @@ void Map::FloatingScoreUpdate(const float& deltaTime)
 	}
 }
 
-void Map::FloatingCoinUpdate(const float& deltaTime)
-{
-	for (int i = 0; i < coins.size();)
-	{
-		if (coins[i])
-		{
-			coins[i]->Update(deltaTime);
-			if (coins[i]->isTimeOut())
-			{
-				delete coins[i];
-				coins.erase(coins.begin() + i);
-				continue;
-			}
-		}
-		i++;
-	}
-}
-
 void Map::handleBrickCollision(sf::Vector2f brickPosition)
 {
 	int x = static_cast<int>(brickPosition.x / cellSize);
@@ -547,15 +526,6 @@ void Map::handleBrickCollision(sf::Vector2f brickPosition)
 
 	FloatingScore* newScore = new FloatingScore(50, brickPosition);
 	score.push_back(newScore);
-}
-
-void Map::FloatingCoinDraw(sf::RenderWindow& window)
-{
-	for (int i = 0; i < coins.size(); i++)
-	{
-		if (coins[i])
-			coins[i]->Draw(window);
-	}
 }
 
 void Map::TileDraw(sf::RenderWindow& window)

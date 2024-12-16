@@ -12,6 +12,11 @@ private:
 	sf::Vector2f position;
 	sf::FloatRect collisionBox;
 	bool used;
+	sf::Vector2f startPosition;
+	bool isBouncing;
+	float bounceTime;
+	float bounceDuration;
+	float bounceHeight;
 public:
 	// Constructors
 	HiddenBox();
@@ -22,10 +27,14 @@ public:
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 
+	void HandleBounceUp(const float& deltaTime);
+
 	// Setters/Getters
 	sf::FloatRect getCollisionBox() const;
 	sf::Vector2f getPosition() const;
 	bool getUsedStatus() const;
 	void setUsedStatus(const bool& value);
+	bool getBounceStatus() const;
+	void setBounceStatus(const bool& value);
 };
 

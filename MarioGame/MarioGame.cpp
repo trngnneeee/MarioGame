@@ -503,7 +503,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 		{
 			if (marioVelocity.y < 0 && marioCollisionBox.top <= hiddenBoxCollisionBox.top + hiddenBoxCollisionBox.height && marioCollisionBox.top >= hiddenBoxCollisionBox.top)
 			{
-				SoundManager::getInstance().playSound("item");
+				hiddenBoxes[i]->setBounceStatus(true);
 				std::srand(static_cast<unsigned>(std::time(0)));
 				int randomNumber = 1 + (std::rand() % 100);
 				HiddenBoxItemFactory factory;
@@ -515,6 +515,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					*/
 				if (randomNumber <= 2)
 				{
+					SoundManager::getInstance().playSound("item");
 					HiddenBoxItem* newItem = factory.createItem("Flower");
 					if (newItem)
 					{
@@ -524,6 +525,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				}
 				else if (randomNumber <= 5)
 				{
+					SoundManager::getInstance().playSound("item");
 					HiddenBoxItem* newItem = factory.createItem("Star");
 					if (newItem)
 					{
@@ -533,6 +535,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				}
 				else if (randomNumber <= 20)
 				{
+					SoundManager::getInstance().playSound("item");
 					HiddenBoxItem* newItem = factory.createItem("Mushroom");
 					if (newItem)
 					{
@@ -547,7 +550,6 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					FloatingCoin* newFloatingCoin = new FloatingCoin(hiddenBoxes[i]->getPosition());
 					floatingCoin.push_back(newFloatingCoin);
 				}
-				hiddenBoxes[i]->setUsedStatus(true);
 			}
 		}
 	}

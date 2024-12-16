@@ -55,8 +55,6 @@ private:
 
 	// Score
 	std::vector<FloatingScore*> score;
-	// Coin
-	std::vector<FloatingCoin*> coins;
 public:
 	// Constructors
 	Map(float cellSize = 32.0f);
@@ -93,11 +91,9 @@ public:
 	void CreateCollisionBox();
 	// Update Functions
 	void FloatingScoreUpdate(const float& deltaTime);
-	void FloatingCoinUpdate(const float& deltaTime);
 	// Collision Hanlde Functions
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	// Draw Functions
-	void FloatingCoinDraw(sf::RenderWindow& window);
 	void TileDraw(sf::RenderWindow& window);
 	void FloatingScoreDraw(sf::RenderWindow& window);
 
