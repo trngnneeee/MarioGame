@@ -1,4 +1,14 @@
-﻿  BrickParticle.cpp
+﻿  MarioGame.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         ]
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         ]
   MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
   'pwsh.exe' is not recognized as an internal or external command,
   operable program or batch file.

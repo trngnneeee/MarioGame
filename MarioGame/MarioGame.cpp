@@ -502,9 +502,12 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 			// Kick
 			else if (koopas[i]->getInShellStatus() == true)
 			{
-				int kickDirection = (!mario.getFacingRightStatus()) ? 1 : -1;
-				koopas[i]->setVelocity(sf::Vector2f(mario.getKoopaKickSpeed() * kickDirection, 0));
-				SoundManager::getInstance().playSound("kick");
+				if (koopas[i]->getVelocity().x == 0)
+				{
+					int kickDirection = (!mario.getFacingRightStatus()) ? 1 : -1;
+					koopas[i]->setVelocity(sf::Vector2f(mario.getKoopaKickSpeed() * kickDirection, 0));
+					SoundManager::getInstance().playSound("kick");
+				}
 			}
 			else
 			{
@@ -746,6 +749,12 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 		}
 		chompers[i]->Update(deltaTime);
 	}
+	chompers.erase(
+		std::remove_if(chompers.begin(), chompers.end(),
+			[](const auto& chomper) {
+				return (chomper->getDeadStatus());
+			}),
+		chompers.end());
 }
 
 void MarioGame::FlyingBridgeUpdate(const float& deltaTime)
@@ -796,8 +805,8 @@ void MarioGame::BrickUpdate(const float& deltaTime)
 			for (int j = 0; j < 4; j++)
 			{
 				sf::Vector2f velocity(
-					(std::rand() % 17 - 8), 
-					(std::rand() % 17 - 8)
+					(std::rand() % 21 - 10), 
+					(std::rand() % 21 - 10)
 				);
 				BrickParticle* newBrickParticle = new BrickParticle;
 				newBrickParticle->Begin(bricks[i]->getPosition(), velocity);

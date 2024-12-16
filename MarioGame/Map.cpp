@@ -239,7 +239,7 @@ void Map::CreateFromImage(
 			case EntityType::EndWinPoint:
 			{
 				endWinPosition = sf::Vector2f(cellSize * i, cellSize * j);
-				grid[i][j] = 5;
+				grid[i][j] = 2;
 				break;
 			}
 			case EntityType::Fire1:
