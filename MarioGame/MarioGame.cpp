@@ -22,6 +22,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			pauseMenu.HandleInput(event, gameState, window); 
 			if (gameState == GameState::Menu)
 			{
+				mapTransition.setTimer(2.0f);
 				GameReset();
 				mario.Reset();
 				return;
@@ -347,7 +348,7 @@ void MarioGame::BrickBegin(const std::vector<sf::Vector2f>& bricksPosition)
 	for (int i = 0; i < bricksPosition.size(); i++)
 	{
 		Brick* newBrick = new Brick;
-		newBrick->Begin(bricksPosition[i]);
+		newBrick->Begin(bricksPosition[i], 5);
 		bricks.push_back(newBrick);
 	}
 }

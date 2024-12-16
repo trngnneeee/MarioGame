@@ -13,12 +13,13 @@ private:
 	float bounceDuration;
 	float bounceHeight;
 	bool isBreak;
+	int durability;
 public:
 	// Constructors
 	Brick();
 
 	// Functions
-	void Begin(const sf::Vector2f& position);
+	void Begin(const sf::Vector2f& position, int durability);
 	void Update(const float& deltaTime);
 	void Draw(sf::RenderWindow& window);
 
@@ -31,5 +32,6 @@ public:
 	sf::FloatRect getCollisionBox() const;
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getStartPosition() const;
+	int getDurability() const;
 };
 

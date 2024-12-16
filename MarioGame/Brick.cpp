@@ -1,11 +1,12 @@
 #include "Brick.h"
+#include <iostream>
 
 Brick::Brick()
-	: isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.1f), isBreak(false)
+	: isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.4f), isBreak(false), durability(1)
 {
 }
 
-void Brick::Begin(const sf::Vector2f& position)
+void Brick::Begin(const sf::Vector2f& position, int durability)
 {
 	texture.loadFromFile("./resources/textures/brick.png");
 	sprite.setTexture(texture);
@@ -18,6 +19,7 @@ void Brick::Begin(const sf::Vector2f& position)
 		1.0f,
 		1.0f
 	);
+	this->durability = durability;
 }
 
 void Brick::Update(const float& deltaTime)
@@ -42,9 +44,23 @@ void Brick::HandleBounceUp(const float& deltaTime)
 		{
 			position.y = startPosition.y - bounceHeight * (bounceTime / (bounceDuration / 2.0f));
 		}
-		if (bounceTime > bounceDuration)
+		else if (bounceTime <= bounceDuration)
 		{
-			isBreak = true;
+			if (durability == 1)
+			{
+				isBreak = true;
+				return;
+			}
+			position.y = startPosition.y - bounceHeight * (1.0f - (bounceTime - bounceDuration / 2.0f) / (bounceDuration / 2.0f));
+		}
+		else if (bounceTime > bounceDuration)
+		{
+			bounceTime = 0.0f;
+			if (durability > 0)
+			{
+				durability--;
+				isBouncing = false;
+			}
 		}
 	}
 }
@@ -77,4 +93,9 @@ sf::Vector2f Brick::getPosition() const
 sf::Vector2f Brick::getStartPosition() const
 {
 	return startPosition;
+}
+
+int Brick::getDurability() const
+{
+	return durability;
 }

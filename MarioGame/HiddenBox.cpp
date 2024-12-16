@@ -1,10 +1,8 @@
 #include "HiddenBox.h"
 #include <iostream>
 
-const double M_PI = 3.14159265358979323846f;
-
 HiddenBox::HiddenBox()
-	: animation(1.5f), used(false), isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.1f)
+	: animation(1.5f), used(false), isBouncing(false), bounceTime(0.0f), bounceHeight(0.3f), bounceDuration(0.4f)
 {
 }
 
