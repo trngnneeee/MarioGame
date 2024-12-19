@@ -7,8 +7,8 @@ void Menu::Begin(sf::RenderWindow& window)
 	if (!font.loadFromFile("./resources/font/IntroRustG-Base2Line.otf"))
 		return;
 
-	// Load background
-	if (!backgroundTexture.loadFromFile("./resources/background/MenuUi.png"))
+	// Load Character selection background
+	if (!backgroundTexture.loadFromFile("./resources/background/backgroundCharacterSelect.png"))
 		return;
 
 	backgroundSprite.setTexture(backgroundTexture);
@@ -37,14 +37,13 @@ void Menu::Begin(sf::RenderWindow& window)
 	characterDisplay = characterSprite[0];
 
 	sf::Color backgroundColor(148, 148, 255, 255);
-
-	level1Button.setSize(sf::Vector2f(200, 50));
+	level1Button.setSize(sf::Vector2f(180, 50));
 	level1Button.setFillColor(backgroundColor);
 	level1Button.setOutlineColor(sf::Color::White);
 	level1Button.setOutlineThickness(5.0f);
-	level1Button.setPosition(window.getSize().x / 2 - level1Button.getSize().x / 2, window.getSize().y / 2 + 80);
+	level1Button.setPosition(window.getSize().x / 2 - level1Button.getSize().x / 2, window.getSize().y / 2 + 180);
 
-	level1Text = sf::Text("Play", font, 40);
+	level1Text = sf::Text("Play", font, 35);
 	level1Text.setFillColor(sf::Color::White);
 	level1Text.setPosition
 	(
@@ -52,18 +51,24 @@ void Menu::Begin(sf::RenderWindow& window)
 		level1Button.getPosition().y + (level1Button.getSize().y - level1Text.getGlobalBounds().height) / 2 - 10
 	);
 
-	exitButton.setSize(sf::Vector2f(200, 50));
+	exitButton.setSize(sf::Vector2f(180, 50));
 	exitButton.setFillColor(backgroundColor);
 	exitButton.setOutlineColor(sf::Color::White);
 	exitButton.setOutlineThickness(5.0f);
-	exitButton.setPosition(window.getSize().x / 2 - exitButton.getSize().x / 2, window.getSize().y / 2 + 160);
+	exitButton.setPosition(window.getSize().x / 2 - exitButton.getSize().x / 2, window.getSize().y / 2 + 260);
 
-	exitText = sf::Text("Exit", font, 40);
+	exitText = sf::Text("Exit", font, 35);
 	exitText.setFillColor(sf::Color::White);
 	exitText.setPosition(
 		exitButton.getPosition().x + (exitButton.getSize().x - exitText.getGlobalBounds().width) / 2,
 		exitButton.getPosition().y + (exitButton.getSize().y - exitText.getGlobalBounds().height) / 2 - 10
 	);
+
+	index = sf::CircleShape(30, 3);
+	index.setRotation(180);
+	index.setPosition(360, 260);
+	index.setFillColor(sf::Color::Red);
+
 }
 
 void Menu::Draw(sf::RenderWindow& window)
@@ -76,7 +81,7 @@ void Menu::Draw(sf::RenderWindow& window)
 	window.draw(exitButton);
 	window.draw(exitText);
 
-	window.draw(characterDisplay);
+	window.draw(index);
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)

@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Animation.h"
+#include "Bullet.h"
+#include "FloatingScore.h"
 class Chomper
 {
 private:
@@ -16,6 +18,8 @@ private:
 	float hidingTimer;            
 	float hidingDuration;
 	sf::FloatRect collisionBox;
+	bool isDead;
+	FloatingScore* score;
 public:
 	// Constructors
 	Chomper();
@@ -26,8 +30,11 @@ public:
 	void Reset();
 
 	void handleHiding(float deltaTime);
+	bool bulletCollision(const Bullet& bullet);
 	// Setters/Getters
 	sf::FloatRect getCollisionBox() const;
 	bool getHidingStatus();
+	bool getDeadStatus();
+	void setDeadStatus(const bool& value);
 };
 

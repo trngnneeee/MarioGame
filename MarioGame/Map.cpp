@@ -4,7 +4,7 @@
 
 // Constructor
 Map::Map(float cellSize)
-	: cellSize(cellSize), hiddenBoxAnimation(1.5f)
+	: cellSize(cellSize)
 {
 }
 // Functions
@@ -12,7 +12,6 @@ void Map::Begin(const std::string& mapName) {
 	image.loadFromFile(mapName);
 	TileBegin();
 	FireBegin();
-	HiddenBoxBegin();
 	TubeBegin();
 	CastleBegin();
 	CollumnFloorBegin();
@@ -25,14 +24,10 @@ void Map::Begin(const std::string& mapName) {
 void Map::Update(float deltaTime)
 {
 	FloatingScoreUpdate(deltaTime);
-	FloatingCoinUpdate(deltaTime);
-	hiddenBoxSprite.setTexture(*hiddenBoxAnimation.update(deltaTime));
 }
 
 void Map::Draw(sf::RenderWindow& window) {
-	FloatingCoinDraw(window);
 	TileDraw(window);
-	FloatingCoinDraw(window);
 }
 
 void Map::Reset()
@@ -49,19 +44,12 @@ void Map::Reset()
 		delete score[i];
 	}
 	score.clear();
-	for (int i = 0; i < coins.size(); i++)
-	{
-		delete coins[i];
-	}
-	coins.clear();
-	hiddenBoxAnimation.Reset();
 }
 
 void Map::TileBegin()
 {
 	// Update texture
 	stoneTexture.loadFromFile("./resources/textures/stone.png");
-	brickTexture.loadFromFile("./resources/textures/brick.png");
 	copperTexture.loadFromFile("./resources/textures/copper.png");
 	useBlock.loadFromFile("./resources/textures/block.png");
 	stickTexture.loadFromFile("./resources/textures/stick.png");
@@ -79,22 +67,6 @@ void Map::FireBegin()
 		sf::Texture tmp;
 		tmp.loadFromFile("./resources/textures/fire" + std::to_string(i + 1) + ".png");
 		fireTextures.push_back(tmp);
-	}
-}
-
-void Map::HiddenBoxBegin()
-{
-	// Hidden box texture
-	for (int i = 0; i < 3; i++)
-	{
-		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/HiddenBox/hiddenbox" + std::to_string(i + 1) + ".png");
-		hiddenBoxTexture.push_back(tmp);
-	}
-	// Hidden box animation
-	for (int i = 0; i < hiddenBoxTexture.size(); i++)
-	{
-		hiddenBoxAnimation.addFrame(Frame(&hiddenBoxTexture[i], 0.5f * (i + 1)));
 	}
 }
 
@@ -193,7 +165,9 @@ void Map::CreateFromImage(
 	std::vector<sf::Vector2f>& koopaPosition,
 	std::vector<sf::Vector2f>& coinPosition,
 	std::vector<sf::Vector2f>& chompersPosition,
-	std::vector<sf::Vector2f>& bridgesPosition
+	std::vector<sf::Vector2f>& bridgesPosition,
+	std::vector<sf::Vector2f>& hiddenBoxesPosition,
+	std::vector<sf::Vector2f>& bricksPosition
 )
 {
 	// Clear the previous map (vector)
@@ -222,11 +196,13 @@ void Map::CreateFromImage(
 			case EntityType::Brick:
 			{
 				grid[i][j] = 3;
+				bricksPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			case EntityType::HiddenBox:
 			{
 				grid[i][j] = 4;
+				hiddenBoxesPosition.push_back(sf::Vector2f(cellSize * i, cellSize * j));
 				break;
 			}
 			case EntityType::useBlock:
@@ -263,7 +239,7 @@ void Map::CreateFromImage(
 			case EntityType::EndWinPoint:
 			{
 				endWinPosition = sf::Vector2f(cellSize * i, cellSize * j);
-				grid[i][j] = 5;
+				grid[i][j] = 2;
 				break;
 			}
 			case EntityType::Fire1:
@@ -522,24 +498,6 @@ void Map::FloatingScoreUpdate(const float& deltaTime)
 	}
 }
 
-void Map::FloatingCoinUpdate(const float& deltaTime)
-{
-	for (int i = 0; i < coins.size();)
-	{
-		if (coins[i])
-		{
-			coins[i]->Update(deltaTime);
-			if (coins[i]->isTimeOut())
-			{
-				delete coins[i];
-				coins.erase(coins.begin() + i);
-				continue;
-			}
-		}
-		i++;
-	}
-}
-
 void Map::handleBrickCollision(sf::Vector2f brickPosition)
 {
 	int x = static_cast<int>(brickPosition.x / cellSize);
@@ -547,37 +505,6 @@ void Map::handleBrickCollision(sf::Vector2f brickPosition)
 
 	grid[x][y] = 0;
 	collisionBoxList[x][y] = sf::FloatRect(0, 0, 0, 0);
-
-	FloatingScore* newScore = new FloatingScore(50, brickPosition);
-	score.push_back(newScore);
-}
-
-void Map::handleHiddenBoxCollision(sf::Vector2f hiddenBoxPosition)
-{
-	int x = static_cast<int>(hiddenBoxPosition.x / cellSize);
-	int y = static_cast<int>(hiddenBoxPosition.y / cellSize);
-
-	grid[x][y] = 5;
-}
-
-void Map::handleCoinHiddenBox(sf::Vector2f coinPosition)
-{
-	int x = static_cast<int>(coinPosition.x / cellSize);
-	int y = static_cast<int>(coinPosition.y / cellSize);
-
-	grid[x][y] = 5;
-
-	FloatingCoin* newCoin = new FloatingCoin(coinPosition);
-	coins.push_back(newCoin);
-}
-
-void Map::FloatingCoinDraw(sf::RenderWindow& window)
-{
-	for (int i = 0; i < coins.size(); i++)
-	{
-		if (coins[i])
-			coins[i]->Draw(window);
-	}
 }
 
 void Map::TileDraw(sf::RenderWindow& window)
@@ -595,14 +522,6 @@ void Map::TileDraw(sf::RenderWindow& window)
 				break;
 			case 2:
 				texture = &copperTexture;
-				break;
-			case 4:
-				hiddenBoxSprite.setPosition(cellSize * x, cellSize * y);
-				hiddenBoxSprite.setScale(cellSize / hiddenBoxTexture[0].getSize().x, cellSize / hiddenBoxTexture[0].getSize().y);
-				window.draw(hiddenBoxSprite);
-				break;
-			case 3:
-				texture = &brickTexture;
 				break;
 			case 5:
 				texture = &useBlock;

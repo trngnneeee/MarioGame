@@ -18,5 +18,6 @@ public:
 	void Update(const float& deltaTime);
 	void Draw(sf::RenderWindow& window);
 	bool isTimeOut() const;
+	void Reset();
 };
 

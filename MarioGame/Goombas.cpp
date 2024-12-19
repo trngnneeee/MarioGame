@@ -68,15 +68,6 @@ bool Goombas::handleDead(float deltaTime)
 		if (dieTime > 0)
 		{
 			dieTime -= deltaTime;
-			if (!score)
-				score = new FloatingScore(100, position);
-			else
-				score->Update(deltaTime);
-		}
-		else
-		{
-			if (score)
-				delete score;
 		}
 		return true;
 	}
@@ -91,10 +82,6 @@ bool Goombas::handleDeadByKoopa(float deltaTime)
 		v += tmpGravity * deltaTime;
 		sprite.setTexture(throwTexture);
 		dieTime -= deltaTime;
-		if (!score)
-			score = new FloatingScore(200, position);
-		else
-			score->Update(deltaTime);
 		return true;
 	}
 	return false;

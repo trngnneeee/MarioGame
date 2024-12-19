@@ -38,3 +38,9 @@ bool FloatingCoin::isTimeOut() const
 {
 	return timer <= 0;
 }
+
+void FloatingCoin::Reset()
+{
+	animation.Reset();
+	textures.clear();
+}

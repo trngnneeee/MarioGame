@@ -22,6 +22,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			pauseMenu.HandleInput(event, gameState, window); 
 			if (gameState == GameState::Menu)
 			{
+				mapTransition.setTimer(2.0f);
 				GameReset();
 				mario.Reset();
 				return;
@@ -52,27 +53,32 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	}
 }
 
-
 void MarioGame::Begin(sf::RenderWindow& window)
 {
 	MusicBegin();
 	MapTransitionBegin();
+	GameOverBegin();
 	std::vector<sf::Vector2f> goombasPosition;
 	std::vector<sf::Vector2f> koopasPosition;
 	std::vector<sf::Vector2f> coinsPosition;
 	std::vector<sf::Vector2f> chompersPosition;
 	std::vector<sf::Vector2f> bridgesPosition;
+	std::vector<sf::Vector2f> hiddenBoxesPosition;
+	std::vector<sf::Vector2f> bricksPosition;
 	sf::Vector2f marioPosition;
-	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition);
+	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
 	MarioBegin(marioPosition);
 	EnemyBegin(goombasPosition, koopasPosition);
 	FlyingBridgeBegin(bridgesPosition);
 	ChomperBegin(chompersPosition);
 	CoinBegin(coinsPosition);
+	BrickBegin(bricksPosition);
+	HiddenBoxBegin(hiddenBoxesPosition);
 	BackgroundBegin();
 	GameTimeBegin();
 	UICounterBegin();
 	CameraBegin();
+	FlagBegin(winPosition);
 }
 
 void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window)
@@ -98,12 +104,18 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		ChomperUpdate(deltaTime);
 		FlyingBridgeUpdate(deltaTime);
 		CoinUpdate(deltaTime);
+		BrickUpdate(deltaTime);
+		BrickParticleUpdate(deltaTime);
+		FloatingScoreUpdate(deltaTime);
+		FloatingCoinUpdate(deltaTime);
+		HiddenBoxUpdate(deltaTime);
 		GameTimeUpdate(deltaTime);
 		UIUpdate(deltaTime);
 		CameraUpdate();
 		MushroomUpdate(deltaTime, map);
 		StarUpdate(deltaTime, map);
 		FlowerUpdate(deltaTime, map);
+		FlagUpdate(deltaTime);
 		DeadUpdate(gameState);
 		if (WinDetect())
 		{
@@ -118,10 +130,12 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 	}
 	else if (gameState == GameState::GameOver)
 	{
-		gameState = GameState::Menu;
+		if (gameOver.isTimeOut())
+			gameState = GameState::Menu;
+		else
+			GameOverUpdate(deltaTime);
 	}
 }
-
 
 void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 {
@@ -147,8 +161,14 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
-		FlyingBridgeDraw(window);
 		MapDraw(window);
+		BrickDraw(window);
+		BrickParticleDraw(window);
+		FloatingScoreDraw(window);
+		FloatingCoinDraw(window);
+		HiddenBoxDraw(window);
+		FlyingBridgeDraw(window);
+		FlagDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
 		CoinDraw(window);
@@ -166,8 +186,14 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 		BackgroundDraw(window);
 		HiddenBoxItemDraw(window);
 		ChomperDraw(window);
-		FlyingBridgeDraw(window);
 		MapDraw(window);
+		BrickDraw(window);
+		BrickParticleDraw(window);
+		FloatingScoreDraw(window);
+		FloatingCoinDraw(window);
+		HiddenBoxDraw(window);
+		FlyingBridgeDraw(window);
+		FlagDraw(window);
 		MarioDraw(window);
 		EnemyDraw(window);
 		CoinDraw(window);
@@ -177,12 +203,13 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 	}
 	else if (gameState == GameState::GameOver)
 	{
+		window.setView(window.getDefaultView());
+		GameOverDraw(window);
 	}  
 }
 
 /// HELPER FUNCTIONS
 /// Begin Function
-
 void MarioGame::HandleStart(GameState& gameState, sf::RenderWindow& window)
 {
 	int option = menu.HandleInput(window);
@@ -222,20 +249,20 @@ void MarioGame::MapTransitionBegin()
 	mapTransition.Begin();
 }
 
-void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition, std::vector<sf::Vector2f>& bridgesPosition)
+void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition, std::vector<sf::Vector2f>& goombasPosition, std::vector<sf::Vector2f>& koopasPosition, std::vector<sf::Vector2f>& coinsPosition, std::vector<sf::Vector2f>& chompersPosition, std::vector<sf::Vector2f>& bridgesPosition, std::vector<sf::Vector2f>& hiddenBoxesPosition, std::vector<sf::Vector2f>& bricksPosition)
 {
 	map = Map(1.0f);
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map3.png";
+		mapName = "map1.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
 		mapName = "map3.png";
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
-	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition);
+	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
 
 	map.CreateCollisionBox();
 }
@@ -283,11 +310,28 @@ void MarioGame::ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition)
 
 void MarioGame::FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition)
 {
-	for (int i = 0; i < bridgesPosition.size(); i++)
+	// Only treat for map 3
+	if (mario.getMapArchive() == 3)
 	{
-		FlyingBridge* newBridge = new FlyingBridge;
-		newBridge->Begin(bridgesPosition[i]);
-		bridges.push_back(newBridge);
+		for (int i = 0; i < bridgesPosition.size() - 1; i++)
+		{
+			FlyingBridge* newBridge = new FlyingBridge(sf::Vector2f(0.0f, 5.0f), 0.0f, 0.0f, 15.0f, 5.0f);
+			newBridge->Begin(bridgesPosition[i]);
+			bridges.push_back(newBridge);
+		}
+		FlyingBridge* newBridge1 = new FlyingBridge(sf::Vector2f(3.0f, 0.0f), bridgesPosition[3].x + 2.0f, bridgesPosition[3].x - 6.0f, 0.0f, 0.0f);
+		newBridge1->Begin(bridgesPosition[3]);
+		bridges.push_back(newBridge1);
+	}
+	// Other map
+	else
+	{
+		for (int i = 0; i < bridgesPosition.size(); i++)
+		{
+			FlyingBridge* newBridge = new FlyingBridge(sf::Vector2f(0.0f, 5.0f), 0.0f, 0.0f, 15.0f, 5.0f);
+			newBridge->Begin(bridgesPosition[i]);
+			bridges.push_back(newBridge);
+		}
 	}
 }
 
@@ -298,6 +342,26 @@ void MarioGame::CoinBegin(const std::vector<sf::Vector2f>& coinsPosition)
 		auto newCoin = std::make_unique<Coin>();
 		newCoin->Begin(coinsPosition[i]);
 		coins.push_back(std::move(newCoin));
+	}
+}
+
+void MarioGame::BrickBegin(const std::vector<sf::Vector2f>& bricksPosition)
+{
+	for (int i = 0; i < bricksPosition.size(); i++)
+	{
+		Brick* newBrick = new Brick;
+		newBrick->Begin(bricksPosition[i], 1);
+		bricks.push_back(newBrick);
+	}
+}
+
+void MarioGame::HiddenBoxBegin(const std::vector<sf::Vector2f>& hiddenBoxesPosition)
+{
+	for (int i = 0; i < hiddenBoxesPosition.size(); i++)
+	{
+		HiddenBox* newHiddenBox = new HiddenBox;
+		newHiddenBox->Begin(hiddenBoxesPosition[i]);
+		hiddenBoxes.push_back(newHiddenBox);
 	}
 }
 
@@ -331,6 +395,16 @@ void MarioGame::LoginMenuBegin(sf::RenderWindow& window)
 	loginMenu.Begin(window);
 }
 
+void MarioGame::GameOverBegin()
+{
+	gameOver.Begin();
+}
+
+void MarioGame::FlagBegin(sf::Vector2f winPosition)
+{
+	winFlag.Begin(winPosition);
+}
+
 /// Update Function
 void MarioGame::MusicUpdate()
 {
@@ -353,6 +427,11 @@ bool MarioGame::MapTransitionUpdate(const float& deltaTime)
 	else return false;
 }
 
+void MarioGame::GameOverUpdate(const float& deltaTime)
+{
+	gameOver.Update(deltaTime);
+}
+
 void MarioGame::MapUpdate(const float& deltaTime)
 {
 	map.Update(deltaTime);
@@ -365,7 +444,16 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 	{
 		if (goombas[i]->getDieStatus() == false && goombas[i]->getDieByKoopaStatus() == false && mario.goombasCollision(*goombas[i]))
 		{
-			if (mario.getInvicibleTime2() > 0)
+			// Jump on head
+			if (mario.getVelocity().y > 0 && mario.getPosition().y + mario.getCollisionBox().height <= goombas[i]->getPosition().y + goombas[i]->getCollisionBox().height / 2)
+			{
+				mario.setPoints(mario.getPoints() + 100);
+				mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+				goombas[i]->setDieStatus(true);
+				SoundManager::getInstance().playSound("goomba");
+			}
+			// Kicked by Koopa
+			else if (mario.getInvicibleTime2() > 0)
 				goombas[i]->setDieByKoopaStatus(true);
 			else
 			{
@@ -383,14 +471,47 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				}
 			}
 		}
+		if ((goombas[i]->getDieStatus() == true || goombas[i]->getDieByKoopaStatus() == true) && (goombas[i]->getAddedFloatingScore() == false))
+		{
+			FloatingScore* newScore = new FloatingScore(100, goombas[i]->getPosition());
+			floatingScore.push_back(newScore);
+			goombas[i]->setAddedFloatingScore(true);
+		}
 	}
 	// Collision with koopa
 	for (int i = 0; i < koopas.size(); i++)
 	{
 		if (mario.koopaCollision(*koopas[i]))
 		{
-			if (!koopas[i]->getInShellStatus())
+			// Jump on head
+			if (mario.getVelocity().y > 0 && mario.getPosition().y + mario.getCollisionBox().height <= koopas[i]->getPosition().y + koopas[i]->getCollisionBox().height / 2)
 			{
+				if (koopas[i]->getInShellStatus() == false)
+				{
+					SoundManager::getInstance().playSound("goomba");
+					mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+					koopas[i]->setInShellStatus(true);
+				}
+				else
+				{
+					mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
+					koopas[i]->setStandTimer(3.0f);
+				}
+				koopas[i]->setVelocity(sf::Vector2f(0.0f, 0.0f));
+			}
+			// Kick
+			else if (koopas[i]->getInShellStatus() == true)
+			{
+				if (koopas[i]->getVelocity().x == 0)
+				{
+					int kickDirection = (!mario.getFacingRightStatus()) ? 1 : -1;
+					koopas[i]->setVelocity(sf::Vector2f(mario.getKoopaKickSpeed() * kickDirection, 0));
+					SoundManager::getInstance().playSound("kick");
+				}
+			}
+			else
+			{
+				// Taking Star
 				if (mario.getInvicibleTime2() > 0)
 					koopas[i]->setDieStatus(true);
 				else
@@ -410,11 +531,17 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				}
 			}
 		}
+		if (koopas[i]->getDieStatus() == true && koopas[i]->getAddedFloatingScore() == false)
+		{
+			FloatingScore* newScore = new FloatingScore(100, koopas[i]->getPosition());
+			floatingScore.push_back(newScore);
+			koopas[i]->setAddedFloatingScore(true);
+		}
 	}
 	// Collision with chomper
 	for (int i = 0; i < chompers.size(); i++)
 	{
-		if (mario.chomperCollision(*chompers[i]))
+		if (mario.chomperCollision(*chompers[i]) && chompers[i]->getDeadStatus() == false)
 		{
 			if (mario.getInvicibleTime2() > 0) continue;
 			else
@@ -434,7 +561,79 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 			}
 		}
 	}
-	mario.Update(deltaTime, map, mushrooms, stars, flowers, bridges);
+	// Collision with Hidden Box
+	sf::FloatRect marioCollisionBox = mario.getCollisionBox();
+	sf::Vector2f marioVelocity = mario.getVelocity();
+	for (int i = 0; i < hiddenBoxes.size(); i++)
+	{
+		sf::FloatRect hiddenBoxCollisionBox = hiddenBoxes[i]->getCollisionBox();
+		if (hiddenBoxCollisionBox.intersects(marioCollisionBox) && hiddenBoxes[i]->getUsedStatus() == false && hiddenBoxes[i]->getBounceStatus() == false)
+		{
+			if (marioVelocity.y < 0 && marioCollisionBox.top <= hiddenBoxCollisionBox.top + hiddenBoxCollisionBox.height && marioCollisionBox.top >= hiddenBoxCollisionBox.top)
+			{
+				hiddenBoxes[i]->setBounceStatus(true);
+				std::srand(static_cast<unsigned>(std::time(0)));
+				int randomNumber = 1 + (std::rand() % 100);
+				HiddenBoxItemFactory factory;
+				sf::Vector2f position = sf::Vector2f(hiddenBoxes[i]->getPosition().x, hiddenBoxes[i]->getPosition().y - hiddenBoxes[i]->getBounceHeight());
+				/*
+					Coin: 80%
+					Mushroom: 15%
+					Star: 3%
+					Flower: 2%
+				*/
+				if (randomNumber <= 2)
+				{
+					SoundManager::getInstance().playSound("item");
+					HiddenBoxItem* newItem = factory.createItem("Flower");
+					if (newItem)
+					{
+						newItem->Begin(position);
+						flowers.push_back(static_cast<FireFlower*>(newItem));
+					}
+				}
+				else if (randomNumber <= 5)
+				{
+					SoundManager::getInstance().playSound("item");
+					HiddenBoxItem* newItem = factory.createItem("Star");
+					if (newItem)
+					{
+						newItem->Begin(position);
+						stars.push_back(static_cast<InvicibleStar*>(newItem));
+					}
+				}
+				else if (randomNumber <= 20)
+				{
+					SoundManager::getInstance().playSound("item");
+					HiddenBoxItem* newItem = factory.createItem("Mushroom");
+					if (newItem)
+					{
+						newItem->Begin(position);
+						mushrooms.push_back(static_cast<PowerUpMushroom*>(newItem));
+					}
+				}
+				else if (randomNumber <= 100)
+				{
+					mario.setCoin(mario.getCoin() + 1);
+					SoundManager::getInstance().playSound("coin");
+					FloatingCoin* newFloatingCoin = new FloatingCoin(hiddenBoxes[i]->getPosition());
+					floatingCoin.push_back(newFloatingCoin);
+				}
+			}
+		}
+	}
+	// Collision with brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		if (mario.getCollisionBox().intersects(bricks[i]->getCollisionBox()))
+		{
+			if (marioVelocity.y < 0 && marioCollisionBox.top <= bricks[i]->getCollisionBox().top + bricks[i]->getCollisionBox().height && marioCollisionBox.top >= bricks[i]->getCollisionBox().top && mario.getLevelUpStatus() == true)
+			{
+				bricks[i]->setBounceStatus(true);
+			}
+		}
+	}
+	mario.Update(deltaTime, map, bridges);
 }
 
 void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
@@ -455,7 +654,7 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (goombas[i]->bulletCollision(*bullets[j]))
+			if (goombas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
 			{	
 				goombas[i]->setDieByKoopaStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -510,7 +709,7 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (koopas[i]->bulletCollision(*bullets[j]))
+			if (koopas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
 			{
 				koopas[i]->setDieStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -539,8 +738,23 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 {
 	for (int i = 0; i < chompers.size(); i++)
 	{
+		std::vector<Bullet*> bullets = mario.getBullets();
+		for (int j = 0; j < bullets.size(); j++)
+		{
+			if (chompers[i]->bulletCollision(*bullets[j]))
+			{
+				chompers[i]->setDeadStatus(true);
+				bullets[j]->setAppearTime(0.0f);
+			}
+		}
 		chompers[i]->Update(deltaTime);
 	}
+	chompers.erase(
+		std::remove_if(chompers.begin(), chompers.end(),
+			[](const auto& chomper) {
+				return (chomper->getDeadStatus());
+			}),
+		chompers.end());
 }
 
 void MarioGame::FlyingBridgeUpdate(const float& deltaTime)
@@ -576,12 +790,106 @@ void MarioGame::CoinUpdate(const float& deltaTime)
 		coins.end());
 }
 
+void MarioGame::BrickUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < bricks.size();)
+	{
+		bricks[i]->Update(deltaTime);
+		if (bricks[i]->getBrokeStatus() == true)
+		{
+			SoundManager::getInstance().playSound("brick");
+			FloatingScore* newFloatingScore = new FloatingScore(50, bricks[i]->getPosition());
+			floatingScore.push_back(newFloatingScore);
+			map.handleBrickCollision(bricks[i]->getStartPosition());
+			// Spawm brick particles
+			for (int j = 0; j < 4; j++)
+			{
+				sf::Vector2f velocity(
+					(std::rand() % 21 - 10), 
+					(std::rand() % 21 - 10)
+				);
+				BrickParticle* newBrickParticle = new BrickParticle;
+				newBrickParticle->Begin(bricks[i]->getPosition(), velocity);
+				brickParticles.push_back(newBrickParticle);
+			}
+			delete bricks[i];
+			bricks.erase(bricks.begin() + i);
+
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void MarioGame::BrickParticleUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < brickParticles.size();)
+	{
+		brickParticles[i]->Update(deltaTime);
+		if (brickParticles[i]->isTimeOut())
+		{
+			brickParticles[i]->Reset();
+			delete brickParticles[i];
+			brickParticles.erase(brickParticles.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void MarioGame::FloatingScoreUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < floatingScore.size();)
+	{
+		floatingScore[i]->Update(deltaTime);
+		if (floatingScore[i]->isTimeout())
+		{
+			delete floatingScore[i];
+			floatingScore.erase(floatingScore.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void MarioGame::FloatingCoinUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < floatingCoin.size();)
+	{
+		floatingCoin[i]->Update(deltaTime);
+		if (floatingCoin[i]->isTimeOut())
+		{
+			delete floatingCoin[i]; 
+			floatingCoin.erase(floatingCoin.begin() + i);
+		}
+		else
+		{
+			i++;
+		}
+	}
+}
+
+void MarioGame::HiddenBoxUpdate(const float& deltaTime)
+{
+	for (int i = 0; i < hiddenBoxes.size(); i++)
+	{
+		hiddenBoxes[i]->Update(deltaTime);
+	}
+}
+
 void MarioGame::GameTimeUpdate(const float& deltaTime)
 {
 	gameTime.Update(deltaTime);
 	if (gameTime.getGameTime() < 0)
 	{
 		mario.setDeadStatus(true);
+		mario.setLife(0);
 		gameTime.setGameTime(0);
 	}
 }
@@ -681,6 +989,14 @@ void MarioGame::FlowerUpdate(const float& deltaTime, const Map& map)
 		flowers.end());
 }
 
+void MarioGame::FlagUpdate(const float& deltaTime)
+{
+	if (mario.getWinningState() == true)
+	{
+		winFlag.Update(deltaTime);
+	}
+}
+
 void MarioGame::DeadUpdate(GameState& gameState)
 {
 	if (mario.getDeadStatus() == true)
@@ -718,6 +1034,8 @@ bool MarioGame::WinDetect()
 			SoundManager::getInstance().stopSound("main");
 			SoundManager::getInstance().setPlayedStatus("main", false);
 			mario.setWinningState(true);
+			mario.setPosition(winPosition);
+			winFlag.setPosition(sf::Vector2f(mario.getPosition().x - 0.5f, mario.getPosition().y));
 			SoundManager::getInstance().playSound("flag");
 		}
 		if (mario.getPosition().y >= endWinPosition.y - 1.0f)
@@ -748,6 +1066,11 @@ void MarioGame::LoginMenuDraw(sf::RenderWindow& window)
 	loginMenu.Draw(window);
 }
 
+void MarioGame::GameOverDraw(sf::RenderWindow& window)
+{
+	gameOver.Draw(window);
+}
+
 void MarioGame::BackgroundDraw(sf::RenderWindow& window)
 {
 	background.Draw(window);
@@ -763,6 +1086,51 @@ void MarioGame::UIDraw(sf::RenderWindow& window)
 void MarioGame::MapDraw(sf::RenderWindow& window)
 {
 	map.Draw(window);
+}
+
+void MarioGame::BrickDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		bricks[i]->Draw(window);
+	}
+}
+
+void MarioGame::BrickParticleDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < brickParticles.size(); i++)
+	{
+		brickParticles[i]->Draw(window);
+	}
+}
+
+void MarioGame::FloatingScoreDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < floatingScore.size(); i++)
+	{
+		floatingScore[i]->Draw(window);
+	}
+}
+
+void MarioGame::FloatingCoinDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < floatingCoin.size(); i++)
+	{
+		floatingCoin[i]->Draw(window);
+	}
+}
+
+void MarioGame::HiddenBoxDraw(sf::RenderWindow& window)
+{
+	for (int i = 0; i < hiddenBoxes.size(); i++)
+	{
+		hiddenBoxes[i]->Draw(window);
+	}
+}
+
+void MarioGame::FlagDraw(sf::RenderWindow& window)
+{
+	winFlag.Draw(window);
 }
 
 void MarioGame::HiddenBoxItemDraw(sf::RenderWindow& window)
@@ -849,6 +1217,32 @@ void MarioGame::GameReset()
 		delete chompers[i];
 	}
 	chompers.clear();
+	/// Reset Floating Score
+	for (int i = 0; i < floatingScore.size(); i++)
+	{
+		delete floatingScore[i];
+	}
+	floatingScore.clear();
+	/// Reset Floating Coin
+	for (int i = 0; i < floatingCoin.size(); i++)
+	{
+		floatingCoin[i]->Reset();
+		delete floatingCoin[i];
+	}
+	floatingCoin.clear();
+	/// Reset hidden box
+	for (int i = 0; i < hiddenBoxes.size(); i++)
+	{
+		hiddenBoxes[i]->Reset();
+		delete hiddenBoxes[i];
+	}
+	hiddenBoxes.clear();
+	/// Reset Brick
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		delete bricks[i];
+	}
+	bricks.clear();
 	/// Reset Mushroom
 	for (int i = 0; i < mushrooms.size(); i++)
 	{

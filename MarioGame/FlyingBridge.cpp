@@ -1,9 +1,12 @@
 #include "FlyingBridge.h"
-#include <iostream>
 
-FlyingBridge::FlyingBridge()
-	: velocity(sf::Vector2f(0.0f, 3.0f)), maxRange(13.0f), minRange(6.0f)
+FlyingBridge::FlyingBridge(const sf::Vector2f& velocity, const float& maxRangeX, const float& minRangeX, const float& maxRangeY, const float& minRangeY)
 {
+	this->velocity = velocity;
+	this->maxRangeX = maxRangeX;
+	this->minRangeX = minRangeX;
+	this->maxRangeY = maxRangeY;
+	this->minRangeY = minRangeY;
 }
 
 void FlyingBridge::Begin(const sf::Vector2f& position)
@@ -21,12 +24,17 @@ void FlyingBridge::Begin(const sf::Vector2f& position)
 
 void FlyingBridge::Update(const float& deltaTime)
 {
-	position.y += velocity.y * deltaTime;
 	collisionBox = sf::FloatRect(position.x, position.y, sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 
-	if (position.y >= maxRange || position.y <= minRange)
+	position.y += velocity.y * deltaTime;
+	if (position.y >= maxRangeY || position.y <= minRangeY)
 	{
 		velocity.y = -velocity.y;
+	}
+	position.x += velocity.x * deltaTime;
+	if (position.x >= maxRangeX || position.x <= minRangeX)
+	{
+		velocity.x = -velocity.x;
 	}
 }
 
