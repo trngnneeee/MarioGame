@@ -49,7 +49,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			}
 			else if (opt == 4)
 			{
-				gameState == GameState::LoginMenu;
+				gameState = GameState::LoginMenu;
 			}
 		}
 	}
