@@ -1,7 +1,7 @@
 #include "Koopa.h"
 
 Koopa::Koopa()
-	: outAnimation(0.4f), inShell(false), standTimer(3.0f)
+	: outAnimation(0.4f), inShell(false), standTimer(2.0f)
 {
 }
 
