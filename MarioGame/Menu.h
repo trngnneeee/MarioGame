@@ -18,6 +18,20 @@ private:
 	sf::RectangleShape exitButton;
 	sf::Text exitText;
 
+	// Character Selection
+	// 1 is Mario, 2 is Luigi and 3 is FireMario
+	sf::Texture characterTexture[3];
+	sf::Sprite characterSprite[3];
+
+	// Display character
+	sf::Sprite characterDisplay;
+
+	// Directing
+	sf::CircleShape leftButton;
+	sf::CircleShape rightButton;
+
+	sf::Text characterName;
+
 
 public:
 	// Functions

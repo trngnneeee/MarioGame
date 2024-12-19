@@ -1,4 +1,12 @@
-﻿  LoginMenu.cpp
-  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
-  'pwsh.exe' is not recognized as an internal or external command,
-  operable program or batch file.
+﻿  Menu.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(45,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(45,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(45,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(45,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(45,105): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(59,101): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(59,101): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(59,101): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(59,101): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(59,101): warning C4244:         ]
+  MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe

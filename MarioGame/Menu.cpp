@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include <iostream>
 
 void Menu::Begin(sf::RenderWindow& window)
 {
@@ -16,7 +17,27 @@ void Menu::Begin(sf::RenderWindow& window)
 		window.getSize().y / backgroundSprite.getLocalBounds().height
 	);
 
+
+	if (!characterTexture[0].loadFromFile("./resources/textures/Mario/marioBig.png"))
+	{
+		std::cout << "Haha\n";
+		return;
+	}
+
+
+	if (!characterTexture[1].loadFromFile("./resources/textures/Luigi/marioBig.png"))
+		return;
+
+
+	if (!characterTexture[2].loadFromFile("./resources/textures/FireMario/marioBig.png"))
+		return;
+
+	characterSprite[0].setTexture(characterTexture[0]);
+
+	characterDisplay = characterSprite[0];
+
 	sf::Color backgroundColor(148, 148, 255, 255);
+
 	level1Button.setSize(sf::Vector2f(200, 50));
 	level1Button.setFillColor(backgroundColor);
 	level1Button.setOutlineColor(sf::Color::White);
@@ -54,6 +75,8 @@ void Menu::Draw(sf::RenderWindow& window)
 
 	window.draw(exitButton);
 	window.draw(exitText);
+
+	window.draw(characterDisplay);
 }
 
 int Menu::HandleInput(sf::RenderWindow& window)
