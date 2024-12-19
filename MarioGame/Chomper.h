@@ -36,5 +36,6 @@ public:
 	bool getHidingStatus();
 	bool getDeadStatus();
 	void setDeadStatus(const bool& value);
+	sf::Vector2f getPosition() const;
 };
 

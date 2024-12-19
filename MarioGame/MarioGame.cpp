@@ -39,21 +39,23 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 		}
 		else if (gameState == GameState::Menu)
 		{
-			if (menu.HandleInput(window) == 1)
+
+			int opt = menu.HandleInput(event, window);
+			if (opt == 0 || opt == 1 || opt == 2)
 			{
-				Begin(window);
+				window.clear();
+				Begin(window, opt);
 				gameState = GameState::Playing;
 			}
-
-			if (menu.HandleInput(window) == 2)
+			else if (opt == 4)
 			{
-				gameState = GameState::LoginMenu;
+				gameState == GameState::LoginMenu;
 			}
 		}
 	}
 }
 
-void MarioGame::Begin(sf::RenderWindow& window)
+void MarioGame::Begin(sf::RenderWindow& window, const int& characterSelected)
 {
 	MusicBegin();
 	MapTransitionBegin();
@@ -67,7 +69,7 @@ void MarioGame::Begin(sf::RenderWindow& window)
 	std::vector<sf::Vector2f> bricksPosition;
 	sf::Vector2f marioPosition;
 	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
-	MarioBegin(marioPosition);
+	MarioBegin(marioPosition, characterSelected);
 	EnemyBegin(goombasPosition, koopasPosition);
 	FlyingBridgeBegin(bridgesPosition);
 	ChomperBegin(chompersPosition);
@@ -120,7 +122,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		if (WinDetect())
 		{
 			GameReset();
-			Begin(window);
+			Begin(window, mario.getCurrentCharacterSelected());
 			SoundManager::getInstance().playSound("win");
 		}
 	}
@@ -210,15 +212,6 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 
 /// HELPER FUNCTIONS
 /// Begin Function
-void MarioGame::HandleStart(GameState& gameState, sf::RenderWindow& window)
-{
-	int option = menu.HandleInput(window);
-	if (option == 1)
-	{
-		Begin(window);
-		gameState = GameState::Playing;
-	}
-}
 void MarioGame::MusicBegin()
 {
 	SoundManager& soundManager = SoundManager::getInstance();
@@ -267,9 +260,9 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	map.CreateCollisionBox();
 }
 
-void MarioGame::MarioBegin(const sf::Vector2f& marioPosition)
+void MarioGame::MarioBegin(const sf::Vector2f& marioPosition, const int& characterSelected)
 {
-	mario.Begin(marioPosition);
+	mario.Begin(marioPosition, characterSelected);
 }
 
 void MarioGame::EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition)
@@ -746,6 +739,11 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 				chompers[i]->setDeadStatus(true);
 				bullets[j]->setAppearTime(0.0f);
 			}
+		}
+		if (chompers[i]->getDeadStatus() == true)
+		{
+			FloatingScore* newScore = new FloatingScore(200, chompers[i]->getPosition());
+			floatingScore.push_back(newScore);
 		}
 		chompers[i]->Update(deltaTime);
 	}

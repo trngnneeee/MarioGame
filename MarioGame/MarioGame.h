@@ -68,14 +68,13 @@ private:
 public:
 	/// MAIN FUNCTIONS
 	void Event(sf::RenderWindow& window, GameState& gameState);
-	void Begin(sf::RenderWindow& window);
+	void Begin(sf::RenderWindow& window, const int& characterSelected);
 	void Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window, GameState& gameState);
 
 	/// HELPER FUNCTIONS
 	// BEGIN FUNCTIONS
 	void MusicBegin();
-	void HandleStart(GameState& gameState, sf::RenderWindow& window);
 	void MapTransitionBegin();
 	void MapBegin(
 		sf::Vector2f& marioPosition, 
@@ -88,7 +87,7 @@ public:
 		std::vector<sf::Vector2f>& hiddenBoxesPosition,
 		std::vector<sf::Vector2f>& bricksPosition
 	);
-	void MarioBegin(const sf::Vector2f& marioPosition);
+	void MarioBegin(const sf::Vector2f& marioPosition, const int& characterSelected);
 	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
 	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
 	void FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition);

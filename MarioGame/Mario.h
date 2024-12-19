@@ -93,12 +93,15 @@ private:
 	std::vector<sf::Texture> winTextures;
 	Animation smallWinAnimation;
 	Animation bigWinAnimation;
+
+	// Charater Select
+	int characterSelected;
 public:
 	// Constructor
 	Mario();
 
 	// Functions
-	void Begin(const sf::Vector2f& marioPosition);
+	void Begin(const sf::Vector2f& marioPosition, const int& characterSelected);
 	void Update(float deltaTime, Map& map, const std::vector<FlyingBridge*>& bridges);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
@@ -168,4 +171,5 @@ public:
 	float getJumpStrength() const;
 	int getFacingRightStatus();
 	float getKoopaKickSpeed();
+	int getCurrentCharacterSelected() const;
 };
