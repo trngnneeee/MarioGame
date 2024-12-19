@@ -248,7 +248,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map1.png";
+		mapName = "waterMap.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
