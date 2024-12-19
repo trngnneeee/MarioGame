@@ -17,12 +17,12 @@ FloatingScore::FloatingScore(const int& points, sf::Vector2f startPosition)
 void FloatingScore::Update(const float& deltaTime)
 {
 	position.y -= 5.0f * deltaTime;
-	text.setPosition(position);
 	timer -= 2.0f * deltaTime;
 }
 
 void FloatingScore::Draw(sf::RenderWindow& window)
 {
+	text.setPosition(position);
 	if (timer > 0)
 		window.draw(text);
 }

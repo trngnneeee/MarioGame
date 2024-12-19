@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Menu.cpp
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(24,105): warning C4244:         with
@@ -10,3 +11,19 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:             T=unsigned int
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(37,101): warning C4244:         ]
   MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe
+=======
+﻿  MarioGame.cpp
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(809,24): warning C4244:         ]
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         with
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         [
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:             T=float
+D:\HCMUS\MarioGame\MarioGame\MarioGame\MarioGame.cpp(808,24): warning C4244:         ]
+  MarioGame.vcxproj -> D:\HCMUS\MarioGame\MarioGame\x64\Debug\MarioGame.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
+>>>>>>> c08ca344500d1ab98ef08891ad20d33af44b2553

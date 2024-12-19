@@ -71,13 +71,7 @@ bool Koopa::handleDead(float deltaTime)
 		if (dieTime > 0)
 		{
 			dieTime -= deltaTime;
-			if (!score)
-				score = new FloatingScore(200, position);
-			else
-				score->Update(deltaTime);
 		}
-		else
-			if (score) delete score;
 		return true;
 	}
 	return false;
@@ -143,7 +137,6 @@ void Koopa::Reset()
 {
 	runAnimation.Reset();
 	textures.clear();
-	if (score) delete score;
 	outShell.clear();
 	outAnimation.Reset();
 }

@@ -40,5 +40,6 @@ public:
 	void setAppearTime(const float& value);
 	void setVelocity(const sf::Vector2f& value);
 	sf::FloatRect getCollisionBox() const;
+	bool getExplodeStatus();
 };
 

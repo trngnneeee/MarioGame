@@ -12,10 +12,10 @@
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
 #include "FireFlower.h"
-#include "HiddenBoxItemFactory.h"
 #include "Coin.h"
 #include "SoundManagement.h"
 #include "Bullet.h"
+#include "FlyingBridge.h"
 
 class Mario
 {
@@ -91,25 +91,28 @@ private:
 	// Win
 	bool isWinning;
 	std::vector<sf::Texture> winTextures;
+	Animation smallWinAnimation;
+	Animation bigWinAnimation;
 public:
 	// Constructor
 	Mario();
 
 	// Functions
 	void Begin(const sf::Vector2f& marioPosition);
-	void Update(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void Update(float deltaTime, Map& map, const std::vector<FlyingBridge*>& bridges);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
 	void ResetAfterDead();
 	void ResetAfterWin();
 
-	void HandleMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void HandleMove(float deltaTime, Map& map);
+	void HandleBridgeStanding(float deltaTime, std::vector<FlyingBridge*> bridges);
 	void updateSwimmingState(float deltaTime);
-	void handleSwimming(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void handleSwimming(float deltaTime, Map& map);
 	void UpdateCollisionBox();
 	void handleJump(float deltaTime);
-	void handleHorizontalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
-	void handleVerticalMove(float deltaTime, Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	void handleHorizontalMove(float deltaTime, Map& map);
+	void handleVerticalMove(float deltaTime, Map& map);
 	bool handleDead(float deltaTime);
 	bool handleOutOfMap();
 	void handleBlinkEffect(float deltaTime);
@@ -123,7 +126,7 @@ public:
 	float distanceX(const Enemy& enemy);
 
 	// Collsion
-	bool mapCollision(Map& map, std::vector<PowerUpMushroom*>& mushrooms, std::vector<InvicibleStar*>& stars, std::vector<FireFlower*>& flowers);
+	bool mapCollision(Map& map);
 	bool outOfMapCollision();
 	bool goombasCollision(Goombas& goombas);
 	bool koopaCollision(Koopa& koopa);
@@ -146,6 +149,7 @@ public:
 	void setLife(const int& n);
 	sf::FloatRect getCollisionBox() const;
 	sf::Vector2f getVelocity();
+	void setVelocity(const sf::Vector2f& value);
 	bool getLevelUpStatus();
 	void setLevelUpStatus(const bool& value);
 	float getInvicibleTime();
@@ -161,4 +165,7 @@ public:
 	void setShootingStatus(const bool& value);
 	bool getWinningState();
 	void setWinningState(const bool& value);
+	float getJumpStrength() const;
+	int getFacingRightStatus();
+	float getKoopaKickSpeed();
 };

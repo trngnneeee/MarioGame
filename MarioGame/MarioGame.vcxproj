@@ -137,6 +137,8 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="BrickParticle.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chomper.cpp" />
@@ -145,10 +147,14 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="FastSpeedStrategy.cpp" />
     <ClCompile Include="FireFlower.cpp" />
+    <ClCompile Include="Flag.cpp" />
     <ClCompile Include="FloatingCoin.cpp" />
     <ClCompile Include="FloatingScore.cpp" />
+    <ClCompile Include="FlyingBridge.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Goombas.cpp" />
+    <ClCompile Include="HiddenBox.cpp" />
     <ClCompile Include="HiddenBoxItemFactory.cpp" />
     <ClCompile Include="InvicibleStar.cpp" />
     <ClCompile Include="HiddenBoxItem.cpp" />
@@ -171,6 +177,8 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="BrickParticle.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chomper.h" />
@@ -180,16 +188,20 @@
     <ClInclude Include="EnityColor.h" />
     <ClInclude Include="FastSpeedStrategy.h" />
     <ClInclude Include="FireFlower.h" />
+    <ClInclude Include="Flag.h" />
     <ClInclude Include="FloatingCoin.h" />
     <ClInclude Include="FloatingScore.h" />
+    <ClInclude Include="FlyingBridge.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Goombas.h" />
+    <ClInclude Include="HiddenBox.h" />
     <ClInclude Include="HiddenBoxItemFactory.h" />
     <ClInclude Include="InvicibleStar.h" />
     <ClInclude Include="HiddenBoxItem.h" />
     <ClInclude Include="Koopa.h" />
-    <ClInclude Include="LoginMenu.h" />
+    <ClInclude Include="LogInMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTransition.h" />
     <ClInclude Include="Mario.h" />

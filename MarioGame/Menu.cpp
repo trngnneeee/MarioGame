@@ -25,7 +25,8 @@ void Menu::Begin(sf::RenderWindow& window)
 
 	level1Text = sf::Text("Play", font, 35);
 	level1Text.setFillColor(sf::Color::White);
-	level1Text.setPosition(
+	level1Text.setPosition
+	(
 		level1Button.getPosition().x + (level1Button.getSize().x - level1Text.getGlobalBounds().width) / 2,
 		level1Button.getPosition().y + (level1Button.getSize().y - level1Text.getGlobalBounds().height) / 2 - 10
 	);

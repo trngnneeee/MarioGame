@@ -50,7 +50,6 @@ void Coin::Update(float deltaTime)
         else
         {
             if (score) delete score;
-            SoundManager::getInstance().setPlayedStatus("coin", false);
         }
     }
 }

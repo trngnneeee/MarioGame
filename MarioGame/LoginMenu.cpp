@@ -1,4 +1,5 @@
 #include "LoginMenu.h"
+#include <iostream>
 
 void LoginMenu::Begin(sf::RenderWindow& window)
 {
@@ -27,6 +28,7 @@ void LoginMenu::Begin(sf::RenderWindow& window)
     usernameText.setString("Username:");
     usernameText.setCharacterSize(30);
     usernameText.setFillColor(sf::Color::White);
+  
 
     // Password Text
     passwordText.setFont(font);
@@ -44,6 +46,7 @@ void LoginMenu::Begin(sf::RenderWindow& window)
     passwordInput.setCharacterSize(30);
     passwordInput.setFillColor(sf::Color::Black);
 
+    
     usernameBox.setSize(sf::Vector2f(300, 40));
     usernameBox.setFillColor(sf::Color::White);
     usernameBox.setOutlineColor(sf::Color::White);
@@ -85,7 +88,7 @@ void LoginMenu::Begin(sf::RenderWindow& window)
     passwordSprite.setScale
     (
         (passwordBox.getSize().x / 5) / passwordSprite.getGlobalBounds().height,
-        (passwordBox.getSize().y) / passwordSprite.getGlobalBounds().height
+        (passwordBox.getSize().y ) / passwordSprite.getGlobalBounds().height
     );
 
     errorMessage.setFont(font);
@@ -93,6 +96,52 @@ void LoginMenu::Begin(sf::RenderWindow& window)
     errorMessage.setFillColor(sf::Color::Red);
 
     UpdateTextPositions(window);
+}
+
+void LoginMenu::UpdateTextPositions(sf::RenderWindow& window)
+{
+    sf::View view = window.getView();
+    sf::Vector2f viewCenter = view.getCenter();
+
+    float centerX = viewCenter.x;
+    float centerY = viewCenter.y + 50;
+
+    // Position username elements
+    usernameBox.setPosition(centerX, centerY);
+    usernameText.setPosition(centerX - 200, centerY);
+    usernameInput.setPosition(centerX, centerY);
+
+    // Position password elements
+    passwordBox.setPosition(centerX, centerY + 60);
+    passwordText.setPosition(centerX - 200, centerY + 60);
+    passwordInput.setPosition(centerX, centerY + 68);
+
+    // Position login button
+    loginButton.setPosition(centerX - loginButton.getGlobalBounds().width / 2 + 180, centerY + 130);
+    loginText.setPosition
+    (
+        loginButton.getPosition().x + (loginButton.getSize().x - loginText.getGlobalBounds().width) / 2,
+        loginButton.getPosition().y + (loginButton.getSize().y - loginText.getGlobalBounds().height) / 2 - 10
+    );
+
+    registerButton.setPosition(centerX - registerButton.getGlobalBounds().width / 2 - 70, centerY + 130);
+    registerText.setPosition
+    (
+        registerButton.getPosition().x + (registerButton.getSize().x - registerText.getGlobalBounds().width) / 2,
+        registerButton.getPosition().y + (registerButton.getSize().y - registerText.getGlobalBounds().height) / 2 - 10
+    );
+
+    passwordSprite.setPosition
+    (
+        passwordBox.getPosition().x + passwordBox.getLocalBounds().width - passwordSprite.getGlobalBounds().width,
+        passwordBox.getPosition().y
+    );
+
+    errorMessage.setPosition
+    (
+        loginButton.getSize().x + 180,
+        loginButton.getSize().y + 650
+    );
 }
 
 int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::RenderWindow& window)
@@ -106,9 +155,10 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
     {
         UpdateTextPositions(window);
     }
+
     if (event.type == sf::Event::MouseButtonPressed)
     {
-
+        
         isUsernameSelected = usernameBox.getGlobalBounds().contains(worldPos);
         isPasswordSelected = passwordBox.getGlobalBounds().contains(worldPos);
         errorMessage.setFillColor(sf::Color::Red);
@@ -148,6 +198,7 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
             passwordInput.setString(displayPassword);
         }
     }
+
     if (passwordSprite.getGlobalBounds().contains(worldPos))
     {
         if (event.type == sf::Event::MouseButtonPressed)
@@ -160,6 +211,7 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
             passwordInput.setString(displayPassword);
         }
     }
+
     if (event.type == sf::Event::TextEntered)
     {
         if (event.text.unicode < 32 || event.text.unicode > 126)
@@ -178,7 +230,7 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
                 passwordInput.setString(displayPassword);
             }
         }
-
+        
     }
 
     bool isValidLogin = false;
@@ -288,8 +340,10 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
         passwordInput.setString(password);
         return 1;
     }
+
     return 0;
 }
+
 
 void LoginMenu::Update(float deltaTime, sf::RenderWindow& window)
 {
@@ -318,50 +372,4 @@ void LoginMenu::Draw(sf::RenderWindow& window)
     window.draw(passwordSprite);
 
     window.draw(errorMessage);
-}
-
-void LoginMenu::UpdateTextPositions(sf::RenderWindow& window)
-{
-    sf::View view = window.getView();
-    sf::Vector2f viewCenter = view.getCenter();
-
-    float centerX = viewCenter.x;
-    float centerY = viewCenter.y + 50;
-
-    // Position username elements
-    usernameBox.setPosition(centerX, centerY);
-    usernameText.setPosition(centerX - 200, centerY);
-    usernameInput.setPosition(centerX, centerY);
-
-    // Position password elements
-    passwordBox.setPosition(centerX, centerY + 60);
-    passwordText.setPosition(centerX - 200, centerY + 60);
-    passwordInput.setPosition(centerX, centerY + 68);
-
-    // Position login button
-    loginButton.setPosition(centerX - loginButton.getGlobalBounds().width / 2 + 180, centerY + 130);
-    loginText.setPosition
-    (
-        loginButton.getPosition().x + (loginButton.getSize().x - loginText.getGlobalBounds().width) / 2,
-        loginButton.getPosition().y + (loginButton.getSize().y - loginText.getGlobalBounds().height) / 2 - 10
-    );
-
-    registerButton.setPosition(centerX - registerButton.getGlobalBounds().width / 2 - 70, centerY + 130);
-    registerText.setPosition
-    (
-        registerButton.getPosition().x + (registerButton.getSize().x - registerText.getGlobalBounds().width) / 2,
-        registerButton.getPosition().y + (registerButton.getSize().y - registerText.getGlobalBounds().height) / 2 - 10
-    );
-
-    passwordSprite.setPosition
-    (
-        passwordBox.getPosition().x + passwordBox.getLocalBounds().width - passwordSprite.getGlobalBounds().width,
-        passwordBox.getPosition().y
-    );
-
-    errorMessage.setPosition
-    (
-        loginButton.getSize().x + 180,
-        loginButton.getSize().y + 650
-    );
 }
