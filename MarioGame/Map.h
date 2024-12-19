@@ -39,7 +39,7 @@ private:
 	std::vector<sf::Texture> cloudTextures;
 
 	// Water map
-	sf::Texture greenBlockTexture, coralTexture, waterTexture;
+	sf::Texture greenBlockTexture, coralTexture, waterTexture, waterSurfaceTexture;
 	std::vector<sf::Texture> blueTubeTextures;
 
 	// Image

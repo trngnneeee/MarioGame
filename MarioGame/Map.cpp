@@ -57,6 +57,7 @@ void Map::TileBegin()
 	greenBlockTexture.loadFromFile("./resources/textures/greenBlock.png");
 	coralTexture.loadFromFile("./resources/textures/coral.png");
 	waterTexture.loadFromFile("./resources/textures/water.png");
+	waterSurfaceTexture.loadFromFile("./resources/textures/water1.png");
 }
 
 void Map::FireBegin()
@@ -457,6 +458,11 @@ void Map::CreateFromImage(
 				bridgesPosition.push_back(sf::Vector2f(cellSize* i, cellSize* j));
 				break;
 			}
+			case EntityType::WaterSurface:
+			{
+				grid[i][j] = 48;
+				break;
+			}
 			}
 		}
 	}
@@ -738,6 +744,11 @@ void Map::TileDraw(sf::RenderWindow& window)
 			case 47:
 			{
 				texture = &blueTubeTextures[3];
+				break;
+			}
+			case 48:
+			{
+				texture = &waterSurfaceTexture;
 				break;
 			}
 			default:

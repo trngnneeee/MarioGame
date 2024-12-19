@@ -44,7 +44,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			if (opt == 0 || opt == 1 || opt == 2)
 			{
 				window.clear();
-				Begin(window, opt);
+				Begin(window, opt, gameState);
 				gameState = GameState::Playing;
 			}
 			else if (opt == 4)
@@ -55,7 +55,7 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 	}
 }
 
-void MarioGame::Begin(sf::RenderWindow& window, const int& characterSelected)
+void MarioGame::Begin(sf::RenderWindow& window, const int& characterSelected, GameState& gameState)
 {
 	MusicBegin();
 	MapTransitionBegin();
@@ -69,6 +69,7 @@ void MarioGame::Begin(sf::RenderWindow& window, const int& characterSelected)
 	std::vector<sf::Vector2f> bricksPosition;
 	sf::Vector2f marioPosition;
 	MapBegin(marioPosition, winPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition);
+	if (gameState == GameState::GameOver) return;
 	MarioBegin(marioPosition, characterSelected);
 	EnemyBegin(goombasPosition, koopasPosition);
 	FlyingBridgeBegin(bridgesPosition);
@@ -122,7 +123,7 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		if (WinDetect())
 		{
 			GameReset();
-			Begin(window, mario.getCurrentCharacterSelected());
+			Begin(window, mario.getCurrentCharacterSelected(), gameState);
 			SoundManager::getInstance().playSound("win");
 		}
 	}
@@ -248,7 +249,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "waterMap.png";
+		mapName = "map3.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
@@ -568,7 +569,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				std::srand(static_cast<unsigned>(std::time(0)));
 				int randomNumber = 1 + (std::rand() % 100);
 				HiddenBoxItemFactory factory;
-				sf::Vector2f position = sf::Vector2f(hiddenBoxes[i]->getPosition().x, hiddenBoxes[i]->getPosition().y - hiddenBoxes[i]->getBounceHeight());
+				sf::Vector2f position = sf::Vector2f(hiddenBoxes[i]->getPosition().x, hiddenBoxes[i]->getPosition().y);
 				/*
 					Coin: 80%
 					Mushroom: 15%
@@ -611,6 +612,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 					SoundManager::getInstance().playSound("coin");
 					FloatingCoin* newFloatingCoin = new FloatingCoin(hiddenBoxes[i]->getPosition());
 					floatingCoin.push_back(newFloatingCoin);
+					mario.setPoints(mario.getPoints() + 100);
 				}
 			}
 		}

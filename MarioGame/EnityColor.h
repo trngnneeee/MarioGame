@@ -25,7 +25,7 @@ enum class EntityType {
     cloudBottomLeft, cloudBottomMid, cloudBottomRight, cloudTopLeft, cloudTopMid, cloudTopRight,
     triBushAdditional, triBushLeft, triBushMid, triBushRight, triBushTop,
     Chomper,
-    Coral, greenBlock, Water,
+    Coral, greenBlock, Water, WaterSurface,
     blueTube1, blueTube2, blueTube3, blueTube4,
     flyingBridge
 };
@@ -84,6 +84,7 @@ sf::Color chomperColor(0, 234, 0);
 sf::Color coralColor(255, 0, 145); //ff0091
 sf::Color greenBlockColor(53, 94, 59); //355e3b
 sf::Color waterColor(68, 108, 207); //46ccf
+sf::Color waterSurfaceColor(68, 100, 207);
 
 sf::Color blueTube1Color(204, 119, 34);
 sf::Color blueTube2Color(205, 170, 110);
@@ -152,6 +153,7 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Coral, coralColor},
     {EntityType::greenBlock, greenBlockColor},
     {EntityType::Water, waterColor},
+    {EntityType::WaterSurface, waterSurfaceColor},
 
     {EntityType::blueTube1, blueTube1Color},
     {EntityType::blueTube2, blueTube2Color},

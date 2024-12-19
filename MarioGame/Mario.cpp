@@ -517,6 +517,7 @@ bool Mario::mapCollision(Map& map)
 
 	const std::set<int> solidBlocks = { 1, 2, 3, 4, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
 	const int water = 43;
+	const int waterSurface = 48;
 
 	for (size_t i = 0; i < collisionBoxes.size(); i++)
 	{
@@ -530,7 +531,7 @@ bool Mario::mapCollision(Map& map)
 			{
 				return true;
 			}
-			else if (collisionBox.intersects(currentBox) && tileType == water)
+			else if (collisionBox.intersects(currentBox) && (tileType == water || tileType == waterSurface))
 			{
 				isSwimming = true;
 				outOfWaterTime = 2.0f;

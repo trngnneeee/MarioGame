@@ -68,7 +68,7 @@ private:
 public:
 	/// MAIN FUNCTIONS
 	void Event(sf::RenderWindow& window, GameState& gameState);
-	void Begin(sf::RenderWindow& window, const int& characterSelected);
+	void Begin(sf::RenderWindow& window, const int& characterSelected, GameState& gameState);
 	void Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window, GameState& gameState);
 
