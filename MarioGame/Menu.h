@@ -17,7 +17,12 @@ private:
 	sf::RectangleShape exitButton;
 	sf::Text exitText;
 
-	sf::ConvexShape invertedTriangle;
+	// 3 characters to select
+	//1 for 
+	sf::Texture characterTexture[3];
+	sf::Sprite characterSprite[3];
+
+	sf::CircleShape index;
 
 
 
