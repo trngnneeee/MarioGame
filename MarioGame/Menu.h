@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "GameState.h"
 class Menu
 {
 private:
@@ -30,13 +31,16 @@ private:
 	sf::CircleShape leftButton;
 	sf::CircleShape rightButton;
 
-	sf::Text characterName;
+	sf::Text characterName[3];
+	sf::Text nameDisplay;
 
+	int index;
 
 public:
 	// Functions
 	void Begin(sf::RenderWindow& window);
 	void Draw(sf::RenderWindow& window);
-	int HandleInput(sf::RenderWindow& window);
+	void Update(sf::RenderWindow& window);
+	int HandleInput(sf::Event& event, sf::RenderWindow& window);
 };
 

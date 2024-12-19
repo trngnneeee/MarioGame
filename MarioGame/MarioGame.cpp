@@ -39,13 +39,14 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 		}
 		else if (gameState == GameState::Menu)
 		{
-			if (menu.HandleInput(window) == 1)
+			if (menu.HandleInput(event, window) == 7)
 			{
 				Begin(window);
 				gameState = GameState::Playing;
 			}
 
-			if (menu.HandleInput(window) == 2)
+			//Exit
+			if (menu.HandleInput(event, window) == 4)
 			{
 				gameState = GameState::LoginMenu;
 			}
@@ -210,9 +211,9 @@ void MarioGame::Render(sf::RenderWindow& window, GameState& gameState)
 
 /// HELPER FUNCTIONS
 /// Begin Function
-void MarioGame::HandleStart(GameState& gameState, sf::RenderWindow& window)
+void MarioGame::HandleStart(sf::Event& event, GameState& gameState, sf::RenderWindow& window)
 {
-	int option = menu.HandleInput(window);
+	int option = menu.HandleInput(event, window);
 	if (option == 1)
 	{
 		Begin(window);
