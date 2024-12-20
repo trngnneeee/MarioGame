@@ -129,6 +129,9 @@
     <ClCompile Include="BrickParticle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -248,6 +251,9 @@
     <ClInclude Include="BrickParticle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="waterMap.png">
@@ -260,6 +266,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="map3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\Bird\bird1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\Bird\bird2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

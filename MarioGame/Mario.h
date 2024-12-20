@@ -8,6 +8,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "Chomper.h"
+#include "Bird.h"
 #include "Enemy.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
@@ -138,6 +139,7 @@ public:
 	bool flowerCollision(FireFlower& flower);
 	bool coinCollision(Coin& coin);
 	bool chomperCollision(Chomper& chomper);
+	bool birdCollision(Bird& bird);
 
 	// Getter/Setter
 	int getPoints();

@@ -580,6 +580,11 @@ bool Mario::chomperCollision(Chomper& chomper)
 	return (collisionBox.intersects(chomper.getCollisionBox()) && chomper.getHidingStatus() != true);
 }
 
+bool Mario::birdCollision(Bird& bird)
+{
+	return collisionBox.intersects(bird.getCollisionBox()) && bird.getDieStatus() == false;
+}
+
 float Mario::distanceX(const Enemy& enemy)
 {
 	return std::abs(position.x - enemy.getPosition().x);

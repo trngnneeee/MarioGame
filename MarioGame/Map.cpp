@@ -168,7 +168,8 @@ void Map::CreateFromImage(
 	std::vector<sf::Vector2f>& chompersPosition,
 	std::vector<sf::Vector2f>& bridgesPosition,
 	std::vector<sf::Vector2f>& hiddenBoxesPosition,
-	std::vector<sf::Vector2f>& bricksPosition
+	std::vector<sf::Vector2f>& bricksPosition,
+	std::vector<sf::Vector2f>& birdsPosition
 )
 {
 	// Clear the previous map (vector)
@@ -461,6 +462,11 @@ void Map::CreateFromImage(
 			case EntityType::WaterSurface:
 			{
 				grid[i][j] = 48;
+				break;
+			}
+			case EntityType::Bird:
+			{
+				birdsPosition.push_back(sf::Vector2f(cellSize* i, cellSize* j));
 				break;
 			}
 			}

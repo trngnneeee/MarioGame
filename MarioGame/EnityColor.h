@@ -27,7 +27,8 @@ enum class EntityType {
     Chomper,
     Coral, greenBlock, Water, WaterSurface,
     blueTube1, blueTube2, blueTube3, blueTube4,
-    flyingBridge
+    flyingBridge,
+    Bird
 };
 
 sf::Color GoombaColor(200, 0, 0);
@@ -92,6 +93,8 @@ sf::Color blueTube3Color(251, 236, 93);
 sf::Color blueTube4Color(253, 253, 150);
 
 sf::Color flyingBridgeColor(123, 246, 146);
+
+sf::Color birdColor(243, 0, 0);
 
 inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
     {EntityType::Stone, sf::Color::Black},
@@ -162,6 +165,7 @@ inline const std::unordered_map<EntityType, sf::Color> EntityColors = {
 
     {EntityType::flyingBridge, flyingBridgeColor},
 
+    {EntityType::Bird, birdColor},
 
     {EntityType::None, sf::Color::Transparent}
 };
