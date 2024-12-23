@@ -332,6 +332,7 @@ int LoginMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Ren
         registerButton.setFillColor(backgroundColor);
     }
 
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     if (isValidLogin)
     {
         username.clear();

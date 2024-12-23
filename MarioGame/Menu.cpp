@@ -45,13 +45,13 @@ void Menu::Begin(sf::RenderWindow& window)
 	exitText = sf::Text("Exit", font, 35);
 	exitText.setFillColor(sf::Color::White);
 
-	leftButton = sf::CircleShape(60, 3);
+	leftButton = sf::CircleShape(45, 3);
 	leftButton.setRotation(270);
 	leftButton.setOutlineColor(sf::Color::Black);
 	leftButton.setOutlineThickness(5.0f);
 	leftButton.setFillColor(sf::Color::White);
 
-	rightButton = sf::CircleShape(60, 3);
+	rightButton = sf::CircleShape(45, 3);
 	rightButton.setRotation(90);
 	rightButton.setOutlineColor(sf::Color::Black);
 	rightButton.setOutlineThickness(5.0f);
@@ -77,6 +77,31 @@ void Menu::Update(sf::RenderWindow& window)
 		window.getSize().x / backgroundSprite.getLocalBounds().width,
 		window.getSize().y / backgroundSprite.getLocalBounds().height
 	);
+
+	for (int i = 0; i < 3; i++)
+	{
+		characterSprite[i].setTexture(characterTexture[i]);
+		characterSprite[i].setScale
+		(
+			(window.getSize().x / 6) / characterSprite[0].getLocalBounds().width,
+			(window.getSize().y / 6) / characterSprite[0].getLocalBounds().height
+		);
+		characterSprite[i].setPosition
+		(
+			centerX, centerY
+		);
+
+		characterName[i].setFillColor(sf::Color::Black);
+		characterName[i].setOrigin
+		(
+			characterName[i].getGlobalBounds().width / 2,
+			characterName[i].getGlobalBounds().height / 2
+		);
+		characterName[i].setPosition
+		(
+			window.getSize().x / 2, window.getSize().y / 5
+		);
+	}
 
 	for (int i = 0; i < 3; i++)
 	{
