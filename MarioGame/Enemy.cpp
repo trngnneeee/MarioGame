@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy()
-	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(3.0f, 0.0f)), isDead(false), dieTime(0.2f), v(10.0f), tmpGravity(-30.0f), inGame(false), speedStrategy(nullptr), baseSpeed(3.0f), addedFloatingScore(false)
+	: runAnimation(0.2f), gravity(50.0f), velocity(sf::Vector2f(-3.0f, 0.0f)), isDead(false), dieTime(0.2f), v(10.0f), tmpGravity(-30.0f), inGame(false), speedStrategy(nullptr), baseSpeed(3.0f), addedFloatingScore(false)
 {
 }
 

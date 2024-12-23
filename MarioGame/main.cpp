@@ -1,5 +1,6 @@
 #include "MarioGame.h"
 #include "GameState.h"
+#include <iostream>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1200, 900), "Mario Game");
@@ -14,6 +15,7 @@ int main() {
 	MarioGame game;
 	GameState gameState = GameState::LoginMenu;
 	game.LoginMenuBegin(window);
+	game.MenuBegin(window);
 
 	//DEFAULT USERNAME: VU
 	//DEFAULT PASSWORD: 123

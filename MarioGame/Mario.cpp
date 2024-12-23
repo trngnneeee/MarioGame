@@ -7,13 +7,21 @@ Mario::Mario()
 }
 
 // Functions
-void Mario::Begin(const sf::Vector2f& marioPosition)
+void Mario::Begin(const sf::Vector2f& marioPosition, const int& characterSelected)
 {	
+	// Select Character
+	this->characterSelected = characterSelected;
+
+	std::string texturePack = "";
+	if (characterSelected == 0) texturePack = "Mario";
+	else if (characterSelected == 1) texturePack = "Luigi";
+	else if (characterSelected == 2) texturePack = "FireMario";
+
 	// Init start position for mario
 	startPosition = marioPosition;
 	position = marioPosition;
 
-	deadTexture.loadFromFile("./resources/textures/Mario/marioDie.png");
+	deadTexture.loadFromFile("./resources/textures/" + texturePack + "/marioDie.png");
 
 	// Init small texture
 	std::vector<std::string> filePath1 = {
@@ -26,7 +34,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	for (int i = 0; i < filePath1.size(); i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mario/" + filePath1[i]);
+		tmp.loadFromFile("./resources/textures/" + texturePack + "/" + filePath1[i]);
 		textures.push_back(tmp);
 	}
 	runAnimation.addFrame(Frame(&textures[0], 0.08f));
@@ -44,7 +52,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	for (int i = 0; i < filePath2.size(); i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mario/" + filePath2[i]);
+		tmp.loadFromFile("./resources/textures/" + texturePack + "/" + filePath2[i]);
 		bigTexture.push_back(tmp);
 	}
 
@@ -56,7 +64,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	for (int i = 0; i < 5; i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mario/marioSmallSwim" + std::to_string(i + 1) + ".png");
+		tmp.loadFromFile("./resources/textures/" + texturePack + "/marioSmallSwim" + std::to_string(i + 1) + ".png");
 		smallSwimTextures.push_back(tmp);
 	}
 	for (int i = 0; i < 5; i++)
@@ -66,7 +74,7 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 	for (int i = 0; i < 5; i++)
 	{
 		sf::Texture tmp;
-		tmp.loadFromFile("./resources/textures/Mario/marioBigSwim" + std::to_string(i + 1) + ".png");
+		tmp.loadFromFile("./resources/textures/" + texturePack + "/marioBigSwim" + std::to_string(i + 1) + ".png");
 		bigSwimTextures.push_back(tmp);
 	}
 	for (int i = 0; i < 5; i++)
@@ -76,13 +84,13 @@ void Mario::Begin(const sf::Vector2f& marioPosition)
 
 	// Win texture
 	sf::Texture tmp;
-	tmp.loadFromFile("./resources/textures/Mario/marioSmallWin.png");
+	tmp.loadFromFile("./resources/textures/" + texturePack + "/marioSmallWin.png");
 	winTextures.push_back(tmp);
-	tmp.loadFromFile("./resources/textures/Mario/marioSmallWin2.png");
+	tmp.loadFromFile("./resources/textures/" + texturePack + "/marioSmallWin2.png");
 	winTextures.push_back(tmp);
-	tmp.loadFromFile("./resources/textures/Mario/marioBigWin.png");
+	tmp.loadFromFile("./resources/textures/" + texturePack + "/marioBigWin.png");
 	winTextures.push_back(tmp);
-	tmp.loadFromFile("./resources/textures/Mario/marioBigWin2.png");
+	tmp.loadFromFile("./resources/textures/" + texturePack + "/marioBigWin2.png");
 	winTextures.push_back(tmp);
 
 	smallWinAnimation.addFrame(Frame(&winTextures[0], 0.1f));
@@ -509,6 +517,7 @@ bool Mario::mapCollision(Map& map)
 
 	const std::set<int> solidBlocks = { 1, 2, 3, 4, 5, 11, 12, 13, 14, 24, 25, 26, 42, 44, 45, 46, 47};
 	const int water = 43;
+	const int waterSurface = 48;
 
 	for (size_t i = 0; i < collisionBoxes.size(); i++)
 	{
@@ -522,7 +531,7 @@ bool Mario::mapCollision(Map& map)
 			{
 				return true;
 			}
-			else if (collisionBox.intersects(currentBox) && tileType == water)
+			else if (collisionBox.intersects(currentBox) && (tileType == water || tileType == waterSurface))
 			{
 				isSwimming = true;
 				outOfWaterTime = 2.0f;
@@ -569,6 +578,11 @@ bool Mario::coinCollision(Coin& coin)
 bool Mario::chomperCollision(Chomper& chomper)
 {
 	return (collisionBox.intersects(chomper.getCollisionBox()) && chomper.getHidingStatus() != true);
+}
+
+bool Mario::birdCollision(Bird& bird)
+{
+	return collisionBox.intersects(bird.getCollisionBox()) && bird.getDieStatus() == false;
 }
 
 float Mario::distanceX(const Enemy& enemy)
@@ -822,4 +836,9 @@ int Mario::getFacingRightStatus()
 float Mario::getKoopaKickSpeed()
 {
 	return koopaKickSpeed;
+}
+
+int Mario::getCurrentCharacterSelected() const
+{
+	return characterSelected;
 }

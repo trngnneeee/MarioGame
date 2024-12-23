@@ -39,7 +39,7 @@ private:
 	std::vector<sf::Texture> cloudTextures;
 
 	// Water map
-	sf::Texture greenBlockTexture, coralTexture, waterTexture;
+	sf::Texture greenBlockTexture, coralTexture, waterTexture, waterSurfaceTexture;
 	std::vector<sf::Texture> blueTubeTextures;
 
 	// Image
@@ -81,7 +81,8 @@ public:
 		std::vector<sf::Vector2f>& chompersPosition,
 		std::vector<sf::Vector2f>& bridgesPosition,
 		std::vector<sf::Vector2f>& hiddenBoxesPosition,
-		std::vector<sf::Vector2f>& bricksPosition
+		std::vector<sf::Vector2f>& bricksPosition,
+		std::vector<sf::Vector2f>& birdsPosition
 	);
 	void CreateCollisionBox();
 	// Update Functions

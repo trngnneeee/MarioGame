@@ -39,8 +39,8 @@ private:
 public:
 	// Functions
 	void Begin(sf::RenderWindow& window);
-	void Draw(sf::RenderWindow& window);
 	void Update(sf::RenderWindow& window);
+	void Draw(sf::RenderWindow& window);
 	int HandleInput(sf::Event& event, sf::RenderWindow& window);
 };
 

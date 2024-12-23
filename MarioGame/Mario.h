@@ -8,6 +8,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "Chomper.h"
+#include "Bird.h"
 #include "Enemy.h"
 #include "PowerUpMushroom.h"
 #include "InvicibleStar.h"
@@ -93,12 +94,15 @@ private:
 	std::vector<sf::Texture> winTextures;
 	Animation smallWinAnimation;
 	Animation bigWinAnimation;
+
+	// Charater Select
+	int characterSelected;
 public:
 	// Constructor
 	Mario();
 
 	// Functions
-	void Begin(const sf::Vector2f& marioPosition);
+	void Begin(const sf::Vector2f& marioPosition, const int& characterSelected);
 	void Update(float deltaTime, Map& map, const std::vector<FlyingBridge*>& bridges);
 	void Draw(sf::RenderWindow& window);
 	void Reset();
@@ -135,6 +139,7 @@ public:
 	bool flowerCollision(FireFlower& flower);
 	bool coinCollision(Coin& coin);
 	bool chomperCollision(Chomper& chomper);
+	bool birdCollision(Bird& bird);
 
 	// Getter/Setter
 	int getPoints();
@@ -168,4 +173,5 @@ public:
 	float getJumpStrength() const;
 	int getFacingRightStatus();
 	float getKoopaKickSpeed();
+	int getCurrentCharacterSelected() const;
 };

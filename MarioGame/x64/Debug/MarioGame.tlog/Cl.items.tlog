@@ -1,5 +1,9 @@
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Animation.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Animation.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Background.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Background.obj
+<<<<<<< HEAD
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Bird.obj
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Brick.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Brick.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\BrickParticle.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\BrickParticle.obj
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bullet.cpp;C:\Users\dinhd\source\repos\MarioGame\MarioGame\x64\Debug\Bullet.obj

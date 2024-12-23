@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Goombas.h"
 #include "Koopa.h"
+#include "Bird.h"
 #include <unordered_map>
 #include <string>
 

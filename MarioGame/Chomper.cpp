@@ -108,3 +108,8 @@ void Chomper::setDeadStatus(const bool& value)
 {
 	isDead = value;
 }
+
+sf::Vector2f Chomper::getPosition() const
+{
+	return position;
+}

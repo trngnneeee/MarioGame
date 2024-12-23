@@ -35,7 +35,7 @@ void Menu::Begin(sf::RenderWindow& window)
 
 	level1Text = sf::Text("Play", font, 35);
 	level1Text.setFillColor(sf::Color::White);
-	
+
 
 	exitButton.setSize(sf::Vector2f(180, 50));
 	exitButton.setFillColor(backgroundColor);
@@ -45,13 +45,13 @@ void Menu::Begin(sf::RenderWindow& window)
 	exitText = sf::Text("Exit", font, 35);
 	exitText.setFillColor(sf::Color::White);
 
-	leftButton = sf::CircleShape(60, 3);
+	leftButton = sf::CircleShape(45, 3);
 	leftButton.setRotation(270);
 	leftButton.setOutlineColor(sf::Color::Black);
 	leftButton.setOutlineThickness(5.0f);
 	leftButton.setFillColor(sf::Color::White);
 
-	rightButton = sf::CircleShape(60, 3);
+	rightButton = sf::CircleShape(45, 3);
 	rightButton.setRotation(90);
 	rightButton.setOutlineColor(sf::Color::Black);
 	rightButton.setOutlineThickness(5.0f);
@@ -60,7 +60,6 @@ void Menu::Begin(sf::RenderWindow& window)
 	index = 0;
 
 	Update(window);
-
 }
 
 void Menu::Update(sf::RenderWindow& window)
@@ -78,6 +77,31 @@ void Menu::Update(sf::RenderWindow& window)
 		window.getSize().x / backgroundSprite.getLocalBounds().width,
 		window.getSize().y / backgroundSprite.getLocalBounds().height
 	);
+
+	for (int i = 0; i < 3; i++)
+	{
+		characterSprite[i].setTexture(characterTexture[i]);
+		characterSprite[i].setScale
+		(
+			(window.getSize().x / 6) / characterSprite[0].getLocalBounds().width,
+			(window.getSize().y / 6) / characterSprite[0].getLocalBounds().height
+		);
+		characterSprite[i].setPosition
+		(
+			centerX, centerY
+		);
+
+		characterName[i].setFillColor(sf::Color::Black);
+		characterName[i].setOrigin
+		(
+			characterName[i].getGlobalBounds().width / 2,
+			characterName[i].getGlobalBounds().height / 2
+		);
+		characterName[i].setPosition
+		(
+			window.getSize().x / 2, window.getSize().y / 5
+		);
+	}
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -143,9 +167,6 @@ void Menu::Update(sf::RenderWindow& window)
 		window.getSize().x / 2 + window.getSize().x / 4,
 		window.getSize().y / 2
 	);
-
-
-
 }
 
 void Menu::Draw(sf::RenderWindow& window)
@@ -173,25 +194,24 @@ int Menu::HandleInput(sf::Event& event, sf::RenderWindow& window)
 	sf::Color backgroundColor(148, 148, 255, 255);
 	if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 	{
-			if (rightButton.getGlobalBounds().contains(worldPos))
-			{
-				if (index == 2)
-					index = 0;
-				else
-					index++;
-			}
+		if (rightButton.getGlobalBounds().contains(worldPos))
+		{
+			if (index == 2)
+				index = 0;
+			else
+				index++;
+		}
 
-			else if (leftButton.getGlobalBounds().contains(worldPos))
-			{
-				if (index == 0)
-					index = 2;
-				else
-					index--;
-			}
-			std::cout << index << "\n";
-		
+		else if (leftButton.getGlobalBounds().contains(worldPos))
+		{
+			if (index == 0)
+				index = 2;
+			else
+				index--;
+		}
+
 	}
-	
+
 	characterDisplay = characterSprite[index];
 	nameDisplay = characterName[index];
 
@@ -201,7 +221,7 @@ int Menu::HandleInput(sf::Event& event, sf::RenderWindow& window)
 		level1Button.setFillColor(sf::Color::Blue);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			return index++; 
+			return index;
 		}
 	}
 	else

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Menu.cpp
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(103,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(103,47): warning C4244:         with
@@ -24,11 +25,101 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(132,22): warning C4244:
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(132,22): warning C4244:         [
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(132,22): warning C4244:             T=unsigned int
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(132,22): warning C4244:         ]
+=======
+﻿  Animation.cpp
+  Background.cpp
+  Bird.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp(61,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp(61,41): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp(61,41): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp(61,41): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Bird.cpp(61,41): warning C4244:         ]
+  Brick.cpp
+  BrickParticle.cpp
+  Bullet.cpp
+  Camera.cpp
+  Chomper.cpp
+  Coin.cpp
+  Enemy.cpp
+  EnemyFactory.cpp
+  FastSpeedStrategy.cpp
+  FireFlower.cpp
+  Flag.cpp
+  FloatingCoin.cpp
+  FloatingScore.cpp
+  FlyingBridge.cpp
+  GameOver.cpp
+  GameTime.cpp
+  Goombas.cpp
+  Generating Code...
+  Compiling...
+  HiddenBox.cpp
+  HiddenBoxItemFactory.cpp
+  InvicibleStar.cpp
+  HiddenBoxItem.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\HiddenBoxItem.cpp(5,110): warning C4305: 'argument': truncation from 'double' to 'float'
+  Koopa.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(126,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(126,41): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(126,41): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(126,41): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(126,41): warning C4244:         ]
+  LoginMenu.cpp
+  Map.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(184,40): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Map.cpp(184,37): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+  main.cpp
+  MapTransition.cpp
+  Mario.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(501,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(501,42): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(501,42): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(501,42): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(501,42): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(509,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(509,47): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(509,47): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(509,47): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Mario.cpp(509,47): warning C4244:         ]
+  MarioGame.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(877,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(877,24): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(877,24): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(877,24): warning C4244:             T=float
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(877,24): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(876,24): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(876,24): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(876,24): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(876,24): warning C4244:             T=float
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\MarioGame.cpp(876,24): warning C4244:         ]
+  Menu.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,47): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,47): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,47): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,47): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,23): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,23): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,23): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,23): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(102,23): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(106,105): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(106,105): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(106,105): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(106,105): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(106,105): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(114,101): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(114,101): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(114,101): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(114,101): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(114,101): warning C4244:         ]
+>>>>>>> main
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(131,22): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(131,22): warning C4244:         with
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(131,22): warning C4244:         [
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(131,22): warning C4244:             T=unsigned int
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(131,22): warning C4244:         ]
+<<<<<<< HEAD
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(144,22): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(144,22): warning C4244:         with
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(144,22): warning C4244:         [
@@ -39,4 +130,31 @@ C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,26): warning C4244:
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,26): warning C4244:         [
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,26): warning C4244:             T=unsigned int
 C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,26): warning C4244:         ]
+=======
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(130,22): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(130,22): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(130,22): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(130,22): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(130,22): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,22): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,22): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,22): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,22): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(143,22): warning C4244:         ]
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(142,26): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(142,26): warning C4244:         with
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(142,26): warning C4244:         [
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(142,26): warning C4244:             T=unsigned int
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Menu.cpp(142,26): warning C4244:         ]
+  NormalSpeedStrategy.cpp
+  PauseMenu.cpp
+  SoundManagement.cpp
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\SoundManagement.cpp(65,36): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  PowerUpMushroom.cpp
+  SpeedStrategy.cpp
+  SuperFastSpeedStrategy.cpp
+  UICounter.cpp
+  Generating Code...
+C:\Users\dinhd\source\repos\MarioGame\MarioGame\Koopa.cpp(99,1): warning C4715: 'Koopa::handleOutOfShell': not all control paths return a value
+>>>>>>> main
   MarioGame.vcxproj -> C:\Users\dinhd\Source\Repos\MarioGame\x64\Debug\MarioGame.exe

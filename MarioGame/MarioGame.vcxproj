@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bird.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="BrickParticle.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Bird.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="BrickParticle.h" />
     <ClInclude Include="Bullet.h" />
@@ -219,6 +221,8 @@
     <Image Include="map1.png" />
     <Image Include="map2.png" />
     <Image Include="map3.png" />
+    <Image Include="resources\textures\Bird\bird1.png" />
+    <Image Include="resources\textures\Bird\bird2.png" />
     <Image Include="waterMap.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

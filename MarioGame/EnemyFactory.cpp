@@ -4,6 +4,7 @@ EnemyFactory::EnemyFactory()
 {
     prototypes["Goomba"] = new Goombas();
     prototypes["Koopa"] = new Koopa();
+    prototypes["Bird"] = new Bird();
 }
 
 EnemyFactory::~EnemyFactory()

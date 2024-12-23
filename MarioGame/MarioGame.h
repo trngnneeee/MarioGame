@@ -7,6 +7,7 @@
 #include "Goombas.h"
 #include "Koopa.h"
 #include "Chomper.h"
+#include "Bird.h"
 #include "Coin.h"
 #include "Background.h"
 #include "GameTime.h"
@@ -39,6 +40,7 @@ private:
 	std::vector<Goombas*> goombas;
 	std::vector<Koopa*> koopas;
 	std::vector<Chomper*> chompers;
+	std::vector<Bird*> birds;
 	std::vector<std::unique_ptr<Coin>> coins;
 	Background background;
 	GameTime gameTime;
@@ -68,14 +70,13 @@ private:
 public:
 	/// MAIN FUNCTIONS
 	void Event(sf::RenderWindow& window, GameState& gameState);
-	void Begin(sf::RenderWindow& window);
+	void Begin(sf::RenderWindow& window, const int& characterSelected, GameState& gameState);
 	void Update(const float& deltaTime, GameState& gameState, sf::RenderWindow& window);
 	void Render(sf::RenderWindow& window, GameState& gameState);
 
 	/// HELPER FUNCTIONS
 	// BEGIN FUNCTIONS
 	void MusicBegin();
-	void HandleStart(sf::Event& event, GameState& gameState, sf::RenderWindow& window);
 	void MapTransitionBegin();
 	void MapBegin(
 		sf::Vector2f& marioPosition, 
@@ -86,10 +87,11 @@ public:
 		std::vector<sf::Vector2f>& chompersPosition,
 		std::vector<sf::Vector2f>& bridgesPosition,
 		std::vector<sf::Vector2f>& hiddenBoxesPosition,
-		std::vector<sf::Vector2f>& bricksPosition
+		std::vector<sf::Vector2f>& bricksPosition,
+		std::vector<sf::Vector2f>& birdsPosition
 	);
-	void MarioBegin(const sf::Vector2f& marioPosition);
-	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition);
+	void MarioBegin(const sf::Vector2f& marioPosition, const int& characterSelected);
+	void EnemyBegin(const std::vector<sf::Vector2f>& goombasPosition, const std::vector<sf::Vector2f>& koopasPosition, const std::vector<sf::Vector2f>& birdsPosition);
 	void ChomperBegin(const std::vector<sf::Vector2f>& chompersPosition);
 	void FlyingBridgeBegin(const std::vector<sf::Vector2f>& bridgesPosition);
 	void CoinBegin(const std::vector<sf::Vector2f>& coinsPosition);
@@ -117,6 +119,7 @@ public:
 	void GoombaUpdate(const float& deltaTime, const Map& map);
 	void KoopaUpdate(const float& deltaTime, const Map& map);
 	void ChomperUpdate(const float& deltaTime);
+	void BirdUpdate(const float& deltaTime);
 	void FlyingBridgeUpdate(const float& deltaTime);
 	void CoinUpdate(const float& deltaTime);
 	void BrickUpdate(const float& deltaTime);
