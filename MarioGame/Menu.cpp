@@ -45,13 +45,13 @@ void Menu::Begin(sf::RenderWindow& window)
 	exitText = sf::Text("Exit", font, 35);
 	exitText.setFillColor(sf::Color::White);
 
-	leftButton = sf::CircleShape(60, 3);
+	leftButton = sf::CircleShape(45, 3);
 	leftButton.setRotation(270);
 	leftButton.setOutlineColor(sf::Color::Black);
 	leftButton.setOutlineThickness(5.0f);
 	leftButton.setFillColor(sf::Color::White);
 
-	rightButton = sf::CircleShape(60, 3);
+	rightButton = sf::CircleShape(45, 3);
 	rightButton.setRotation(90);
 	rightButton.setOutlineColor(sf::Color::Black);
 	rightButton.setOutlineThickness(5.0f);

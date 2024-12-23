@@ -33,7 +33,6 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			if (loginMenu.HandleInput(event, gameState, window) == 1)
 			{
 				window.clear();
-				MenuBegin(window);
 				gameState = GameState::Menu;
 			}
 		}

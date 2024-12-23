@@ -15,6 +15,7 @@ int main() {
 	MarioGame game;
 	GameState gameState = GameState::LoginMenu;
 	game.LoginMenuBegin(window);
+	game.MenuBegin(window);
 
 	//DEFAULT USERNAME: VU
 	//DEFAULT PASSWORD: 123
