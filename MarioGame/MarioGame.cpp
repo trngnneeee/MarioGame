@@ -125,6 +125,12 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		if (WinDetect())
 		{
 			GameReset();
+			if (mario.getMapArchive() > 3)
+			{
+				mario.Reset();
+				gameState = GameState::Menu;
+				return;
+			}
 			Begin(window, mario.getCurrentCharacterSelected(), gameState);
 			SoundManager::getInstance().playSound("win");
 		}
@@ -251,7 +257,7 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	int mapType = mario.getMapArchive();
 	std::string mapName = "";
 	if (mapType == 1)
-		mapName = "map3.png";
+		mapName = "map1.png";
 	else if (mapType == 2)
 		mapName = "map2.png";
 	else if (mapType == 3)
@@ -259,7 +265,6 @@ void MarioGame::MapBegin(sf::Vector2f& marioPosition, sf::Vector2f& winPosition,
 	mapTransition.setMapType(mapType);
 	map.Begin(mapName);
 	map.CreateFromImage(marioPosition, winPosition, endWinPosition, goombasPosition, koopasPosition, coinsPosition, chompersPosition, bridgesPosition, hiddenBoxesPosition, bricksPosition, birdsPosition);
-
 	map.CreateCollisionBox();
 }
 

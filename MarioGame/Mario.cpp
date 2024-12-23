@@ -631,6 +631,7 @@ void Mario::Reset()
 	winTextures.clear();
 	shootingAbility = false;
 	isWinning = false;
+	mapArchive = 1;
 }
 
 void Mario::ResetAfterDead()

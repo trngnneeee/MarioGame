@@ -268,10 +268,10 @@
     <Image Include="map3.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\textures\Bird\bird1.png">
+    <Image Include="resources\textures\coral.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\textures\Bird\bird2.png">
+    <Image Include="resources\textures\water.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
