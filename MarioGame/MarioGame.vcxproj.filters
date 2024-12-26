@@ -262,9 +262,6 @@
     <Image Include="map1.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="map2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="map3.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -272,6 +269,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\textures\water.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

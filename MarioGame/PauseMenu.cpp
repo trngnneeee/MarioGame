@@ -50,7 +50,10 @@ void PauseMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Re
     if (event.type == sf::Event::KeyPressed)
     {
         if (event.key.code == sf::Keyboard::R)
+        {
             gameState = GameState::Playing; // Quay lại chơi
+            SoundManager::getInstance().playSound("main");
+        }
         else if (event.key.code == sf::Keyboard::Q)
         {
             gameState = GameState::Menu; // Thoát về menu chính
@@ -66,7 +69,10 @@ void PauseMenu::HandleInput(const sf::Event& event, GameState& gameState, sf::Re
             sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
             if (resumeText.getGlobalBounds().contains(mousePos))
+            {
                 gameState = GameState::Playing; // Quay lại chơi
+                SoundManager::getInstance().playSound("main");
+            }
             else if (quitText.getGlobalBounds().contains(mousePos))
             {
                 gameState = GameState::Menu; // Thoát về menu chính

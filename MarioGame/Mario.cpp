@@ -2,7 +2,7 @@
 #include "Map.h"
 
 Mario::Mario()
-	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(40.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.5f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false), smallWinAnimation(0.2f), bigWinAnimation(0.2f)
+	: runAnimation(0.24f), bigRunAnimation(0.3f), points(0), movementSpeed(7.0f), velocity(sf::Vector2f(0.0f, 0.0f)), jumpStrength(20.0f), gravity(60.0f), isDead(false), life(3), deadTimer(3.0f), v(10.0f), tmpGravity(-30.0f), koopaKickSpeed(20.0f), levelUp(false), invicibleTime(0.0f), invicibleTime2(0.0f), coin(0), mapArchive(1), shootCooldown(0.0f), shootCooldownTimer(0.2f), shootingAbility(false), smallSwimAnimation(0.5f), bigSwimAnimation(0.5f), outOfWaterTime(2.0f), isSwimming(false), isWinning(false), smallWinAnimation(0.2f), bigWinAnimation(0.2f)
 {
 }
 
@@ -406,7 +406,7 @@ void Mario::handleCollectCoin()
 
 void Mario::handleJumpStrength()
 {
-	jumpStrength = (levelUp) ? 20.0f : 20.0f;
+	jumpStrength = (levelUp) ? 25.0f : 25.0f;
 }
 
 void Mario::UpdateTexture(float deltaTime)
@@ -536,6 +536,11 @@ bool Mario::mapCollision(Map& map)
 				isSwimming = true;
 				outOfWaterTime = 2.0f;
 			}
+			else if (collisionBox.intersects(currentBox) && (tileType == 8 || tileType == 9))
+			{
+				isDead = true;
+				return false;
+			}
 		}
 	}
 	return false;
@@ -597,7 +602,7 @@ void Mario::Reset()
 	points = 0;
 	movementSpeed = 7.0f;
 	jumpStrength = 20.0f;
-	gravity = 40.0f;
+	gravity = 60.0f;
 	isDead = false;
 	life = 3;
 	deadTimer = 3.0f;
@@ -652,7 +657,7 @@ void Mario::ResetAfterWin()
 	bigRunAnimation = 0.3f;
 	movementSpeed = 7.0f;
 	jumpStrength = 20.0f;
-	gravity = 40.0f;
+	gravity = 60.0f;
 	isDead = false;
 	deadTimer = 3.0f;
 	v = 10.0f;

@@ -2,8 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
-#include "FloatingScore.h"
-#include "FloatingCoin.h"
 #include "Animation.h"
 #include "SoundManagement.h"
 
@@ -47,9 +45,6 @@ private:
 
 	// Collision box
 	std::vector<std::vector<sf::FloatRect>> collisionBoxList;
-
-	// Score
-	std::vector<FloatingScore*> score;
 public:
 	// Constructors
 	Map(float cellSize = 32.0f);
@@ -86,12 +81,10 @@ public:
 	);
 	void CreateCollisionBox();
 	// Update Functions
-	void FloatingScoreUpdate(const float& deltaTime);
 	// Collision Hanlde Functions
 	void handleBrickCollision(sf::Vector2f brickPosition);
 	// Draw Functions
 	void TileDraw(sf::RenderWindow& window);
-	void FloatingScoreDraw(sf::RenderWindow& window);
 
 	// Setter/Getter
 	const std::vector<std::vector<sf::FloatRect>>& getCollisionBoxList() const;

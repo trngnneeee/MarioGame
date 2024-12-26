@@ -18,6 +18,7 @@ public:
 	void Begin();
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& window);
+	void Reset();
 
 	// Setter/Getter
 	float getTimer();

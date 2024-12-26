@@ -23,7 +23,7 @@ void Map::Begin(const std::string& mapName) {
 
 void Map::Update(float deltaTime)
 {
-	FloatingScoreUpdate(deltaTime);
+	
 }
 
 void Map::Draw(sf::RenderWindow& window) {
@@ -39,11 +39,6 @@ void Map::Reset()
 	}
 	grid.clear();
 	collisionBoxList.clear();
-	for (int i = 0; i < score.size(); i++)
-	{
-		delete score[i];
-	}
-	score.clear();
 }
 
 void Map::TileBegin()
@@ -492,24 +487,6 @@ void Map::CreateCollisionBox()
 	}
 }
 
-void Map::FloatingScoreUpdate(const float& deltaTime)
-{
-	for (int i = 0; i < score.size();)
-	{
-		if (score[i])
-		{
-			score[i]->Update(deltaTime);
-			if (score[i]->isTimeout())
-			{
-				delete score[i];
-				score.erase(score.begin() + i);
-				continue;
-			}
-		}
-		i++;
-	}
-}
-
 void Map::handleBrickCollision(sf::Vector2f brickPosition)
 {
 	int x = static_cast<int>(brickPosition.x / cellSize);
@@ -768,15 +745,6 @@ void Map::TileDraw(sf::RenderWindow& window)
 				window.draw(sprite);
 			}
 		}
-	}
-}
-
-void Map::FloatingScoreDraw(sf::RenderWindow& window)
-{
-	for (int i = 0; i < score.size(); i++)
-	{
-		if (score[i])
-			score[i]->Draw(window);
 	}
 }
 

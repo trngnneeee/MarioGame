@@ -14,6 +14,8 @@ void MarioGame::Event(sf::RenderWindow& window, GameState& gameState)
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			{
 				gameState = GameState::Paused;
+				SoundManager::getInstance().stopSound("main");
+				SoundManager::getInstance().playSound("pause");
 				pauseMenu.Initialize(window); 
 			}
 		}
@@ -124,14 +126,22 @@ void MarioGame::Update(const float& deltaTime, GameState& gameState, sf::RenderW
 		if (WinDetect())
 		{
 			GameReset();
-			if (mario.getMapArchive() > 3)
+			// Clear World
+			if (mario.getMapArchive() > 3 || mapTransition.getMapType() > 3)
 			{
+				gameState = GameState::GameOver;
+				SoundManager::getInstance().playSound("clear");
+				mapTransition.Reset();
 				mario.Reset();
-				gameState = GameState::Menu;
 				return;
 			}
-			Begin(window, mario.getCurrentCharacterSelected(), gameState);
-			SoundManager::getInstance().playSound("win");
+			// Move to next map
+			else
+			{
+				mario.ResetAfterWin();
+				Begin(window, mario.getCurrentCharacterSelected(), gameState);
+				SoundManager::getInstance().playSound("win");
+			}
 		}
 	}
 	else if (gameState == GameState::Paused)
@@ -237,6 +247,9 @@ void MarioGame::MusicBegin()
 	soundManager.loadSound("bullet", "./resources/soundEffect/bullet.wav");
 	soundManager.loadSound("explode", "./resources/soundEffect/explode.wav");
 	soundManager.loadSound("flag", "./resources/soundEffect/flag.wav");
+	soundManager.loadSound("clear", "./resources/soundEffect/clear-world.wav");
+	soundManager.loadSound("pause", "./resources/soundEffect/pause.wav");
+	soundManager.loadSound("out-of-time", "./resources/soundEffect/out-of-time.wav");
 
 	soundManager.loadSound("brick", "./resources/soundEffect/brick.wav");
 	soundManager.setVolume("brick", 100);
@@ -582,6 +595,7 @@ void MarioGame::MarioUpdate(const float& deltaTime, Map& map, GameState& gameSta
 				mario.setVelocity(sf::Vector2f(mario.getVelocity().x, -mario.getJumpStrength() / 2));
 				birds[i]->setDieStatus(true);
 			}
+			else if (mario.getInvicibleTime2() > 0) birds[i]->setDieStatus(true);
 			else
 			{
 				if (mario.getLevelUpStatus() == false && mario.getInvicibleTime() <= 0)
@@ -958,12 +972,13 @@ void MarioGame::HiddenBoxUpdate(const float& deltaTime)
 
 void MarioGame::GameTimeUpdate(const float& deltaTime)
 {
-	gameTime.Update(deltaTime);
+	if (mario.getDeadStatus() == false) gameTime.Update(deltaTime);
 	if (gameTime.getGameTime() < 0)
 	{
 		mario.setDeadStatus(true);
 		mario.setLife(0);
 		gameTime.setGameTime(0);
+		SoundManager::getInstance().playSound("out-of-time");
 	}
 }
 
@@ -1076,7 +1091,7 @@ void MarioGame::DeadUpdate(GameState& gameState)
 	{
 		SoundManager::getInstance().stopSound("main");
 		SoundManager::getInstance().setPlayedStatus("main", false);
-		if (SoundManager::getInstance().getPlayedStatus("dead") == false)
+		if (SoundManager::getInstance().getPlayedStatus("dead") == false && gameTime.getGameTime() > 0.0f)
 		{
 			SoundManager::getInstance().playSound("dead");
 			SoundManager::getInstance().setPlayedStatus("dead", true);
@@ -1091,6 +1106,7 @@ void MarioGame::DeadUpdate(GameState& gameState)
 			{
 				GameReset();
 				mario.Reset();
+				SoundManager::getInstance().playSound("gameover");
 				gameState = GameState::GameOver;
 			}
 			SoundManager::getInstance().setPlayedStatus("dead", false);
@@ -1114,7 +1130,6 @@ bool MarioGame::WinDetect()
 		if (mario.getPosition().y >= endWinPosition.y - 1.0f)
 		{
 			mario.setMapArchive(mario.getMapArchive() + 1);
-			mario.ResetAfterWin();
 			mapTransition.setMapType(mapTransition.getMapType() + 1);
 			mapTransition.setTimer(5.5f);
 			return true;
@@ -1367,5 +1382,4 @@ void MarioGame::GameReset()
 	}
 	bridges.clear();
 	coins.clear();
-	/// Reset music
 }

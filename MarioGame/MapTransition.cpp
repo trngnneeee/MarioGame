@@ -23,6 +23,12 @@ void MapTransition::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+void MapTransition::Reset()
+{
+	currentMapType = 1;
+	timer = 2.0f;
+}
+
 float MapTransition::getTimer()
 {
 	return timer;
