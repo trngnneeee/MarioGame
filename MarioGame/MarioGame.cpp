@@ -234,6 +234,7 @@ void MarioGame::MusicBegin()
 {
 	SoundManager& soundManager = SoundManager::getInstance();
 	soundManager.loadSound("main", "./resources/soundEffect/music.ogg");
+	soundManager.loadSound("invicible", "./resources/soundEffect/invicible.mp3");
 	soundManager.loadSound("dead", "./resources/soundEffect/dead.ogg");
 	soundManager.loadSound("levelUp", "./resources/soundEffect/level-up.ogg");
 	soundManager.loadSound("win", "./resources/soundEffect/win.ogg");
@@ -713,7 +714,7 @@ void MarioGame::GoombaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (goombas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
+			if (goombas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false && mario.getDeadStatus() == false)
 			{	
 				goombas[i]->setDieByKoopaStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -768,7 +769,7 @@ void MarioGame::KoopaUpdate(const float& deltaTime, const Map& map)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (koopas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
+			if (koopas[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false && mario.getDeadStatus() == false)
 			{
 				koopas[i]->setDieStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -800,7 +801,7 @@ void MarioGame::ChomperUpdate(const float& deltaTime)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (chompers[i]->bulletCollision(*bullets[j]))
+			if (chompers[i]->bulletCollision(*bullets[j]) && mario.getDeadStatus() == false)
 			{
 				chompers[i]->setDeadStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -828,7 +829,7 @@ void MarioGame::BirdUpdate(const float& deltaTime)
 		std::vector<Bullet*> bullets = mario.getBullets();
 		for (int j = 0; j < bullets.size(); j++)
 		{
-			if (birds[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false)
+			if (birds[i]->bulletCollision(*bullets[j]) && bullets[j]->getExplodeStatus() == false && mario.getDeadStatus() == false)
 			{
 				birds[i]->setDieStatus(true);
 				bullets[j]->setAppearTime(0.0f);
@@ -1030,6 +1031,8 @@ void MarioGame::StarUpdate(const float& deltaTime, const Map& map)
 	{
 		if (mario.starCollision(*stars[i]) && stars[i]->getDeadStatus() == false && stars[i]->getOutStatus() == true)
 		{
+			SoundManager::getInstance().setVolume("main", 0);
+			SoundManager::getInstance().playSound("invicible");
 			mario.setPoints(mario.getPoints() + 1000);
 			stars[i]->setDeadStatus(true);
 			mario.setInvicibleTime2(10.0f);

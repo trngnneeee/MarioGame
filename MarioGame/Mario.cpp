@@ -391,6 +391,11 @@ void Mario::handleBlinkEffect(float deltaTime)
 	{
 		sprite.setColor(sf::Color(255, 255, 255, 255));
 		bigSprite.setColor(sf::Color(255, 255, 255, 255));
+		if (invicibleTime2 <= 0)
+		{
+			SoundManager::getInstance().stopSound("invicible");
+			SoundManager::getInstance().setVolume("main", 50);
+		}
 	}
 }
 
