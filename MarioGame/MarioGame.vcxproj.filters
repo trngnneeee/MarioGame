@@ -274,5 +274,8 @@
     <Image Include="map2.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

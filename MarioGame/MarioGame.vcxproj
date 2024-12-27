@@ -223,6 +223,7 @@
     <Image Include="map3.png" />
     <Image Include="resources\textures\coral.png" />
     <Image Include="resources\textures\water.png" />
+    <Image Include="test.png" />
     <Image Include="waterMap.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
